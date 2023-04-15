@@ -1,0 +1,84 @@
+.form-group, .input-file, .img-upload, .box-footer {
+    margin-bottom: 10px;
+}
+
+.pull-right i {
+    color: inherit;
+    margin-right: 5px;
+}
+
+.pull-right button {
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.post {
+    /*border-left: 5px solid;*/
+    margin-bottom: 20px;
+}
+
+.useravatar img {
+    height: 70px;
+    width: 70px;
+    border-radius: 100%;
+    border: 1px solid;
+}
+
+.user-post {
+    border: 1px solid #cacaca;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 5px;
+    background: #fff;
+}
+
+.user-post span {
+    padding-bottom: 5px;
+    font-size: 14px;
+}
+
+.user-post span a {
+/*    font-size: 16px;*/
+    text-decoration: none;
+}
+
+.user-post-title a {
+    font-size: 18px;
+}
+
+.control-button a {
+    font-size: 14px;
+}
+
+.float-md-end {
+    padding: 0;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+.user-post-content p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    margin: 0;
+}
+
+.title-class {
+    margin-right: 10px;
+}
+
+.tab-content {
+    margin: 1.5rem 1.5rem 1.5rem 0;
+}
+
+.control-button {
+    float: right;
+}
+
+.form-content-block {
+    margin-bottom: 5px;
+}
+

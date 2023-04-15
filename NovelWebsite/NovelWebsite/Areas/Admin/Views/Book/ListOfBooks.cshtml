@@ -1,0 +1,173 @@
+﻿@using NovelWebsite.Extensions
+@using NovelWebsite.Models
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<BookEntity>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/admin/adminbook.css">
+
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Tìm kiếm truyện</h4>
+                <form action="/Admin/Book/ListOfBooks" method="get">
+                    <div class="search input-group float-md-start w-50 search-admin">
+                        <input type="text" class="form-control shadow-none" name="name" placeholder="Nhập tên truyện">
+                        <button class="btn btn-success btn--search-color" type="submit" title="searchButton">
+                            <i class="fa-solid fa-magnifying-glass search__btn--icons"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12">
+                <h4>Danh sách truyện</h4>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table border mb-0 table-striped">
+                        <thead class="table-dark fw-semibold">
+                            <tr class="align-middle">
+                                @*<th class="text-center">
+                                    <svg class="icon">
+                                    <use xlink:href="vendors/@@coreui/icons/svg/free.svg#cil-people"></use>
+                                    </svg>
+                                    </th>*@
+                                <th>STT</th>
+                                <th>Tên truyện</th>
+                                <th>Tác giả</th>
+                                <th>Thể loại</th>
+                                <th>Số chương</th>
+                                <th>Lượt xem</th>
+                                <th>Yêu thích</th>
+                                <th>Đề cử</th>
+                                <th>Tình trạng</th>
+                                <th>Cập nhật mới</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr class="align-middle">
+                                        <td>
+                                            <div>@i</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.BookName</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.Author.AuthorName</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.Category.CategoryName</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.NumberOfChapters</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.Views</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.Likes</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.Recommends</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.BookStatus.BookStatusName</div>
+                                        </td>
+                                        <td>
+                                            <div>@DateTimeExtension.TimeSpan(item.UpdatedDate)</div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <svg class="icon">
+                                                        <use xlink:href="vendors/@@coreui/icons/svg/free.svg#cil-options"></use>
+                                                    </svg>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item" href="/truyen/@item.Slug-@item.BookId">Thông tin truyện</a>
+                                                    <a class="dropdown-item" href="/dang-tai/@item.UserId/truyen/@item.BookId">Chỉnh sửa</a>
+                                                    <a class="dropdown-item" href="/dang-tai/@item.UserId/truyen/@item.BookId/danh-sach-chuong">Danh sách chương</a>
+                                                    <a class="dropdown-item text-danger" href="/Admin/Book/DeleteBook/@item.BookId">Xoá</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            @*<tr class="align-middle">
+                                <td>
+                                <div>Đây là tên truyện 1</div>
+                                </td>
+                                <td>
+                                <div>Yiorgos Avraamu</div>
+                                </td>
+                                <td>
+                                <div>Thể loại Vjp</div>
+                                </td>
+                                <td>
+                                <div>xxx Chương</div>
+                                </td>
+                                <td>
+                                <div>xxx Lượt xem</div>
+                                </td>
+                                <td>
+                                <div>xxx Yêu thích</div>
+                                </td>
+                                <td>
+                                <div>xxx Đề cử</div>
+                                </td>
+                                <td>
+                                <div>Đang tiến hành</div>
+                                </td>
+                                <td>
+                                <div class="fw-semibold">10 sec ago</div>
+                                </td>
+                                <td>
+                                <div class="dropdown">
+                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <svg class="icon">
+                                <use xlink:href="vendors/@@coreui/icons/svg/free.svg#cil-options"></use>
+                                </svg>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Duyệt</a><a class="dropdown-item" href="#">Chỉnh sửa</a><a class="dropdown-item text-danger" href="#">Xóa</a></div>
+                                </div>
+                                </td>
+                                </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="box-footer">
+                    <div class="box-footer-clearfix">
+                        @*<ul class="pagination pagination-sm no-margin pull-right">
+                            <li><a href="/Admin/Blog/Index?name=@name&&pageNumber=@Math.Max(pageNumber-1,1)">&laquo;</a></li>
+                            @for (int i = 1; i <= pageCount; ++i)
+                            {
+                            <li><a href="/Admin/Blog/Index?name=@name&&pageNumber=@i">@i</a></li>
+                            }
+                            <li><a href="/Admin/Blog/Index?name=@name&&pageNumber=@Math.Min(pageNumber+1,pageCount)">&raquo;</a></li>
+                            </ul>*@
+                        <ul class="pagination justify-content-end">
+                            @Html.PagedListPager(Model, page => Url.Action("ListOfBooks", new {name = ViewBag.searchName, pageNumber = page}),new X.PagedList.Web.Common.PagedListRenderOptions(){
+                            LiElementClasses = new List<String> {"page-item"},
+                            PageClasses = new List<String> {"page-link"}
+                            })
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

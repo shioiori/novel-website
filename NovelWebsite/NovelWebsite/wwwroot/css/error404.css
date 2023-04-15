@@ -1,0 +1,9 @@
+﻿p#errorText {
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 1rem;
+}
+
+a#errorLink {
+    border: 1px solid;
+}

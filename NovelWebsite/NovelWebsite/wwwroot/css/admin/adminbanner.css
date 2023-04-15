@@ -1,0 +1,32 @@
+﻿.banner-img {
+    width: 150px;
+    height: 50px;
+}
+
+    .banner-img img {
+        width: 100%;
+        height: 100%;
+    }
+
+.banner-select-picture {
+    padding: 0;
+    margin: 0;
+}
+
+.banner-img-container {
+    width: 150px;
+    height: 50px;
+}
+
+    .banner-img-container img {
+        width: 100%;
+        height: 100%;
+    }
+
+.modal-dialog {
+    max-width: 1200px;
+}
+
+.modal-body img {
+    width: 100%;
+}

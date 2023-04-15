@@ -1,0 +1,3 @@
+lỗi:
+index__truyenmoi: padding trái phải 40px
+

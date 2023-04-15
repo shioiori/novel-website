@@ -1,0 +1,169 @@
+﻿@using NovelWebsite.Models
+@model List<AccountEntity>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int pageSize = (int)ViewBag.pageSize;
+    int pageCount = (int)ViewBag.pageCount;
+    int pageNumber = (int)ViewBag.pageNumber;
+}
+
+<link rel="stylesheet" href="~/css/admin/adminuser.css">
+
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row" style="margin-bottom: 1.5rem;">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <h4>Danh sách người dùng</h4>
+                            </div>
+                            <div class="col-md-4 offset-md-4 col-sm-2 offset-sm-4 col-xs-2 offset-xs-4">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-toggle" data-coreui-toggle="dropdown" aria-expanded="false">
+                                        Lọc theo
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/Admin/User/Index">Tất cả</a></li>
+                                        <li><a href="/Admin/User/Index?roleId=1">Admin</a></li>
+                                        <li><a href="/Admin/User/Index?roleId=2">Biên tập viên</a></li>
+                                        <li><a href="/Admin/User/Index?roleId=3">Người dùng</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a href="/Admin/User/Index?status=1" class="alert-danger">Banned</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table border mb-0 table-striped">
+                                <thead class="table-dark fw-semibold">
+                                    <tr class="align-middle">
+                                        @*<th">
+                                            <svg class="icon">
+                                            <use xlink:href="vendors/@@coreui/icons/svg/free.svg#cil-people"></use>
+                                            </svg>
+                                            </th>*@
+                                        @*<th>UserID</th>*@
+                                        <th>Avatar</th>
+                                        <th>Username</th>
+                                        <th>Account</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (var item in Model)
+                                        {
+                                            <tr class="align-middle">
+                                                <td>
+                                                    <div>
+                                                        <img src="@item.User.Avatar" class="rounded-circle">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>@item.User.UserName</div>
+                                                </td>
+                                                <td>
+                                                    <div>@item.AccountName</div>
+                                                </td>
+                                                <td>
+                                                    <div>@item.User.Email</div>
+                                                </td>
+                                                <td>
+                                                    <div>@item.User.Role.RoleName</div>
+                                                </td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <svg class="icon">
+                                                                <use xlink:href="vendors/@@coreui/icons/svg/free.svg#cil-options"></use>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                            <a class="dropdown-item" data-coreui-toggle="modal" data-coreui-target="#roleModal" role="button" onclick="SetRoleForm(@item.UserId, @item.User.RoleId)">Chỉnh sửa role</a>
+                                                            <a class="dropdown-item text-danger" href="/Admin/User/BanUser?account=@item.AccountName">@(item.Status == 0 ? "Ban" : "Unban")</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="box-footer">
+                            <div class="box-footer-clearfix">
+                                @*<ul class="pagination pagination-sm no-margin pull-right">
+                                    <li><a href="/Admin/Blog/Index?name=@name&&pageNumber=@Math.Max(pageNumber-1,1)">&laquo;</a></li>
+                                    @for (int i = 1; i <= pageCount; ++i)
+                                    {
+                                    <li><a href="/Admin/Blog/Index?name=@name&&pageNumber=@i">@i</a></li>
+                                    }
+                                    <li><a href="/Admin/Blog/Index?name=@name&&pageNumber=@Math.Min(pageNumber+1,pageCount)">&raquo;</a></li>
+                                    </ul>*@
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item">
+                                        <a class="page-link" href="/Admin/User/Index?pageNumber=@Math.Max(1, pageNumber - 1)">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    @{
+                                        for (int i = 1; i <= pageCount; ++i)
+                                        {
+                                            <li class="page-item"><a class="page-link" href="/Admin/User/Index?pageNumber=@i">@i</a></li>
+                                        }
+                                    }
+                                    <li class="page-item">
+                                        <a class="page-link" href="/Admin/User/Index?pageNumber=@Math.Min(pageNumber + 1, pageCount)">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form method="get" action="/Admin/User/UpdateRole">
+                <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa Role</h5>
+                                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <input type="text" name="UserId" hidden/>
+                            <div class="modal-body">
+                                <label class="form-label" for="specificSizeSelect">Role</label>
+                                <select class="form-select" name="RoleId" id="specificSizeSelect" asp-items="@ViewBag.Role"></select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" data-coreui-dismiss="modal">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function SetRoleForm(userId, roleId){
+            $('input[name="UserId"]').val(userId);
+            $('select[name="RoleId"]').val(roleId);
+        }
+    </script>
+}

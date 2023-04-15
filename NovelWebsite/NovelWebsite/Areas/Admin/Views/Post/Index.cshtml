@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int pageSize = (int)ViewBag.pageSize;
+    int pageCount = (int)ViewBag.pageCount;
+    int pageNumber = (int)ViewBag.pageNumber;
+    string name = ViewBag.searchName as string;
+}
+
+@*<section class="content-header">
+    <h1>
+        
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Blog</a></li>
+        <li class="active">Tất cả bài viết</li>
+    </ol>
+</section>*@
+
+<link rel="stylesheet" href="~/css/admin/adminpost.css">
+
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Tìm kiếm bài viết</h4>
+                    <form action="/Admin/Post/Index" method="get"> 
+                        <div class="search input-group float-md-start w-50 search-admin">
+                            <input type="text" class="form-control shadow-none" name="name" placeholder="Nhập tiêu đề...">
+                            <button class="btn btn-success btn--search-color" type="submit" title="searchButton">
+                                <i class="fa-solid fa-magnifying-glass search__btn--icons"></i>
+                            </button>
+                        </div>
+                    </form>
+            </div>
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">Tất cả bài viết</h4>
+                        <!-- /.box-tools -->
+                    </div>
+                    <div class="tab-content" style="margin: 1.5rem">
+                        @*@{
+                        foreach (var item in Model)
+                        {
+                        <div class="post">
+                        <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="@item.Avatar" alt="user image">
+                        <span class="username">
+                        @{
+                        if (item.Account == account || item.Account == "admin")
+                        {
+                        <span class="mailbox-read-time pull-right">
+                        <a href="/Admin/Blog/AddOrUpdate?id=@item.Id" class="link-primary">
+                        <i class="fa fa-edit"></i>Edit
+                        </a>
+                        |
+                        <a href="/Admin/Blog/Delete?id=@item.Id">
+                        <i class="fa fa-close"></i>Delete
+                        </a>
+                        </span>
+                        }
+                        }
+                        <a href="/Admin/Blog/Post?id=@item.Id">@item.Title</a>
+                        <a href="#" class="pull-right btn-box-tool"></a>
+                        </span>
+                        <span class="description">Written by @item.AuthorName - Shared public - @item.CreatedDate.ToString("MMM d, yyyy")</span>
+                        </div>
+                        <!-- /.user-block -->
+                        <p>
+                        @item.Description
+                        </p>
+                        </div>
+                        }
+                        }*@
+
+                        @{
+                            foreach(var item in Model)
+                            {
+                               <div class="post row">
+                                    <div class="useravatar col-md-auto">
+                                        <a href="#"><img class="img-circle img-bordered-sm col" src="@item.User.Avatar" alt="user image"></a>
+                                    </div>
+                                    <div class="user-post col row">
+                                        <span class="user-post-title col-md-10">
+                                            <a href="/tin-tuc/@item.Slug-@item.PostId">@item.Title</a>
+                                        </span>
+                                        <span class="float-end col-md-2">
+                                            <span class="control-button">
+                                                    <i class="fa fa-edit"></i>
+                                                    <a href="/Admin/Post/AddOrUpdatePost?id=@item.PostId">Edit</a>
+                                                    |
+                                                    <i class="fa fa-close"></i>
+                                                    <a href="/Admin/Post/DeletePost?id=@item.PostId">Delete</a>
+                                            </span>   
+                                        </span>
+                                        <span class="user-post-name col-md-12">
+                                            Written by @item.User.UserName - @item.CreatedDate
+                                        </span>
+                                        <span class="user-post-content col-md-12">
+                                             @item.Description
+                                        </span>
+                                    </div>
+                                </div> 
+                            }
+                        }
+                    </div>
+                </div>
+                <!-- /. box -->
+            </div>
+            <div class="col-md-12">
+                <div class="box-footer">
+                    <div class="box-footer clearfix">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item">
+                                <a class="page-link" href="/Admin/Post/Index?pageNumber=@Math.Max(1, pageNumber - 1)">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            @{
+                                for (int i = 1; i <= pageCount; ++i)
+                                {
+                                        <li class="page-item"><a class="page-link" href="/Admin/Post/Index?pageNumber=@i">@i</a></li>
+                                }
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="/Admin/Post/Index?pageNumber=@Math.Min(pageNumber + 1, pageCount)">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+}

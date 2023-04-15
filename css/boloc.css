@@ -1,0 +1,179 @@
+.rank-box {
+  /* background-color: antiquewhite;
+    border-top: 1px solid; */
+  padding-top: 20px;
+  width: 1200px;
+  margin: auto;
+}
+
+.rank-box-item-box {
+  margin-bottom: 16px;
+}
+
+.rank-box-item-box h4 {
+  border-bottom: 1px solid #c7c7c7;
+  padding-bottom: 10px;
+}
+
+.rank-box-item-box li {
+  border: 1px solid;
+  border-radius: 5px;
+  margin: 6px 6px 6px 0;
+  padding: 3px 6px;
+}
+
+.rank-box-item-box a {
+  font-size: 16px;
+  /* padding: 6px; */
+}
+
+li.box-active,
+li.box-active a {
+  color: red;
+}
+
+.rank-box-list {
+  width: 230px;
+}
+
+.rank-box-main {
+  width: 970px;
+}
+
+.tool-box {
+  padding: 0 10px;
+  background-color: #f7f6f2;
+}
+
+.type-list p {
+  padding: 10px 0;
+}
+
+.type-list p > a {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.active--type-list {
+  color: red;
+}
+
+.type-list p > i {
+  margin: 0 2px;
+  font-weight: 500;
+}
+
+.rank-view-list-item li {
+  display: flex;
+  padding: 0 0 30px;
+  border: none;
+}
+
+.rank-view-list-item li a {
+  padding: 0;
+}
+
+.rank-view-list-item div.book--info {
+  padding: 6px;
+  width: 600px;
+}
+
+.rank-view-list-item div.book-state {
+  display: flex;
+}
+
+.rank-view-list-item div.book-state a,
+.rank-view-list-item div.book-state p {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.rank-view-list-item div.book-state i {
+  margin: 0 5px;
+}
+
+.rank-view-list-item div.describe {
+  margin-top: 5px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.book--info-buttons {
+  width: 260px;
+  position: relative;
+}
+
+.book--info-buttons p {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.book--info-buttons p > a {
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 0;
+  border: 1px solid;
+}
+
+.book--info-buttons p > a:first-child {
+  margin-right: 24px;
+  background-color: #f44b4b;
+  color: #fff;
+}
+
+.book--info-buttons p > a:not(:first-child) {
+  color: #3f5a93;
+  border-color: #3f5a93;
+}
+
+.book--info-buttons p > a:not(:first-child):hover {
+  background-color: #e5eaf4;
+}
+
+.rank-box-main-pagination ul li:not(:first-child) {
+  margin-left: 10px;
+  border: 1px black;
+}
+
+.rank-box-main-pagination ul li a {
+  color: #666;
+  font-size: 16px;
+}
+
+p.etc {
+  margin: 1rem auto;
+}
+
+.btn.btn-primary.dropdown-toggle {
+  background-color: #343a40;
+  color: #fff;
+  margin-left: 10px;
+}
+
+.dropdown-menu.mutli-column {
+  width: 410px;
+}
+
+.dropdown-menu.mutli-column ul {
+  margin: 0;
+}
+
+.dropdown-menu.mutli-column li {
+  padding: 5px 15px;
+}
+
+.btn-filter {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.btn-filter i {
+  color: inherit;
+}

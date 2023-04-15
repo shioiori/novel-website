@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+        <link rel="stylesheet" href="/css/adminedit.css">
+        <script type="text/javascript" src="/js/scrollbutton.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- <script type="text/javascript" src="/js/testajax.js"></script> -->
+        <!-- <script src="https://cdn.tiny.cloud/1/70mtemgl7jp1hcmo3bika4x20zvv3ulinvq90cb91veacu42/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script> -->
+        <script type="text/javascript" src="../tinymce/js/tinymce/tinymce.min.js"></script>
+        <script>
+            tinymce.init({
+              selector: 'textarea#tiny'
+            });
+          </script>
+
+        <script type="text/javascript" src="/js/editorbtn.js"></script>
+    </head>
+    
+    <body>
+        <button onclick="topFunction()" class="myBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+        <header>
+            <div class="header__main">
+                <div class="header__box--center row">
+                    <div class="col logo">
+                        <a href="/index.html" data-eid="qd_A11">
+                        </a>
+                    </div>
+
+                    <div class="col search input-group">
+                        <!-- <form id="form1" action="#" method="get">
+                            <p>
+                                <input class="search__searchbox" name="kw" type="text" data-type="search" placeholder="Nhập tên truyện" autocomplete="off">
+                            </p>
+                            <label class="search__btn" for="search__submit">
+                                <em class="search__btn--icon">
+                                    <i class="fa-solid fa-magnifying-glass search__btn--icons"></i>
+                                </em>
+                            </label>
+                        </form> -->
+                        <input type="text" class="form-control shadow-none" placeholder="Nhập tên truyện">
+                        <button class="btn btn-success btn--search-color" type="submit" title="searchButton">
+                            <i class="fa-solid fa-magnifying-glass search__btn--icons"></i>
+                        </button>
+                    </div>
+
+                    <div class="col login">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#taixuong">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            Tải xuống
+                        </a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
+                            <i class="fa-solid fa-user"></i>
+                            Tài khoản  
+                            <i class="fa-solid fa-right-to-bracket"></i>          
+                        </a>
+                    </div>
+
+                    <div class="modal fade" id="taixuong">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Tải xuống</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">                                   
+                                    PHẦN MỀM ĐANG TRONG QUÁ TRÌNH HOÀN THIỆN
+                                    <br>
+                                    MỜI BẠN QUAY LẠI SAU!
+                                </div>
+                                    <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="dangnhap">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Đăng nhập</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <form class="needs-validation" action="/action_page.php">
+                                    <div class="modal-body">                                   
+                                            <div class="form-floating mb-3 mt-3">
+                                                <input type="text" class="form-control" id="tendangnhap1" placeholder="Tên đăng nhập" name="tdn" required>
+                                                <label for="tdn"><i class="fa-solid fa-user modal--icon"></i>Tên đăng nhập</label>
+                                            </div>
+                                            
+                                            <div class="form-floating mt-3 mb-3">
+                                                <input type="password" class="form-control" id="matkhau1" placeholder="Mật khẩu" name="mk" required>
+                                                <label for="mk"><i class="fa-solid fa-key modal--icon"></i>Mật khẩu</label>
+                                            </div>
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Đăng nhập</button>
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#dangky">Đăng ký</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="dangky">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Đăng ký</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <form class="needs-validation" action="/action_page.php">
+                                    <div class="modal-body">
+                                        <div class="form-floating mb-3 mt-3">
+                                            <input type="text" class="form-control" id="tendangnhap2" placeholder="Tên đăng nhập" name="tdn" required>
+                                            <label for="tdn"><i class="fa-solid fa-user modal--icon"></i>Tên đăng nhập</label>
+                                        </div>
+                                        <div class="form-floating mb-3 mt-3">
+                                            <input type="email" class="form-control" id="email2" placeholder="Email" name="eml" required>
+                                            <label for="eml"><i class="fa-solid fa-envelope modal--icon"></i></i>Email</label>
+                                        </div>
+                                        <div class="form-floating mt-3 mb-3">
+                                            <input type="password" class="form-control" id="matkhau2" placeholder="Mật khẩu" name="mk" required>
+                                            <label for="mk"><i class="fa-solid fa-key modal--icon"></i>Mật khẩu</label>
+                                        </div>
+
+                                        <div class="form-floating mt-3 mb-3">
+                                            <input type="password" class="form-control" id="nlmatkhau2" placeholder="Nhập lại mật khẩu" name="rmk" required>
+                                            <label for="rmk"><i class="fa-solid fa-key modal--icon"></i>Nhập lại mật khẩu</label>
+                                        </div>
+
+                                        <div class="form-check mt-3 mb-3">
+                                            <input type="checkbox" class="form-check-input" id="check2" name="dksd" required>
+                                            <label for="dksd" class="form-check-label">Đồng ý với điều khoản sử dụng</label>
+                                        </div>
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Đăng ký</button>
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#dangnhap">Đăng nhập</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+ 
+                <div class="navbar navbar-expand-md">
+                    <div class="navbar__main">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item--trangchu">
+                                <span>
+                                    <i class="fa-solid fa-list"></i>
+                                    Trang chủ
+                                </span>
+                            </li>
+                            <li class="nav-item navlist">
+                                <a class="nav-link navlist--item" href="#">Diễn đàn</a>
+                            </li>
+                            <li class="nav-item navlist">
+                                <a class="nav-link navlist--item" href="#">Bảng xếp hạng</a>
+                            </li>
+                            <li class="nav-item navlist">
+                                <a class="nav-link navlist--item" href="#">Bộ lọc</a>
+                            </li>
+                            <li class="nav-item navlist">
+                                <a class="nav-link navlist--item" href="#">Reviews</a>
+                            </li>
+                            <li class="nav-item navlist">
+                                <a class="nav-link navlist--item" href="#">Cửa hàng</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="edit--main-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="editor--header">Giao diện chỉnh sửa</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 class="editor--title">Tên truyện:</h4>
+                </div>
+                <div class="col-md-10">
+                    <div class="editor--content">
+                        <input class="editbook--name" value="Đây là tên truyện" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 class="editor--title">Tác giả:</h4>
+                </div>
+                <div class="col-md-10">
+                    <div class="editor--content">
+                        <input class="editbook--name" value="Đây là tên tác giả" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 class="editor--title">Thumbnail:</h4>
+                </div>
+                <div class="col-md-10">
+                    <div class="editor--img-wrap">
+                        <div class="editor--img-container">
+                            <img src="/image/test.jpg">
+                        </div>
+                        <button class="btn btn-primary">Đổi ảnh</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row">
+                <div class="col-md-2">
+                    <h4 class="editor--title">Chương số:</h4>
+                </div>
+                <div class="col-md-10">
+                    <div class="editor--content editbook--chapter">1234</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 class="editor--title">Tên chương:</h4>
+                </div>
+                <div class="col-md-10 editor-off">
+                    <div class="editor--content editbook--chapter-title">
+                        <div class="editbook--chapter-title-content">Đây là tên chương</div>
+                        <button class="btn btn-primary" onclick="onClickSua(this)">Sửa</button>
+                    </div>
+                </div>
+                <div class="col-md-10 d-none editor-on">
+                    <textarea rows="1" cols="60" class="editbook--chapter-title-fix"></textarea>
+                    <button class="btn btn-primary" onclick="onClickLuu(this,1)">Lưu</button>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 class="editor--title">Thể loại:</h4>
+                </div>
+                <!-- <div class="col-md-10 editor-off">
+                    <div class="editor--content editbook--catagory-title">
+                        <div class="editbook--catagory-title-content">Tên thể loại</div>
+                        <button class="btn btn-primary" onclick="onClickSua(this,1)">Sửa</button>
+                    </div>
+                </div>
+                <div class="col-md-10 d-none">
+                    <textarea rows="1" cols="60" class="editbook--catagory-title-fix"></textarea>
+                    <button class="btn btn-primary" onclick="onClickLuu(this,2)">Lưu</button>
+                </div> -->
+                <div class="col-md-10">
+                    <select>
+                        <option>Thể loại 1</option>
+                        <option>Thể loại 2</option>
+                        <option>Thể loại 3</option>
+                        <option>Thể loại 4</option>
+                        <option>Thể loại 5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 class="editor--title">Thể loại phụ:</h4>
+                </div>
+                <div class="col-md-10">
+                    <div class="editor--content">
+                        <input type="checkbox">Phụ 1
+                        <input type="checkbox">Phụ 2
+                        <input type="checkbox">Phụ 3
+                        <input type="checkbox">Phụ 5
+                        <input type="checkbox">Phụ 4
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 class="editor--title">Nội dung truyện:</h4>
+                </div>
+                <div class="col-12">
+                    <div>
+                        <textarea id="tiny"></textarea>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Chỉnh sửa</button>
+        </div>
+        
+
+        <footer>
+            <div class="footer--container">
+                <div class="row footer--inside-container">
+                    <div class="col-md-3">
+                        <img src="/image/Illustration4.png" height="60" width="100%" alt="logoweb">
+                    </div>
+                    <div class="col-md-9 footer--text">
+                        <i class="fa-regular fa-copyright"></i>
+                        Đây là sản phẩm giả tưởng
+                        Không có giá trị thương mại
+                        <a href="javascript:void(0)">Điều khoản sử dụng</a>
+                        <br>
+                        Đây là sân chơi mở và free cho cộng đồng fan kiếm hiệp, tiên hiệp, ngôn tình.
+                        Chúc các bạn có những giây phút thư giãn thoải mái sau giờ làm việc và học tập căng thẳng.
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </body>
+
+</html>

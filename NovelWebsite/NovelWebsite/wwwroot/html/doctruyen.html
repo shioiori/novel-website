@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>         -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="/css/doctruyen.css">
+        <link rel="stylesheet" href="/css/truyen.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+        <script type="text/javascript" src="/js/scrollbutton.js"></script>
+        <script type="text/javascript" src="/js/popover.js"></script>
+        <script type="text/javascript" src="/js/changtheme.js"></script>
+    </head>
+
+    <body>
+        <button onclick="topFunction()" class="myBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+        <header>
+            <div class="header__main">
+                <div class="header__box--center row">
+                    <div class="col logo">
+                        <a href="/index.html" data-eid="qd_A11">
+                        </a>
+                    </div>
+
+                    <div class="col search input-group">
+                        <input type="text" class="form-control shadow-none" placeholder="Nhập tên truyện hoặc tác giả...">
+                        <button class="btn btn-success btn--search-color" type="submit" title="searchButton">
+                            <i class="fa-solid fa-magnifying-glass search__btn--icons"></i>
+                        </button>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                            Thể loại
+                            </button>
+                            <div class="dropdown-menu mutli-column">
+                                <div class="row">
+                                    <ul class="col-md-4">
+                                        <li><a href="javascript:void(0)">Tiên hiệp</a></li>
+                                        <li><a href="javascript:void(0)">Huyền huyễn</a></li>
+                                        <li><a href="javascript:void(0)">Đô thị</a></li>
+                                        <li><a href="javascript:void(0)">Khoa huyễn</a></li>
+                                        <li><a href="javascript:void(0)">Kỳ huyễn</a></li>
+                                    </ul>
+                                    <ul class="col-md-4">
+                                        <li><a href="javascript:void(0)">Lịch sử</a></li>
+                                        <li><a href="javascript:void(0)">Đồng nhân</a></li>
+                                        <li><a href="javascript:void(0)">Quân sự</a></li>
+                                        <li><a href="javascript:void(0)">Võ hiệp</a></li>
+                                    </ul>
+                                    <ul class="col-md-4">
+                                        <li><a href="javascript:void(0)">Cạnh ký</a></li>
+                                        <li><a href="javascript:void(0)">Linh dị</a></li>
+                                        <li><a href="javascript:void(0)">Ngôn tình</a></li>
+                                        <li><a href="javascript:void(0)">Du hí</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col login">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#taixuong">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            Tải xuống
+                        </a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
+                            <i class="fa-solid fa-user"></i>
+                            Tài khoản  
+                            <i class="fa-solid fa-right-to-bracket"></i>          
+                        </a>
+                    </div>
+
+                    <div class="modal fade" id="taixuong">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Tải xuống</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">                                   
+                                    PHẦN MỀM ĐANG TRONG QUÁ TRÌNH HOÀN THIỆN
+                                    <br>
+                                    MỜI BẠN QUAY LẠI SAU!
+                                </div>
+                                    <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="dangnhap">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Đăng nhập</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <form class="needs-validation" action="/action_page.php">
+                                    <div class="modal-body">                                   
+                                            <div class="form-floating mb-3 mt-3">
+                                                <input type="text" class="form-control" id="tendangnhap1" placeholder="Tên đăng nhập" name="tdn" required>
+                                                <label for="tdn"><i class="fa-solid fa-user modal--icon"></i>Tên đăng nhập</label>
+                                            </div>
+                                            <div class="form-floating mt-3 mb-3">
+                                                <input type="password" class="form-control" id="matkhau1" placeholder="Mật khẩu" name="mk" required>
+                                                <label for="mk"><i class="fa-solid fa-key modal--icon"></i>Mật khẩu</label>
+                                            </div>
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Đăng nhập</button>
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#dangky">Đăng ký</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="dangky">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Đăng ký</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <form class="needs-validation" action="/action_page.php">
+                                    <div class="modal-body">
+                                        <div class="form-floating mb-3 mt-3">
+                                            <input type="text" class="form-control" id="tendangnhap2" placeholder="Tên đăng nhập" name="tdn" required>
+                                            <label for="tdn"><i class="fa-solid fa-user modal--icon"></i>Tên đăng nhập</label>
+                                        </div>
+                                        <div class="form-floating mb-3 mt-3">
+                                            <input type="email" class="form-control" id="email2" placeholder="Email" name="eml" required>
+                                            <label for="eml"><i class="fa-solid fa-envelope modal--icon"></i></i>Email</label>
+                                        </div>
+                                        <div class="form-floating mt-3 mb-3">
+                                            <input type="password" class="form-control" id="matkhau2" placeholder="Mật khẩu" name="mk" required>
+                                            <label for="mk"><i class="fa-solid fa-key modal--icon"></i>Mật khẩu</label>
+                                        </div>
+                                        <div class="form-floating mt-3 mb-3">
+                                            <input type="password" class="form-control" id="nlmatkhau2" placeholder="Nhập lại mật khẩu" name="rmk" required>
+                                            <label for="rmk"><i class="fa-solid fa-key modal--icon"></i>Nhập lại mật khẩu</label>
+                                        </div>
+
+                                        <div class="form-check mt-3 mb-3">
+                                            <input type="checkbox" class="form-check-input" id="check2" name="dksd" required>
+                                            <label for="dksd" class="form-check-label">Đồng ý với điều khoản sử dụng</label>
+                                        </div>
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Đăng ký</button>
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#dangnhap">Đăng nhập</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container body-container">
+            <div class="content">
+                <h1 class="truyen-title">HẢO HỮU TỬ VONG: NGÃ TU VỊ HỰU ĐỀ THĂNG LIỄU</h1>
+                <h2 class="truyen-chapter">Chương 1: ta nằm vùng</h2>
+                <p class="truyen-author">Người đăng:
+                    <a href="javascript:void(0)">Tên tác giả</a>
+                </p>
+                <p class="truyen-time">Ngày đăng: 10:56 17-01-2023</p>
+            </div>
+
+            <div class="chapter">
+                <div class="chapter-content">
+                    <div class="control-area-wrap">
+                        <ul class="list-group control-area">
+                            <li class="list-group-item control-title">
+                                <a href="javascript:void(0)" onclick="openTool(this)">
+                                    <i class="fa-solid fa-list-ul"></i>
+                                </a>
+                                <div class="panel-catalog hidden d-none">
+                                    <a href="javascript:void(0)" onclick="closeTool(this)" class="closemark">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </a>
+                                    <div class="catalog-direct">
+                                        <a href="javascript:void(0)" type="button" class="btn">
+                                            <i class="fa-solid fa-arrow-left"></i>
+                                            <span>Chương trước</span>
+                                        </a>
+                                        <a href="javascript:void(0)" type="button" class="btn">
+                                            <span>Chương sau</span>
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="catalog-chapter">
+                                        <ul class="list-group list-group-horizontal row">
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+                                            <li class="list-group-item col-6">
+                                                <a href="/html/doctruyen.html">Chương 1: Vương trường sinh</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item control-title">
+                                <a href="javascript:void(0)" onclick="openTool(this)">
+                                    <i class="fa-solid fa-gear"></i>
+                                </a>
+                                <div class="panel-catalog hidden d-none setting-box-wrap">
+                                    <a href="javascript:void(0)" onclick="closeTool(this)" class="closemark">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </a>
+                                    <h4>Tùy chỉnh</h4>
+                                    <div class="setting-box row">
+                                        <div class="col-2 setting-box-title">
+                                            <h5>Theme</h5>
+                                        </div>
+                                        <div class="col-10 setting-box-option">
+                                            <span class="theme-value value-01 active" onclick="changeTheme('01')">
+                                                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="theme-value value-02" onclick="changeTheme('02')">
+                                                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="theme-value value-03" onclick="changeTheme('03')">
+                                                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="theme-value value-04" onclick="changeTheme('04')">
+                                                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="theme-value value-05" onclick="changeTheme('05')">
+                                                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="theme-value value-06" onclick="changeTheme('06')">
+                                                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="theme-value value-07" onclick="changeTheme('07')">
+                                                <i class="fa-regular fa-moon"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="setting-box row">
+                                        <div class="col-2 setting-box-title">
+                                            <h5>Font chữ</h5>
+                                        </div>
+                                        <div class="col-10 setting-box-option">
+                                            <span class="font-value font-01 active" onclick="changeFont('01')">Roboto</span>
+                                            <span class="font-value font-02" onclick="changeFont('02')">Times</span>
+                                            <span class="font-value font-03" onclick="changeFont('03')">Arial</span>
+                                            <span class="font-value font-04" onclick="changeFont('04')">Cambria</span>
+                                        </div>
+                                    </div>
+                                    <div class="setting-box row">
+                                        <div class="col-2 setting-box-title">
+                                            <h5>Cỡ chữ</h5>
+                                        </div>
+                                        <div class="col-10 setting-box-option no-justify box-size">
+                                            <span class="prev" onclick="changeSize(false)">
+                                                <em class="iconfont">A-</em>
+                                            </span>
+                                            <span class="lang">20</span>
+                                            <span class="next" onclick="changeSize(true)">
+                                                <em class="iconfont">A+</em>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="setting-box row">
+                                        <div class="col-2 setting-box-title">
+                                            <h5>Zoom</h5>
+                                        </div>
+                                        <div class="col-10 setting-box-option no-justify">
+                                            <span class="prev">
+                                                <em class="iconfont">A-</em>
+                                            </span>
+                                            <span class="lang">900</span>
+                                            <span class="next">
+                                                <em class="iconfont">A+</em>
+                                            </span>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </li>
+                            <li class="list-group-item control-title">
+                                <a href="/index.html" id="popover-btn3" class="btn"><i class="fa-regular fa-comment-dots"></i></a>
+                            </li>
+                            <li class="list-group-item control-title">
+                                <a href="javascript:void(0)" id="popover-btn" class="btn"><i class="fa-solid fa-flag"></i></a>
+                            </li>
+                        </ul>
+
+                        
+                    </div>
+                    
+                    <div class="box-chapters">
+                        <div class="box-chap">
+                            "Gian phòng bố cục đơn giản. 
+                            <br>
+                            Giường chiếu tới gần vách tường, phía trên phủ lên đệm chăn. 
+                            <br>
+                            Dựa vào đầu giường vị trí, là một trương bàn, phía trên bãi phóng giá bút cùng bút lông, nghiên mực cùng trương giấy, đều chỉnh tề bãi phóng tại bên cạnh. 
+                            <br>
+                            Lúc này một mặt mang theo tọa giá gương đồng, phát ra mông lung hào quang, Đậu Trường Sinh đối với gương đồng cúi đầu phía sau. 
+                            <br>
+                            Xuất hiện tại gương đồng bên trong hình ảnh, bắt đầu sinh ra biến hóa, tuấn tú thiếu niên, như sống qua tới, làm ra cùng Đậu Trường Sinh hoàn toàn bất đồng tư thái. 
+                            <br>
+                            Đậu Trường Sinh thần sắc nghiêm túc, có thể gương đồng bên trong Đậu Trường Sinh nở nụ cười đứng lên. 
+                            <br>
+                            Này một màn nếu là phát sinh tại đêm khuya, 12 giờ, gương đồng biến vì thủy tinh kính, hình ảnh càng thêm rõ ràng một ít, này chính là phim kinh dị bên trong kinh điển màn ảnh, 
+                            <br>
+                            Gương đồng bên trong Đậu Trường Sinh, hình ảnh đang không ngừng thu nhỏ lại, này tựa như là màn ảnh tại kéo ra khoảng cách, sau cùng toàn thân xuất hiện tại gương đồng bên trong. 
+                            <br>
+                            Gương đồng bên trong là một chỗ sơn đỉnh, nhất khoả cao lớn thụ mộc như trụ trời, kia cành lá rậm rạp tán cây như là hoa cái. 
+                            <br>
+                            Nhân ảnh đang đứng thẳng đứng tại tán cây phía dưới, hiện ra tương đối nhỏ bé, sau cùng tầm nhìn bắt đầu khôi phục, đến vừa phải vị trí. 
+                            <br>
+                            Có thể rõ ràng trông thấy gương đồng bên trong nhất cử nhất động, cảm thụ đến kia tâm tình biến hóa, nhưng hết lần này đến lần khác không cách nào nhìn rõ ràng đối phương tướng mạo. 
+                            <br>
+                            Này vị Âm Cực Tông môn nhân, Đậu Trường Sinh tiện nghi sư phụ. 
+                            <br>
+                            Thay đổi lần trước nghiêm khắc thái độ, vẻ mặt ôn hoà nhìn hướng Đậu Trường Sinh, vỗ tay tán thưởng diễn giải: " Trường Sinh ngươi làm không sai. " 
+                            <br>
+                            " Không thẹn là vi sư coi trọng nhất đệ tử." 
+                            <br>
+                            " Lần trước là vi sư hiểu lầm ngươi, nguyên lai ngươi không phải sát nhân tìm niềm vui, mà là lại vì này một lần hành động làm nền. " 
+                            <br>
+                            Sư phụ thanh âm càng ngày càng hưng phấn, ánh mắt cũng càng cực nóng, như là trông thấy hiếm thấy trân bảo một dạng. 
+                            <br>
+                            " Các ngươi này một lần hành động, nếu là thành công bắt Vạn Tam, công lao hội tập thể phân phối, đến lúc đó nhiều nhất tăng thêm một ít tư lịch, đạt được một ít tiền tài ban thưởng. " 
+                            <br>
+                            " Lớn nhất công lao, đều hội bị bộ đầu đạt được, có thể Trường Sinh ngươi đem bọn hắn đều cấp hại chết, này sở hữu công lao tự nhiên là Trường Sinh ngươi. " 
+                            <br>
+                            " Có lúc trước mấy lần làm nền, này một lần là nước chảy thành sông, ai cũng sẽ không cho rằng ngươi cố ý vi chi. " 
+                            <br>
+                            " Cũng không sợ điều tra. " 
+                            <br>
+                            Thần mã gọi là hại chết? 
+                            <br>
+                            Đậu Trường Sinh không khỏi mở miệng diễn giải: " Ta không có hại bọn hắn. " 
+                            <br>
+                            " Đúng, đúng, đúng. " 
+                            <br>
+                            Sư phụ lập tức đổi giọng, căn bản không có phản bác, mà là trực tiếp theo Đậu Trường Sinh lời nói diễn giải: " Bọn hắn đều là bị Vạn Tam giết chết, cùng Trường Sinh ngươi không có bất luận cái gì quan hệ. " 
+                            <br>
+                            " Ta. " 
+                            <br>
+                            Đậu Trường Sinh vừa mới muốn mở miệng, cũng đã bị sư phụ đánh đoạn. 
+                            <br>
+                            " Không cần nhiều giải thích. " 
+                            <br>
+                            " Ta hiểu. " 
+                            <br>
+                            Sư phụ trong lòng sợ hãi thán phục một câu, không nghĩ tới này một nhóm nằm vùng bên trong, dĩ nhiên có này tâm tư kín đáo nhân tài. 
+                            <br>
+                            Nếu là có thể đem chính mình cho lừa gạt, lại đi lừa gạt ngoại nhân, cái kia còn không phải dễ như trở bàn tay, sư phụ nụ cười càng thêm sáng lạn. 
+                            <br>
+                            " Ngôi sao chổi một chuyện, thật sự là thần tới chi bút. " 
+                            <br>
+                            " Có này làm vì yểm hộ, về sau hành sự hội càng thêm thuận tiện, liền tính là chết một số người, cũng là rất bình thường. " 
+                            <br>
+                            Sư phụ nói ra nơi này, hiển hiện ra bất mãn chi sắc, bắt đầu chỉ trích diễn giải: " Các thời kỳ phái đến Đại Chu nằm vùng, vì không bại lộ, biểu hiện so Đại Chu quan viên còn trung tâm. " 
+                            <br>
+                            " Thậm chí là còn giết không ít tông môn người mình, đi cho bọn hắn tẩy thoát hiềm nghi. " 
+                            <br>
+                            " Lục Phiến Môn nhiều năm như vậy uy danh không rơi, không biết mấy nhà nằm vùng, vì không bại lộ, trung thành tận tâm xử lý sự tình, chống lên Lục Phiến Môn uy danh hiển hách. " 
+                            <br>
+                            " Trông cậy vào bọn hắn phá hủy Đại Chu, đời này là không có khả năng. " 
+                            <br>
+                            " Nhưng Trường Sinh ngươi bất đồng, nhìn xem lúc này mới bao lâu, Lục Phiến Môn liền chết mười mấy người. " 
+                            <br>
+                            " Muốn phá hủy Đại Chu, còn là muốn xem chúng ta sư đồ. " 
+                            <br>
+                            Đậu Trường Sinh trong lòng liên tục than thở. 
+                            <br>
+                            Nhìn xem tiện nghi sư phụ hiểu lầm, lại là vô pháp mở miệng biện giải, nói này đều không phải chính mình làm, sợ là thẹn quá hoá giận tiện nghi sư phụ, hội một đao chém chính mình. 
+                            <br>
+                            Chỉ có thể đem sai liền sai, không thừa nhận, không phủ nhận. 
+                            <br>
+                            Ngôi sao chổi sự tình, Đậu Trường Sinh là không nhận, này chỉ là trùng hợp. 
+                            <br>
+                            " Lần này bắt Vạn Tam lập xuống công lao, thăng vì Ngân Chương bộ khoái đã là nắm chắc, tông môn tự nhiên sẽ không keo kiệt ban thưởng. " 
+                            <br>
+                            " Ngươi bây giờ Đoán Thể đại thành, bước kế tiếp chính là dựng dục khí chủng, sinh ra khí cảm, đột phá tới Bát phẩm Luyện Khí cảnh. " 
+                            <br>
+                            " Cửu phẩm không cần nhiều lời, ngươi chủ tu Lục Phiến Môn Vũ Kinh Đoán Cốt Thiên, này là Đại Chu Thái Tổ, hội tụ bách gia võ học mà chế ra, phía sau trải qua các thời kỳ tiên hoàng, triệu tập thiên hạ Tông Sư sửa chữa. " 
+                            <br>
+                            " Đã là xóa không thể xóa, sửa không thể sửa, liền tính là hoàng tử hoàng tôn, cũng là cùng ngươi giống nhau như đúc. " 
+                            <br>
+                            " Nhưng Bát phẩm Luyện Khí cảnh, này là then chốt. " 
+                            <br>
+                            " Khí, vụn vặt lẻ tẻ không dưới tại 3000 loại, nhưng khí có cường có nhược, chân chính có thể trổ hết tài năng, nhưng là chỉ có 108 loại. " 
+                            <br>
+                            " Ta Âm Cực Tông Huyền Âm chi khí, bài danh 24, thế sở hiếm thấy. " 
+                            <br>
+                            " Nhưng khổ Trường Sinh ngươi, không thể tu Huyền Âm chi khí, bất quá Cửu U chi khí cũng không yếu, bài danh đệ 27 danh. " 
+                            <br>
+                            " Năm đó Cửu U Minh Giáo cũng là đương thế đại tông, chính là bằng vào Cửu U chi khí tung hoành thiên hạ. " 
+                            <br>
+                            " Bát phẩm Luyện Khí cảnh chú tạo căn cơ, tương lai Ngưng Cương, Luyện Pháp, đều là cường hoành vô cùng, đồng giai bên trong ít có người địch. " 
+                            <br>
+                            " 108 loại khí, trước 20 chính là cấm kỵ, có đại tạo hóa, nhưng cũng là bị thiên đố." 
+                            <br>
+                            " Cho nên trước 20 loại khí, mỗi một lần xuất hiện đều hội nhanh chóng biến mất, tiên thiên không tồn, chỉ có thể hậu thiên đạt được. " 
+                            <br>
+                            " Như bài danh đệ 16 Huyền U chi khí, chính là Cửu U chi khí cùng Huyền Âm chi khí dung hợp mà thành, về phần trước 10 loại khí, đã ngàn năm chưa từng sinh ra qua. " 
+                            <br>
+                            " Đậu gia chính là Cửu U Minh Giáo hậu nhân chi nhất, tu Cửu U chi khí sẽ không dẫn tới hoài nghi. " 
+                            <br>
+                            " Lại lập công huân thành vì Kim Chương bộ khoái, tông môn hội ban thưởng Huyền Âm chi khí, nếu là Trường Sinh ngươi có thể đem Cửu U chi khí cùng Huyền Âm chi khí dung hợp vì Huyền U chi khí, liền có thể thành vì Âm Cực Tông đệ cửu chân truyền. " 
+                            <br>
+                            " Ta Âm Cực Tông vì cửu đại thượng tông, cũng không keo kiệt ban thưởng, huyền công, thần thông, dị thuật, Linh bảo cái gì cần đều có. " 
+                            <br>
+                            Thanh âm biến mất không thấy, gương đồng bộc phát ra hào quang, Đậu Trường Sinh trong đầu xuất hiện một thiên chữ chữ châu ngọc Luyện Khí pháp. 
+                            <br>
+                            Đáng giá nhắc tới chính là, gương đồng ngay phía trước, hiển hiện ra nhất mai như đá cuội ngọc thạch, toàn thân tràn ngập một cổ băng lãnh, bên ngoài có nhất tầng hàn sương. 
+                            <br>
+                            Cửu U Minh Thạch, lại danh Cửu U Chi Chủng. 
+                            <br>
+                            Là tu Cửu U chi khí thiết yếu chi vật. 
+                            <br>
+                            Có thể nói là giá trị liên thành, vạn kim khó cầu, đủ để dẫn tới một tràng giết chóc. 
+                            <br>
+                            Này thế nhưng bài danh đệ 27 Cửu U chi khí. 
+                            <br>
+                            Cho dù là Tông Sư cũng không thể làm như không thấy, ai còn không có mấy vị con nối dõi hậu bối, muốn bọn hắn không kém hơn đương thế đại tông môn người, này là thiết yếu chi vật. 
+                            <br>
+                            Đậu Trường Sinh cầm lấy gương đồng, cẩn thận quan sát một phen, này chính là phổ phổ thông thông gương đồng, đằng sau dấu hiệu còn tại. 
+                            <br>
+                            Này là hôm qua Đậu Trường Sinh tại nhai đạo phía trên mua sắm, nhớ rõ rành mạch. 
+                            <br>
+                            Gương đồng
+                            <br>
+                            Ai. 
+                            <br>
+                            Than thở một hơi. 
+                            <br>
+                            Này làm thế nào. 
+                            <br>
+                            Hiện tại Âm Cực Tông địa vị cao, Lục Phiến Môn cũng thăng chức. 
+                            <br>
+                            Ngày mai còn có một phần ban thưởng đâu? 
+                            <br>
+                            Đậu Trường Sinh cái này sầu a. 
+                            <br>
+                            Không. 
+                            <br>
+                            Chính mình còn là muốn giả chết thoát thân. 
+                            <br>
+                            Nằm vùng không phải chính đạo. 
+                            <br>
+                            Quá nguy hiểm."
+                        </div>
+
+                        <div class="box-ads">
+                            <p>Hãy nhấn like ở mỗi chương để ủng hộ dịch giả nhé</p>
+                            <div class="box-icon-section">
+                                <div class="box-icon-section-left">
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-regular fa-thumbs-up"></i>
+                                        0
+                                    </a>
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                        Donate
+                                    </a>
+                                </div>
+                                
+                                <div class="box-icon-section-right">
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        Báo lỗi
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                     <div class="quangcaotruyen">
+                        <a href="javascript:void(0)"><img src="/image/test.jpg" class="banner-sm"></a>
+                    </div>
+
+                    <div class="control-box">
+                        <div class="control-box-content">
+                            <a href="javascript:void(0)" type="button" class="btn">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Chương trước
+                            </a>
+                            <i>|</i>
+                            <a href="javascript:void(0)" type="button" class="btn">
+                                Chương sau
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="comment-section">
+                        <div class="comment-section-title">
+                            <h4>Bình luận truyện</h4>
+                        </div>
+
+                        <div class="comment-section-discuss">
+                            <div class="comment-section-discuss-list">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="user--photo col-md-2">
+                                                <a href="javascript:void(0)">
+                                                    <img src="/image/test3.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="user--discussion col-md-10">
+                                                <p class="users">
+                                                    <a href="javascript:void(0)">kfc group</a>
+                                                    <span>bá tánh bình dân</span>
+                                                </p>
+                                                <p class="comments">truyện hay truyện hay truyện hay truyện hay truyện hay truyện hay </p>
+                                                <p class="info--wrap">
+                                                    <span>2 hrs</span>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fa-regular fa-comment-dots"></i>
+                                                        0 trả lời
+                                                    </a>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fa-regular fa-thumbs-up"></i>
+                                                        0
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="user--photo col-md-2">
+                                                <a href="javascript:void(0)">
+                                                    <img src="/image/test3.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="user--discussion col-md-10">
+                                                <p class="users">
+                                                    <a href="javascript:void(0)">kfc group</a>
+                                                    <span>bá tánh bình dân</span>
+                                                </p>
+                                                <p class="comments">truyện hay truyện hay truyện hay truyện hay truyện hay truyện hay </p>
+                                                <p class="info--wrap">
+                                                    <span>2 hrs</span>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fa-regular fa-comment-dots"></i>
+                                                        0 trả lời
+                                                    </a>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fa-regular fa-thumbs-up"></i>
+                                                        0
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="user--photo col-md-2">
+                                                <a href="javascript:void(0)">
+                                                    <img src="/image/test3.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="user--discussion col-md-10">
+                                                <p class="users">
+                                                    <a href="javascript:void(0)">kfc group</a>
+                                                    <span>bá tánh bình dân</span>
+                                                </p>
+                                                <p class="comments">truyện hay truyện hay truyện hay truyện hay truyện hay truyện hay </p>
+                                                <p class="info--wrap">
+                                                    <span>2 hrs</span>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fa-regular fa-comment-dots"></i>
+                                                        0 trả lời
+                                                    </a>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fa-regular fa-thumbs-up"></i>
+                                                        0
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="user--photo col-md-2">
+                                                <a href="javascript:void(0)">
+                                                    <img src="/image/test3.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="user--discussion col-md-10">
+                                                <p class="users">
+                                                    <a href="javascript:void(0)">kfc group</a>
+                                                    <span>bá tánh bình dân</span>
+                                                </p>
+                                                <p class="comments">truyện hay truyện hay truyện hay truyện hay truyện hay truyện hay </p>
+                                                <p class="info--wrap">
+                                                    <span>2 hrs</span>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fa-regular fa-comment-dots"></i>
+                                                        0 trả lời
+                                                    </a>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fa-regular fa-thumbs-up"></i>
+                                                        0
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <p class="go--discuss">
+                                    <a href="javascript:void(0)">Thêm bình luận</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer--container">
+                <div class="row footer--inside-container">
+                    <div class="col-md-3">
+                        <img src="/image/Illustration4.png" height="60" width="100%" alt="logoweb">
+                    </div>
+                    <div class="col-md-9 footer--text">
+                        <i class="fa-regular fa-copyright"></i>
+                        Đây là sản phẩm giả tưởng
+                        Không có giá trị thương mại
+                        <a href="javascript:void(0)">Điều khoản sử dụng</a>
+                        <br>
+                        Đây là sân chơi mở và free cho cộng đồng fan kiếm hiệp, tiên hiệp, ngôn tình.
+                        Chúc các bạn có những giây phút thư giãn thoải mái sau giờ làm việc và học tập căng thẳng.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
+

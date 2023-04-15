@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/admin/adminbook.css">
+
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Danh sách truyện</h4>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table border mb-0 table-striped">
+                        <thead class="table-dark fw-semibold">
+                            <tr class="align-middle">
+                                @*<th class="text-center">
+                                    <svg class="icon">
+                                        <use xlink:href="vendors/@@coreui/icons/svg/free.svg#cil-people"></use>
+                                    </svg>
+                                </th>*@
+                                <th>Số chương</th>
+                                <th>Tên chương</th>
+                                <th>Lượt xem</th>
+                                <th>Yêu thích</th>
+                                <th>Lần sửa đổi gần nhất</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in Model)
+                                {
+                                    <tr class="align-middle">
+                                        <td>
+                                            <div>@item.ChapterNumber</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.ChapterName</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.Views</div>    
+                                        </td>
+                                        <td>
+                                            <div>@item.Likes</div>
+                                        </td>
+                                        <td>
+                                            <div>@item.UpdatedDate</div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <svg class="icon">
+                                                        <use xlink:href="vendors/@@coreui/icons/svg/free.svg#cil-options"></use>
+                                                    </svg>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
