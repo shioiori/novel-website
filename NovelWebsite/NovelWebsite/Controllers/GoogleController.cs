@@ -31,54 +31,61 @@ namespace NovelWebsite.Controllers
         [Route("/google-signup-callback")]
         public async Task<IActionResult> HandleGoogleResponseSignUp()
         {
-            var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
-            if (result?.Principal is { Identity: { IsAuthenticated: true } } principal)
+            try
             {
-                var accountName = principal.FindFirstValue(ClaimTypes.NameIdentifier) + "@google";
-                var email = principal.FindFirst(ClaimTypes.Email)?.Value;
-                if (_dbContext.Users.FirstOrDefault(x => x.Email == email) != null)
+                var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+                if (result?.Principal is { Identity: { IsAuthenticated: true } } principal)
                 {
-                    TempData["log"] = "Tài khoản này đã được đăng ký";
-                    return Redirect("/Error/Log");
+                    var accountName = principal.FindFirstValue(ClaimTypes.NameIdentifier) + "@google";
+                    var email = principal.FindFirst(ClaimTypes.Email)?.Value;
+                    if (_dbContext.Users.FirstOrDefault(x => x.Email == email) != null)
+                    {
+                        TempData["log"] = "Tài khoản này đã được đăng ký";
+                        return Redirect("/Error/Log");
+                    }
+                    var user = new UserEntity()
+                    {
+                        UserName = principal.FindFirst(ClaimTypes.Name)?.Value,
+                        Email = email,
+                        Avatar = "/image/default.jpg",
+                        CoverPhoto = "/image/bg_default.png",
+                        RoleId = 3,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now,
+                        Status = 0,
+                        IsDeleted = false,
+                    };
+                    _dbContext.Users.Add(user);
+                    _dbContext.SaveChanges();
+                    var acc = new AccountEntity()
+                    {
+                        UserId = user.UserId,
+                        AccountName = accountName,
+                        Password = email.Split("@")[0],
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now,
+                        Status = 0,
+                        IsDeleted = false,
+                    };
+                    _dbContext.Accounts.Add(acc);
+                    var identity = result.Principal.Identity as ClaimsIdentity;
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, accountName));
+                    identity.AddClaim(new Claim(ClaimTypes.Role, "Người dùng"));
+                    identity.AddClaim(new Claim("UserId", acc.UserId.ToString()));
+                    identity.AddClaim(new Claim("Username", user.UserName));
+                    identity.AddClaim(new Claim("Avatar", user.Avatar));
+                    await HttpContext.SignInAsync(result.Principal, result.Properties);
+                    _dbContext.SaveChanges();
+                    return Redirect("/");
                 }
-                var user = new UserEntity()
-                {
-                    UserName = principal.FindFirst(ClaimTypes.Name)?.Value,
-                    Email = email,
-                    Avatar = "/image/default.jpg",
-                    CoverPhoto = "/image/bg_default.png",
-                    RoleId = 3,
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now,
-                    Status = 0,
-                    IsDeleted = false,
-                };
-                _dbContext.Users.Add(user);
-                _dbContext.SaveChanges();
-                var acc = new AccountEntity()
-                {
-                    UserId = user.UserId,
-                    AccountName = accountName,
-                    Password = email.Split("@")[0],
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now,
-                    Status = 0,
-                    IsDeleted = false,
-                };
-                _dbContext.Accounts.Add(acc);
-                var identity = result.Principal.Identity as ClaimsIdentity;
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, accountName));
-                identity.AddClaim(new Claim(ClaimTypes.Role, "Người dùng"));
-                identity.AddClaim(new Claim("UserId", acc.UserId.ToString()));
-                identity.AddClaim(new Claim("Username", user.UserName));
-                identity.AddClaim(new Claim("Avatar", user.Avatar));
-                await HttpContext.SignInAsync(result.Principal, result.Properties);
-                _dbContext.SaveChanges();
-                return Redirect("/");
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                TempData["log"] = "Đăng ký thất bại";
+                return Redirect("/Error/Log");
             }
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            TempData["log"] = "Đăng ký thất bại";
-            return Redirect("/Error/Log");
+            catch (Exception ex)
+            {
+                return Redirect("/Error/Log");
+            }
         }
 
         [HttpGet]

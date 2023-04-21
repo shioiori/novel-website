@@ -13,7 +13,7 @@ namespace NovelWebsite.Controllers
         {
             _dbContext = dbContext;
         }
-        [Route("{authorId}/{slug}")]
+        [Route("{authorId}/{slug?}")]
         public IActionResult Index(int authorId)
         {
             var query = _dbContext.Books.Where(b => b.IsDeleted == false && b.AuthorId == authorId)

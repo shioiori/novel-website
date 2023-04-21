@@ -61,6 +61,7 @@ namespace NovelWebsite.Entities
                     author = new AuthorEntity()
                     {
                         AuthorName = bookModel.AuthorName,
+                        Slug = StringExtension.Slugify(bookModel.AuthorName)
                     };
                     _dbContext.Authors.Add(author);
                     _dbContext.SaveChanges();

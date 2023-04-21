@@ -36,32 +36,39 @@ namespace NovelWebsite.Controllers
         [Route("/facebook-login-callback")]
         public async Task<IActionResult> HandleFacebookResponseLogIn()
         {
-            var result = await HttpContext.AuthenticateAsync(FacebookDefaults.AuthenticationScheme);
-            if (result?.Principal is { Identity: { IsAuthenticated: true } } principal)
+            try
             {
-                var email = principal.FindFirst(ClaimTypes.Email)?.Value;
-                if (_dbContext.Users.FirstOrDefault(x => x.Email == email) != null)
+                var result = await HttpContext.AuthenticateAsync(FacebookDefaults.AuthenticationScheme);
+                if (result?.Principal is { Identity: { IsAuthenticated: true } } principal)
                 {
-                    var identity = result.Principal.Identity as ClaimsIdentity;
-                    var accountName = principal.FindFirstValue(ClaimTypes.NameIdentifier) + "@facebook";
-                    var account = _dbContext.Accounts.Where(a => a.AccountName == accountName)
-                                                     .Include(a => a.User).ThenInclude(a => a.Role)
-                                                     .FirstOrDefault();
-                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, accountName));
-                    identity.AddClaim(new Claim(ClaimTypes.Role, account.User.Role.RoleName));
-                    identity.AddClaim(new Claim("UserId", account.UserId.ToString()));
-                    identity.AddClaim(new Claim("Username", account.User.UserName));
-                    identity.AddClaim(new Claim("Avatar", account.User.Avatar));
-                    await HttpContext.SignInAsync(result.Principal, result.Properties);
-                    return Redirect("/");
+                    var email = principal.FindFirst(ClaimTypes.Email)?.Value;
+                    if (_dbContext.Users.FirstOrDefault(x => x.Email == email) != null)
+                    {
+                        var identity = result.Principal.Identity as ClaimsIdentity;
+                        var accountName = principal.FindFirstValue(ClaimTypes.NameIdentifier) + "@facebook";
+                        var account = _dbContext.Accounts.Where(a => a.AccountName == accountName)
+                                                         .Include(a => a.User).ThenInclude(a => a.Role)
+                                                         .FirstOrDefault();
+                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, accountName));
+                        identity.AddClaim(new Claim(ClaimTypes.Role, account.User.Role.RoleName));
+                        identity.AddClaim(new Claim("UserId", account.UserId.ToString()));
+                        identity.AddClaim(new Claim("Username", account.User.UserName));
+                        identity.AddClaim(new Claim("Avatar", account.User.Avatar));
+                        await HttpContext.SignInAsync(result.Principal, result.Properties);
+                        return Redirect("/");
+                    }
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    TempData["log"] = "Tài khoản này chưa đăng ký!";
+                    return Redirect("/Error/Log");
                 }
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                TempData["log"] = "Tài khoản này chưa đăng ký!";
+                TempData["log"] = "Đăng nhập thất bại";
                 return Redirect("/Error/Log");
             }
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            TempData["log"] = "Đăng nhập thất bại";
-            return Redirect("/Error/Log");
+            catch (Exception ex)
+            {
+                return Redirect("/Error/Log");
+            }
         }
 
         [Route("/signup-facebook")]

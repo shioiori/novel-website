@@ -17,6 +17,7 @@ namespace NovelWebsite.Controllers
         }
 
         [Route("/getuserid")]
+        [HttpGet]
         public int GetUserId()
         {
             var claims = HttpContext.User.Identity as ClaimsIdentity;
@@ -24,6 +25,7 @@ namespace NovelWebsite.Controllers
         }
 
         [Route("get-book-fav/{bookId}")]
+        [HttpGet]
         public bool GetBookFav(int bookId)
         {
             int userId = GetUserId();
@@ -35,6 +37,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("get-book-rec/{bookId}")]
         public bool GetBookRec(int bookId)
         {
@@ -47,6 +50,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("get-book-follow/{bookId}")]
         public bool GetBookFollow(int bookId)
         {
@@ -59,6 +63,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("get-chapter-like/{chapterId}")]
         public bool GetChapterLike(int chapterId)
         {
@@ -71,6 +76,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("get-comment-like/{commentId}")]
         public bool GetCommentLike(int commentId)
         {
@@ -83,6 +89,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("get-post-like/{postId}")]
         public bool GetPostLike(int postId)
         {
@@ -95,6 +102,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("get-review-like/{reviewId}")]
         public bool GetReviewLike(int reviewId)
         {
@@ -107,6 +115,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("update-book-fav/{bookId}")]
 
         public bool UpdateBookFav(int bookId)
@@ -129,6 +138,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("update-book-rec/{bookId}")]
 
         public bool UpdateBookRec(int bookId)
@@ -151,6 +161,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("update-book-follow/{bookId}")]
         public bool UpdateBookFollow(int bookId)
         {
@@ -172,6 +183,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("update-chapter-like/{chapterId}")]
         public bool UpdateChapterLike(int chapterId)
         {
@@ -194,6 +206,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("update-post-like/{postId}")]
         public bool UpdatePostLike(int postId)
         {
@@ -216,6 +229,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("update-review-like/{reviewId}")]
         public bool UpdateReviewLike(int reviewId)
         {
@@ -238,6 +252,7 @@ namespace NovelWebsite.Controllers
             return true;
         }
 
+        [HttpGet]
         [Route("update-comment-like/{commentId}")]
         public bool UpdateCommentLike(int commentId)
         {

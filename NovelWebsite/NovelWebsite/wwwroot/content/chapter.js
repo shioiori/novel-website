@@ -42,7 +42,6 @@ $.ajax({
     complete: function () { }
 })
 
-
 $.ajax({
     url: "/Chapter/GetListChapters?id=" + bookId,
     type: "GET",
@@ -52,7 +51,7 @@ $.ajax({
         $('#list-chapter-box').html('');
         data.forEach((item, index) => {
             $('#list-chapter-box').append(`<li class="list-group-item col-6">
-                        <a href="/truyen/${link}/chuong-${item.chapterNumber}/${item.slug}-${item.chapterId}">Chương ${item.chapterNumber}: ${item.chapterName}</a>
+                        <a href="/truyen/${p[4]}/chuong-${item.chapterNumber}/${item.slug}-${item.chapterId}">Chương ${item.chapterNumber}: ${item.chapterName}</a>
                         </li>`);
         });
     },
