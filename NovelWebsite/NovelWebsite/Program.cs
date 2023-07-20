@@ -2,15 +2,35 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using NovelWebsite.Authorization;
 using NovelWebsite.Entities;
+using NovelWebsite.Hubs;
+using NovelWebsite.Provider;
 using System.Configuration;
 using System.Net;
 using System.Security.Claims;
 
-var builder = WebApplication.CreateBuilder(args);
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+	EnvironmentName = Environments.Development
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+                          policy =>
+                          {
+                              policy.WithOrigins("*")
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
+                          });
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -65,8 +85,10 @@ builder.Services.AddSession(cfg => {
 });
 
 builder.Services.AddSingleton<IHostedService, CacheUpdateService>();
-builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<IUserIdProvider, UsernameBasedUserIdProvider>();
 
+builder.Services.AddMemoryCache();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -83,6 +105,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -92,6 +116,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}"
 );
+
+app.MapHub<NotificationHub>("/notification_hub");
 
 app.UseEndpoints(endpoints =>
 {
@@ -113,6 +139,8 @@ app.UseEndpoints(endpoints =>
      pattern: "bo-loc/",
      defaults: new { controller = "Filter", action = "Index" });
 });
+
+app.UseDeveloperExceptionPage();
 
 // Create Database If Not Exists
 using (var scope = app.Services.CreateScope())

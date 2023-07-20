@@ -94,6 +94,13 @@ namespace NovelWebsite.Controllers
         }
 
         [Route("{action}")]
+        public IActionResult GetUserUpload(int id)
+        {
+            var user = _dbContext.Accounts.FirstOrDefault(b => b.UserId == id);
+            return Json(user);
+        }
+
+        [Route("{action}")]
         public IActionResult BooksMaybeYouLike(int id, int number = 6)
         {
             var listBooks = _dbContext.Books.Include(b => b.Category).Where(b => b.Category.CategoryId == id).Include("Author").OrderByDescending(b => b.CreatedDate).Take(number).ToList();
@@ -114,6 +121,14 @@ namespace NovelWebsite.Controllers
                 }
             }
             return Json(listTag);
+        }
+
+        [Route("{action}")]
+        public IActionResult GetAuthorAccount(int bookId)
+        {
+            var book = _dbContext.Books.FirstOrDefault(x => x.BookId == bookId);
+            var account = _dbContext.Accounts.FirstOrDefault(x => x.UserId == book.UserId);
+            return Json(account);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿function CommentUserLike() {
+﻿
+
+function CommentUserLike() {
     $('.comment-group').map(function () {
         var id = this.id.split('-');
         var cmtId = id[id.length - 1];
@@ -31,11 +33,13 @@ function AddBookComment(id) {
         beforeSend: function () { },
         success: function () {
             console.log("success");
-            location.reload();
+            //location.reload();
         },
         error: function () { },
         complete: function () { }
-    })
+    });
+     
+    CommentBookNoti();
 }
 
 function AddChapterComment(id) {
@@ -60,7 +64,8 @@ function AddChapterComment(id) {
         },
         error: function () { },
         complete: function () { }
-    })
+    });
+    CommentChapterNoti();
 }
 
 
@@ -83,11 +88,12 @@ function AddPostComment(id) {
         beforeSend: function () { },
         success: function () {
             console.log("success");
-            location.reload();
+            //location.reload();
         },
         error: function () { },
         complete: function () { }
-    })
+    });
+    CommentPostNoti();
 }
 
 function AddReplyComment(id) {
@@ -111,5 +117,31 @@ function AddReplyComment(id) {
         },
         error: function () { },
         complete: function () { }
-    })
+    });
+    ReplyCommentNoti();
+}
+
+
+function CommentBookNoti() {
+    connection.invoke("SendUserNotification", sender.userName, receiver.accountName, NOTIFICATION_TYPES[1].content).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function ReplyCommentNoti() {
+    connection.invoke("SendUserNotification", sender.userName, receiver.accountName, NOTIFICATION_TYPES[0].content).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function CommentPostNoti() {
+    connection.invoke("SendUserNotification", sender.userName, receiver.accountName, NOTIFICATION_TYPES[6].content).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function CommentChapterNoti() {
+    connection.invoke("SendUserNotification", sender.userName, receiver.accountName, NOTIFICATION_TYPES[7].content).catch(function (err) {
+        return console.error(err.toString());
+    });
 }

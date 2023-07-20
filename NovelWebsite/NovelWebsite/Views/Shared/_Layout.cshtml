@@ -16,6 +16,7 @@
     <script type="text/javascript" src="~/ckeditor5-build-decoupled-document/ckeditor.js"></script>
     @*<script type="text/javascript" src="~/ckeditor5-build-decoupled-document/ckeditor.js.map" defer></script>*@
     <script type="text/javascript" src="~/ckeditor5-build-decoupled-document/translations/vi.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 </head>
 <body>
     <button onclick="topFunction()" class="myBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
@@ -102,13 +103,24 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col login">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
-                        <i class="fa-solid fa-user"></i>
-                        Tài khoản
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                    </a>
+                
+                
+                <div class="user-header" style="width: 170px;">
+                    <div class="bell-noti">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="ddl-notification" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-regular fa-bell"></i>
+                            </button>
+                            @await Component.InvokeAsync("UserNotification")
+                        </div>
+                    </div>
+                    <div class="col login">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
+                            <i class="fa-solid fa-user"></i>
+                            Tài khoản
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="modal fade" id="taixuong">
@@ -271,10 +283,15 @@
             </div>
         </div>
     </footer>
-    <script type="text/javascript" src="~/content/layout.js"></script>
+
+    <script type="text/javascript" src="~/content/hubs/notification.js"></script>
+    <script type="text/javascript" src="~/content/constants/index.js"></script>
+    <script type="text/javascript" src="~/content/layout.js"></script> 
+ @*   <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>*@
    @* <script type="text/javascript" src="~/content/login.js"></script>*@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
 
 

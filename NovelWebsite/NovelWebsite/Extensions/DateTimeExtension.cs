@@ -23,9 +23,21 @@
             {
                 return "Hôm qua";
             }
+            else if (timeSinceDate.TotalHours >= 1)
+            {
+                return $"{Convert.ToInt32(timeSinceDate.TotalHours)} tiếng trước";
+            }
+            else if (timeSinceDate.TotalMinutes >= 1)
+            {
+                return $"{Convert.ToInt32(timeSinceDate.TotalHours)} phút trước";
+            }
+            else if (timeSinceDate.TotalSeconds >= 1)
+            {
+                return $"{Convert.ToInt32(timeSinceDate.TotalHours)} giây trước";
+            }
             else // ngày hôm nay
             {
-                return "Hôm nay";
+                return "Vừa xong";
             }
         }
     }

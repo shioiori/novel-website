@@ -28,6 +28,8 @@ namespace NovelWebsite.Entities
         public DbSet<ReviewEntity> Reviews { get; set; }
         public DbSet<TagEntity> Tags { get; set; }
         public DbSet<BannerEntity> Banners { get; set; }
+        public DbSet<NotificationEntity> Notifications { get; set; }
+        public DbSet<NotificationTypeEnitity> NotificationTypeEnitities { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CategoryEntity>().ToTable("Category");
@@ -51,6 +53,8 @@ namespace NovelWebsite.Entities
             modelBuilder.Entity<PostUserLikeEntity>().ToTable("PostUserLike").HasKey(bu => new { bu.PostId, bu.UserId });
             modelBuilder.Entity<ReviewUserLikeEntity>().ToTable("ReviewUserLike").HasKey(bu => new { bu.ReviewId, bu.UserId });
             modelBuilder.Entity<CommentUserLikeEntity>().ToTable("CommentUserLike").HasKey(bu => new { bu.CommentId, bu.UserId });
+            modelBuilder.Entity<NotificationEntity>().ToTable("Notification");
+            modelBuilder.Entity<NotificationEntity>().ToTable("NotificationType");
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -59,8 +59,15 @@ namespace NovelWebsite.Controllers
         [Route("{action}")]
         public IActionResult GetAllCategories()
         {
-            var query = _dbContext.Categories.ToList();
-            return Json(query);
+            try
+            {
+                var query = _dbContext.Categories.ToList();
+                return Json(query);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         [Route("{action}")]
         public IActionResult GetListComments(int id)

@@ -3,7 +3,7 @@ var param = queryString.split('-');
 var id = param[param.length - 1];
 var p = queryString.split('/');
 var link = p[p.length - 1];
-
+var receiver;
 
 window.onload = function () {
     GetBookFav();
@@ -24,6 +24,9 @@ window.onload = function () {
     GetListComment();
     ReviewUserLike();
     CommentUserLike();
+    receiver = GetAuthorInfo();
+    console.log(receiver);
+
 }
 
 function ReviewUserLike() {
@@ -241,6 +244,7 @@ $.ajax({
     complete: function () { }
 })
 
+
 $.ajax({
     url: "/Book/GetUserBooks?id=" + userId,
     type: "GET",
@@ -265,10 +269,13 @@ $.ajax({
                 });;
             }*/
         });
+        console.log(data);
+        return data;
     },
     error: function () { },
     complete: function () { }
 })
+
 
 $.ajax({
     url: "/Book/BooksMaybeYouLike?id=" + categoryId,
@@ -420,4 +427,35 @@ function AddReview(id) {
         error: function () { },
         complete: function () { }
     })
+}
+
+function GetUserUpload() {
+    $.ajax({
+        url: "/Book/GetUserUpload?id=" + userId,
+        type: "GET",
+        dataType: "json",
+        beforeSend: function () { },
+        success: function (data) {
+        },
+        error: function () { },
+        complete: function () { }
+    })
+}
+
+
+function GetAuthorInfo() {
+    var user;
+    $.ajax({
+        url: "/Book/GetAuthorAccount?bookId=" + bookId,
+        type: "GET",
+        async: false,
+        dataType: "json",
+        beforeSend: function () { },
+        success: function (data) {
+            user = data;
+        },
+        error: function () { },
+        complete: function () { }
+    });
+    return user;
 }

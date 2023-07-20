@@ -1,0 +1,13 @@
+﻿@using NovelWebsite.Entities;
+@using NovelWebsite.Extensions;
+@model List<NotificationEntity>
+
+<ul class="dropdown-menu" aria-labelledby="ddl-notification" id="messagesList">
+    @foreach (var item in Model)
+    {
+        <li>@item.FromUser.UserName @item.Type.Content | @DateTimeExtension.TimeSpan(item.CreatedDate)</li>
+    }
+</ul>
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+

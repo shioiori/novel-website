@@ -1,4 +1,10 @@
-﻿$.ajax({
+﻿var sender;
+
+$(document).ready(function () {
+    sender = GetUserInfo();
+})
+
+$.ajax({
     url: "/Banner/GetAdsBanner",
     type: "GET",
     dataType: "json",
@@ -21,11 +27,11 @@ $.ajax({
         $('div.col.login').html('');
         let user = GetUserInfo();
         let bar = `<div class="dropdown">
-                        <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary" type="button" id="user-ddl" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="${user.user.avatar}" class="user-home-img">
                             <div class="user-home-name"><p>${user.user.userName}</p></div>
                         </button>
-                        <ul class="dropdown-menu user-function dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                        <ul class="dropdown-menu user-function dropdown-menu-end" aria-labelledby="user-ddl">
                             <li><a class="dropdown-item" href="/ho-so/${user.userId}">Hồ sơ</a></li>
                             <li><a class="dropdown-item" href="/ho-so/${user.userId}/tu-truyen">Tủ truyện</a></li>
                             <li><a class="dropdown-item" href="/ho-so/${user.userId}/truyen-da-dang">Truyện đã đăng</a></li>
