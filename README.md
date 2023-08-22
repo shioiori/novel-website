@@ -1,5 +1,5 @@
 # Nền tảng đọc/đăng tải tiểu thuyết
-
+Một số hình ảnh phía người dùng
 ![Trang chủ](https://i.imgur.com/KUBMdk4.png)
 ![Đăng nhập](https://i.imgur.com/TQuXaka.png)
 ![Truyện](https://i.imgur.com/ID5aSr0.png)
