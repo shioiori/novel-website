@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NovelWebsite.Entities;
+using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Models;
 using System.Linq;
 

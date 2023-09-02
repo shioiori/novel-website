@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NovelWebsite.Domain.Models;
 using NovelWebsite.Entities;
 using NovelWebsite.Extensions;
-using NovelWebsite.Models;
+using NovelWebsite.Infrastructure.Contexts;
+using NovelWebsite.Infrastructure.Entities;
 using System.Security.Claims;
 
 namespace NovelWebsite.Areas.Admin.Controllers

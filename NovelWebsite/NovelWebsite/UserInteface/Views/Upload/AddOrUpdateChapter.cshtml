@@ -1,0 +1,80 @@
+﻿@    using System.Web
+
+@model ChapterEntity
+
+@{
+    string error = TempData["error"] as string;
+    List<TagEntity> listTag = ViewBag.CheckedTags;
+}
+
+
+
+<link rel="stylesheet" href="~/css/userprofile.css">
+<link href="~/css/dangtruyen.css" rel="stylesheet" />
+
+
+<main>
+    @await Component.InvokeAsync("UserNavbar")
+    <div class="row-right">
+        <form action="/Upload/AddOrUpdateChapter" method="post" id="upload-chapter">
+            <div class="edit--main-body">
+                @{
+                    if (error != null)
+                    {
+                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                  @error
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="editor--header">Chỉnh sửa chương</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4 class="editor--title">Tên chương:</h4>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="editor--content input-group">
+                            <input type="text" name="ChapterName" class="editbook--name form-control" placeholder="Nhập tên chương..." value="@(Model == null ? "" : Model.ChapterName)" />
+                            <input type="text" name="BookId" value="@ViewBag.BookId" hidden />
+                            <input type="text" name="ChapterId" value="@(Model == null ? "" : Model.ChapterId)" hidden />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4 class="editor--title">Chương số:</h4>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="editor--content input-group">
+                            <input type="text" class="editbook--name form-control" name="ChapterNumber" value="@ViewBag.ChapterNumber" readonly/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4 class="editor--title">Nội dung chương:</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-comment col">
+                            <div id="chapterpost-toolbar"></div>
+                            <div id="chapterpost-editor" class="input--box">@Html.Raw(HttpUtility.HtmlDecode(Model == null ? "" : Model.Content))</div>
+                            <input name="content" type="text" value="@(Model == null ? "" : Model.Content)" hidden />
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary submit-btn" type="submit">Đăng</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+@section Scripts{
+<script type="text/javascript" src="~/content/uploadchapter.js"></script>
+}

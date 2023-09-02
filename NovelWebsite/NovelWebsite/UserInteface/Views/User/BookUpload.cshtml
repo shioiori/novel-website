@@ -1,0 +1,99 @@
+﻿@    using System.Web;
+    using NovelWebsite.Infrastructure.Entities;
+@model List<BookEntity>
+
+@{
+    int pageSize = (int)ViewBag.pageSize;
+    int pageCount = (int)ViewBag.pageCount;
+    int pageNumber = (int)ViewBag.pageNumber;
+}
+
+<link href="~/css/userprofile.css" rel="stylesheet" />
+<link href="~/css/boloc.css" rel="stylesheet" />
+<link href="~/css/truyendadang.css" rel="stylesheet" />
+
+<main>
+
+    @await Component.InvokeAsync("UserNavbar")
+    <div class="row-right">
+        <div class="row" style="padding: 0 10px;">
+            <div class="reading col-md-6">
+                <span>Truyện đã đăng</span>
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-secondary float-end" href="/dang-tai/@ViewBag.UserId/truyen">Đăng truyện mới</a>
+            </div>
+        </div>
+        <div class="rank-view-list">
+            <div class="rank-view-list-item">
+                <ul class="list-group" id="filter-book">
+            
+            @{
+                foreach (var item in Model)
+                {
+                     <li class="list-group-item">
+                            <div class="book--img">
+                                <a href="javascript:void(0)">
+                                    <img src="@item.Avatar" class="book--imgcss">
+                                </a>
+                            </div>
+                            <div class="book--info">
+                                <h3>
+                                    <a href="/truyen/@item.Slug-@item.BookId">@item.BookName</a>
+                                </h3>
+                                <div class="book-state">
+                                    <a href="javascript:void(0)">@item.Author.AuthorName</a>
+                                    <i>|</i>
+                                    @item.BookStatus.BookStatusName
+                                    <i>|</i>
+                                    @item.NumberOfChapters
+                                </div>
+                                <div class="describe">
+                                    <i class="fa-solid fa-quote-left"></i>
+                                        @Html.Raw(HttpUtility.HtmlDecode(item.Introduce))
+                                </div>
+                            </div>
+                            <div class="book--info-buttons">
+                                <p>
+                                    <a class="btn" href="/dang-tai/@item.UserId/truyen/@item.BookId">Sửa truyện</a>
+                                    <a class="btn" href="/dang-tai/@item.UserId/truyen/@item.BookId/danh-sach-chuong">Danh sách chương</a>
+                                </p>
+                            </div>
+                     </li>
+                }
+            }
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="book-pagination">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item">
+                        <a class="page-link" href="/ho-so/@ViewBag.UserId/truyen-da-dang?pageNumber=@Math.Max(1, pageNumber - 1)">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    @{
+                        for (int i = 1; i <= pageCount; ++i)
+                        {
+                            <li class="page-item"><a class="page-link" href="/ho-so/@ViewBag.UserId/truyen-da-dang?pageNumber=@i">@i</a></li>
+                        }
+                    }
+                    <li class="page-item">
+                        <a class="page-link" href="/ho-so/@ViewBag.UserId/truyen-da-dang?pageNumber=@Math.Min(pageNumber + 1, pageCount)">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+    </div>
+
+</main>
+@*@section Scripts{
+    <script type="text/javascript" src="~/js/filterbtn.js"></script>
+    <script type="text/javascript" src="~/content/filter.js"></script>
+
+    }
+*@

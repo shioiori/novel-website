@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NovelWebsite.Entities;
+using NovelWebsite.Infrastructure.Contexts;
+using NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.Areas.Admin.Controllers
 {

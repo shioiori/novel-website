@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Entities;
+using NovelWebsite.Infrastructure.Contexts;
 
 namespace NovelWebsite.Areas.Admin.Controllers
 {
