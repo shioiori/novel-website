@@ -1,0 +1,17 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NovelWebsite.Infrastructure.Entities
+{
+    public class BannerEntity : BaseEntity
+    {
+        [Key]
+        public int BannerId { get; set; }
+        public int BannerType { get; set; }
+        public string BannerImage { get; set; }
+
+        [ForeignKey("BookId")]
+        public int? BookId { get; set; }
+        public BookEntity Book { get; set; }
+    }
+}

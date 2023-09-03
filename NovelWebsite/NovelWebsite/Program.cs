@@ -67,6 +67,7 @@ builder.Services.AddSession(cfg => {
 builder.Services.AddSingleton<IHostedService, CacheUpdateService>();
 builder.Services.AddMemoryCache();
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

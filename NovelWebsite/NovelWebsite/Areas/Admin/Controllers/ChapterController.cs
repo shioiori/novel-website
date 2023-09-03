@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Domain.Models;
 using NovelWebsite.Infrastructure.Contexts;
+using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.Areas.Admin.Controllers
 {

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Domain.Models;
 using NovelWebsite.Extensions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.Areas.Admin.Controllers
 {
@@ -11,23 +12,21 @@ namespace NovelWebsite.Areas.Admin.Controllers
     [Authorize(Roles = "Admin, Biên tập viên")]
     public class CategoryController : Controller
     {
-        private readonly AppDbContext _dbContext;
+        private ICategoryService _service;
 
-        public CategoryController(AppDbContext dbContext)
+        public CategoryController(ICategoryService service)
         {
-            _dbContext = dbContext;
+            _service = service;
         }
         public IActionResult Index(int pageNumber = 1, int pageSize = 10)
         {
-            var query = _dbContext.Categories.Skip(pageSize * pageNumber - pageSize)
-                                             .Take(pageSize)
-                                             .ToList(); 
+            var categories = _service.GetAllCategories();
 
-            ViewBag.pageNumber = pageNumber;
-            ViewBag.pageSize = pageSize;
-            ViewBag.pageCount = Math.Ceiling(_dbContext.Categories.Count() * 1.0 / pageSize);
+            // ViewBag.pageNumber = pageNumber;
+            // ViewBag.pageSize = pageSize;
+            // ViewBag.pageCount = Math.Ceiling(_dbContext.Categories.Count() * 1.0 / pageSize);
             
-            return View(query);
+            return View(categories);
         }
 
         [HttpPost]
