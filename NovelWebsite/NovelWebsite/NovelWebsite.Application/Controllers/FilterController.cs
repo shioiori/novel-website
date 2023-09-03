@@ -150,7 +150,7 @@ namespace NovelWebsite.Application.Controllers
             // kiểm tra tag của những quyển đã có -> tag nào k có thì remove khỏi ds
             if (filterModel.Tag != null)
             {
-                var f5 = new List<BookEntity>(final);
+                var f5 = new List<Book>(final);
                 foreach (var item in final)
                 {
                     var temp = _dbContext.BookTags.Where(b => b.BookId == item.BookId).Select(b => b.TagId).ToList();

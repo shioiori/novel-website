@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Domain.Models;
 using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.Application.Controllers
@@ -71,7 +70,7 @@ namespace NovelWebsite.Application.Controllers
             {
                 return Json("Đã có tài khoản đăng ký email này");
             }
-            var user = new UserEntity()
+            var user = new User()
             {
                 UserName = account.AccountName,
                 Avatar = "/image/default.jpg",
@@ -88,7 +87,7 @@ namespace NovelWebsite.Application.Controllers
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
 
-            var acc = new AccountEntity()
+            var acc = new Account()
             {
                 AccountName = account.AccountName,
                 Password = account.Password,

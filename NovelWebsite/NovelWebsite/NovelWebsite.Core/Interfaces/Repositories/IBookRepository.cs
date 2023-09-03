@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces
 {
-    public interface IBookRepository : IGenericRepository<BookEntity>
+    public interface IBookRepository : IGenericRepository<Book>
     {
         //IEnumerable<BookEntity> GetBooksByAuthor(int authorId);
         //IEnumerable<BookEntity> GetBooksByUserUpload(int userId);

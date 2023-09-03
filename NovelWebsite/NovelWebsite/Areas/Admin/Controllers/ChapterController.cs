@@ -43,7 +43,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
             var chapter = _dbContext.Chapters.FirstOrDefault(c => c.ChapterId == chapterModel.ChapterId && c.IsDeleted == false);
             if (chapter == null)
             {
-                chapter = new ChapterEntity()
+                chapter = new Chapter()
                 {
                     ChapterName = chapterModel.ChapterName,
                     Content = chapterModel.Content,

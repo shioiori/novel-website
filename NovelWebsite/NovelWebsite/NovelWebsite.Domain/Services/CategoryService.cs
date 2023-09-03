@@ -19,18 +19,18 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public IEnumerable<CategoryModel> GetAllCategories()
         {
             var categories = _categoryRepository.GetAll();
-            return _mapper.Map<IEnumerable<CategoryEntity>, IEnumerable<CategoryModel>>(categories);
+            return _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryModel>>(categories);
         }
 
         public void AddCategory(CategoryModel category)
         {
-            _categoryRepository.Insert(_mapper.Map<CategoryModel, CategoryEntity>(category));
+            _categoryRepository.Insert(_mapper.Map<CategoryModel, Category>(category));
             _categoryRepository.Save();
         }
 
         public void UpdateCategory(CategoryModel category)
         {
-            _categoryRepository.Update(_mapper.Map<CategoryModel, CategoryEntity>(category));
+            _categoryRepository.Update(_mapper.Map<CategoryModel, Category>(category));
             _categoryRepository.Save();
         }
 
@@ -42,7 +42,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public CategoryModel FindCategory(int categoryId){
             var category = _categoryRepository.GetById(categoryId);
-            return _mapper.Map<CategoryEntity, CategoryModel>(category);
+            return _mapper.Map<Category, CategoryModel>(category);
         }
     }
 }

@@ -12,11 +12,11 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
-        private Expression<Func<ReviewEntity, bool>> expSearchByBookId(int bookId)
+        private Expression<Func<Review, bool>> expSearchByBookId(int bookId)
         {
             return x => x.BookId == bookId;
         }
-        private Expression<Func<ReviewEntity, bool>> expSearchByCategoryId(int categoryId)
+        private Expression<Func<Review, bool>> expSearchByCategoryId(int categoryId)
         {
             return x => categoryId == 0 || x.Book.CategoryId == categoryId;
         }
@@ -30,24 +30,24 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public IEnumerable<ReviewModel> GetListReviews()
         {
             var reviews = _reviewRepository.GetAll();
-            return _mapper.Map<IEnumerable<ReviewEntity>, IEnumerable<ReviewModel>>(reviews);
+            return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }
 
         public IEnumerable<ReviewModel> GetListReviewsByBookId(int bookId)
         {
             var reviews = _reviewRepository.Filter(expSearchByBookId(bookId));
-            return _mapper.Map<IEnumerable<ReviewEntity>, IEnumerable<ReviewModel>>(reviews);
+            return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }
 
         public IEnumerable<ReviewModel> GetListReviewsByCategoryId(int categoryId)
         {
             var reviews = _reviewRepository.Filter(expSearchByCategoryId(categoryId));
-            return _mapper.Map<IEnumerable<ReviewEntity>, IEnumerable<ReviewModel>>(reviews);
+            return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }
 
         public void AddReview(ReviewModel review)
         {
-            _reviewRepository.Insert(_mapper.Map<ReviewModel, ReviewEntity>(review));
+            _reviewRepository.Insert(_mapper.Map<ReviewModel, Review>(review));
             _reviewRepository.Save();
         }
     }

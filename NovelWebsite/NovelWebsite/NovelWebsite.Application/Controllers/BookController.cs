@@ -105,7 +105,7 @@ namespace NovelWebsite.Application.Controllers
         {
             var bookTag = _dbContext.BookTags.Where(x => x.BookId == id).Select(x => x.TagId).ToList();
             var tags = _dbContext.Tags.ToList();
-            List<TagEntity> listTag = new List<TagEntity>();
+            List<Tag> listTag = new List<Tag>();
             foreach (var item in tags)
             {
                 if (bookTag.Contains(item.TagId))

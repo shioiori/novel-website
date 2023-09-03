@@ -11,7 +11,7 @@ namespace NovelWebsite.Domain.Services
             _bookRepository = bookRepository;
         }
 
-        public IEnumerable<BookEntity> GetBookByAuthor(int authorId)
+        public IEnumerable<Book> GetBookByAuthor(int authorId)
         {
             return _bookRepository.Filter(x => x.AuthorId == authorId);
         }

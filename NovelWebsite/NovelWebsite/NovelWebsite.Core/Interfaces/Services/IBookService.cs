@@ -4,7 +4,7 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces
 {
     public interface IBookService
     {
-        IEnumerable<BookEntity> GetBookByAuthor(int authorId);
+        IEnumerable<Book> GetBookByAuthor(int authorId);
 
     }
 }

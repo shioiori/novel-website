@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class BannerEntity : BaseEntity
+    public class Banner : BaseEntity
     {
         [Key]
         public int BannerId { get; set; }
@@ -12,6 +12,6 @@ namespace NovelWebsite.Infrastructure.Entities
 
         [ForeignKey("BookId")]
         public int? BookId { get; set; }
-        public BookEntity Book { get; set; }
+        public Book Book { get; set; }
     }
 }

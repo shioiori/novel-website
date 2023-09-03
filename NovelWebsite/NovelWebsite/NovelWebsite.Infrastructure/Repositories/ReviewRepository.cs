@@ -5,7 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
-    public class ReviewRepository : GenericRepository<ReviewEntity>, IReviewRepository
+    public class ReviewRepository : GenericRepository<Review>, IReviewRepository
     {
         public ReviewRepository(AppDbContext dbContext) : base(dbContext)
         {

@@ -43,7 +43,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddOrUpdateBanner(BannerEntity banner)
+        public IActionResult AddOrUpdateBanner(Banner banner)
         {
             var cat = _dbContext.Banners.Where(c => c.BannerId == banner.BannerId).FirstOrDefault();
             if (cat == null)

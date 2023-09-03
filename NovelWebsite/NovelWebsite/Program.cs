@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using NovelWebsite.Domain.Authorization;
 using NovelWebsite.Infrastructure.Contexts;
+using NovelWebsite.Infrastructure.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
+using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 using System.Configuration;
 using System.Net;
 using System.Security.Claims;
@@ -68,6 +72,24 @@ builder.Services.AddSingleton<IHostedService, CacheUpdateService>();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+
+
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IBannerRepository, BannerRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+
+
+
 
 var app = builder.Build();
 

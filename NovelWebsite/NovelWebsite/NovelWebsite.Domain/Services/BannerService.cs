@@ -21,7 +21,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public IEnumerable<BannerModel> GetBannersByType(BannerType type)
         {
             var banners = _bannerRepository.Filter(x => x.BannerType == (int)type);
-            return _mapper.Map<IEnumerable<BannerEntity>, IEnumerable<BannerModel>>(banners);
+            return _mapper.Map<IEnumerable<Banner>, IEnumerable<BannerModel>>(banners);
         }
 
     }

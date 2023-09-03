@@ -3,7 +3,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
-    internal interface ICategoryRepository : IGenericRepository<CategoryEntity>
+    public interface ICategoryRepository : IGenericRepository<Category>
     {
     }
 }

@@ -3,14 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class AccountEntity : BaseEntity
+    public class Post_User
     {
-        [Key]
-        public string AccountName { get; set; }
-        public string Password { get; set; }
-
         [ForeignKey("UserId")]
         public int UserId { get; set; }
-        public UserEntity User { get; set; }
+        public User User { get; set; }
+        [ForeignKey("PostId")]
+        public int PostId { get; set; }
+        public Post Post { get; set; }
     }
 }

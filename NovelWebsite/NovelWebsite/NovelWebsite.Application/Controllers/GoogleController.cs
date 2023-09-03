@@ -44,7 +44,7 @@ namespace NovelWebsite.Application.Controllers
                         TempData["log"] = "Tài khoản này đã được đăng ký";
                         return Redirect("/Error/Log");
                     }
-                    var user = new UserEntity()
+                    var user = new User()
                     {
                         UserName = principal.FindFirst(ClaimTypes.Name)?.Value,
                         Email = email,
@@ -58,7 +58,7 @@ namespace NovelWebsite.Application.Controllers
                     };
                     _dbContext.Users.Add(user);
                     _dbContext.SaveChanges();
-                    var acc = new AccountEntity()
+                    var acc = new Account()
                     {
                         UserId = user.UserId,
                         AccountName = accountName,

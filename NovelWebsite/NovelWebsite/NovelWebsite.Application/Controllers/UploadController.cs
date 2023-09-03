@@ -58,10 +58,10 @@ namespace NovelWebsite.Application.Controllers
             }
             else
             {
-                AuthorEntity author = _dbContext.Authors.FirstOrDefault(a => a.AuthorName == bookModel.AuthorName);
+                Author author = _dbContext.Authors.FirstOrDefault(a => a.AuthorName == bookModel.AuthorName);
                 if (author == null)
                 {
-                    author = new AuthorEntity()
+                    author = new Author()
                     {
                         AuthorName = bookModel.AuthorName,
                         Slug = StringExtension.Slugify(bookModel.AuthorName)
@@ -72,7 +72,7 @@ namespace NovelWebsite.Application.Controllers
                 var book = _dbContext.Books.FirstOrDefault(b => b.BookId == bookModel.BookId && b.IsDeleted == false);
                 if (book == null)
                 {
-                    book = new BookEntity()
+                    book = new Book()
                     {
                         BookName = bookModel.BookName,
                         CategoryId = bookModel.CategoryId,
@@ -153,7 +153,7 @@ namespace NovelWebsite.Application.Controllers
             var chapter = _dbContext.Chapters.FirstOrDefault(c => c.ChapterId == chapterModel.ChapterId && c.IsDeleted == false);
             if (chapter == null)
             {
-                chapter = new ChapterEntity()
+                chapter = new Chapter()
                 {
                     ChapterName = chapterModel.ChapterName,
                     ChapterNumber = _dbContext.Chapters.Where(b => b.BookId == chapterModel.BookId).Count() + 1,
@@ -201,7 +201,7 @@ namespace NovelWebsite.Application.Controllers
                 // không có trong db thì add vào
                 if (!currentListTag.Contains(item))
                 {
-                    _dbContext.BookTags.Add(new BookTagEntity()
+                    _dbContext.BookTags.Add(new Book_Tag()
                     {
                         BookId = bookId,
                         TagId = item
@@ -212,11 +212,11 @@ namespace NovelWebsite.Application.Controllers
             return Json("200");
         }
 
-        public List<TagEntity> GetBookTags(int id)
+        public List<Tag> GetBookTags(int id)
         {
             var bookTag = _dbContext.BookTags.Where(x => x.BookId == id).Select(x => x.TagId).ToList();
             var tags = _dbContext.Tags.ToList();
-            List<TagEntity> listTag = new List<TagEntity>();
+            List<Tag> listTag = new List<Tag>();
             foreach (var item in tags)
             {
                 if (bookTag.Contains(item.TagId))

@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class ReviewUserLikeEntity
+    public class Review_User
     {
-        [ForeignKey("UserId")]
+        [ForeignKey("fk_user")]
         public int UserId { get; set; }
-        public UserEntity User { get; set; }
-        [ForeignKey("ReviewId")]
+        [ForeignKey("fk_review")]
         public int ReviewId { get; set; }
-        public ReviewEntity Review { get; set; }
+        public int InteractType { get; set; }
+        public User User { get; set; }
+        public virtual Review Review { get; set; }
     }
 }

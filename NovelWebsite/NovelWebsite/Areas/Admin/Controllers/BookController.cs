@@ -32,7 +32,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
                                         .ToList();
 
             ViewBag.searchName = name;
-            PagedList<BookEntity> listBook = new PagedList<BookEntity>(query, pageNumber, pageSize);
+            PagedList<Book> listBook = new PagedList<Book>(query, pageNumber, pageSize);
             return View(listBook);
         }
         

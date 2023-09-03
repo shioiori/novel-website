@@ -3,26 +3,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class CommentEntity
+    public class Comment
     {
         [Key]
         public int CommentId { get; set; }
         [ForeignKey("UserId")]
         public int? UserId { get; set; }
-        public UserEntity User { get; set; }
+        public User User { get; set; }
         [ForeignKey("BookId")]
         public int? BookId { get; set; }
-        public BookEntity Book { get; set; }
+        public Book Book { get; set; }
         [ForeignKey("ChapterId")]
         public int? ChapterId { get; set; }
-        public ChapterEntity Chapter { get; set; }
+        public Chapter Chapter { get; set; }
         [ForeignKey("PostId")]
         public int? PostId { get; set; }
-        public PostEntity Post { get; set; }
+        public Post Post { get; set; }
 
         [ForeignKey("CommentId")]
         public int? ReplyCommentId { get; set; }
-        public CommentEntity ReplyComment { get; set; }
+        public Comment ReplyComment { get; set; }
         public int NumberOfReplyComment { get; set; }
         public string Content { get; set; }
         public int? Likes { get; set; }

@@ -68,7 +68,7 @@ namespace NovelWebsite.Application.Controllers
             ViewBag.order = order;
             ViewBag.category = _dbContext.Categories.ToList();
 
-            PagedList<BookEntity> listBook = new PagedList<BookEntity>(query, pageNumber, pageSize);
+            PagedList<Book> listBook = new PagedList<Book>(query, pageNumber, pageSize);
 
             return View(listBook);
         }

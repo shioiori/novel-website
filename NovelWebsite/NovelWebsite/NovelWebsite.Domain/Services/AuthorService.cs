@@ -20,7 +20,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public AuthorModel GetAuthorsById(int id)
         {
             var author = _authorRepository.GetById(id);
-            return _mapper.Map<AuthorEntity, AuthorModel>(author); 
+            return _mapper.Map<Author, AuthorModel>(author); 
         }
     }
 }

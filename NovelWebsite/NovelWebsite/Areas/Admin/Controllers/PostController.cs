@@ -48,7 +48,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
                 try {
                     var claims = HttpContext.User.Identity as ClaimsIdentity;
                     var account = claims.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    post = new PostEntity()
+                    post = new Post()
                     {
                         UserId = _dbContext.Accounts.First(a => a.AccountName == account).UserId,
                         PostId = id,
@@ -65,7 +65,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
             var post = _dbContext.Posts.FirstOrDefault(p => p.PostId == postModel.PostId);
             if (post == null)
             {
-                post = new PostEntity()
+                post = new Post()
                 {
                     Title = postModel.Title,
                     Description = postModel.Description,

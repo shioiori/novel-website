@@ -8,7 +8,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
     {
         public MappingProfile()
         {
-            CreateMap<ReviewModel, ReviewEntity>();
+            CreateMap<ReviewModel, Review>();
         }
     }
 }

@@ -7,46 +7,46 @@ namespace NovelWebsite.Infrastructure.Contexts
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<CategoryEntity> Categories { get; set; }
-        public DbSet<AuthorEntity> Authors { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Author> Authors { get; set; }
         public DbSet<BookStatusEntity> BookStatuses { get; set; }
-        public DbSet<BookEntity> Books { get; set; }
-        public DbSet<AccountEntity> Accounts { get; set; }
-        public DbSet<BookTagEntity> BookTags { get; set; }
-        public DbSet<ChapterEntity> Chapters { get; set; }
-        public DbSet<CommentEntity> Comments { get; set; }
-        public DbSet<BookUserFollowEntity> BookUserFollows { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Book_Tag> BookTags { get; set; }
+        public DbSet<Chapter> Chapters { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Book_User> BookUserFollows { get; set; }
         public DbSet<BookUserLikeEntity> BookUserLikes { get; set; }
         public DbSet<BookUserRecommendEntity> BookUserRecommends { get; set; }
         public DbSet<ChapterUserLikeEntity> ChapterUserLikes { get; set; }
         public DbSet<CommentUserLikeEntity> CommentUserLikes { get; set; }
         public DbSet<PostUserLikeEntity> PostUserLikes { get; set; }
         public DbSet<ReviewUserLikeEntity> ReviewUserLikes { get; set; }
-        public DbSet<UserEntity> Users { get; set; }
-        public DbSet<RoleEntity> Roles { get; set; }
-        public DbSet<PostEntity> Posts { get; set; }
-        public DbSet<ReviewEntity> Reviews { get; set; }
-        public DbSet<TagEntity> Tags { get; set; }
-        public DbSet<BannerEntity> Banners { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Banner> Banners { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CategoryEntity>().ToTable("Category");
-            modelBuilder.Entity<AuthorEntity>().ToTable("Author");
+            modelBuilder.Entity<Category>().ToTable("Category");
+            modelBuilder.Entity<Author>().ToTable("Author");
             modelBuilder.Entity<BookStatusEntity>().ToTable("BookStatus");
-            modelBuilder.Entity<BookEntity>().ToTable("Book");
-            modelBuilder.Entity<AccountEntity>().ToTable("Account");
-            modelBuilder.Entity<TagEntity>().ToTable("Tag");
-            modelBuilder.Entity<BookTagEntity>().ToTable("BookTag").HasKey(bt => new { bt.BookId, bt.TagId });
-            modelBuilder.Entity<ChapterEntity>().ToTable("Chapter");
-            modelBuilder.Entity<CommentEntity>().ToTable("Comment");
-            modelBuilder.Entity<UserEntity>().ToTable("User");
-            modelBuilder.Entity<RoleEntity>().ToTable("Role");
-            modelBuilder.Entity<PostEntity>().ToTable("Post");
-            modelBuilder.Entity<BookUserFollowEntity>().ToTable("BookUserFollow").HasKey(bu => new { bu.BookId, bu.UserId });
+            modelBuilder.Entity<Book>().ToTable("Book");
+            modelBuilder.Entity<Account>().ToTable("Account");
+            modelBuilder.Entity<Tag>().ToTable("Tag");
+            modelBuilder.Entity<Book_Tag>().ToTable("BookTag").HasKey(bt => new { bt.BookId, bt.TagId });
+            modelBuilder.Entity<Chapter>().ToTable("Chapter");
+            modelBuilder.Entity<Comment>().ToTable("Comment");
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<Role>().ToTable("Role");
+            modelBuilder.Entity<Post>().ToTable("Post");
+            modelBuilder.Entity<Book_User>().ToTable("BookUserFollow").HasKey(bu => new { bu.BookId, bu.UserId });
             modelBuilder.Entity<BookUserLikeEntity>().ToTable("BookUserLike").HasKey(bu => new { bu.BookId, bu.UserId });
             modelBuilder.Entity<BookUserRecommendEntity>().ToTable("BookUserRecommend").HasKey(bu => new { bu.BookId, bu.UserId });
-            modelBuilder.Entity<ReviewEntity>().ToTable("Review");
-            modelBuilder.Entity<BannerEntity>().ToTable("Banner");
+            modelBuilder.Entity<Review>().ToTable("Review");
+            modelBuilder.Entity<Banner>().ToTable("Banner");
             modelBuilder.Entity<ChapterUserLikeEntity>().ToTable("ChapterUserLike").HasKey(bu => new { bu.ChapterId, bu.UserId });
             modelBuilder.Entity<PostUserLikeEntity>().ToTable("PostUserLike").HasKey(bu => new { bu.PostId, bu.UserId });
             modelBuilder.Entity<ReviewUserLikeEntity>().ToTable("ReviewUserLike").HasKey(bu => new { bu.ReviewId, bu.UserId });

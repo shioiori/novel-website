@@ -1,9 +1,10 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using System.Linq.Expressions;
+using NovelWebsite.Infrastructure.Entities;
 
-namespace NovelWebsite.NovelWebsite.Core.Interfaces
+namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
-    public interface IUserRepository : IGenericRepository<UserEntity>
+    public interface IUserRepository : IGenericRepository<User>
     {
-
+        User IfExistsUser(Expression<Func<User, bool>> expression);
     }
 }

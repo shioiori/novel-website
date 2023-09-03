@@ -3,13 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class BookUserFollowEntity
+    public class Book_User
     {
-        [ForeignKey("UserId")]
+        [ForeignKey("fk_user")]
         public int UserId { get; set; }
-        public UserEntity User { get; set; }
-        [ForeignKey("BookId")]
+        [ForeignKey("fk_book")]
         public int BookId { get; set; }
-        public BookEntity Book { get; set; }
+        public int InteractType { get; set; }
+        public virtual Book Book { get; set; }
+        public virtual User User { get; set; }
+
     }
 }

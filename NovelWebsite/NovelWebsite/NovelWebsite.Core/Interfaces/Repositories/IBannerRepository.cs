@@ -2,7 +2,7 @@
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
-    public interface IBannerRepository : IGenericRepository<BannerEntity>
+    public interface IBannerRepository : IGenericRepository<Banner>
     {
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using System.Linq.Expressions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.Infrastructure.Repositories;
@@ -6,11 +6,10 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
-    public class PostRepository : GenericRepository<Post>, IPostRepository
+    public class RoleRepository : GenericRepository<Role>, IRoleRepository
     {
-        public PostRepository(AppDbContext dbContext) : base(dbContext)
+        public RoleRepository(AppDbContext dbContext) : base(dbContext)
         {
         }
-
     }
 }

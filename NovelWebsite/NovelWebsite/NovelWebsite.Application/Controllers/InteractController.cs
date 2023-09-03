@@ -170,7 +170,7 @@ namespace NovelWebsite.Application.Controllers
             var link = _dbContext.BookUserFollows.FirstOrDefault(x => x.BookId == bookId && x.UserId == GetUserId());
             if (link == null)
             {
-                _dbContext.BookUserFollows.Add(new BookUserFollowEntity()
+                _dbContext.BookUserFollows.Add(new Book_User()
                 {
                     UserId = GetUserId(),
                     BookId = bookId,

@@ -1,6 +1,10 @@
-﻿namespace NovelWebsite.NovelWebsite.Core.Interfaces
+﻿using NovelWebsite.NovelWebsite.Core.Models;
+
+namespace NovelWebsite.NovelWebsite.Core.Interfaces
 {
-    public interface IAuthenticateService
+    public interface IAuthenticationService
     {
+        AuthenticationResponse Login(LoginRequest loginRequest);
+        AuthenticationResponse Register(RegisterRequest request);
     }
 }

@@ -2,13 +2,13 @@
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class BookTagEntity
+    public class Book_Tag
     {
         [ForeignKey("BookId")]
         public int BookId { get; set; }
-        public BookEntity Book { get; set; }
+        public Book Book { get; set; }
         [ForeignKey("TagId")]
         public int TagId { get; set; }
-        public TagEntity Tag { get; set; }
+        public Tag Tag { get; set; }
     }
 }

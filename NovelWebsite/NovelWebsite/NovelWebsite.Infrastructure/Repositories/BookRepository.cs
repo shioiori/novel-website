@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 
 namespace NovelWebsite.Infrastructure.Repositories
 {
-    public class BookRepository : GenericRepository<BookEntity>, IBookRepository
+    public class BookRepository : GenericRepository<Book>, IBookRepository
     {
-        Expression<Func<BookEntity, object>> sortType = x => x.GetType().GetProperty("PropertyName");
+        Expression<Func<Book, object>> sortType = x => x.GetType().GetProperty("PropertyName");
 
         public BookRepository(AppDbContext dbContext) : base(dbContext) { }
     }

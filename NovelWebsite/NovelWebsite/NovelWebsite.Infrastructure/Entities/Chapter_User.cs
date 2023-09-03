@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class ChapterUserLikeEntity
+    public class ChapterUser
     {
-        [ForeignKey("UserId")]
+        [ForeignKey("fk_user")]
         public int UserId { get; set; }
-        public UserEntity User { get; set; }
-        [ForeignKey("ChapterId")]
+        [ForeignKey("fk_chapter")]
         public int ChapterId { get; set; }
-        public ChapterEntity Chapter { get; set; }
+        public int InteractType { get; set; }
+        public User User { get; set; }
+        public Chapter Chapter { get; set; }
     }
 }

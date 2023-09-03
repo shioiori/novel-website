@@ -3,16 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class ChapterEntity : BaseEntity
+    public class Post : BaseEntity
     {
         [Key]
-        public int ChapterId { get; set; }
-
-        [ForeignKey("BookId")]
-        public int BookId { get; set; }
-        public BookEntity Book { get; set; }
-        public int? ChapterNumber { get; set; }
-        public string? ChapterName { get; set; }
+        public int PostId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
+        public int UserId { get; set; }
+        public string Title { get; set; }
+        public string? Description { get; set; }
         public string? Content { get; set; }
         public int? Views { get; set; }
         public int? Likes { get; set; }

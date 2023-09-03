@@ -1,9 +1,10 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using System.Linq.Expressions;
+using NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
-    public interface IAccountRepository : IGenericRepository<AccountEntity>
+    public interface IAccountRepository : IGenericRepository<Account>
     {
-        AccountEntity GetAccount(string username, string password);
+        Account IfExistsAccount(Expression<Func<Account, bool>> expression);
     }
 }

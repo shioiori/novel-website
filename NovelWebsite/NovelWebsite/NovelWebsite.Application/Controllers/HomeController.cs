@@ -39,7 +39,7 @@ namespace NovelWebsite.Application.Controllers
         public IActionResult GetChapterUpdated(int number = 10)
         {
             var query = _dbContext.Chapters.OrderByDescending(p => p.UpdatedDate).Include(b => b.Book);
-            List<ChapterEntity> listChapters = new List<ChapterEntity>();
+            List<Chapter> listChapters = new List<Chapter>();
             foreach (var chapter in query)
             {
                 if (listChapters.FirstOrDefault(c => c.Book.BookId == chapter.Book.BookId) == null)
@@ -85,7 +85,7 @@ namespace NovelWebsite.Application.Controllers
                 BookId = g.Key,
                 UserFollow = g.Count()
             }).OrderByDescending(g => g.UserFollow).Take(number).ToList();
-            List<BookEntity> listBooks = new List<BookEntity>();
+            List<Book> listBooks = new List<Book>();
             foreach (var item in query)
             {
                 listBooks.Add(_dbContext.Books.Where(b => b.BookId == item.BookId).FirstOrDefault());

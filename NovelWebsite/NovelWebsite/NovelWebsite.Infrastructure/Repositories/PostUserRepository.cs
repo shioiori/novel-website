@@ -1,13 +1,12 @@
 ﻿using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.Infrastructure.Repositories;
-using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
-    public class BannerRepository : GenericRepository<Banner>, IBannerRepository
+    public class PostUserRepository : GenericRepository<Post_User>
     {
-        public BannerRepository(AppDbContext dbContext) : base(dbContext)
+        public PostUserRepository(AppDbContext dbContext) : base(dbContext)
         {
         }
     }

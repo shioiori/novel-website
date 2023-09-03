@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class CategoryEntity
+    public class Category
     {
         [Key]
         public int CategoryId { get; set; }

@@ -5,11 +5,12 @@ namespace NovelWebsite.Infrastructure.Entities
 {
     public class CommentUserLikeEntity
     {
-        [ForeignKey("UserId")]
+        [ForeignKey("fk_user")]
         public int UserId { get; set; }
-        public UserEntity User { get; set; }
-        [ForeignKey("CommentId")]
+        [ForeignKey("fk_comment")]
         public int CommentId { get; set; }
-        public CommentEntity Comment { get; set; }
+        public int InteractType { get; set; }
+        public virtual User User { get; set; }
+        public virtual Comment Comment { get; set; }
     }
 }

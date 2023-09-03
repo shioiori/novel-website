@@ -78,7 +78,7 @@ namespace NovelWebsite.Application.Controllers
         {
             var books = _dbContext.BookUserFollows.Where(x => x.UserId == id).ToList();
             var all = _dbContext.Books.Where(x => x.Status == 0 && x.IsDeleted == false).Include(b => b.Author).ToList();
-            var bookshelf = new List<BookEntity>();
+            var bookshelf = new List<Book>();
             foreach (var item in books)
             {
                 bookshelf.Add(all.FirstOrDefault(x => x.BookId == item.BookId));

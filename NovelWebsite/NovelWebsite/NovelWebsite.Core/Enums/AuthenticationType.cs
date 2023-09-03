@@ -1,6 +1,6 @@
 namespace NovelWebsite.NovelWebsite.Core.Enums
 {
-    public enum AuthorizationType
+    public enum AuthenticationType
     {
         Default,
         Google,

@@ -2,7 +2,7 @@
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class RoleEntity : BaseEntity
+    public class Role : BaseEntity
     {
         [Key]
         public int RoleId { get; set; }

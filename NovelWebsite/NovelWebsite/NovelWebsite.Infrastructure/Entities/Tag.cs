@@ -2,7 +2,7 @@
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class TagEntity
+    public class Tag
     {
         [Key]
         public int TagId { get; set; }

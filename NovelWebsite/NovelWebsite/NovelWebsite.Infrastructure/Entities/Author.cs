@@ -2,7 +2,7 @@
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class AuthorEntity
+    public class Author
     {
         [Key]
         public int AuthorId { get; set; }

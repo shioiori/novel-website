@@ -35,7 +35,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
             var cat = _dbContext.Categories.Where(c => c.CategoryId == category.CategoryId).FirstOrDefault();
             if (cat == null)
             {
-                _dbContext.Categories.Add(new CategoryEntity()
+                _dbContext.Categories.Add(new Category()
                 {
                     CategoryId = category.CategoryId,
                     CategoryName = category.CategoryName,

@@ -4,7 +4,7 @@ namespace NovelWebsite.Domain.Services
 {
     public class UserService
     {
-        public UserEntity GetProfile(int userId)
+        public User GetProfile(int userId)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +19,7 @@ namespace NovelWebsite.Domain.Services
             throw new NotImplementedException();
         }
 
-        public void UpdateProfile(UserEntity user)
+        public void UpdateProfile(User user)
         {
             throw new NotImplementedException();
         }

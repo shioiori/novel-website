@@ -39,7 +39,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
             var t = _dbContext.Tags.Where(t => t.TagId == tag.TagId).FirstOrDefault();
             if (t == null)
             {
-                _dbContext.Tags.Add(new TagEntity()
+                _dbContext.Tags.Add(new Tag()
                 {
                     TagId = tag.TagId,
                     TagName = tag.TagName,

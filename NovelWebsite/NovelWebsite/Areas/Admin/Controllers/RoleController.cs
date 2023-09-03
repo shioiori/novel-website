@@ -27,7 +27,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
             var role = _dbContext.Roles.FirstOrDefault(r => r.RoleId == roleModel.RoleId);
             if (roleModel.RoleId == 0)
             {
-                role = new RoleEntity()
+                role = new Role()
                 {
                     RoleName = roleModel.RoleName,
                 };

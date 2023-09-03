@@ -23,7 +23,7 @@ namespace NovelWebsite.Application.Controllers
         [HttpPost]
         public IActionResult AddComment(CommentModel comment)
         {
-            var cmt = new CommentEntity()
+            var cmt = new Comment()
             {
                 ChapterId = comment.ChapterId == 0 ? null : comment.ChapterId,
                 BookId = comment.BookId == 0 ? null : comment.BookId,

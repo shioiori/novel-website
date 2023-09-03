@@ -1,15 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using NovelWebsite.NovelWebsite.Core.Enums;
 
 namespace NovelWebsite.NovelWebsite.Core.Models
 {
     public class AccountModel : BaseModel
     {
-        [Required]
-        public string AccountName { get; set; }
-        [Required]
+        public string Username { get; set; }
         public string Password { get; set; }
-        [Required]
-        [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Email không hợp lệ")]
         public string Email { get; set; }
+        public int UserId { get; set; }
+        public UserRole Role { get; set; }
     }
 }
