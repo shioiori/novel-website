@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
 
@@ -35,6 +36,14 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public async Task SaveClaims(IEnumerable<Claim> claims, string authenticationType){
             var claimIndentity = new ClaimsIdentity(claims, authenticationType);
             await _httpContextAccessor.HttpContext.SignInAsync(authenticationType, new ClaimsPrincipal(claimIndentity));
+            _httpContextAccessor.HttpContext.Session.SetString("AuthenticationType", authenticationType.ToString());
+        }
+
+        public async Task RemoveClaims()
+        {
+            var authenticationType = _httpContextAccessor.HttpContext.Session.GetString("AuthenticationType");
+            await _httpContextAccessor.HttpContext.SignOutAsync(authenticationType);
+            _httpContextAccessor.HttpContext.Session.Remove("AuthenticationType");
         }
     }
 }

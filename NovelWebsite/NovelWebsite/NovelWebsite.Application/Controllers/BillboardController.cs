@@ -2,75 +2,50 @@
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Enums;
+using NovelWebsite.NovelWebsite.Core.Interfaces;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
+using NovelWebsite.NovelWebsite.Domain.Services;
 using X.PagedList;
 
 namespace NovelWebsite.Application.Controllers
 {
     [Route("/bang-xep-hang")]
-    [Route("/{controller}")]
     public class BillboardController : Controller
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IStatisticService _statisticService;
+        private readonly IBookService _bookService;
 
-        public BillboardController(AppDbContext dbContext)
+        public BillboardController(IStatisticService statisticService, IBookService bookService)
         {
-            _dbContext = dbContext;
+            _statisticService = statisticService;
+            _bookService = bookService;
         }
 
         [Route("")]
-        public IActionResult Index(string? sort_by, string? order, int category_id = 0, int pageNumber = 1, int pageSize = 20)
+        public IActionResult Index(InteractionType sortBy, SortOrder? order, int categoryId = 0)
         {
-            var query = _dbContext.Books.Where(b => b.Status == 0 && b.IsDeleted == false)
-                                        .Where(b => category_id == 0 || b.CategoryId == category_id)
-                                        .Include(b => b.Author)
-                                        .Include(b => b.Category)
-                                        .Include(b => b.User)
-                                        .Include(b => b.BookStatus)
-                                        .OrderByDescending(b => b.CreatedDate).ToList();
-            if (!string.IsNullOrEmpty(order))
+            var books = _bookService.GetValidBooksByCategory(categoryId);
+            switch (sortBy)
             {
-                if (order == "up")
-                {
-                    query = query.OrderBy(b => b.CreatedDate).ToList();
-                }
+                case InteractionType.Follow:
+                    books =  _statisticService.StatisticOfEachInteractionType(books, sortBy);
+                    break;
+                case InteractionType.Comment:
+                    books = _statisticService.StatisticOfEachInteractionType(books, sortBy);
+                    break;
+                case InteractionType.Like:
+                    books = _statisticService.StatisticOfEachInteractionType(books, sortBy);
+                    break;
+                case InteractionType.Recommend:
+                    books = _statisticService.StatisticOfEachInteractionType(books, sortBy);
+                    break;
+                default:
+                    books = _bookService.GetValidBooks();
+                    break;
             }
 
-            if (!string.IsNullOrEmpty(sort_by))
-            {
-                switch (sort_by)
-                {
-                    case "view":
-                        query = query.OrderByDescending(b => b.Views).ToList();
-                        break;
-                    case "like":
-                        query = query.OrderByDescending(b => b.Likes).ToList();
-                        break;
-                    case "follow":
-                        var mostFollow = _dbContext.BookUserFollows
-                                        .GroupBy(bu => bu.BookId)
-                                        .OrderByDescending(g => g.Count())
-                                        .Select(g => g.Key)
-                                        .ToList();
-                        query = query.OrderBy(b =>
-                        {
-                            var index = mostFollow.IndexOf(b.BookId);
-                            return index == -1 ? mostFollow.Count : index;
-                        }).ToList();
-                        break;
-                    case "recommend":
-                        query = query.OrderByDescending(b => b.Recommends).ToList();
-                        break;
-                }
-            }
-
-            ViewBag.categoryId = category_id;
-            ViewBag.sortBy = sort_by;
-            ViewBag.order = order;
-            ViewBag.category = _dbContext.Categories.ToList();
-
-            PagedList<Book> listBook = new PagedList<Book>(query, pageNumber, pageSize);
-
-            return View(listBook);
+            return View(books);
         }
 
     }

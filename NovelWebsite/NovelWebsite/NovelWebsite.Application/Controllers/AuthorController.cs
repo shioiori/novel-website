@@ -15,10 +15,5 @@ namespace NovelWebsite.Application.Controllers
         {
             _service = service;
         }
-        
-        [Route("{authorId}/{slug?}")]
-        public IActionResult Index(int authorId)
-        {
-        }
     }
 }

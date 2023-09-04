@@ -1,4 +1,4 @@
-﻿namespace NovelWebsite.NovelWebsite.Core.Enums
+﻿namespace NovelWebsite.NovelWebsite.Core.Constants
 {
     public static class BookStatus
     {

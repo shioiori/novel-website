@@ -10,5 +10,6 @@ namespace NovelWebsite.Infrastructure.Repositories
         Expression<Func<Book, object>> sortType = x => x.GetType().GetProperty("PropertyName");
 
         public BookRepository(AppDbContext dbContext) : base(dbContext) { }
+
     }
 }

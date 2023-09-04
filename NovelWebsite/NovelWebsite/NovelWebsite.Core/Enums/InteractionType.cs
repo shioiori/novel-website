@@ -6,5 +6,6 @@ namespace NovelWebsite.NovelWebsite.Core.Enums
         Follow,
         Recommend,
         Comment,
+        View,
     }
 }
