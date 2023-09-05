@@ -5,6 +5,7 @@ using NovelWebsite.Entities;
 using NovelWebsite.Extensions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
 using System.Security.Claims;
 
@@ -14,11 +15,11 @@ namespace NovelWebsite.Areas.Admin.Controllers
     [Authorize(Roles = "Admin, Biên tập viên")]
     public class PostController : Controller
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IPostService _postService;
 
-        public PostController(AppDbContext dbContext)
+        public PostController(IPostService postService)
         {
-            _dbContext = dbContext;
+            _postService = postService;
         }
         public IActionResult Index(string? name, int pageNumber = 1, int pageSize = 5)
         {

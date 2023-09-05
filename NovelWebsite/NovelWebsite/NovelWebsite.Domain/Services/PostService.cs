@@ -8,13 +8,15 @@ using System.Linq.Expressions;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
+
     public class PostService : IPostService
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
 
         Expression<Func<Post, bool>> expValidPost = p => p.Status == 0 && p.IsDeleted == false;
-        Expression<Func<Post, bool>> expContainString(string name){
+        Expression<Func<Post, bool>> expContainString(string name)
+        {
             return x => string.IsNullOrEmpty(name)
                     || x.Title.Trim().ToLower().Contains(name.Trim().ToLower())
                     || x.Content.Trim().ToLower().Contains(name.Trim().ToLower());
@@ -26,7 +28,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _postRepository = postRepository;
         }
 
-        public IEnumerable<PostModel> GetListOfValidPosts(string? name)
+        public IEnumerable<PostModel> GetListOfValidPosts(string name)
         {
             var posts = _postRepository.Filter(expContainString(name)).Where(expValidPost.Compile());
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
@@ -44,10 +46,25 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<Post, PostModel>(post);
         }
 
-        public IEnumerable<PostModel> GetListOfPosts(string? name)
+        public IEnumerable<PostModel> GetListOfPosts(string name)
         {
-             var posts = _postRepository.Filter(expContainString(name));
+            var posts = _postRepository.Filter(expContainString(name));
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
+        }
+
+        public void CreatePost(PostModel post)
+        {
+            _postRepository.Insert(_mapper.Map<PostModel, Post>(post));
+        }
+
+        public void UpdatePost(PostModel post)
+        {
+            _postRepository.Update(_mapper.Map<PostModel, Post>(post));
+        }
+
+        public void DeletePost(int postId)
+        {
+            _postRepository.Delete(postId);
         }
     }
 }

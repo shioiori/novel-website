@@ -5,11 +5,12 @@ namespace NovelWebsite.Infrastructure.Entities
 {
     public class Post_User
     {
-        [ForeignKey("UserId")]
+        [ForeignKey("fk_post_user")]
         public int UserId { get; set; }
-        public User User { get; set; }
-        [ForeignKey("PostId")]
+        [ForeignKey("fk_user_post")]
         public int PostId { get; set; }
-        public Post Post { get; set; }
+        public int InteractType { get; set; }
+        public virtual User User { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

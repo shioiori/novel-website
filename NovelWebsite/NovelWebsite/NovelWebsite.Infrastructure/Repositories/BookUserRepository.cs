@@ -2,7 +2,7 @@
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.Infrastructure.Repositories;
 using NovelWebsite.NovelWebsite.Core.Enums;
-using NovelWebsite.NovelWebsite.Core.Interfaces;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using System.Linq;
 using System.Linq.Expressions;
 

@@ -5,10 +5,12 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces
 {
     public interface IPostService
     {
+        void CreatePost(PostModel post);
+        void DeletePost(int postId);
+        IEnumerable<PostModel> GetListOfPosts(string name);
+        IEnumerable<PostModel> GetListOfValidPosts(string name);
         PostModel GetValidPost(int postId);
         IEnumerable<PostModel> GetValidPosts();
-        IEnumerable<PostModel> GetListOfValidPosts(string? name);
-        IEnumerable<PostModel> GetListOfPosts(string? name);
-
+        void UpdatePost(PostModel post);
     }
 }

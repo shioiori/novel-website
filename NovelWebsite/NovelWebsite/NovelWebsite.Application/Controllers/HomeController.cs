@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.Infrastructure.Contexts;
-using NovelWebsite.Domain.Models;
 
 namespace NovelWebsite.Application.Controllers
 {

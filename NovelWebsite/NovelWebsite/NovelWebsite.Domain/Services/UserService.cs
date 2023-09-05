@@ -1,27 +1,61 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using AutoMapper;
+using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
+using NovelWebsite.NovelWebsite.Core.Models;
+using System.Security.Claims;
 
 namespace NovelWebsite.Domain.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        public User GetProfile(int userId)
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public UserService(IUserRepository userRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            throw new NotImplementedException();
+            _userRepository = userRepository;
+            _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public void UpdateAvatar(int userId, string avatar)
+        public UserModel GetCurrentUser()
         {
-            throw new NotImplementedException();
+            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var id = int.Parse(((ClaimsIdentity)_httpContextAccessor.HttpContext.User.Identity).FindFirst(ClaimTypes.Sid).ToString());
+                var user = _userRepository.GetById(id);
+                return _mapper.Map<User, UserModel>(user);
+            }
+            return null;
         }
 
-        public void UpdateCoverPhoto(int userId, string coverPhoto)
+        public UserModel GetUserById(int id)
         {
-            throw new NotImplementedException();
+            var user = _userRepository.GetById(id);
+            return _mapper.Map<User, UserModel>(user);
         }
 
-        public void UpdateProfile(User user)
+        public IEnumerable<UserModel> GetUsers()
         {
-            throw new NotImplementedException();
+            var users = _userRepository.GetAll();
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
+        }
+
+        public void CreateUser(UserModel model)
+        {
+            _userRepository.Insert(_mapper.Map<UserModel, User>(model));
+        }
+
+        public void UpdateUser(UserModel model)
+        {
+            _userRepository.Update(_mapper.Map<UserModel, User>(model));
+        }
+
+        public void DeleteUser(int id)
+        {
+            _userRepository.Delete(id);
         }
     }
 }

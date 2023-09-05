@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NovelWebsite.Domain.Services;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using System.Security.Claims;
 
@@ -12,64 +14,48 @@ namespace NovelWebsite.Application.Controllers
     [Route("/{controller}")]
     public class UserController : Controller
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IUserService _userService;
 
-        public UserController(AppDbContext dbContext)
+        public UserController(IUserService userService)
         {
-            _dbContext = dbContext;
+            _userService = userService;
         }
 
         [Authorize(Policy = "UserIdentity")]
         [Route("{userid?}")]
-        public IActionResult Profile(int userId = 0)
+        public IActionResult GetProfile(int userId = 0)
         {
-            if (userId != 0)
-            {
-                var user = _dbContext.Users.FirstOrDefault(x => x.UserId == userId);
-                return View(user);
-            }
-            var claims = HttpContext.User.Identity as ClaimsIdentity;
-            var user2 = _dbContext.Users.Where(a => a.UserId == int.Parse(claims.FindFirst("UserId").Value))
-                                                .FirstOrDefault();
-            return View(user2);
+            var user = _userService.GetUserById(userId);
+            return View(user);
         }
 
         [HttpPost]
         [Route("{action}")]
         public IActionResult UpdateProfile(UserModel userModel)
         {
-            if (!ModelState.IsValid)
-            {
-                TempData["error"] = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).First();
-            }
-            else
-            {
-                var user = _dbContext.Users.FirstOrDefault(u => u.UserId == userModel.UserId);
-                user.UserName = userModel.Username;
-                user.Email = userModel.Email;
-                _dbContext.Users.Update(user);
-                _dbContext.SaveChanges();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    TempData["error"] = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).First();
+            //}
+            _userService.UpdateUser(userModel);
             return Redirect($"/ho-so/{userModel.UserId}");
         }
 
         [Route("{action}")]
         public IActionResult UpdateAvatar(int userId, string avatar)
         {
-            var user = _dbContext.Users.FirstOrDefault(u => u.UserId == userId);
+            var user = _userService.GetUserById(userId);
             user.Avatar = avatar;
-            _dbContext.Users.Update(user);
-            _dbContext.SaveChanges();
+            _userService.UpdateUser(user);
             return Json(avatar);
         }
 
         [Route("{action}")]
         public IActionResult UpdateCoverPhoto(int userId, string coverPhoto)
         {
-            var user = _dbContext.Users.FirstOrDefault(u => u.UserId == userId);
+            var user = _userService.GetUserById(userId);
             user.CoverPhoto = coverPhoto;
-            _dbContext.Users.Update(user);
-            _dbContext.SaveChanges();
+            _userService.UpdateUser(user);
             return Json(coverPhoto);
         }
 

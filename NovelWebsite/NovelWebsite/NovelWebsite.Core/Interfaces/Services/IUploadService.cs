@@ -2,5 +2,8 @@
 {
     public interface IUploadService
     {
+        string SaveFileCloud(IFormFile file);
+        string SaveFileLocal(IFormFile file, string folder);
     }
+}
 }

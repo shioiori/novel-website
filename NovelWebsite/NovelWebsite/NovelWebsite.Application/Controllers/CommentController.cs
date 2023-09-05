@@ -3,55 +3,37 @@ using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Extensions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.Application.Controllers
 {
-    public class CommentController : Controller
+    [ApiController]
+    [Route("/binh-luan")]
+    [Route("/comment")]
+    public class CommentController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
+        private readonly ICommentService _commentService;
 
-        public CommentController(AppDbContext dbContext)
+        public CommentController(ICommentService commentService)
         {
-            _dbContext = dbContext;
-        }
-        public IActionResult Index()
-        {
-            return View();
+            _commentService = commentService;
         }
 
         [HttpPost]
-        public IActionResult AddComment(CommentModel comment)
+        public void AddComment(CommentModel comment)
         {
-            var cmt = new Comment()
-            {
-                ChapterId = comment.ChapterId == 0 ? null : comment.ChapterId,
-                BookId = comment.BookId == 0 ? null : comment.BookId,
-                UserId = comment.UserId,
-                Content = StringExtension.HtmlEncode(comment.Content),
-                ReplyCommentId = comment.ReplyCommentId == 0 ? null : comment.ReplyCommentId,
-                PostId = comment.PostId == 0 ? null : comment.PostId,
-                Likes = 0,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now,
-            };
-            _dbContext.Comments.Add(cmt);
-            _dbContext.SaveChanges();
-            return Json("200");
+            _commentService.CreateComment(comment);
         }
 
-        [HttpDelete]
-        public IActionResult DeleteComment(int commentId)
+        public void DeleteComment(int commentId)
         {
-            var cmt = _dbContext.Comments.Where(c => c.ChapterId == commentId).FirstOrDefault();
-            _dbContext.Comments.Remove(cmt);
-            return Json("200");
+           _commentService.DeleteComment(commentId);
         }
 
-        public IActionResult GetReplyComment(int commentId)
+        public IEnumerable<CommentModel> GetReplyComment(int commentId)
         {
-            var cmt = _dbContext.Comments.Where(x => x.ReplyCommentId == commentId).Include(x => x.User).ToList();
-            return Json(cmt);
+            return _commentService.GetReplyComments(commentId);
         }
     }
 }
