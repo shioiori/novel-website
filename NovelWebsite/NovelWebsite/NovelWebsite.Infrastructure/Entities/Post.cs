@@ -7,6 +7,7 @@ namespace NovelWebsite.Infrastructure.Entities
     public class Post
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostId { get; set; }
         [ForeignKey("fk_user")]
         public virtual User User { get; set; }

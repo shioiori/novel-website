@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Domain.Authorization;
+using NovelWebsite.Domain.Services;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
+using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 using System.Security.Claims;
 
@@ -54,7 +56,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("BookOwner", policy => policy.Requirements.Add(new BookOwnerRequirement()));
 });
 
-builder.Services.AddTransient<IAuthorizationHandler, CheckBookOwnerAuthorizationHandler>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();           
@@ -72,14 +73,44 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IBannerRepository, BannerRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookTagRepository, BookTagRepository>();
+builder.Services.AddScoped<IBookUserRepository, BookUserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IChapterRepository, ChapterRepository>();
+builder.Services.AddScoped<IChapterUserRepository, ChapterUserRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ICommentUserRepository, CommentUserRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IPostUserRepository, PostUserRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewUserRepository, ReviewUserRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
+//builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IBannerService, BannerService>();
+//builder.Services.AddScoped<IBillboardService, BillboardService>();
+builder.Services.AddScoped<IBookService, BookService>();
+//builder.Services.AddScoped<IBookTagService, BookTagService>();
+//builder.Services.AddScoped<IBookUserService, BookUserService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IChapterService, ChapterService>();
+//builder.Services.AddScoped<IChapterUserService, ChapterUserService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+//builder.Services.AddScoped<ICommentUserService, CommentUserService>();
+builder.Services.AddScoped<IPostService, PostService>();
+//builder.Services.AddScoped<IPostUserService, PostUserService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+//builder.Services.AddScoped<IReviewUserService, ReviewUserService>();
+//builder.Services.AddScoped<IRoleService, RoleService>();
+//builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddMvc()
@@ -87,6 +118,8 @@ builder.Services.AddMvc()
                 {
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/{1}/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/Shared/{0}.cshtml");
+                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/Shared/{1}/{0}.cshtml");
+                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{1}/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/{1}/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{0}.cshtml");
                 });

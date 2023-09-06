@@ -9,6 +9,6 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string CategoryImage { get; set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 0;
     }
 }

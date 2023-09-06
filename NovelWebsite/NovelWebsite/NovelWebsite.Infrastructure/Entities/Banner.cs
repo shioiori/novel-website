@@ -6,6 +6,7 @@ namespace NovelWebsite.Infrastructure.Entities
     public class Banner
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BannerId { get; set; }
         public int BannerType { get; set; }
         public string BannerImage { get; set; }

@@ -5,6 +5,7 @@ namespace NovelWebsite.Infrastructure.Entities
 {
     public class Review { 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReviewId { get; set; }
         [ForeignKey("fk_user")]
         public int UserId { get; set; }

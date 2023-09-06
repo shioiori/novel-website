@@ -8,6 +8,8 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
     {
         public MappingProfile()
         {
+            CreateMap<CategoryModel, Category>();
+            CreateMap<Category, CategoryModel>();
             CreateMap<ReviewModel, Review>();
         }
     }

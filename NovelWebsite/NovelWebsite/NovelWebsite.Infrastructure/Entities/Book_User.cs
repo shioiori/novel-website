@@ -6,9 +6,9 @@ namespace NovelWebsite.Infrastructure.Entities
 {
     public class Book_User
     {
-        [ForeignKey("fk_user")]
+        [ForeignKey("fk_user_book")]
         public int UserId { get; set; }
-        [ForeignKey("fk_book")]
+        [ForeignKey("fk_book_user")]
         public int BookId { get; set; }
         public int InteractType { get; set; }
         public virtual Book Book { get; set; }

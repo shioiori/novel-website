@@ -8,6 +8,7 @@ namespace NovelWebsite.Infrastructure.Entities
     public class Book
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BookId { get; set; }
         public string BookName { get; set; }
         [ForeignKey("CategoryId")]

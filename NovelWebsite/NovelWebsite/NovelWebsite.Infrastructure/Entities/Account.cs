@@ -18,7 +18,6 @@ namespace NovelWebsite.Infrastructure.Entities
         public virtual User User { get; set; }
         public virtual Role Role { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        // status: hoạt động hoặc bị ban
         public int Status { get; set; } = (int)AccountStatus.Verifying;
     }
 }

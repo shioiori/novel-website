@@ -1,6 +1,6 @@
 ﻿using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
-using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services

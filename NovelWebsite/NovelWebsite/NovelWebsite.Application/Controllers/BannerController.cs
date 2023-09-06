@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;

@@ -7,6 +7,7 @@ namespace NovelWebsite.Infrastructure.Entities
     public class Chapter
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ChapterId { get; set; }
 
         [ForeignKey("fk_book")]
