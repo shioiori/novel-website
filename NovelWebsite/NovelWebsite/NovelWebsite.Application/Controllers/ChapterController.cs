@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NovelWebsite.Infrastructure.Contexts;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.Application.Controllers

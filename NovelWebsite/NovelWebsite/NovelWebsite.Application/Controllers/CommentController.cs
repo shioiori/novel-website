@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NovelWebsite.Extensions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;

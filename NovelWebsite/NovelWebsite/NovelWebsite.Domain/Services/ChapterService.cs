@@ -2,8 +2,8 @@
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
-using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
@@ -42,9 +42,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var nextChapter = _chapterRepository.GetByExpression(x => x.BookId == chapter.BookId && x.ChapterIndex == chapter.ChapterIndex + 1);
             if (nextChapter == null)
             {
-                return chapter;
+                return _mapper.Map<Chapter, ChapterModel>(chapter);
             }
-            return nextChapter;
+            return _mapper.Map<Chapter, ChapterModel>(nextChapter);
         }
 
         public ChapterModel GetPrevChapter(int chapterId)
@@ -53,9 +53,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var prevChapter = _chapterRepository.GetByExpression(x => x.BookId == chapter.BookId && x.ChapterIndex == chapter.ChapterIndex - 1);
             if (prevChapter == null)
             {
-                return chapter;
+                return _mapper.Map<Chapter, ChapterModel>(chapter); 
             }
-            return prevChapter;
+            return _mapper.Map<Chapter, ChapterModel>(prevChapter);
         }
 
         public void CreateChapter(ChapterModel chapter)

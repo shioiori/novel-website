@@ -24,8 +24,8 @@ namespace NovelWebsite.Application.Controllers
         public IActionResult ListBooksOfAuthor(string slug)
         {
             var author = _authorService.GetAuthorBySlug(slug);
-            var books = _bookService.GetValidBooksByAuthor(author.AuthorId);
-            return View("", books);
+            //var books = _bookService.GetValidBooksByAuthor(author.AuthorId);
+            return View(author);
         }
 
     }

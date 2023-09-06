@@ -1,12 +1,17 @@
-﻿namespace NovelWebsite.NovelWebsite.Core.Models
+﻿using NovelWebsite.NovelWebsite.Core.Enums;
+
+namespace NovelWebsite.NovelWebsite.Core.Models
 {
     public class FilterModel
     {
-        public List<string> BookStatus { get; set; }
-        public int CategoryId { get; set; }
-        public string Rank { get; set; }
-        public List<int> ChapterRange { get; set; }
-        public string OrderBy { get; set; }
-        public List<int> Tag { get; set; }
+        public IEnumerable<string> BookStatuses { get; set; }
+        public IEnumerable<string> UploadStatuses { get; set; }
+        public IEnumerable<int> CategoryIds { get; set; }
+        public IEnumerable<int> ChapterRange { get; set; }
+        public IEnumerable<int> AuthorIds { get; set; }
+        public IEnumerable<int> TagIds { get; set; }
+        public InteractionType InteractionType { get; set; }
+        public SortOrder OrderBy { get; set; }
+
     }
 }

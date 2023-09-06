@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.Infrastructure.Contexts;
+using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.Application.Controllers
 {
@@ -24,91 +25,6 @@ namespace NovelWebsite.Application.Controllers
             return View();
         }
 
-        public IActionResult GetAllCategories()
-        {
-            var query = _dbContext.Categories.ToList();
-            return Json(query);
-        }
-
-        public IActionResult GetPosts(int number = 10)
-        {
-            return Json(_dbContext.Posts.OrderByDescending(p => p.UpdatedDate).Take(number).ToList());
-        }
-
-        public IActionResult GetChapterUpdated(int number = 10)
-        {
-            var query = _dbContext.Chapters.OrderByDescending(p => p.UpdatedDate).Include(b => b.Book);
-            List<Chapter> listChapters = new List<Chapter>();
-            foreach (var chapter in query)
-            {
-                if (listChapters.FirstOrDefault(c => c.Book.BookId == chapter.Book.BookId) == null)
-                {
-                    listChapters.Add(chapter);
-                }
-                if (listChapters.Count == number)
-                {
-                    break;
-                }
-            }
-            return Json(listChapters);
-        }
-
-        public IActionResult GetEditorRecommends(int number = 6)
-        {
-            return Json(_dbContext.Books.OrderByDescending(b => b.Recommends)
-                                       .Include(b => b.BookStatus)
-                                       .Include(b => b.Category)
-                                       .Include(b => b.Author).Take(number).ToList());
-        }
-
-        public IActionResult GetMostRecommends(int number = 10)
-        {
-            return Json(_dbContext.Books.OrderByDescending(b => b.Recommends).Take(number).ToList());
-        }
-
-        public IActionResult GetMostViews(int number = 10)
-        {
-            return Json(_dbContext.Books.OrderByDescending(b => b.Views).Take(number).ToList());
-        }
-
-        public IActionResult GetMostLikes(int number = 10)
-        {
-            return Json(_dbContext.Books.OrderByDescending(b => b.Likes).Take(number).ToList());
-        }
-
-        public IActionResult GetMostFollows(int number = 10)
-        {
-            var grBook = _dbContext.BookUserFollows.GroupBy(b => b.Book.BookId);
-            var query = grBook.Select(g => new
-            {
-                BookId = g.Key,
-                UserFollow = g.Count()
-            }).OrderByDescending(g => g.UserFollow).Take(number).ToList();
-            List<Book> listBooks = new List<Book>();
-            foreach (var item in query)
-            {
-                listBooks.Add(_dbContext.Books.Where(b => b.BookId == item.BookId).FirstOrDefault());
-            }
-            return Json(listBooks);
-        }
-
-        public IActionResult GetNewBooks(int number = 10)
-        {
-            return Json(_dbContext.Books.OrderByDescending(b => b.CreatedDate)
-                                        .Include(b => b.BookStatus)
-                                        .Include(b => b.Category)
-                                        .Include(b => b.Author).Take(number).ToList());
-        }
-
-        public IActionResult GetFinishedBooks(int number = 10)
-        {
-            return Json(_dbContext.Books.Where(b => b.BookStatusId == "HOANTHANH")
-                                        .OrderByDescending(b => b.CreatedDate)
-                                        .Include(b => b.BookStatus)
-                                        .Include(b => b.Category)
-                                        .Include(b => b.Author)
-                                        .Take(number).ToList());
-        }
 
     }
 }
