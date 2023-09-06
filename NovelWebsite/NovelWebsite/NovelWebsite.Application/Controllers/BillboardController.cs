@@ -25,7 +25,7 @@ namespace NovelWebsite.Application.Controllers
         [Route("")]
         public IActionResult Index(InteractionType sortBy, SortOrder? order, int categoryId = 0)
         {
-            var books = _bookService.GetValidBooksByCategory(categoryId);
+            var books = _bookService.GetAllBooks();
             switch (sortBy)
             {
                 case InteractionType.Follow:
@@ -41,7 +41,7 @@ namespace NovelWebsite.Application.Controllers
                     books = _statisticService.StatisticOfEachInteractionType(books, sortBy);
                     break;
                 default:
-                    books = _bookService.GetValidBooks();
+                    books = _bookService.GetAllBooks();
                     break;
             }
 

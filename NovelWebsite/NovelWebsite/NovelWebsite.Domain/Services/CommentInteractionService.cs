@@ -25,7 +25,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         }
         public override bool SetStatusOfInteraction(int tId, int uId, InteractionType type)
         {
-            var comment = _commentUserRepository.GetById(x => x.CommentId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var comment = _commentUserRepository.GetByExpression(x => x.CommentId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (comment == null)
             {
                 comment = new Comment_User()

@@ -1,5 +1,6 @@
 using AutoMapper;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
@@ -52,8 +53,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public IEnumerable<CommentModel> GetReplyComments(int commentId)
         {
-            var comments = _commentUserRepository.Filter(x => x.InteractType == InteractionType.Comment);
-            return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentModel>>(comments);
+            //var comments = _commentUserRepository.Filter(x => x.InteractType == (int)InteractionType.Comment);
+            //return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentModel>>(comments);
+            throw new NotImplementedException();
         }
 
         public void CreateComment(CommentModel comment)

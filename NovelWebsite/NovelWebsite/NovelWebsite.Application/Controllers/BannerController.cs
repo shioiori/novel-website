@@ -9,6 +9,7 @@ using NovelWebsite.NovelWebsite.Domain.Utils;
 namespace NovelWebsite.Application.Controllers
 {
     [ApiController]
+    [Route("/banner")]
     public class BannerController : ControllerBase
     {
         private readonly IBannerService _bannerService;
@@ -17,11 +18,16 @@ namespace NovelWebsite.Application.Controllers
         {
             _bannerService = bannerService;
         }
+
+        [HttpGet]
+        [Route("get-home-banner")]
         public IEnumerable<BannerModel> GetHomeBanner(int number = 3)
         {
             return _bannerService.GetBannersByType(BannerType.Home).Take(number);
         }
 
+        [HttpGet]
+        [Route("get-random-advertise-banner")]
         public BannerModel GetRandomAdvertiseBanner()
         {
             var banners = _bannerService.GetBannersByType(BannerType.Advertise);

@@ -25,7 +25,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         }
         public override bool SetStatusOfInteraction(int tId, int uId, InteractionType type)
         {
-            var chapter = _chapterUserRepository.GetById(x => x.ChapterId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var chapter = _chapterUserRepository.GetByExpression(x => x.ChapterId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (chapter == null)
             {
                 chapter = new Chapter_User()

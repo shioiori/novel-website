@@ -8,9 +8,9 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces
         void CreatePost(PostModel post);
         void DeletePost(int postId);
         IEnumerable<PostModel> GetListOfPosts(string name);
-        IEnumerable<PostModel> GetListOfValidPosts(string name);
-        PostModel GetValidPost(int postId);
-        IEnumerable<PostModel> GetValidPosts();
+        IEnumerable<PostModel> GetListOfPublishedPosts(string name);
+        PostModel GetPublishedPost(int postId);
+        IEnumerable<PostModel> GetPublishedPosts();
         void UpdatePost(PostModel post);
     }
 }

@@ -16,17 +16,18 @@ namespace NovelWebsite.NovelWebsite.Application.Components
         }
         public IViewComponentResult Invoke()
         {
-            var account = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (User.Identity.AuthenticationType == GoogleDefaults.AuthenticationScheme)
-            {
-                account += "@google";
-            }
-            if (User.Identity.AuthenticationType == FacebookDefaults.AuthenticationScheme)
-            {
-                account += "@facebook";
-            }
-            var user = _dbContext.Accounts.Where(a => a.AccountName == account).FirstOrDefault();
-            return View(user);
+            //var account = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //if (User.Identity.AuthenticationType == GoogleDefaults.AuthenticationScheme)
+            //{
+            //    account += "@google";
+            //}
+            //if (User.Identity.AuthenticationType == FacebookDefaults.AuthenticationScheme)
+            //{
+            //    account += "@facebook";
+            //}
+            //var user = _dbContext.Accounts.Where(a => a.AccountName == account).FirstOrDefault();
+            //return View(user);
+            return View();
         }
 
     }

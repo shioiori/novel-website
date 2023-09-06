@@ -1,17 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using NovelWebsite.Domain.Authorization;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
-using System.Configuration;
-using System.Net;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,7 +63,6 @@ builder.Services.AddSession(cfg => {
     cfg.IdleTimeout = new TimeSpan(0, 30, 0);    
 });
 
-builder.Services.AddSingleton<IHostedService, CacheUpdateService>();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddAutoMapper(typeof(Program));

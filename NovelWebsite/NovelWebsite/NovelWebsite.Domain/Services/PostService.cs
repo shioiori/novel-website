@@ -14,7 +14,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
 
-        Expression<Func<Post, bool>> expValidPost = p => p.Status == 0 && p.IsDeleted == false;
+        Expression<Func<Post, bool>> expPublishedPost = p => p.Status == (int)UploadStatus.Publish;
         Expression<Func<Post, bool>> expContainString(string name)
         {
             return x => string.IsNullOrEmpty(name)
@@ -28,21 +28,21 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _postRepository = postRepository;
         }
 
-        public IEnumerable<PostModel> GetListOfValidPosts(string name)
+        public IEnumerable<PostModel> GetListOfPublishedPosts(string name)
         {
-            var posts = _postRepository.Filter(expContainString(name)).Where(expValidPost.Compile());
+            var posts = _postRepository.Filter(expContainString(name)).Where(expPublishedPost.Compile());
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
         }
 
-        public IEnumerable<PostModel> GetValidPosts()
+        public IEnumerable<PostModel> GetPublishedPosts()
         {
-            var posts = _postRepository.Filter(expValidPost);
+            var posts = _postRepository.Filter(expPublishedPost);
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
         }
 
-        public PostModel GetValidPost(int postId)
+        public PostModel GetPublishedPost(int postId)
         {
-            var post = _postRepository.Filter(expValidPost).FirstOrDefault(x => x.PostId == postId);
+            var post = _postRepository.Filter(expPublishedPost).FirstOrDefault(x => x.PostId == postId);
             return _mapper.Map<Post, PostModel>(post);
         }
 

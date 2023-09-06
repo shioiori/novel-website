@@ -3,8 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class Review : BaseEntity
-    {
+    public class Review { 
         [Key]
         public int ReviewId { get; set; }
         [ForeignKey("fk_user")]

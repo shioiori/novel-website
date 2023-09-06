@@ -26,7 +26,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public override bool SetStatusOfInteraction(int tId, int uId, InteractionType type)
         {
-            var post = _postUserRepository.GetById(x => x.PostId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var post = _postUserRepository.GetByExpression(x => x.PostId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (post == null)
             {
                 post = new Post_User()

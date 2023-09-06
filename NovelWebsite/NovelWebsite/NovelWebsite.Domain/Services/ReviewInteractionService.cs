@@ -27,7 +27,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public override bool SetStatusOfInteraction(int tId, int uId, InteractionType type)
         {
-            var review = _reviewUserRepository.GetById(x => x.ReviewId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var review = _reviewUserRepository.GetByExpression(x => x.ReviewId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (review == null)
             {
                 review = new Review_User()

@@ -4,7 +4,7 @@ using NovelWebsite.Infrastructure.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
-    public class ChapterUserRepository : GenericRepository<ChapterUser>
+    public class ChapterUserRepository : GenericRepository<Chapter_User>
     {
         public ChapterUserRepository(AppDbContext dbContext) : base(dbContext)
         {
