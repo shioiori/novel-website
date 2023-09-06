@@ -9,8 +9,7 @@ namespace NovelWebsite.Infrastructure.Entities
         [Key]
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public int? Quantity { get; set; }
-        public string? Slug { get; set; }
-        public string? CategoryImage { get; set; }
+        public string Slug { get; set; }
+        public string CategoryImage { get; set; } = "default.jpg";
     }
 }

@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
-using NovelWebsite.Models;
 
-namespace NovelWebsite.Areas.Admin.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]

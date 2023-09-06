@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.Infrastructure.Contexts;
 using System.Security.Claims;
 
-namespace NovelWebsite.Application.Components
+namespace NovelWebsite.NovelWebsite.Application.Components
 {
     public class UserNavbarViewComponent : ViewComponent
     {

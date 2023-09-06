@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.Infrastructure.Contexts;
 
-namespace NovelWebsite.Areas.Admin.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
     public class ImageController : Controller
     {
@@ -23,9 +23,9 @@ namespace NovelWebsite.Areas.Admin.Controllers
             }
             string folderUploads = Path.Combine(_environment.WebRootPath, $"image\\{folder}");
 
-            bool exists = System.IO.Directory.Exists(folderUploads);
+            bool exists = Directory.Exists(folderUploads);
             if (!exists)
-                System.IO.Directory.CreateDirectory(folderUploads);
+                Directory.CreateDirectory(folderUploads);
             string fileName = Guid.NewGuid().ToString() + file.FileName;
             string fullPath = Path.Combine(folderUploads, fileName);
             using (var stream = new FileStream(fullPath, FileMode.Create))

@@ -22,5 +22,11 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var author = _authorRepository.GetById(id);
             return _mapper.Map<Author, AuthorModel>(author); 
         }
+
+        public AuthorModel GetAuthorBySlug(string slug)
+        {
+            var author = _authorRepository.GetByExpression(x => x.Slug == slug);
+            return _mapper.Map<Author, AuthorModel>(author);
+        }
     }
 }

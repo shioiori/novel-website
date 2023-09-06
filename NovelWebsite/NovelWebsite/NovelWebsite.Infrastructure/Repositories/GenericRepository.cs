@@ -27,7 +27,7 @@ namespace NovelWebsite.Infrastructure.Repositories
             return _table.Find(id);
         }
 
-        public T GetById(Expression<Func<T, bool>> expression)
+        public T GetByExpression(Expression<Func<T, bool>> expression)
         {
             return _table.FirstOrDefault(expression);
         }
@@ -45,12 +45,6 @@ namespace NovelWebsite.Infrastructure.Repositories
         public void Delete(object id)
         {
             T obj = _table.Find(id);
-            _table.Remove(obj);
-        }
-
-        public void Delete(int id)
-        {
-            T obj = GetById(id);
             _table.Remove(obj);
         }
 

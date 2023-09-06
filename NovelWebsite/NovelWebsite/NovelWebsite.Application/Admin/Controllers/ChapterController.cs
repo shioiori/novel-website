@@ -5,7 +5,7 @@ using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.NovelWebsite.Core.Models;
 
-namespace NovelWebsite.Areas.Admin.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin, Biên tập viên")]

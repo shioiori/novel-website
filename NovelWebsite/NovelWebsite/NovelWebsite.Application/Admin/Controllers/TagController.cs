@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NovelWebsite.Extensions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Utils;
 
-namespace NovelWebsite.Areas.Admin.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin, Biên tập viên")]
@@ -22,9 +22,9 @@ namespace NovelWebsite.Areas.Admin.Controllers
         public IActionResult Index(string? name, int pageNumber = 1, int pageSize = 10)
         {
             var query = _dbContext.Tags.Where(t => string.IsNullOrEmpty(name) || t.TagName.ToLower().Trim().Contains(name.ToLower().Trim()));
-                                       
+
             ViewBag.pageNumber = pageNumber;
-            ViewBag.pageSize = pageSize;    
+            ViewBag.pageSize = pageSize;
             ViewBag.pageCount = Math.Ceiling(query.Count() * 1.0 / pageSize);
             ViewBag.searchName = name;
 
@@ -43,13 +43,13 @@ namespace NovelWebsite.Areas.Admin.Controllers
                 {
                     TagId = tag.TagId,
                     TagName = tag.TagName,
-                    Slug = StringExtension.Slugify(tag.TagName),
+                    Slug = SlugifyUtil.Slugify(tag.TagName),
                 });
             }
             else
             {
                 t.TagName = tag.TagName;
-                t.Slug = StringExtension.Slugify(tag.TagName);
+                t.Slug = SlugifyUtil.Slugify(tag.TagName);
                 _dbContext.Tags.Update(t);
             }
             _dbContext.SaveChanges();

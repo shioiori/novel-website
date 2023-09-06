@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NovelWebsite.NovelWebsite.Core.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.Infrastructure.Entities
 {
-    public class Account : BaseEntity
+    public class Account
     {
         [Key]
         public string Username { get; set; }
@@ -16,5 +17,8 @@ namespace NovelWebsite.Infrastructure.Entities
         public int RoleId { get; set; }
         public virtual User User { get; set; }
         public virtual Role Role { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        // status: hoạt động hoặc bị ban
+        public int Status { get; set; } = (int)AccountStatus.Verifying;
     }
 }

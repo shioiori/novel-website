@@ -7,6 +7,6 @@ namespace NovelWebsite.Infrastructure.Entities
         [Key]
         public int AuthorId { get; set; }
         public string AuthorName { get; set; }
-        public string? Slug { get; set; }
+        public string Slug { get; set; }
     }
 }

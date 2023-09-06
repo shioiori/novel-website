@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace NovelWebsite.Areas.Admin.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
-    [Area("Admin")]
-    public class ReviewController : Controller
+    public class DashboardController : Controller
     {
         public IActionResult Index()
         {

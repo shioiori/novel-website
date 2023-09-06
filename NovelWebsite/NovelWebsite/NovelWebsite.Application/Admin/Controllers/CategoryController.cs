@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Extensions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using NovelWebsite.NovelWebsite.Domain.Utils;
 
-namespace NovelWebsite.Areas.Admin.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin, Biên tập viên")]
@@ -25,7 +25,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
             // ViewBag.pageNumber = pageNumber;
             // ViewBag.pageSize = pageSize;
             // ViewBag.pageCount = Math.Ceiling(_dbContext.Categories.Count() * 1.0 / pageSize);
-            
+
             return View(categories);
         }
 
@@ -41,14 +41,14 @@ namespace NovelWebsite.Areas.Admin.Controllers
                     CategoryName = category.CategoryName,
                     CategoryImage = category.CategoryImage,
                     Quantity = 0,
-                    Slug = StringExtension.Slugify(category.CategoryName),
+                    Slug = SlugifyUtil.Slugify(category.CategoryName),
                 });
             }
             else
             {
                 cat.CategoryName = category.CategoryName;
                 cat.CategoryImage = category.CategoryImage;
-                cat.Slug = StringExtension.Slugify(category.CategoryName);
+                cat.Slug = SlugifyUtil.Slugify(category.CategoryName);
             }
             _dbContext.SaveChanges();
             return Redirect("/Admin/Category/Index");

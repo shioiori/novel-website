@@ -7,6 +7,6 @@ namespace NovelWebsite.Infrastructure.Entities
         [Key]
         public int TagId { get; set; }
         public string TagName { get; set; }
-        public string? Slug { get; set; }
+        public string Slug { get; set; }
     }
 }

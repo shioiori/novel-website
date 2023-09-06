@@ -1,5 +1,6 @@
-﻿@    using System.Web
-@model BookEntity
+﻿@using NovelWebsite.NovelWebsite.Core.Models;
+@model IEnumerable<BookModel>
+
 @{
     var firstChapterUrl = "";
     var firstChapter = ViewBag.firstChapter;
@@ -7,6 +8,7 @@
         firstChapterUrl = "chuong-1/" + firstChapter.Slug + "-" + firstChapter.ChapterId;
     }
 }
+
 <link rel="stylesheet" href="~/css/truyen.css">
 
 <div class="book--information">

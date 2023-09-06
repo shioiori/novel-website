@@ -5,7 +5,7 @@ using X.PagedList;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.Infrastructure.Contexts;
 
-namespace NovelWebsite.Areas.Admin.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin, Biên tập viên")]
@@ -35,7 +35,7 @@ namespace NovelWebsite.Areas.Admin.Controllers
             PagedList<Book> listBook = new PagedList<Book>(query, pageNumber, pageSize);
             return View(listBook);
         }
-        
+
         public IActionResult AddOrUpdateBook(int id = 0)
         {
             if (id == 0)

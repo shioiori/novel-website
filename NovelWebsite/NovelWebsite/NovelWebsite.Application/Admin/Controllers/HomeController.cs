@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
-using NovelWebsite.Models;
 using System.Linq;
 
-namespace NovelWebsite.Areas.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize (Roles = "Admin, Biên tập viên")]
+    [Authorize(Roles = "Admin, Biên tập viên")]
     public class HomeController : Controller
     {
         private readonly AppDbContext _dbContext;
@@ -36,8 +35,8 @@ namespace NovelWebsite.Areas.Controllers
                          orderby g.Key.Year, g.Key.Month
                          select new
                          {
-                             Month = g.Key.Month,
-                             Year = g.Key.Year,
+                             g.Key.Month,
+                             g.Key.Year,
                              Count = g.Count()
                          };
             // List of chapter count by month

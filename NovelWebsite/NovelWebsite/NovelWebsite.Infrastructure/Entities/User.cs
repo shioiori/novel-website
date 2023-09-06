@@ -8,7 +8,7 @@ namespace NovelWebsite.Infrastructure.Entities
         [Key]
         public int UserId { get; set; }
         public string Name { get; set; }
-        public string? Avatar { get; set; } = String.Empty;
-        public string? CoverPhoto { get; set; } = String.Empty;
+        public string Avatar { get; set; } = "default.jpg";
+        public string CoverPhoto { get; set; } = "default.jpg";
     }
 }

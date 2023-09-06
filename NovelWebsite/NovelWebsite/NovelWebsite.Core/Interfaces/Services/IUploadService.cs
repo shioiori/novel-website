@@ -6,4 +6,3 @@
         string SaveFileLocal(IFormFile file, string folder);
     }
 }
-}

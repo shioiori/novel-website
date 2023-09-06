@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Entities;
-using NovelWebsite.Extensions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Utils;
 using System.Security.Claims;
 
-namespace NovelWebsite.Areas.Admin.Controllers
+namespace NovelWebsite.NovelWebsite.Application.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin, Biên tập viên")]
@@ -46,7 +46,8 @@ namespace NovelWebsite.Areas.Admin.Controllers
                                        .FirstOrDefault();
             if (post == null)
             {
-                try {
+                try
+                {
                     var claims = HttpContext.User.Identity as ClaimsIdentity;
                     var account = claims.FindFirst(ClaimTypes.NameIdentifier).Value;
                     post = new Post()
@@ -70,8 +71,8 @@ namespace NovelWebsite.Areas.Admin.Controllers
                 {
                     Title = postModel.Title,
                     Description = postModel.Description,
-                    Content = StringExtension.HtmlEncode(postModel.Content),
-                    Slug = StringExtension.Slugify(postModel.Title),
+                    Content = SlugifyUtil.HtmlEncode(postModel.Content),
+                    Slug = SlugifyUtil.Slugify(postModel.Title),
                     Views = 0,
                     Likes = 0,
                     CreatedDate = DateTime.Now,
@@ -85,9 +86,9 @@ namespace NovelWebsite.Areas.Admin.Controllers
             else
             {
                 post.Title = postModel.Title;
-                post.Slug = StringExtension.Slugify(postModel.Title);
+                post.Slug = SlugifyUtil.Slugify(postModel.Title);
                 post.Description = postModel.Description;
-                post.Content = StringExtension.HtmlEncode(postModel.Content);
+                post.Content = SlugifyUtil.HtmlEncode(postModel.Content);
                 post.UpdatedDate = DateTime.Now;
                 _dbContext.Posts.Update(post);
             }

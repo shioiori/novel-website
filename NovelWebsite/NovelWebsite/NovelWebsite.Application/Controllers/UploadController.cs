@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Entities;
-using NovelWebsite.Extensions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Utils;
 using System.Security.Claims;
 
 namespace NovelWebsite.Application.Controllers
@@ -64,7 +64,7 @@ namespace NovelWebsite.Application.Controllers
                     author = new Author()
                     {
                         AuthorName = bookModel.AuthorName,
-                        Slug = StringExtension.Slugify(bookModel.AuthorName)
+                        Slug = SlugifyUtil.Slugify(bookModel.AuthorName)
                     };
                     _dbContext.Authors.Add(author);
                     _dbContext.SaveChanges();
@@ -83,13 +83,13 @@ namespace NovelWebsite.Application.Controllers
                         Likes = 0,
                         Recommends = 0,
                         Avatar = bookModel.Avatar,
-                        Introduce = StringExtension.HtmlEncode(bookModel.Introduce),
+                        Introduce = SlugifyUtil.HtmlEncode(bookModel.Introduce),
                         BookStatusId = bookModel.BookStatusId,
                         CreatedDate = DateTime.Now,
                         UpdatedDate = DateTime.Now,
                         Status = 0,
                         IsDeleted = false,
-                        Slug = StringExtension.Slugify(bookModel.BookName)
+                        Slug = SlugifyUtil.Slugify(bookModel.BookName)
                     };
                     _dbContext.Books.Add(book);
                 }
@@ -99,10 +99,10 @@ namespace NovelWebsite.Application.Controllers
                     book.AuthorId = author.AuthorId;
                     book.CategoryId = bookModel.CategoryId;
                     book.Avatar = bookModel.Avatar;
-                    book.Introduce = StringExtension.HtmlEncode(bookModel.Introduce);
+                    book.Introduce = SlugifyUtil.HtmlEncode(bookModel.Introduce);
                     book.BookStatusId = bookModel.BookStatusId;
                     book.UpdatedDate = DateTime.Now;
-                    book.Slug = StringExtension.Slugify(bookModel.BookName);
+                    book.Slug = SlugifyUtil.Slugify(bookModel.BookName);
                     _dbContext.Books.Update(book);
                 }
                 _dbContext.SaveChanges();
@@ -158,10 +158,10 @@ namespace NovelWebsite.Application.Controllers
                     ChapterName = chapterModel.ChapterName,
                     ChapterNumber = _dbContext.Chapters.Where(b => b.BookId == chapterModel.BookId).Count() + 1,
                     BookId = chapterModel.BookId,
-                    Content = StringExtension.HtmlEncode(chapterModel.Content),
+                    Content = SlugifyUtil.HtmlEncode(chapterModel.Content),
                     Views = 0,
                     Likes = 0,
-                    Slug = StringExtension.Slugify(chapterModel.ChapterName),
+                    Slug = SlugifyUtil.Slugify(chapterModel.ChapterName),
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
                     Status = 0,
@@ -172,9 +172,9 @@ namespace NovelWebsite.Application.Controllers
             else
             {
                 chapter.ChapterName = chapterModel.ChapterName;
-                chapter.Content = StringExtension.HtmlEncode(chapterModel.Content);
+                chapter.Content = SlugifyUtil.HtmlEncode(chapterModel.Content);
                 chapter.UpdatedDate = DateTime.Now;
-                chapter.Slug = StringExtension.Slugify(chapterModel.ChapterName);
+                chapter.Slug = SlugifyUtil.Slugify(chapterModel.ChapterName);
                 _dbContext.Chapters.Update(chapter);
             }
             _dbContext.SaveChanges();

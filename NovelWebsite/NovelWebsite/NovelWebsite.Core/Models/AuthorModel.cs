@@ -2,9 +2,10 @@
 
 namespace NovelWebsite.NovelWebsite.Core.Models
 {
-    public class AuthorModel : BaseModel
+    public class AuthorModel
     {
-        public string AuthorId { get; set; }
+        public int AuthorId { get; set; }
         public string AuthorName { get; set; }
+        public string Slug { get; set; }
     }
 }

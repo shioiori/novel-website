@@ -7,13 +7,17 @@ namespace NovelWebsite.Infrastructure.Entities
     {
         [Key]
         public int ReviewId { get; set; }
-        [ForeignKey("UserId")]
+        [ForeignKey("fk_user")]
         public int UserId { get; set; }
-        public User User { get; set; }
-        [ForeignKey("BookId")]
+        public virtual User User { get; set; }
+        [ForeignKey("fk_book")]
         public int BookId { get; set; }
-        public Book Book { get; set; }
+        public virtual Book Book { get; set; }
         public string Content { get; set; }
-        public int? Likes { get; set; }
+        public int Likes { get; set; } = 0;
+        public int Dislikes { get; set; } = 0;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
+
     }
 }

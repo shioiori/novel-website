@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Models;
 using System.Security.Claims;
 
 namespace NovelWebsite.Application.Controllers

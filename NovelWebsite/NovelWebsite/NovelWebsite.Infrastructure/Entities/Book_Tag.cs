@@ -4,11 +4,11 @@ namespace NovelWebsite.Infrastructure.Entities
 {
     public class Book_Tag
     {
-        [ForeignKey("BookId")]
+        [ForeignKey("fk_book")]
         public int BookId { get; set; }
-        public Book Book { get; set; }
-        [ForeignKey("TagId")]
+        public virtual Book Book { get; set; }
+        [ForeignKey("fk_tag")]
         public int TagId { get; set; }
-        public Tag Tag { get; set; }
+        public virtual Tag Tag { get; set; }
     }
 }

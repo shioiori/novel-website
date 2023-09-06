@@ -1,6 +1,6 @@
-﻿namespace NovelWebsite.Extensions
+﻿namespace NovelWebsite.NovelWebsite.Domain.Utils
 {
-    public class DateTimeExtension
+    public class TimeConvertUtil
     {
         public static string TimeSpan(DateTime dateTime)
         {
@@ -9,11 +9,11 @@
 
             if (timeSinceDate.TotalDays >= 365) // trên 1 năm
             {
-                return $"{Convert.ToInt32(timeSinceDate.TotalDays/ 365)} năm trước";
+                return $"{Convert.ToInt32(timeSinceDate.TotalDays / 365)} năm trước";
             }
             else if (timeSinceDate.TotalDays >= 30) // trên 1 tháng
             {
-                return $"{Convert.ToInt32(timeSinceDate.TotalDays/ 30)} tháng trước";
+                return $"{Convert.ToInt32(timeSinceDate.TotalDays / 30)} tháng trước";
             }
             else if (timeSinceDate.TotalDays >= 2) // 2 ngày
             {
