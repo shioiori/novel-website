@@ -32,6 +32,11 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         }
         public IEnumerable<BookModel> StatisticOfEachInteractionType(IEnumerable<BookModel> books, InteractionType type)
         {
+            if (type == InteractionType.View)
+            {
+                var res = books.OrderByDescending(x => x.Views);
+                return res;
+            }
             var list = _bookUserRepository.Filter(expFilterInteractionType(type))
                              .GroupBy(b => b.BookId)
                              .OrderByDescending(g => g.Count())

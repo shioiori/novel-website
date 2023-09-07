@@ -28,7 +28,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _postRepository = postRepository;
         }
 
-        public IEnumerable<PostModel> GetListOfPublishedPosts(string name)
+        public IEnumerable<PostModel> GetPublishedPosts(string name)
         {
             var posts = _postRepository.Filter(expContainString(name)).Where(expPublishedPost.Compile());
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
@@ -46,7 +46,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<Post, PostModel>(post);
         }
 
-        public IEnumerable<PostModel> GetListOfPosts(string name)
+        public IEnumerable<PostModel> GetPosts(string name)
         {
             var posts = _postRepository.Filter(expContainString(name));
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);

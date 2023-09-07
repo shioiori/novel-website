@@ -9,6 +9,6 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public int UserId { get; set; }
-        public UserRole Role { get; set; }
+        public AccountRole Role { get; set; }
     }
 }

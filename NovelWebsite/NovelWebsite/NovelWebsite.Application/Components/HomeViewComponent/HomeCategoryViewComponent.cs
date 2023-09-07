@@ -3,11 +3,11 @@ using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Application.Components.HomeViewComponent
 {
-    public class CategoryViewComponent : ViewComponent
+    public class HomeCategoryViewComponent : ViewComponent
     {
         private readonly ICategoryService _categoryService;
 
-        public CategoryViewComponent(ICategoryService categoryService)
+        public HomeCategoryViewComponent(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }

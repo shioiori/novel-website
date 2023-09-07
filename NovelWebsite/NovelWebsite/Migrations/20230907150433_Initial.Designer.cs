@@ -12,8 +12,8 @@ using NovelWebsite.Infrastructure.Contexts;
 namespace NovelWebsite.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230906111246_NewDB")]
-    partial class NewDB
+    [Migration("20230907150433_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,8 +26,11 @@ namespace NovelWebsite.Migrations
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Account", b =>
                 {
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -46,14 +49,13 @@ namespace NovelWebsite.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Username");
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Account", (string)null);
                 });
@@ -136,9 +138,6 @@ namespace NovelWebsite.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -156,13 +155,13 @@ namespace NovelWebsite.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Views")
                         .HasColumnType("int");
 
                     b.HasKey("BookId");
@@ -259,9 +258,6 @@ namespace NovelWebsite.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
-
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -320,12 +316,6 @@ namespace NovelWebsite.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Dislikes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
@@ -396,12 +386,6 @@ namespace NovelWebsite.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Dislikes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
-
                     b.Property<string>("Slug")
                         .HasColumnType("nvarchar(max)");
 
@@ -421,12 +405,9 @@ namespace NovelWebsite.Migrations
                     b.Property<int>("Views")
                         .HasColumnType("int");
 
-                    b.Property<int>("fk_user")
-                        .HasColumnType("int");
-
                     b.HasKey("PostId");
 
-                    b.HasIndex("fk_user");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Post", (string)null);
                 });
@@ -466,12 +447,6 @@ namespace NovelWebsite.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Dislikes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -552,6 +527,9 @@ namespace NovelWebsite.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Avatar")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -565,6 +543,8 @@ namespace NovelWebsite.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("AccountId");
 
                     b.ToTable("User", (string)null);
                 });
@@ -594,15 +574,7 @@ namespace NovelWebsite.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Role");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Banner", b =>
@@ -775,7 +747,7 @@ namespace NovelWebsite.Migrations
                 {
                     b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("fk_user")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -837,6 +809,17 @@ namespace NovelWebsite.Migrations
                     b.Navigation("Review");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.User", b =>
+                {
+                    b.HasOne("NovelWebsite.Infrastructure.Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
                 });
 #pragma warning restore 612, 618
         }

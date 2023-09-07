@@ -1,0 +1,23 @@
+﻿@using NovelWebsite.NovelWebsite.Core.Models;
+@model IEnumerable<BookModel>
+
+<div class="index__ranklist col-md-3">
+    <h4 class="index__wrap-title">
+        Đề Cử
+        <a href="/bang-xep-hang?sort_by=recommend">
+            Tất cả
+            <i class="fa-solid fa-chevron-right"></i>
+        </a>
+    </h4>
+    <div class="ranklist--list">
+        <ul class="list-group" id="book-most-recommends">
+            @foreach (var item in Model)
+            {
+                <li class="list-group-item">
+                    <i class="fa-solid fa-star"></i>
+                    <a href="javascript:void(0)">@item.BookName</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

@@ -4,7 +4,9 @@ using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Constants;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Utils;
 using System.Linq.Expressions;
 using static System.Reflection.Metadata.BlobBuilder;
 
@@ -13,29 +15,42 @@ namespace NovelWebsite.Domain.Services
     public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IBookUserRepository _bookUserRepository;
         private readonly IMapper _mapper;
 
         Expression<Func<Book, bool>> expValidBooks = b => b.IsDeleted == false;
-        Func<Book, bool> expFilterByAuthor(int authorId)
+        Expression<Func<Book, bool>> expFilterByAuthor(int authorId)
         {
             return b => b.AuthorId == authorId;
         }
-        Func<Book, bool> expFilterByCategory(int categoryId)
+        Expression<Func<Book, bool>> expFilterByCategory(int categoryId)
         {
             return b => b.CategoryId == categoryId;
         }
-        Func<Book, bool> expFilterByUploadStatus(UploadStatus status)
+        Expression<Func<Book, bool>> expFilterByUploadStatus(UploadStatus status)
         {
             return b => b.Status == (int)status;
         }
-        Func<Book, bool> expFilterByBookStatus(string bookStatus)
+        Expression<Func<Book, bool>> expFilterByBookStatus(string status)
         {
-            return b => b.BookStatus == bookStatus;
+            return b => b.BookStatus == status;
         }
-
-        public BookService(IBookRepository bookRepository, IMapper mapper)
+        Expression<Func<Book, bool>> expFromTime(DateTime start)
+        {
+            return b => b.CreatedDate >= start;
+        }
+        Expression <Func<Book_User, bool>> expFilterByInteractionType(InteractionType type)
+        {
+            return b => b.InteractType == (int)type;
+        }
+        Expression<Func<Book_User, bool>> expFilterByRole(AccountRole role)
+        {
+            return b => b.User.Account.RoleId == (int)role;
+        }
+        public BookService(IBookRepository bookRepository, IBookUserRepository bookUserRepository, IMapper mapper)
         {
             _bookRepository = bookRepository;
+            _bookUserRepository = bookUserRepository;
             _mapper = mapper;
         }
 
@@ -47,23 +62,32 @@ namespace NovelWebsite.Domain.Services
 
         public IEnumerable<BookModel> GetBooksByAuthor(int authorId)
         {
-            var books = _bookRepository.Filter(expValidBooks).Where(expFilterByAuthor(authorId));
+            var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByAuthor(authorId));
+            var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books); 
         }
 
         public IEnumerable<BookModel> GetBooksByCategory(int categoryId)
         {
-            var books = _bookRepository.Filter(expValidBooks).Where(expFilterByCategory(categoryId));
+            var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByCategory(categoryId));
+            var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
         public IEnumerable<BookModel> GetBooksByBookStatus(string status)
         {
-            var books = _bookRepository.Filter(expValidBooks).Where(expFilterByBookStatus(status));
+            var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByBookStatus(status));
+            var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBookByFilter(FilterModel filter)
+        public IEnumerable<BookModel> GetBooksFromTime(DateTime start)
+        {
+            var books = _bookRepository.Filter(expFromTime(start));
+            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
+        }
+
+        public IEnumerable<BookModel> GetBooksByFilter(FilterModel filter)
         {
             throw new NotImplementedException();
             //var query = _dbContext.Books.Where(b => filterModel.CategoryId == 0 || b.CategoryId == filterModel.CategoryId)
@@ -223,6 +247,23 @@ namespace NovelWebsite.Domain.Services
         public void DeleteBookPermanent(int bookId)
         {
             _bookRepository.Delete(bookId);
+        }
+
+        public IEnumerable<BookModel> GetBookByUserInteractive(InteractionType type)
+        {
+            var list = _bookUserRepository.GetByInteractionType(type).Select(x => x.BookId).ToList();
+            var books = GetBooks();
+            books = books.Where(x => list.Contains(x.BookId));
+            return books;
+        }
+
+        public IEnumerable<BookModel> GetBookByRoleInteractive(InteractionType type, AccountRole role)
+        {
+            var exp = ExpressionUtil<Book_User>.Combine(expFilterByInteractionType(type), expFilterByRole(role));
+            var list = _bookUserRepository.Filter(exp).Select(x => x.BookId);
+            var books = GetBooks();
+            books = books.Where(x => list.Contains(x.BookId));
+            return books;
         }
 
     }

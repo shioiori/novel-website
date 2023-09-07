@@ -2,9 +2,9 @@
 {
     public enum BannerType
     {
-        Home,
-        Advertise,
-        Small,
-        Popup
+        Home = 0,
+        Advertise = 1,
+        Small = 2,
+        Popup = 3,
     }
 }

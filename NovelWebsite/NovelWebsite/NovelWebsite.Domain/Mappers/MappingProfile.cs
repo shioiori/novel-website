@@ -10,7 +10,18 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
         {
             CreateMap<CategoryModel, Category>();
             CreateMap<Category, CategoryModel>();
+
+            CreateMap<BannerModel, Banner>();
+            CreateMap<Banner, BannerModel>();
+
+            CreateMap<PostModel, Post>();
+            CreateMap<Post, PostModel>();
+
+            CreateMap<BookModel, Book>();
+            CreateMap<Book, BookModel>();
+
             CreateMap<ReviewModel, Review>();
+
         }
     }
 }

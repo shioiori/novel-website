@@ -1,11 +1,10 @@
 namespace NovelWebsite.NovelWebsite.Core.Enums
 {
-    public enum UserRole
+    public enum AccountRole
     {
         Host,
         Admin,
         Editor,
-        Author,
-        Reader,        
+        User
     }
 }

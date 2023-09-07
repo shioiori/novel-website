@@ -11,5 +11,8 @@ namespace NovelWebsite.Infrastructure.Entities
         public string Name { get; set; }
         public string Avatar { get; set; } = "default.jpg";
         public string CoverPhoto { get; set; } = "default.jpg";
+        [ForeignKey("fk_user_account")]
+        public int AccountId { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

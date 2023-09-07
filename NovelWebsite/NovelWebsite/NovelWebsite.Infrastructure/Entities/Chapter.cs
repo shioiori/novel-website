@@ -17,7 +17,6 @@ namespace NovelWebsite.Infrastructure.Entities
         public string ChapterName { get; set; }
         public string Content { get; set; }
         public int Views { get; set; } = 0;
-        public int Likes { get; set; } = 0;
         public string Slug { get; set; } = String.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime UpdatedDate { get; set; } = DateTime.Now;

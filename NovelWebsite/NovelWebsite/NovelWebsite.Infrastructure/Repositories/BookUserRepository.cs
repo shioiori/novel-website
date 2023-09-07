@@ -14,5 +14,9 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
         {
         }
 
+        public IEnumerable<Book_User> GetByInteractionType(InteractionType type)
+        {
+            return _table.Where(x => x.InteractType == (int)type);
+        } 
     }
 }

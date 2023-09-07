@@ -8,6 +8,7 @@ namespace NovelWebsite.NovelWebsite.Core.Enums
         Recommend,
         Comment,
         View,
-        Mark
+        Mark,
+        EditorRecommend
     }
 }

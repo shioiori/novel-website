@@ -24,10 +24,9 @@ namespace NovelWebsite.Infrastructure.Entities
         public string Introduce { get; set; } = String.Empty;
         public string BookStatus { get; set; } = NovelWebsite.Core.Constants.BookStatus.Ongoing;
         public string Slug { get; set; }
+        public int Views { get; set; } = 0;
         public DateTime CreatedDate { get; set; }
-        public string? CreatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-        public string? UpdatedBy { get; set; }
         public int Status { get; set; } = (int)UploadStatus.Moderation;
         public bool IsDeleted { get; set; } = false;
     }

@@ -14,8 +14,6 @@ namespace NovelWebsite.Infrastructure.Entities
         public int BookId { get; set; }
         public virtual Book Book { get; set; }
         public string Content { get; set; }
-        public int Likes { get; set; } = 0;
-        public int Dislikes { get; set; } = 0;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
