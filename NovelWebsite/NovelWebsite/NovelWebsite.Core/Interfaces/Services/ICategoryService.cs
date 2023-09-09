@@ -9,7 +9,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         IEnumerable<CategoryModel> GetAllCategories();
         void RemoveCategory(int categoryId);
         void UpdateCategory(CategoryModel category);
-        CategoryModel FindCategory(int categoryId);
+        CategoryModel GetCategory(int categoryId);
+        CategoryModel GetCategory(string slug);
+
     }
 
 }

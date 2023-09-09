@@ -20,6 +20,10 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public string BookStatus { get; set; } = NovelWebsite.Core.Constants.BookStatus.Ongoing;
         public string Slug { get; set; }
         public int Views { get; set; } = 0;
+        public int Likes { get; set; } = 0;
+        public int Recommends { get; set; } = 0;
+        public int Follows { get; set; } = 0;
+
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public int Status { get; set; } = (int)UploadStatus.Moderation;

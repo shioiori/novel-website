@@ -111,6 +111,7 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 //builder.Services.AddScoped<IRoleService, RoleService>();
 //builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 
 builder.Services.AddMvc()
@@ -119,7 +120,9 @@ builder.Services.AddMvc()
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/{1}/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/Shared/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/Shared/{1}/{0}.cshtml");
+                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/Shared/Partials/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{1}/{0}.cshtml");
+                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{1}/Partials/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/{1}/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{0}.cshtml");
                 });

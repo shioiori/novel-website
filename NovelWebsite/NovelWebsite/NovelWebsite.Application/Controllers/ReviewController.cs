@@ -3,21 +3,26 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.Application.Controllers
 {
     public class ReviewController : Controller
     {
-        private readonly IReviewService _service;
-        Expression<Func<ReviewModel, object>> expOrderByCreatedDate = x => x.CreatedDate; 
+        Expression<Func<ReviewModel, object>> expOrderByCreatedDate = x => x.CreatedDate;
+        private readonly IReviewService _reviewService;
+        private readonly ICategoryService _categoryService;
 
-        public ReviewController(IReviewService service)
+        public ReviewController(IReviewService reviewService, ICategoryService categoryService)
         {
-            _service = service;
+            _reviewService = reviewService;
+            _categoryService = categoryService;
         }
-        public IActionResult Index(int sort_by, int categoryId = 0, int pageNumber = 1, int pageSize = 8)
+        public IActionResult Index(string? category, int sort_by = (int)SortOrder.Descending)
         {
-            var reviews = _service.GetListReviewsByCategoryId(categoryId);
+            var cate = _categoryService.GetCategory(category);
+            var id = cate == null ? 0 : cate.CategoryId;
+            var reviews = _reviewService.GetListReviewsByCategoryId(id);
             switch ((SortOrder)sort_by){
                 case SortOrder.Ascending:
                     reviews = reviews.OrderBy(expOrderByCreatedDate.Compile());
@@ -38,7 +43,7 @@ namespace NovelWebsite.Application.Controllers
         [HttpPost]
         public IActionResult AddReview(ReviewModel review)
         {
-            _service.AddReview(review);
+            _reviewService.AddReview(review);
             return NoContent();
         }
     }

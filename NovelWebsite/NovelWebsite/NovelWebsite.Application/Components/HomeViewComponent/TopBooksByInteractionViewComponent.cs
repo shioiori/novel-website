@@ -17,10 +17,11 @@ namespace NovelWebsite.NovelWebsite.Application.Components.HomeViewComponent
             _bookService = bookService;
         }
 
-        public IViewComponentResult Invoke(InteractionType type, int number = 10)
+        public IViewComponentResult Invoke(InteractionType type, string title, int number = 10)
         {
             var books = _bookService.GetBooks();
             var res = _statisticService.StatisticOfEachInteractionType(books, type).Take(number);
+            ViewBag.Title = title;
             return View(res);
         }
     }

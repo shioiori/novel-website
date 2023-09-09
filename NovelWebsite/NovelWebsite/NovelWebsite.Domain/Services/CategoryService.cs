@@ -40,8 +40,14 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _categoryRepository.Save();
         }
 
-        public CategoryModel FindCategory(int categoryId){
+        public CategoryModel GetCategory(int categoryId){
             var category = _categoryRepository.GetById(categoryId);
+            return _mapper.Map<Category, CategoryModel>(category);
+        }
+
+        public CategoryModel GetCategory(string slug)
+        {
+            var category = _categoryRepository.GetByExpression(x => x.Slug == slug);
             return _mapper.Map<Category, CategoryModel>(category);
         }
     }

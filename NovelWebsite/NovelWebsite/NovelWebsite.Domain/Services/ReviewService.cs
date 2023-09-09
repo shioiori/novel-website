@@ -41,6 +41,10 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public IEnumerable<ReviewModel> GetListReviewsByCategoryId(int categoryId)
         {
+            if (categoryId == 0)
+            {
+                return GetListReviews();
+            }
             var reviews = _reviewRepository.Filter(expSearchByCategoryId(categoryId));
             return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }

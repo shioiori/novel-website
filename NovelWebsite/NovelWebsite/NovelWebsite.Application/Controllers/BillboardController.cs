@@ -23,28 +23,22 @@ namespace NovelWebsite.Application.Controllers
         }
 
         [Route("")]
-        public IActionResult Index(InteractionType sortBy, SortOrder? order, int categoryId = 0)
+        public IActionResult Index(string category, InteractionType sortBy = InteractionType.View, int order_date = (int)SortOrder.Descending)
         {
             var books = _bookService.GetAllBooks();
-            switch (sortBy)
+            books =  _statisticService.StatisticOfEachInteractionType(books, (InteractionType)sortBy);
+            if (order_date == null || order_date == (int)SortOrder.Descending)
             {
-                case InteractionType.Follow:
-                    books =  _statisticService.StatisticOfEachInteractionType(books, sortBy);
-                    break;
-                case InteractionType.Comment:
-                    books = _statisticService.StatisticOfEachInteractionType(books, sortBy);
-                    break;
-                case InteractionType.Like:
-                    books = _statisticService.StatisticOfEachInteractionType(books, sortBy);
-                    break;
-                case InteractionType.Recommend:
-                    books = _statisticService.StatisticOfEachInteractionType(books, sortBy);
-                    break;
-                default:
-                    books = _bookService.GetAllBooks();
-                    break;
+                books = books.OrderByDescending(x => x.CreatedDate);
             }
-
+            else
+            {
+                books = books.OrderBy(x => x.CreatedDate);
+            }
+            if (category != String.Empty)
+            {
+                books = books.Where(x => x.Category.Slug == category);
+            }
             return View(books);
         }
 

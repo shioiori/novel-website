@@ -11,8 +11,8 @@
 </div>
 
 <div class="index__row row">
-    @await Component.InvokeAsync("BookTrending")
-    @await Component.InvokeAsync("BookEditorRecommend")
+    @await Component.InvokeAsync("BooksTrending")
+    @await Component.InvokeAsync("BooksEditorRecommend")
 </div>
 
 <div class="index__banner">
@@ -20,10 +20,10 @@
 </div>
 
 <div class="index__row row">
-    @await Component.InvokeAsync("TopBooksByInteraction", InteractionType.Recommend);
-    @await Component.InvokeAsync("TopBooksByInteraction", InteractionType.View);
-    @await Component.InvokeAsync("TopBooksByInteraction", InteractionType.Like);
-    @await Component.InvokeAsync("TopBooksByInteraction", InteractionType.Follow);
+    @await Component.InvokeAsync("TopBooksByInteraction", new {type = InteractionType.View, title = "Lượt xem"})
+    @await Component.InvokeAsync("TopBooksByInteraction", new {type = InteractionType.Recommend, title = "Đề cử"})
+    @await Component.InvokeAsync("TopBooksByInteraction", new {type = InteractionType.Like, title = "Yêu thích"})
+    @await Component.InvokeAsync("TopBooksByInteraction", new {type = InteractionType.Follow, title = "Theo dõi"})
 </div>
 
 <div class="index__banner">

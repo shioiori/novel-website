@@ -1,15 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NovelWebsite.Infrastructure.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace NovelWebsite.NovelWebsite.Core.Models
 {
-    public class UserModel : BaseModel
+    public class UserModel
     {
-        public string? AccountName { get; set; }
+
         public int UserId { get; set; }
-        public string Username { get; set; }
+        public string Name { get; set; }
         public string? Avatar { get; set; }
         public string? CoverPhoto { get; set; }
-        public string Email { get; set; }
-        public string? Role { get; set; }
+        public int AccountId { get; set; }
+        public AccountModel Account { get; set; }
     }
 }
