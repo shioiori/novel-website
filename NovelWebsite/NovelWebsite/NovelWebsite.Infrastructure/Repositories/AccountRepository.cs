@@ -14,5 +14,15 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
         public Account IfExistsAccount(Expression<Func<Account, bool>> expression){
             return _table.FirstOrDefault(expression);
         }
+
+        public Account GetAccountByEmail(string email)
+        {
+            return _table.FirstOrDefault(x => x.Email == email);
+        }
+
+        public Account GetAccountByUsername(string username)
+        {
+            return _table.FirstOrDefault(x => x.Username == username);
+        }
     }
 }
