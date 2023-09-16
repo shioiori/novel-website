@@ -4,7 +4,7 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
 
-namespace NovelWebsite.Application.Controllers
+namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
     [ApiController]
     [Route("/interact/book")]

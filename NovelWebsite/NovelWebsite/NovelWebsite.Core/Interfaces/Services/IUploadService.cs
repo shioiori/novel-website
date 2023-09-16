@@ -1,8 +1,10 @@
-﻿namespace NovelWebsite.NovelWebsite.Core.Interfaces
+﻿using NovelWebsite.NovelWebsite.Core.Models;
+
+namespace NovelWebsite.NovelWebsite.Core.Interfaces
 {
     public interface IUploadService
     {
-        string SaveFileCloud(IFormFile file);
-        string SaveFileLocal(IFormFile file, string folder);
+        Task<UploadFileResponse> SaveFileCloud(Stream stream, string fileName, string folder);
+        UploadFileResponse SaveFileLocal(IFormFile file, string folder);
     }
 }
