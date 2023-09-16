@@ -21,6 +21,10 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<Book, BookModel>();
 
             CreateMap<ReviewModel, Review>();
+            
+            CreateMap<RegisterRequest, Account>();
+            CreateMap<RegisterRequest, User>();
+
 
         }
     }

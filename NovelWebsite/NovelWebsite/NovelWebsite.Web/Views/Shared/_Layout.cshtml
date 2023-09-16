@@ -190,20 +190,20 @@
                             <form class="needs-validation" id="signup-form">
                                 <div class="modal-body" id="modal-body-signup">
                                     <div class="form-floating mb-3 mt-3">
-                                        <input type="text" class="form-control" id="tendangnhap2" placeholder="Tên đăng nhập" name="AccountName">
+                                        <input type="text" class="form-control" id="tendangnhap2" placeholder="Tên đăng nhập" name="regUsername">
                                         <label for="tdn"><i class="fa-solid fa-user modal--icon"></i>Tên đăng nhập</label>
                                     </div>
                                     <div class="form-floating mb-3 mt-3">
-                                        <input type="email" class="form-control" id="email2" placeholder="Email" name="Email">
+                                        <input type="email" class="form-control" id="email2" placeholder="Email" name="regEmail">
                                         <label for="eml"><i class="fa-solid fa-envelope modal--icon"></i></i>Email</label>
                                     </div>
                                     <div class="form-floating mt-3 mb-3">
-                                        <input type="password" class="form-control" id="matkhau2" placeholder="Mật khẩu" name="Password">
+                                        <input type="password" class="form-control" id="matkhau2" placeholder="Mật khẩu" name="regPassword">
                                         <label for="mk"><i class="fa-solid fa-key modal--icon"></i>Mật khẩu</label>
                                     </div>
 
                                     <div class="form-floating mt-3 mb-3">
-                                        <input type="password" class="form-control" id="nlmatkhau2" placeholder="Nhập lại mật khẩu" name="PasswordAgain">
+                                        <input type="password" class="form-control" id="nlmatkhau2" placeholder="Nhập lại mật khẩu" name="regPasswordAgain">
                                         <label for="rmk"><i class="fa-solid fa-key modal--icon"></i>Nhập lại mật khẩu</label>
                                     </div>
                                     <div class="social-auth-links text-center">
@@ -277,10 +277,79 @@
             </div>
         </div>
     </footer>
-    <script type="text/javascript" src="~/content/layout.js"></script>
+   @*  <script type="text/javascript" src="~/content/layout.js"></script> *@
    @* <script type="text/javascript" src="~/content/login.js"></script>*@
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 
 
+<script>
+    
+function Login() {
+    var data = {
+        Username: $('input[name="AccountName"]').val(),
+        Password: $('input[name="Password"]').val()
+    };
+    $.ajax({
+        url: "/login",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data) {
+            if (data.Success){
+                Swal.fire({
+                  title: 'success',
+                  text: data.Message,
+                  icon: 'success',
+                  timer: 2000,
+                });
+                location.reload();
+            }
+            Swal.fire({
+              title: 'Oops',
+              text: data.Message,
+              icon: 'error',
+              timer: 2000,
+            });
+        },
+        error: function () { },
+        complete: function () { }
+    })
+};
+
+function Signup() {
+    var data = {
+        Username: $('input[name="regUsername"]').val(),
+        Password: $('input[name="regPassword"]').val(),
+        Email: $('input[name="regEmail"]').val()
+    };
+    console.log(data);
+    $.ajax({
+        url: "/register",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data) {
+            if (data.Success){
+                Swal.fire({
+                  title: 'success',
+                  text: data.Message,
+                  icon: 'success',
+                  timer: 2000,
+                });
+                location.reload();
+            }
+            Swal.fire({
+              title: 'Oops',
+              text: data.Message,
+              icon: 'error',
+              timer: 2000,
+            });
+        },
+        error: function () { },
+        complete: function () { }
+    })
+}
+</script>

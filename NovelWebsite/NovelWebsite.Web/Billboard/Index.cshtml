@@ -1,0 +1,53 @@
+﻿@using NovelWebsite.NovelWebsite.Core.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<BookModel>
+
+
+<link rel="stylesheet" href="~/css/wiki/rank-0.0.6.min.css">
+<link href=~/css/utils/materialize-wiki.min.css type="text/css" rel="stylesheet" media="screen,projection" />
+<link href=~/css/utils/font-awesome.min.css type="text/css" rel="stylesheet" media="screen,projection" />
+<link href=~/css/utils/animate.min.css type="text/css" rel="stylesheet" media="screen,projection" />
+<link href=~/css/wiki/base-0.1.0.min.css type="text/css" rel="stylesheet" media="screen,projection" />
+<link href=~/css/boloc.css type="text/css" rel="stylesheet" media="screen,projection" />
+<script type="text/javascript" src="~/js/utils/materialize-wiki.min.js"></script>
+<script type="text/javascript" src="~/js/utils/jquery-2.2.4.min.js"></script>
+<script src="/js/utils/materialize-wiki.min.js"></script>
+
+
+<div class="container">
+    <div class="sort-box float-wrapper">
+        @await Component.InvokeAsync("FilterByCategory")
+        @await Html.PartialAsync("FilterByInteraction")
+        @await Html.PartialAsync("FilterBySortOrder")
+    </div>
+    <div class="book-list">
+        @{
+            foreach (var item in Model)
+            {
+                <div class="book-item">
+                    <div class="cover-col">
+                        <a class=" hoverable" href="/truyen/@item.Slug-@item.BookId">
+                            <img class="cover-wrapper carousel-inner" src="@item.Avatar" />
+                        </a>
+                    </div>
+                    <div class="info-col">
+                        <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="@item.BookName"
+                           href="/truyen/@item.Slug-@item.BookId">
+                            <h5 class="book-title truncate">@item.BookName</h5>
+                        </a>
+                        <p class="book-author"><a class="truncate" href="/tac-gia/@item.Author.Slug-@item.Author.AuthorId">@item.Author.AuthorName</a></p>
+                        <p class="book-publisher"><a class="truncate" href="/ho-so/@item.UserId">@item.User.Name</a></p>
+                        <p class="book-publisher"><a class="truncate" href="">@item.BookStatus</a></p>
+                        <p class="book-stats-box">
+                            <span class="book-stats"><i class="fa fa-light fa-eye"></i><span data-ready="abbrNum">@item.Views</span></span>
+                            <span class="book-stats"><i class="fa fa-thin fa-thumbs-up"></i><span data-ready="abbrNum">@item.Likes</span></span>
+                            <span class="book-stats"><i class="fa fa-thin fa-star"></i><span data-ready="abbrNum">@item.Recommends</span></span>
+                        </p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    @* @await Component.InvokeAsync("Pagination") *@
+</div>

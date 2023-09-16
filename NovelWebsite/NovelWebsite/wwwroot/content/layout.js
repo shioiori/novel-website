@@ -87,15 +87,15 @@ function GetUserInfo() {
 
 function Login() {
     $.ajax({
-        url: "/Account/Login",
+        url: "/login",
         type: "POST",
         dataType: "json",
         data: {
             AccountName: $('input[name="AccountName"]').val(),
             Password: $('input[name="Password"]').val()
         },
-        beforeSend: function () { },
         success: function (data) {
+            console.log(data);
             $('#modal-body-login').find('.alert-danger').first().remove();
             if (data == "") {
                 location.reload();

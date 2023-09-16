@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Domain.Authorization;
 using NovelWebsite.Domain.Services;
@@ -7,13 +8,19 @@ using NovelWebsite.Infrastructure.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
+using NovelWebsite.NovelWebsite.Core.Models.MailKit;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+
 // Add services to the container.
+builder.Services.AddControllers(); 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NovelWebsite")));
@@ -114,6 +121,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 
+builder.Services.AddTransient<IMailService, MailService>();
+
 builder.Services.AddMvc()
                 .AddRazorOptions(options =>
                 {
@@ -125,8 +134,11 @@ builder.Services.AddMvc()
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{1}/Partials/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/{1}/{0}.cshtml");
                     options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{0}.cshtml");
+                })
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
-
 
 var app = builder.Build();
 
@@ -137,22 +149,15 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseStatusCodePagesWithRedirects("/Error/{0}");
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}"
 );
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -163,16 +168,8 @@ app.UseEndpoints(endpoints =>
       name: "default",
       pattern: "{controller=Home}/{action=Index}/{id?}");
 
-    endpoints.MapControllerRoute(
-      name: "reviews",
-      pattern: "review/{categoryId?}",
-      defaults: new { controller = "Review", action = "Index"});
-
-    endpoints.MapControllerRoute(
-     name: "filter",
-     pattern: "bo-loc/",
-     defaults: new { controller = "Filter", action = "Index" });
 });
+app.MapControllers();
 
 // Create Database If Not Exists
 using (var scope = app.Services.CreateScope())

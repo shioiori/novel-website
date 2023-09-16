@@ -5,6 +5,6 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces
     public interface IAuthenticationService
     {
         AuthenticationResponse Login(LoginRequest loginRequest);
-        AuthenticationResponse Register(RegisterRequest request);
+        Task<AuthenticationResponse> RegisterAsync(RegisterRequest request);
     }
 }

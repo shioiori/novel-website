@@ -1,10 +1,19 @@
-﻿using System.Linq.Expressions;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Linq.Expressions;
+using System.Security.Claims;
+using System.Text;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.MailKit;
+using NovelWebsite.NovelWebsite.Domain.Utils;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
@@ -14,7 +23,10 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
-        
+        private readonly IMailService _mailService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _config;
+
         Expression<Func<Account, bool>> expUsername(string username)
         {
             return x => x.Username == username;
@@ -28,11 +40,19 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return x => x.Username == username && x.Password == password;
         }
 
-        public AuthenticationService(IUserRepository userRepository, IAccountRepository accountRepository, IMapper mapper)
+        public AuthenticationService(IConfiguration config, 
+                                    IUserRepository userRepository, 
+                                    IAccountRepository accountRepository, 
+                                    IMapper mapper, 
+                                    IMailService mailService,
+                                    IHttpContextAccessor httpContextAccessor)
         {
+            _config = config;
             _userRepository = userRepository;
             _accountRepository = accountRepository;
             _mapper = mapper;
+            _mailService = mailService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public AuthenticationResponse Login(LoginRequest loginRequest)
@@ -46,6 +66,14 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                     Message = "Tài khoản hoặc mật khẩu không đúng",
                 };
             }
+            if (account.Status == (int)AccountStatus.Verifying)
+            {
+                return new AuthenticationResponse()
+                {
+                    Success = false,
+                    Message = "Email chưa được xác nhận. Hãy kiểm tra lại email của bạn",
+                };
+            }
             return new AuthenticationResponse()
             {
                 Success = true,
@@ -54,14 +82,24 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             };
         }
 
-        public AuthenticationResponse Register(RegisterRequest request){
+        public async Task<AuthenticationResponse> RegisterAsync(RegisterRequest request){
             var validate = ValidateField(request);
             if (!validate.Success){
                 return validate;
             }
             _accountRepository.Insert(_mapper.Map<RegisterRequest, Account>(request));
-            _userRepository.Insert(_mapper.Map<RegisterRequest, User>(request));
-            validate.Message = "Đăng ký thành công";
+            _accountRepository.Save();
+            var account = _accountRepository.GetAccountByEmail(request.Email);
+            var token = GenerateToken(account);
+            var confirmUrl = "https://" + _httpContextAccessor.HttpContext.Request.Host + "/email-confimation?email=" + request.Email + "&token=" + token;
+            var content = new MailContent()
+            {
+                To = request.Email,
+                Subject = "Xác minh tài khoản Novel Website",
+                Body = EmailTemplate.GenerateEmailTemplate(account.Username, confirmUrl)
+            };
+            await _mailService.SendMail(content);
+            validate.Message = "Một email đã được gửi đến hộp thư của bạn. Hãy xác nhận để xác minh danh tính người dùng";
             return validate;
         }
 
@@ -85,5 +123,20 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             };
         }
 
+        public string GenerateToken(Account account)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, account.Email),
+            };
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Audience"],
+                claims,
+                expires: DateTime.Now.AddDays(2),
+                signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }
