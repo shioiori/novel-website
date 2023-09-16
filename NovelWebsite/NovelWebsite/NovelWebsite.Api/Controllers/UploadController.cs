@@ -5,6 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
     [ApiController]
+    [Route("/upload")]
     public class UploadController : ControllerBase
     {
         private readonly IUploadService _uploadService;
@@ -13,8 +14,10 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         { 
             _uploadService = uploadService;
         }
+        [HttpPost]
+        [Route("file/cloud")]        
         
-        public async Task<UploadFileResponse> UploadFile(IFormFile file, string folder)
+        public async Task<UploadFileResponse> UploadFileToCloud(IFormFile file, string folder)
         {
             using (var stream = file.OpenReadStream())
             {

@@ -298,14 +298,15 @@ function Login() {
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (data) {
+            console.log(data.Success)
             if (data.Success){
                 Swal.fire({
-                  title: 'success',
+                  title: 'Thành công',
                   text: data.Message,
                   icon: 'success',
                   timer: 2000,
                 });
-                location.reload();
+                return;
             }
             Swal.fire({
               title: 'Oops',
