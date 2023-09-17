@@ -1,5 +1,13 @@
-﻿@*@model AccountEntity
+﻿@using NovelWebsite.NovelWebsite.Core.Models;
+@model UserModel
 
+
+<div class="col notification col-md-2 header-ele-container">
+    <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
+        <i class="fa-solid fa-bell"></i>
+        Thông báo
+    </a>
+</div>
 <div class="row-left">
 	<ul class="row-lef-top">
 		<li class="col-left active" id="hoso"><a href="/ho-so/@Model.UserId"><i class="fa fa-user"></i>Hồ sơ</a></li>
@@ -32,6 +40,6 @@
 				Quản lí truyện
 			</a>
 		</li>
-		@*<li class="col-left active"><a href="/ho-so/@Model.UserId/bao-mat"><i class="fa-solid fa-shield-halved"></i>Bảo mật</a></li>
+		<li class="col-left active"><a href="/ho-so/@Model.UserId/bao-mat"><i class="fa-solid fa-shield-halved"></i>Bảo mật</a></li>
 	</ul>
-</div>*@
+</div

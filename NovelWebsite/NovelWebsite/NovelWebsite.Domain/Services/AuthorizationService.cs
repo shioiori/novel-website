@@ -26,7 +26,8 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public IEnumerable<Claim> CreateClaims(AccountModel account){
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, account.Username));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.Name, account.Username));
             claims.Add(new Claim(ClaimTypes.Role, account.Role.ToString()));
             claims.Add(new Claim(ClaimTypes.Sid, account.UserId.ToString()));
             claims.Add(new Claim(ClaimTypes.Email, account.Email));
@@ -35,8 +36,8 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         
         public async Task SaveClaims(IEnumerable<Claim> claims, string authenticationType){
             var claimIndentity = new ClaimsIdentity(claims, authenticationType);
-            await _httpContextAccessor.HttpContext.SignInAsync(authenticationType, new ClaimsPrincipal(claimIndentity));
             _httpContextAccessor.HttpContext.Session.SetString("AuthenticationType", authenticationType.ToString());
+            await _httpContextAccessor.HttpContext.SignInAsync(authenticationType, new ClaimsPrincipal(claimIndentity));
         }
 
         public async Task RemoveClaims()

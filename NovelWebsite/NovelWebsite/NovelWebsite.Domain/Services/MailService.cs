@@ -1,12 +1,16 @@
-﻿using MailKit.Security;
+﻿using AutoMapper;
+using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using Newtonsoft.Json;
+using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.MailKit;
+using NovelWebsite.NovelWebsite.Domain.Utils;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,11 +21,15 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
     {
         private readonly MailSettings _mailSettings;
         private readonly IAccountRepository _accountRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public MailService(IOptions<MailSettings> mailSettings, IAccountRepository accountRepository)
+        public MailService(IOptions<MailSettings> mailSettings, IAccountRepository accountRepository, IUserRepository userRepository, IMapper mapper)
         {
             _mailSettings = mailSettings.Value;
             _accountRepository = accountRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
@@ -61,27 +69,28 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public AuthenticationResponse ConfirmEmail(string mail, string token)
         {
-            var account = _accountRepository.GetAccountByEmail(mail);
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(token);
-            var claims = new ClaimsIdentity(jwtSecurityToken.Claims);
-            if (claims.FindFirst(ClaimTypes.NameIdentifier).ToString() == ClaimTypes.NameIdentifier+": "+mail)
+            try
             {
+                var account = _accountRepository.GetAccountByEmail(mail);
                 account.Status = (int)AccountStatus.Active;
-                _accountRepository.Update(account);
-                _accountRepository.Save();
+                var decrypt = AesOperation.DecryptString(token);
+                var user = JsonConvert.DeserializeObject<UserModel>(decrypt);
+                _userRepository.Insert(_mapper.Map<UserModel, User>(user));
+                _userRepository.Save();
                 return new AuthenticationResponse()
-                {    
+                {
                     Success = true,
                     Message = "Xác minh thành công. Từ giờ bạn có thể đăng nhập bình thường"
                 };
             }
-            return new AuthenticationResponse()
+            catch (Exception ex)
             {
-                Success = false,
-                Message = "Có lỗi xảy ra khi xác nhận mail"
-            };
+                return new AuthenticationResponse()
+                {
+                    Success = false,
+                    Message = "Có lỗi xảy ra khi xác nhận mail"
+                };
+            }
         }
-
     }
 }

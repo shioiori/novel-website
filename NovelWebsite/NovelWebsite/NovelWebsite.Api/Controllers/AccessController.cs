@@ -2,6 +2,7 @@
 
 using MailKit;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Domain.Services;
@@ -24,9 +25,14 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpPost]
         [Route("/login")]
-        public AuthenticationResponse Login(LoginRequest request)
+        public async Task<AuthenticationResponse> LoginAsync(LoginRequest request)
         {
             var response = _authenticationService.Login(request);
+            if (response.Success)
+            {
+                var account = JsonConvert.DeserializeObject<AccountModel>(response.Context);
+                await _authorizationService.SetClaims(account, request.LoginProvider);
+            }
             return response;
         }
 

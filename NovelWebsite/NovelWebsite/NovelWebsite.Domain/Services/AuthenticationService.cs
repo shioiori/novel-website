@@ -74,11 +74,14 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                     Message = "Email chưa được xác nhận. Hãy kiểm tra lại email của bạn",
                 };
             }
+            var obj = _mapper.Map<Account, AccountModel>(account);
+            obj.User = _mapper.Map<User, UserModel>(_userRepository.GetByExpression(x => x.AccountId == obj.Id));
+            obj.UserId = obj.User.UserId;
             return new AuthenticationResponse()
             {
                 Success = true,
                 Message = "Đăng nhập thành công",
-                Context = JsonConvert.SerializeObject(account),
+                Context = JsonConvert.SerializeObject(obj),
             };
         }
 
@@ -90,7 +93,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _accountRepository.Insert(_mapper.Map<RegisterRequest, Account>(request));
             _accountRepository.Save();
             var account = _accountRepository.GetAccountByEmail(request.Email);
-            var token = GenerateToken(account);
+            var user = _mapper.Map<RegisterRequest, UserModel>(request);
+            user.AccountId = account.Id;
+            var token = AesOperation.EncryptString(JsonConvert.SerializeObject(user));
             var confirmUrl = "https://" + _httpContextAccessor.HttpContext.Request.Host + "/email-confimation?email=" + request.Email + "&token=" + token;
             var content = new MailContent()
             {
@@ -123,20 +128,5 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             };
         }
 
-        public string GenerateToken(Account account)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, account.Email),
-            };
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Audience"],
-                claims,
-                expires: DateTime.Now.AddDays(2),
-                signingCredentials: credentials);
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
     }
 }

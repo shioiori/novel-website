@@ -63,16 +63,15 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("BookOwner", policy => policy.Requirements.Add(new BookOwnerRequirement()));
 });
 
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();           
-builder.Services.AddSession(cfg => {                   
-    cfg.Cookie.Name = "novelwebsite";             
-    cfg.IdleTimeout = new TimeSpan(0, 30, 0);    
-});
-
-builder.Services.AddMemoryCache();
-
 builder.Services.AddAutoMapper(typeof(Program));
 
 
@@ -149,6 +148,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Mappers
@@ -21,11 +22,22 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<Book, BookModel>();
 
             CreateMap<ReviewModel, Review>();
-            
+            CreateMap<Review, ReviewModel>();
+
             CreateMap<RegisterRequest, Account>();
             CreateMap<RegisterRequest, User>();
 
+            CreateMap<RegisterRequest, AccountModel>();
+            CreateMap<RegisterRequest, UserModel>();
 
+            CreateMap<AccountModel, Account>();
+            CreateMap<Account, AccountModel>();
+
+            CreateMap<UserModel, User>()
+                    .ForMember(x => x.Avatar, y => y.NullSubstitute("default.jpg"))
+                    .ForMember(x => x.CoverPhoto, y => y.NullSubstitute("default.jpg"))
+                    ;
+            CreateMap<User, UserModel>();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace NovelWebsite.NovelWebsite.Application.Controllers
         {
             _mailService = mailService;
         }
+
         [Route("/email-confimation")]
         public IActionResult Index(string email, string token)
         {

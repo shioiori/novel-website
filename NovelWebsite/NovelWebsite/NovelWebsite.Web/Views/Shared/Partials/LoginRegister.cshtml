@@ -1,0 +1,179 @@
+﻿<div class="col header-ele-container col-md-2">
+    <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
+        <i class="fa-solid fa-user"></i>
+        Tài khoản
+        <i class="fa-solid fa-right-to-bracket"></i>
+    </a>
+</div>
+
+<div class="modal fade" id="dangnhap">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Đăng nhập</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <form class="needs-validation" id="login-form" method="post">
+                <div class="modal-body" id="modal-body-login">
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="text" class="form-control" name="AccountName" placeholder="Tên đăng nhập" required>
+                        <label><i class="fa-solid fa-user modal--icon"></i>Tên đăng nhập</label>
+                    </div>
+                    <div class="form-floating mt-3 mb-3">
+                        <input type="password" class="form-control" name="Password" placeholder="Mật khẩu" required>
+                        <label><i class="fa-solid fa-key modal--icon"></i>Mật khẩu</label>
+                    </div>
+
+                    <div class="social-auth-links text-center">
+                        <a href="/login-facebook" class="btn btn-block btn-social btn-facebook btn-flat">
+                            <i class="fa-brands fa-facebook" style="color: white"></i> Log in using
+                            Facebook
+                        </a><br />
+                        <a href="/login-google" class="btn btn-block btn-social btn-google btn-flat">
+                            <i class="fa-brands fa-google" style="color: white"></i> Log in using
+                            Google+
+                        </a>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="Login('Cookies')">Đăng nhập</button>
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#dangky">Đăng ký</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dangky">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Đăng ký</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <form class="needs-validation" id="signup-form">
+                <div class="modal-body" id="modal-body-signup">
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="text" class="form-control" id="tendangnhap2" placeholder="Tên hiển thị" name="regName">
+                        <label for="tdn"><i class="fa-solid fa-user modal--icon"></i>Tên hiển thị</label>
+                    </div>
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="text" class="form-control" id="tendangnhap2" placeholder="Tên đăng nhập" name="regUsername">
+                        <label for="tdn"><i class="fa-solid fa-user modal--icon"></i>Tên đăng nhập</label>
+                    </div>
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="email" class="form-control" id="email2" placeholder="Email" name="regEmail">
+                        <label for="eml"><i class="fa-solid fa-envelope modal--icon"></i></i>Email</label>
+                    </div>
+                    <div class="form-floating mt-3 mb-3">
+                        <input type="password" class="form-control" id="matkhau2" placeholder="Mật khẩu" name="regPassword">
+                        <label for="mk"><i class="fa-solid fa-key modal--icon"></i>Mật khẩu</label>
+                    </div>
+
+                    <div class="form-floating mt-3 mb-3">
+                        <input type="password" class="form-control" id="nlmatkhau2" placeholder="Nhập lại mật khẩu" name="regPasswordAgain">
+                        <label for="rmk"><i class="fa-solid fa-key modal--icon"></i>Nhập lại mật khẩu</label>
+                    </div>
+                    <div class="social-auth-links text-center">
+                        <a href="/signup-facebook" class="btn btn-block btn-social btn-facebook btn-flat">
+                            <i class="fa-brands fa-facebook" style="color: white"></i> Sign up using
+                            Facebook
+                        </a><br />
+                        <a href="/signup-google" class="btn btn-block btn-social btn-google btn-flat">
+                            <i class="fa-brands fa-google" style="color: white"></i> Sign up using
+                            Google+
+                        </a>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="Signup()">Đăng ký</button>
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#dangnhap">Đăng nhập</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+    <script>
+
+        function Login(loginProvider) {
+            var data = {
+                Username: $('input[name="AccountName"]').val(),
+                Password: $('input[name="Password"]').val(),
+                LoginProvider: loginProvider,
+            };
+            $.ajax({
+                url: "/login",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    console.log(data.Success)
+                    if (data.Success) {
+                        Swal.fire({
+                            title: 'Thành công',
+                            text: data.Message,
+                            icon: 'success',
+                            timer: 2000,
+                        }).then(() => {
+                            location.reload();
+                        })
+                    }
+                    Swal.fire({
+                        title: 'Oops',
+                        text: data.Message,
+                        icon: 'error',
+                        timer: 2000,
+                    });
+                },
+                error: function () { },
+                complete: function () { }
+            })
+        };
+
+        function Signup() {
+            var data = {
+            Name: $('input[name="regName"]').val(),
+                Username: $('input[name="regUsername"]').val(),
+                Password: $('input[name="regPassword"]').val(),
+                Email: $('input[name="regEmail"]').val()
+            };
+            console.log(data);
+            $.ajax({
+                url: "/register",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.Success) {
+                        Swal.fire({
+                            title: 'success',
+                            text: data.Message,
+                            icon: 'success',
+                            timer: 2000,
+                        });
+                        location.reload();
+                    }
+                    Swal.fire({
+                        title: 'Oops',
+                        text: data.Message,
+                        icon: 'error',
+                        timer: 2000,
+                    });
+                },
+                error: function () { },
+                complete: function () { }
+            })
+        }
+    </script>
