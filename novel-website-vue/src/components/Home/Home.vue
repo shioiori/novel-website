@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Header></Header>
         <div class="index__row row">
             <category></category>
             <carousel></carousel>
@@ -40,6 +41,7 @@
             <truyenCard></truyenCard>
             <truyenMoi></truyenMoi>
         </div>
+        <Footer></Footer>
     </div>
 </template>
 
@@ -53,6 +55,8 @@ import banner from "./banner.vue";
 import truyenCard from "./truyenCard.vue";
 import truyenMoi from "./truyenMoi.vue";
 import rankList from "./rankList.vue";
+import Header from '../Header/Header.vue'
+import Footer from '../Footer/Footer.vue'
 
 export default {
     name: "home-layout",
@@ -66,6 +70,8 @@ export default {
         truyenCard,
         truyenMoi,
         rankList,
+        Header,
+        Footer,
     },
 };
 </script>
