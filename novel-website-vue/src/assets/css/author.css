@@ -1,0 +1,49 @@
+.rank-box-main {
+    width: 100%;
+}
+
+.rank-box-main-header, .rank-box-main-body {
+    margin-bottom: 15px;
+}
+
+    .rank-box-main-header h4 {
+        font-size: 2rem;
+    }
+
+.book--info {
+    width: 100% !important;
+}
+
+.rank-view-list-item div.describe {
+    margin-top: 5px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.rank-view-list-item li {
+    padding: 10px;
+    border: 1px solid;
+    border-left: none;
+    border-right: none;
+    border-radius: 0 !important;
+}
+
+.book--info-buttons {
+    width: 260px;
+    /* position: relative; */
+    display: flex;
+}
+
+.book--info-buttons p {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin: auto 0;
+}
+
+.book--info-buttons p > a:first-child {
+    margin: 0;
+}

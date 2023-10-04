@@ -1,0 +1,578 @@
+:root {
+    --tagname: #1b92dd;
+}
+
+.book--information,
+.content--nav,
+.book--content,
+.book--chapter,
+.book--discuss,
+.book--rate {
+    width: 1200px;
+    margin: 20px auto;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+.book--info p {
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.book--img {
+    height: 240px;
+    width: 180px;
+    /*  overflow: hidden;*/
+}
+
+.book--img img {
+    border-radius: 5px;
+    transition: transform 0.25s;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.book--img:hover img {
+    transform: scale(1.1);
+}
+
+.book--info-buttons a {
+    background-color: none;
+    border: 1px solid;
+    border-radius: 0;
+    color: #666;
+    margin-right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.book--info-buttons a:first-child {
+    background-color: #cd3030;
+    color: #fff;
+}
+
+.book--info-buttons a:not(:first-child) {
+    color: #4949f2;
+}
+
+.book--info-buttons a:first-child:hover {
+    background-color: #eb4848;
+}
+
+.book--info-buttons a:not(:first-child):hover {
+    background-color: #eaeafa;
+    border: 1px solid #4949f2;
+}
+
+.book--info-buttons a.selected {
+    background-color: #4949f2;
+    color: #fff;
+}
+
+.book--info-tag {
+    padding: 10px 0;
+}
+
+.book--info-tag a {
+    color: var(--tagname);
+    border: 1px solid rgba(27, 146, 221, 0.6);
+    border-radius: 20px;
+    padding: 3px 6px;
+    font-size: 14px;
+    font-weight: normal;
+    margin-right: 7px;
+}
+
+.book--info-tag a:first-child {
+    color: #df1c1c;
+    border: 1px solid rgba(223, 28, 28, 0.6);
+}
+
+.book--info-tag span {
+    color: blue;
+    border: 1px solid #666;
+    border-radius: 20px;
+    padding: 3px 6px;
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+.book--info-intro {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.like,
+.view,
+.follow,
+.nominate {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.no-italic {
+    font-style: normal;
+}
+
+.content--nav button.nav-link.active {
+    color: #4949f2;
+}
+
+.content--nav-wrap button.nav-link.active {
+    color: #4949f2;
+}
+
+.content--nav button.nav-link,
+.content--nav-wrap button.nav-link {
+    color: #666;
+    font-size: 18px;
+}
+
+.content--nav,
+.content--nav-wrap {
+    margin-bottom: 20px;
+}
+
+.book--content-detail-intro p {
+    font-size: 16px;
+}
+
+.book--content-detail-state li {
+    display: flex;
+    padding: 20px 0;
+}
+
+.book--content-detail-state b {
+    font-size: 16px;
+    width: 100px;
+    margin-right: 20px;
+}
+
+.tag-wrap {
+    margin: 0;
+    display: inline-flex;
+}
+
+.tag-wrap a {
+    color: #666;
+    border: 1px solid #666;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.cf {
+    margin: 0;
+}
+
+.cf a {
+    padding: 0;
+}
+
+.quangcao {
+    margin: 10px 0;
+}
+
+.like-more {
+    border: 1px solid #0000002d;
+    background-color: #f7f6f2;
+    border-radius: 0.375rem;
+}
+
+.like-more-list,
+.like-more-list ul,
+.like-more-list li {
+    background-color: inherit;
+}
+
+.like-more-list {
+    margin: 0 10px;
+}
+
+.like-more h4:first-child {
+    text-align: center;
+    border-bottom: 1px solid #0000002d;
+    margin: auto 14px;
+    padding: 14px;
+}
+
+.like-more-list li {
+    display: flex;
+    padding: 14px;
+}
+
+.relate-content {
+    margin: 0;
+    position: relative;
+    width: 100%;
+}
+
+.relate-content a:first-child {
+    font-size: 16px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    padding: 0;
+}
+
+.relate-content p {
+    font-size: 16px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    padding: 0;
+}
+
+.truyen-btn {
+    position: absolute;
+    bottom: 0;
+    /*left: 0;*/
+    background: none;
+    color: #262626;
+    right: 0;
+    padding: 5px 10px;
+    font-weight: 500;
+}
+
+/*.truyen-btn:hover {
+        background-color: #4949f2;
+        color: #fff !important;
+    }*/
+
+.like-more-img {
+    width: 84px;
+    height: 112px;
+    overflow: hidden;
+    margin-right: 15px;
+    min-width: 84px;
+}
+
+.like-more-img img {
+    transition: transform 0.25s;
+}
+
+.like-more-img:hover img {
+    transform: scale(1.1);
+}
+
+.like-more-img a,
+.like-more-img img {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+.user--comment-head span {
+    text-align: center;
+}
+
+.user--comment-head span a {
+    font-size: 18px;
+    color: #666;
+}
+
+.user--comment-head span a:hover {
+    color: #4949f2;
+}
+
+.user--comment-head span a i {
+    color: inherit;
+}
+
+.user--photo {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+}
+
+.user--photo a,
+.user--photo img {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: 100%;
+}
+
+.users a {
+    font-size: 16px;
+    color: #3838c1;
+    font-weight: 500;
+    padding: 0;
+}
+
+.users span {
+    font-size: 13px;
+    color: #969696;
+    margin-left: 5px;
+}
+
+.user--comment-discuss-list ul li {
+    margin-top: 10px;
+    border: none;
+}
+
+.user--comment-discuss-list-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.info--wrap a {
+    padding-left: 10px;
+    font-size: 16px;
+}
+
+.info--wrap span {
+    font-size: 16px;
+}
+
+i.info-icon {
+    font-size: 18px;
+}
+
+.rate-up {
+    color: #007131 !important;
+}
+
+.rate-down {
+    color: #bd0101 !important;
+}
+
+.go--discuss {
+    text-align: center;
+    background-color: #f7f6f2;
+    height: 40px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.go--discuss a {
+    font-size: 15px;
+    color: #3838c1;
+}
+
+.author--photo-wrap {
+    width: 100%;
+    height: 100px;
+    margin: 20px auto 0;
+    padding: 0 14px;
+}
+
+.author--photo,
+.author--photo img {
+    display: block;
+    width: 90px;
+    height: 90px;
+    border-radius: 100%;
+    margin: 0 auto;
+    object-fit: cover;
+}
+
+.author h4 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 14px;
+}
+
+.author li a {
+    padding: 0;
+}
+
+.author li,
+.author ul {
+    background-color: inherit;
+    border: none;
+}
+
+.author h5 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.author li:first-child {
+    border-top: 1px solid #0000002d;
+    border-radius: 0;
+}
+
+.author {
+    background-color: #f7f6f2;
+    margin-bottom: 30px;
+}
+
+.writer {
+    background-color: bisque;
+    margin-top: 10px;
+}
+
+.writer img,
+.writer h4 {
+    text-align: center;
+}
+
+.img-box {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+}
+
+.img-box a,
+.img-box img {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+.num-box,
+.topname-box {
+    float: left;
+}
+
+.img-box {
+    float: right;
+}
+
+.rankmap--ranklist-list ul {
+    width: 80%;
+}
+
+.rankmap {
+    margin-top: 50px;
+}
+
+.user--comment-section {
+    margin: 0;
+}
+
+.user--discussion-main {
+    padding-right: 0;
+}
+
+.user--discussion {
+    border: 1px solid #cacaca;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.user--discussion-child ul li,
+.user--comment-discuss-list ul li {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.info--wrap {
+    margin: 0;
+}
+
+.info--wrap a:hover {
+    color: #4949f2;
+}
+
+.info--wrap a i {
+    color: inherit;
+}
+
+.volume ul {
+    border-top: 1px solid #666;
+    border-radius: 0;
+}
+
+.volume ul li {
+    border: none;
+    border-bottom: 1px solid #d6d6d6;
+    border-radius: 0 !important;
+    padding-left: 0;
+}
+
+.volume ul li a {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.volume ul {
+    margin: 20px 0;
+}
+
+.book--pagination ul li a {
+    color: #666;
+    font-size: 16px;
+}
+
+.tox.tox-tinymce {
+    height: 200px !important;
+    border: 1px solid #cacaca;
+}
+
+.submit-btn {
+    padding: 10px 0 0;
+}
+
+.submit-btn-wrap {
+    width: 100px;
+    float: right;
+}
+
+.submit-btn button {
+    width: inherit;
+}
+
+.input-comment {
+    padding-right: 0;
+}
+
+#editor {
+    border: 1px solid #cacaca;
+}
+
+/*mobile &tablet*/
+@media only screen and (max-width: 63.9375em) {
+    * {
+        font-size: 12px;
+        padding-left: 3px;
+    }
+
+    p {
+        font-size: 12px !important;
+    }
+
+    ul.list-group.list-group-flush {
+        max-width: 100%;
+    }
+
+    .content--nav,
+    .book--information,
+    .book--info,
+    .nav,
+    .content--nav-wrap,
+    p.go--discuss,
+    .card.author,
+    .like-more,
+    .book--content-detail-intro,
+    ul.list-group.list-group-flush,
+    div#book--content-id,
+    .col-md-2,
+    .row,
+    div#book--rate-id {
+        max-width: 100%;
+    }
+
+    .fa-user,
+    .fa-right-to-bracket {
+        display: none;
+    }
+
+    .login a {
+        font-size: 12px;
+    }
+
+    .like-more-list {
+        margin: 0;
+    }
+}

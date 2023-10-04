@@ -1,0 +1,81 @@
+<template>
+    <div>
+        <Header></Header>
+        <div class="rank-box box-center row">
+            <div class="rank-box-main col-12">
+                <div class="rank-box-main-header">
+                    <h4>Tác giả - @ViewBag.Author</h4>
+                </div>
+                <div class="rank-box-main-body">
+                    <div class="rank-view-list">
+                        <div class="rank-view-list-item">
+                            <ul class="list-group">
+                                @{ foreach (var book in Model) {
+                                <li class="list-group-item">
+                                    <div class="book--img">
+                                        <a
+                                            href="/truyen/@book.Slug-@book.BookId"
+                                        >
+                                            <img src="" class="book--imgcss" />
+                                        </a>
+                                    </div>
+                                    <div class="book--info">
+                                        <h3>
+                                            <a
+                                                href="/truyen/@book.Slug-@book.BookId"
+                                                >@book.BookName</a
+                                            >
+                                        </h3>
+                                        <div class="book-state">
+                                            <a
+                                                href="/tac-gia/@book.AuthorId/@book.Author.Slug"
+                                                >@book.Author.AuthorName</a
+                                            >
+                                            <i>|</i>
+                                            <p>
+                                                @book.BookStatus.BookStatusName
+                                            </p>
+                                            <i>|</i>
+                                            <p>@book.NumberOfChapters chương</p>
+                                        </div>
+                                        <div class="describe">
+                                            @Html.Raw(HttpUtility.HtmlDecode(book.Introduce))
+                                        </div>
+                                    </div>
+                                    <div class="book--info-buttons">
+                                        <p>
+                                            <a
+                                                class="btn"
+                                                href="/truyen/@book.Slug-@book.BookId"
+                                                >Đọc truyện</a
+                                            >
+                                        </p>
+                                    </div>
+                                </li>
+                                } }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <Footer></Footer>
+    </div>
+</template>
+
+<script>
+import Header from "../Header/Header.vue";
+import Footer from "../Footer/Footer.vue";
+import "../../assets/css/boloc.css";
+// import "../../assets/css/author.css";
+
+export default {
+    name: "author-layout",
+    components: {
+        Header,
+        Footer,
+    },
+};
+</script>
+
+<style></style>
