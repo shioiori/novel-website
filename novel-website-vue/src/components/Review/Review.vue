@@ -14,6 +14,8 @@
                 <div id="commentList">
                     <div class="review-group" id="review-@item.ReviewId">
                         <reviewItem></reviewItem>
+                        <reviewItem></reviewItem>
+                        <reviewItem></reviewItem>
                     </div>
                 </div>
             </div>

@@ -22,13 +22,13 @@ html::-webkit-scrollbar {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.book--img {
+.book--img--info {
     height: 240px;
     width: 180px;
     /*  overflow: hidden;*/
 }
 
-.book--img img {
+.book--img--info img {
     border-radius: 5px;
     transition: transform 0.25s;
     height: 100%;

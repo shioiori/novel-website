@@ -5,6 +5,11 @@
             <billboardNav></billboardNav>
             <div class="book-list row row-cols-5">
                 <billboardItem></billboardItem>
+                <billboardItem></billboardItem>
+                <billboardItem></billboardItem>
+                <billboardItem></billboardItem>
+                <billboardItem></billboardItem>
+                <billboardItem></billboardItem>
             </div>
             <div class="rank-box-main-pagination">
                 <ul class="pagination justify-content-end">

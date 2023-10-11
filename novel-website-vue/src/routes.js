@@ -9,6 +9,7 @@ import Billboard from './components/Billboard/Billboard.vue'
 import Author from './components/Author/Author.vue'
 import ListOfPost from './components/Post/ListOfPost.vue'
 import Review from './components/Review/Review.vue'
+import User from './components/User/User.vue'
 
 Vue.use(VueRouter)
 
@@ -59,8 +60,15 @@ const router = new VueRouter({
             path: '/review',
             component: Review,
             name: 'review'
-        }
+        },
+        {
+            path: '/user',
+            component: User,
+            name: 'user'
+        },
     ]
 });
+
+// router.replace("billboard")
 
 export default router;

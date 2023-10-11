@@ -3,11 +3,10 @@
         <div class="rank-view-list">
             <div class="rank-view-list-item">
                 <ul class="list-group" id="filter-book">
-                    @{ foreach (var book in Model) {
                     <li class="list-group-item">
                         <div class="book--img">
                             <a href="/truyen/@book.Slug-@book.BookId">
-                                <img src="" class="book--imgcss" />
+                                <img src="https://wikidich6.com/photo/63d8b4ed54b80862372b0936?o=1" class="book--imgcss" />
                             </a>
                         </div>
                         <div class="book--info">
@@ -31,7 +30,7 @@
                             </div>
                         </div>
                         <div class="book--info-buttons">
-                            <p>
+                            <p class="book--info-buttons-filterarea">
                                 <a
                                     class="btn"
                                     href="/truyen/@book.Slug-@book.BookId"
@@ -40,7 +39,6 @@
                             </p>
                         </div>
                     </li>
-                    } } @*
                     <li class="list-group-item">
                         <div class="book--img">
                             <a href="javascript:void(0)">
@@ -84,17 +82,13 @@
                             </div>
                         </div>
                         <div class="book--info-buttons">
-                            <p>
+                            <p class="book--info-buttons-filterarea">
                                 <a class="btn" href="/html/truyen.html"
                                     >Đọc truyện</a
-                                >
-                                <a class="btn" href="javascript:void(0)"
-                                    >Chi tiết</a
                                 >
                             </p>
                         </div>
                     </li>
-                    *@
                 </ul>
             </div>
         </div>

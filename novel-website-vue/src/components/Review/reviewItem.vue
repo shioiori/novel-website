@@ -22,7 +22,7 @@
                         <div class="comment-content-msg word-wrap">
                             @Html.Raw(HttpUtility.HtmlDecode(item.Content))
                         </div>
-                        <div class="comment-content-footer">
+                        <div class="comment-content-footer float-end">
                             <div
                                 class="comment-view-controls"
                                 style="
@@ -49,14 +49,14 @@
                 </div>
             </div>
         </div>
-        <div class="book-item float-wrapper hide-on-med-and-up">
+        <div class="book-item float-wrapper hide-on-med-and-up reviewbook-item">
             <a
                 class="hoverable smallbook"
                 href="/truyen/@item.Book.Slug-@item.Book.BookId"
             >
                 <img
                     class="cover-wrapper carousel-inner"
-                    src=""
+                    src="https://wikidich6.com/photo/63d8b4ed54b80862372b0936?o=1"
                     alt="Card image"
                 />
             </a>
@@ -71,7 +71,7 @@
                 </p>
                 <p class="index__truyenmoito--gioithieu">
                     <i
-                        >@Html.Raw(HttpUtility.HtmlDecode(item.Book.Introduce.Substring(0,128)))
+                        >@Html.Raw(HttpUtility.HtmlDecode
                     </i>
                 </p>
             </div>
@@ -91,6 +91,9 @@ export default {
     justify-content: space-between;
     margin-top: 1rem;
 }
+.comment-group {
+    flex: 1;
+}
 .comment-element {
     display: flex;
 }
@@ -100,6 +103,26 @@ export default {
     border-radius: 100%;
 }
 .comment-content {
-    border: 1px solid black
+    padding: 1rem;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    flex: 1;
+    margin: 0 1rem;
+}
+.cover-wrapper {
+    width: 150px;
+    height: 210px;
+}
+.reviewbook-item {
+    text-align: center;
+}
+.username-link {
+    font-weight: bold;
+    color: #3838c1;
+    font-size: 1.1rem;
+}
+.comment-content-msg {
+    margin: 1rem 0;
+    font-size: 1rem;
 }
 </style>

@@ -2,15 +2,14 @@
     <div>
         <Header></Header>
         <div class="rank-box box-center row">
+            <div class="rank-box-main-header">
+                <h4>Tác giả - @ViewBag.Author</h4>
+            </div>
             <div class="rank-box-main col-12">
-                <div class="rank-box-main-header">
-                    <h4>Tác giả - @ViewBag.Author</h4>
-                </div>
                 <div class="rank-box-main-body">
                     <div class="rank-view-list">
                         <div class="rank-view-list-item">
                             <ul class="list-group">
-                                @{ foreach (var book in Model) {
                                 <li class="list-group-item">
                                     <div class="book--img">
                                         <a
@@ -52,7 +51,6 @@
                                         </p>
                                     </div>
                                 </li>
-                                } }
                             </ul>
                         </div>
                     </div>

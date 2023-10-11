@@ -1,41 +1,72 @@
 <template>
-    <div class="modal fade" id="dangnhap">
+    <div class="modal fade" id="dangky">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Đăng nhập</h4>
+                    <h4 class="modal-title">Đăng ký</h4>
                     <button
                         type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
                     ></button>
                 </div>
-                <form class="needs-validation" id="login-form" method="post">
-                    <div class="modal-body" id="modal-body-login">
+                <form class="needs-validation" id="signup-form">
+                    <div class="modal-body" id="modal-body-signup">
                         <div class="form-floating mb-3 mt-3">
                             <input
                                 type="text"
                                 class="form-control"
-                                name="AccountName"
+                                id="tendangnhap2"
                                 placeholder="Tên đăng nhập"
+                                name="AccountName"
                                 required
                             />
-                            <label
+                            <label for="tdn"
                                 ><i class="fa-solid fa-user modal--icon"></i>Tên
                                 đăng nhập</label
+                            >
+                        </div>
+                        <div class="form-floating mb-3 mt-3">
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email2"
+                                placeholder="Email"
+                                name="Email"
+                                required
+                            />
+                            <label for="eml"
+                                ><i class="fa-solid fa-envelope modal--icon"></i
+                                >Email</label
                             >
                         </div>
                         <div class="form-floating mt-3 mb-3">
                             <input
                                 type="password"
                                 class="form-control"
-                                name="Password"
+                                id="matkhau2"
                                 placeholder="Mật khẩu"
+                                name="Password"
                                 required
                             />
-                            <label
+                            <label for="mk"
                                 ><i class="fa-solid fa-key modal--icon"></i>Mật
                                 khẩu</label
+                            >
+                        </div>
+
+                        <div class="form-floating mt-3 mb-3">
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="nlmatkhau2"
+                                placeholder="Nhập lại mật khẩu"
+                                name="PasswordAgain"
+                                required
+                            />
+                            <label for="rmk"
+                                ><i class="fa-solid fa-key modal--icon"></i>Nhập
+                                lại mật khẩu</label
                             >
                         </div>
                     </div>
@@ -43,17 +74,17 @@
                         <button
                             type="button"
                             class="btn btn-success"
-                            onclick="Login()"
+                            onclick="Signup()"
                         >
-                            Đăng nhập
+                            Đăng ký
                         </button>
                         <button
                             type="button"
                             class="btn btn-warning"
                             data-bs-toggle="modal"
-                            data-bs-target="#dangky"
+                            data-bs-target="#dangnhap"
                         >
-                            Đăng ký
+                            Đăng nhập
                         </button>
                         <button
                             type="button"
@@ -71,7 +102,7 @@
 
 <script>
 export default {
-    name: "login-modal",
+    name: "register-modal",
 };
 </script>
 

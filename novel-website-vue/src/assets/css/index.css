@@ -196,7 +196,7 @@ ul li {
     font-size: 16px;
     /*display: block;*/
     color: inherit;
-    background-color: #1d2124;
+    /* background-color: #1d2124; */
     margin-right: 1rem;
 }
 
@@ -1364,4 +1364,9 @@ i.info-icon {
 
 .navlist--item:focus {
     color: #fff;
+}
+
+.user-layout {
+    width: 1200px;
+    margin: 20px auto;
 }

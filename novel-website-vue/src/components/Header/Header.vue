@@ -5,6 +5,7 @@
             <headerSearch></headerSearch>
             <login></login>
             <loginModal></loginModal>
+            <registerModal></registerModal>
         </div>
         <div class="navbar navbar-expand-md">
             <headerNavbar></headerNavbar>
@@ -15,6 +16,7 @@
 <script>
 import headerLogo from "./headerLogo.vue";
 import login from "./login.vue";
+import registerModal from "./registerModal.vue";
 import loginModal from "./loginModal.vue";
 import headerNavbar from "./headerNavbar.vue";
 import headerSearch from "./headerSearch.vue";
@@ -26,6 +28,7 @@ export default {
         headerLogo,
         login,
         loginModal,
+        registerModal,
         headerNavbar,
         headerSearch,
         // headerdropdown,

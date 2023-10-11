@@ -1,0 +1,489 @@
+.row-right {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+.index__truyendangdoc--listitem {
+    display: flex;
+    margin-bottom: 3rem;
+    margin-left: 27px;
+    margin-top: 31px;
+}
+.listitem--odd {
+    padding: 21px;
+    display:flex;
+}
+.book--imgcss {
+    height: 120px;
+    width: 80px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.book--info a {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.book--info p {
+    font-size: 14px;
+    /*overflow: hidden;*/
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.book--info h3 {
+    margin-top: -8px;
+    margin-bottom: 0;
+}
+
+.book-state a {
+    font: 16px;
+    font-weight: lighter;
+}
+.book--info {
+    max-width: 86%;
+}
+
+.describe {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.catagory {
+    display: flex;
+    margin: 0;
+}
+
+    .catagory p:first-child {
+        padding-right: 5px;
+    }
+
+.catagory-wrap {
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+    .catagory-wrap a {
+        font-size: 14px;
+        padding: 5px;
+    }
+/*ul.pagination {
+    float: right;
+    position: relative;
+   
+    bottom:0px;
+}*/
+.book-pagination {
+    padding: 10px;
+}
+
+.book-pagination ul {
+    margin: 0;
+}
+/* Profile image header */
+
+.fa-list {
+    padding-right: 10px;
+}
+
+.navlist--item {
+    padding: 6px 32px !important;
+    color: white !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+    .navlist--item:hover {
+        background-color: #1d2124;
+        color: white;
+        height: 100%;
+    }
+
+.nav__bars-btn {
+    width: 28px;
+    height: 28px;
+    color: #fff;
+    display: none;
+    margin-left: 8px;
+}
+
+.nav__overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: none;
+    animation: fadeIn linear 0.2s;
+}
+
+.navbar_mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 100%;
+    background-color: rgb(134, 127, 127);
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform linear 0.2s;
+}
+
+.nav_mobile-item {
+    margin-top: 24px;
+}
+
+.nav__mobile-link {
+    text-decoration: none;
+    color: #3b3939;
+    display: block;
+    padding: 8px 0;
+    font-size: 1.4rem;
+}
+
+.nav__mobile-close {
+    width: 28px;
+    height: 28px;
+    color: #666;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.nav__input {
+    display: none;
+}
+
+    .nav__input:checked ~ .nav__overlay {
+        display: block;
+    }
+
+    .nav__input:checked ~ .navbar_mobile {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+.mobile {
+    width: 20%;
+    z-index: 5;
+    padding-top: 1rem;
+}
+
+.modal--icon {
+    padding-right: 10px;
+}
+/* a:hover {
+  border: none;
+}
+i:hover {
+  border: none;
+} */
+
+#profile-upper {
+    position: relative;
+}
+
+#profile-banner-image {
+    height: 10rem;
+    z-index: 1;
+}
+
+    #profile-banner-image img {
+        width: 13%;
+        height: calc(8vw);
+        object-fit: cover;
+        z-index: 1;
+        position: absolute;
+        border: 5px solid white;
+        top: 6rem;
+        left: 6.5rem;
+        display: inline;
+        background-color:white;
+    }
+
+#profile-pic {
+    width: 20%;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 28rem;
+    overflow: hidden;
+    box-shadow: 0 0 0 5px #fff;
+}
+
+    #profile-pic img {
+        width: 100%;
+    }
+
+#u-name {
+    position: absolute;
+    top: 100px;
+    left: 230px;
+    color: #fff;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#m-btns {
+    position: absolute;
+    right: 3px;
+    bottom: 10px;
+    width: 34px;
+    margin-right:12px;
+}
+
+    #m-btns .td {
+        padding: 0 8px;
+    }
+
+.m-btn {
+    cursor: pointer;
+    color: #0e0e0e;
+    font-size: 14px;
+    white-space: pre;
+    padding: 5px 8px 6px 9px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+}
+
+    .m-btn i {
+        font-size: 16px;
+        margin-right: 1px;
+        vertical-align: middle;
+    }
+
+    .m-btn span {
+        position: relative;
+        top: 1px;
+    }
+
+#edit-profile {
+    position: absolute;
+    right: 20px;
+    bottom: 21px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+    #edit-profile i {
+        display: block;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+#black-grd {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    height: 300px;
+    background: linear-gradient(rgba(0, 0, 0, 0) 71%, rgba(0, 0, 0, 0.53));
+    z-index: 1;
+}
+
+#profile-banner-image {
+    /* background-image: url(); */
+    border-radius: 5px 5px 0 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+main {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    box-sizing: border-box;
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+  
+}
+
+.row-left {
+    float: left;
+    width: 200px;
+    margin: 0 40px 0 0;
+}
+
+li.active a {
+    font-weight: 600;
+}
+
+#hoso
+ {
+    border: 0.5px solid rgba(190, 186, 186, 0.7);
+    border-radius: 5px;
+}
+#hoso > a {
+    color: #EE4259
+}
+
+.reading {
+    padding: 0 10px;
+}
+
+
+.reading span {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.index__right-wrap--list {
+    padding: 10px;
+}
+
+li.active a:hover {
+    color: black;
+}
+
+li.col-left {
+    font-size: 14px;
+    line-height: 36px;
+    font-weight: 500;
+}
+
+.row-right {
+    border: 0.5px solid rgba(190, 186, 186, 0.7);
+    border-radius: 10px;
+    width: 80%;
+    padding: 10px;
+}
+
+.col-left {
+    display: block;
+    overflow: hidden;
+    padding: 0 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-radius: 4px;
+    color: #3e3d43;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+i.fa.fa-user,
+i.fa.fa-book,
+i.fa.fa-bell,
+i.fa-solid.fa-message, i.fa-solid.fa-shield-halved, i.bi.bi-journal-arrow-up, i.fa-solid.fa-briefcase {
+    padding-right: 0.5rem;
+}
+
+
+form {
+    display: grid;
+  
+}
+
+.container {
+    width: 80%;
+    /* box-sizing: border-box;
+
+  border: 1px solid #e7e7e7;
+  border-radius: 20px; */
+    margin-top: 5rem;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+input#name,
+input#email,
+input[type="password"] {
+    border: 1px solid #e7e7e7;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+
+
+.textbox-dangtruyen  {
+    padding: 10px;
+}
+
+#dangtruyen-editor {
+    border: 1px solid #ccced1;
+    background: #fff;
+}
+/*button.btn.btn-primary.submit-btn {
+    margin-left: auto;
+    width: 27%;*/
+    /* float: right; */
+/*}*/
+@media only screen and (max-width: 900px) {
+    #profile-banner-image img {
+        width: 25%;
+        height: calc(12vw);
+        object-fit: cover;
+        z-index: 1;
+        position: absolute;
+        border: 5px solid white;
+        top: 6rem;
+        left: 3.5rem;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .nav__bars-btn {
+            display: block;
+        }
+
+        ul.nav.navbar-nav {
+            display: none;
+        }
+
+        .navbar {
+            display: none;
+        }
+
+        .row-left {
+            display: none;
+        }
+
+        .row-right {
+            width: 100%;
+        }
+
+        .logo {
+            display: none;
+        }
+
+        #profile-banner-image img {
+            width: 105px;
+            height: 105px;
+            object-fit: cover;
+            z-index: 1;
+            position: absolute;
+            border: 5px solid white;
+            top: 6rem;
+            left: 1rem;
+            display: inline;
+        }
+
+        .header__box--center.row {
+            width: 80%;
+        }
+
+        #u-name {
+            left: 130px;
+            font-size: 20px;
+        }
+
+        header {
+            height: 5rem;
+            height: calc(15vh);
+        }
+    }
+}
+
+.user-profile-submit-btn {
+    margin-top: 1rem;
+    padding: .5rem 0;
+}
+
+.pagination-user {
+    margin-bottom: .5rem;
+}

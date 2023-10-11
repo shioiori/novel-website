@@ -128,6 +128,10 @@ li.box-active a {
     color: #fff;
 }
 
+.book--info-buttons p.book--info-buttons-filterarea > a {
+    margin-right: 0;
+}
+
 .book--info-buttons p > a:not(:first-child) {
     color: #3f5a93;
     border-color: #3f5a93;

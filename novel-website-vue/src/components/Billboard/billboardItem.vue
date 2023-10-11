@@ -2,7 +2,7 @@
     <div class="book-item col">
         <div class="cover-col">
             <a class="hoverable" href="/truyen/@item.Slug-@item.BookId">
-                <img class="cover-wrapper carousel-inner" src="" />
+                <img class="carousel-inner billboard-cover" src="https://wikidich6.com/photo/63d8b4ed54b80862372b0936?o=1" />
             </a>
         </div>
         <div class="info-col">
@@ -54,4 +54,15 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.billboard-cover {
+    width: 200px;
+    height: 280px;
+}
+.book-item {
+    margin-top: 1rem;
+}
+.cover-col, .info-col {
+    text-align: center;
+}
+</style>
