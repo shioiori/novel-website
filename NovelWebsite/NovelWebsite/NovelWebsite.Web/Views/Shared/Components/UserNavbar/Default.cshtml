@@ -1,6 +1,6 @@
-﻿@using NovelWebsite.NovelWebsite.Core.Models;
+﻿@using NovelWebsite.NovelWebsite.Core.Enums;
+@using NovelWebsite.NovelWebsite.Core.Models;
 @model UserModel
-
 
 <div class="col notification col-md-2 header-ele-container">
     <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
@@ -8,38 +8,25 @@
         Thông báo
     </a>
 </div>
-<div class="row-left">
-	<ul class="row-lef-top">
-		<li class="col-left active" id="hoso"><a href="/ho-so/@Model.UserId"><i class="fa fa-user"></i>Hồ sơ</a></li>
-
-		<li class="col-left active" id="tutruyen">
-			<a href="/ho-so/@Model.UserId/tu-truyen">
-				<i class="fa fa-book"></i>Tủ truyện
-			</a>
-		</li>
-
-		<li class="col-left active" id="truyendang"><a href="/ho-so/@Model.UserId/truyen-da-dang"><i class="fa fa-bell"></i>Truyện đã đăng</a></li>
-		<li class="col-left active">
-			<a href="/dang-tai/@Model.UserId/truyen">
-				<i class="fa-solid fa-briefcase"></i>
-				Đăng truyện
-			</a>
-		</li>
-	</ul>
-	
-	<ul class="row-lef-bottom">
-		<li id="dangtruyen"  class="col-left active">
-			<a  href="/dang-tai/@Model.UserId/truyen">
-				<i class="fa-sharp fa-light fa-book-circle-arrow-up"></i>
-				Đăng truyện
-			</a>
-		</li>
-		<li class="col-left active">
-			<a href="/ho-so/@Model.UserId/truyen-da-dang">
-				<i class="fa-solid fa-briefcase"></i>
-				Quản lí truyện
-			</a>
-		</li>
-		<li class="col-left active"><a href="/ho-so/@Model.UserId/bao-mat"><i class="fa-solid fa-shield-halved"></i>Bảo mật</a></li>
-	</ul>
-</div
+@if (Model.Role != AccountRole.User){
+    <div class="col notification col-md-2 header-ele-container">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
+            <i class="fa-solid fa-bell"></i>
+            Đi tới trang quản trị
+        </a>
+    </div>
+}
+<div class="dropdown">
+    <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img src="${user.user.avatar}" class="user-home-img">
+        <div class="user-home-name"><p>${user.user.userName}</p></div>
+    </button>
+    <ul class="dropdown-menu user-function dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" href="/ho-so/${user.userId}">Hồ sơ</a></li>
+        <li><a class="dropdown-item" href="/ho-so/${user.userId}/tu-truyen">Tủ truyện</a></li>
+        <li><a class="dropdown-item" href="/ho-so/${user.userId}/truyen-da-dang">Truyện đã đăng</a></li>
+        <li><a class="dropdown-item" href="/dang-tai/${user.userId}/truyen">Đăng tải</a></li>
+        <div class="dropdown-divider"></div>
+        <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+    </ul>
+</div>

@@ -119,7 +119,6 @@
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (data) {
-                    console.log(data.Success)
                     if (data.Success) {
                         Swal.fire({
                             title: 'Thành công',
@@ -130,12 +129,15 @@
                             location.reload();
                         })
                     }
-                    Swal.fire({
-                        title: 'Oops',
-                        text: data.Message,
-                        icon: 'error',
-                        timer: 2000,
-                    });
+                    else {
+                        Swal.fire({
+                            title: 'Oops',
+                            text: data.Message,
+                            icon: 'error',
+                            timer: 2000,
+                        });
+                    }
+                    
                 },
                 error: function () { },
                 complete: function () { }
@@ -158,19 +160,23 @@
                 success: function (data) {
                     if (data.Success) {
                         Swal.fire({
-                            title: 'success',
+                            title: 'Thành công',
                             text: data.Message,
                             icon: 'success',
                             timer: 2000,
-                        });
-                        location.reload();
+                        }).then(() => {
+                            location.reload();
+                        })
                     }
-                    Swal.fire({
-                        title: 'Oops',
-                        text: data.Message,
-                        icon: 'error',
-                        timer: 2000,
-                    });
+                    else {
+                        Swal.fire({
+                            title: 'Oops',
+                            text: data.Message,
+                            icon: 'error',
+                            timer: 2000,
+                        });
+                    }
+                    
                 },
                 error: function () { },
                 complete: function () { }

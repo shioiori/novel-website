@@ -24,7 +24,8 @@ namespace NovelWebsite.Domain.Services
         {
             if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
-                var id = int.Parse(((ClaimsIdentity)_httpContextAccessor.HttpContext.User.Identity).FindFirst(ClaimTypes.Sid).ToString());
+                var claims = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
+                var id = int.Parse(claims.FindFirst(ClaimTypes.Sid).Value.ToString());
                 var user = _userRepository.GetById(id);
                 return _mapper.Map<User, UserModel>(user);
             }

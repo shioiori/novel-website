@@ -54,8 +54,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/signout")]
-        public string Signout(string returnUrl)
+        [Route("/logout")]
+        public string Logout(string returnUrl)
         {
             _authorizationService.RemoveClaims();
             return returnUrl;
