@@ -5,10 +5,9 @@ using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 
-namespace NovelWebsite.Application.Controllers
+namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
     [ApiController]
-    [Route("/binh-luan")]
     [Route("/comment")]
     public class CommentController : ControllerBase
     {
@@ -27,7 +26,7 @@ namespace NovelWebsite.Application.Controllers
 
         public void DeleteComment(int commentId)
         {
-           _commentService.DeleteComment(commentId);
+            _commentService.DeleteComment(commentId);
         }
 
         public IEnumerable<CommentModel> GetReplyComment(int commentId)

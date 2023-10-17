@@ -1,7 +1,7 @@
 ﻿using NovelWebsite.Infrastructure.Entities;
 using System.Linq.Expressions;
 
-namespace NovelWebsite.NovelWebsite.Core.Interfaces
+namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
     public interface IBookRepository : IGenericRepository<Book>
     {

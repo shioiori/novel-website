@@ -4,7 +4,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 
-namespace NovelWebsite.Application.Controllers
+namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
     [ApiController]
     [Route("/banner")]

@@ -1,9 +1,10 @@
 ﻿using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.NovelWebsite.Core.Interfaces;
+using NovelWebsite.Infrastructure.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using System.Linq.Expressions;
 
-namespace NovelWebsite.Infrastructure.Repositories
+namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
     public class BookRepository : GenericRepository<Book>, IBookRepository
     {

@@ -7,7 +7,7 @@ using NovelWebsite.NovelWebsite.Domain.Services;
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
     [ApiController]
-    [Route("/interact/xhapter")]
+    [Route("/interact/chapter")]
     public class ChapterInteractionController : ControllerBase
     {
         private readonly ChapterInteractionService _chapterInteractionService;

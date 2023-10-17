@@ -1,9 +1,9 @@
 ﻿
 
-using MailKit;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Domain.Services;
 
@@ -15,11 +15,15 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IMailService _mailService;
 
-        public AccessController(IAuthenticationService authenticationService, IAuthorizationService authorizationService)
+        public AccessController(IAuthenticationService authenticationService, 
+                                IAuthorizationService authorizationService,
+                                IMailService mailService)
         {
             _authenticationService = authenticationService;
             _authorizationService = authorizationService;
+            _mailService = mailService;
         }
 
 
@@ -61,5 +65,11 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return returnUrl;
         }
 
+        [Route("/email-confimation")]
+        public AuthenticationResponse Index(string email, string token)
+        {
+            var response = _mailService.ConfirmEmail(email, token);
+            return response;
+        }   
     }
 }
