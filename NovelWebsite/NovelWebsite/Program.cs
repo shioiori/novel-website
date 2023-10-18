@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using NovelWebsite.Domain.Authorization;
 using NovelWebsite.Domain.Services;
 using NovelWebsite.Infrastructure.Contexts;
@@ -15,6 +16,10 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v2", new OpenApiInfo { Title = "MVCCallWebAPI", Version = "v2" });
+});
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
@@ -148,6 +153,14 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseSwagger();
+
+// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),        
+// specifying the Swagger JSON endpoint.        
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v2/swagger.json", "MVCCallWebAPI");
+});
 app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -156,17 +169,17 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
+    pattern: "mvc/{controller=Home}/{action=Index}/{id?}"
 );
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
       name: "areas",
-      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+      pattern: "mvc/{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
       name: "default",
-      pattern: "{controller=Home}/{action=Index}/{id?}");
+      pattern: "mvc/{controller=Home}/{action=Index}/{id?}");
 
 });
 app.MapControllers();

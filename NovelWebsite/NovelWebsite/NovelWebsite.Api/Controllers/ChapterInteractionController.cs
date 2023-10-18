@@ -36,6 +36,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [Route("set-status-like")]
+        [HttpGet]
         public bool SetChapterLike(int chapterId)
         {
             var user = _userService.GetCurrentUser();
@@ -43,6 +44,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [Route("set-status-mark")]
+        [HttpGet]
+
         public bool SetChapterMark(int chapterId)
         {
             var user = _userService.GetCurrentUser();

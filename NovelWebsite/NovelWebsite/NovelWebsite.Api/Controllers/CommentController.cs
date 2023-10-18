@@ -19,16 +19,21 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [HttpPost]
+        [Route("add")]
         public void AddComment(CommentModel comment)
         {
             _commentService.CreateComment(comment);
         }
 
+        [HttpDelete]
+        [Route("delete")]
         public void DeleteComment(int commentId)
         {
             _commentService.DeleteComment(commentId);
         }
 
+        [HttpGet]
+        [Route("get-reply-comment")]
         public IEnumerable<CommentModel> GetReplyComment(int commentId)
         {
             return _commentService.GetReplyComments(commentId);

@@ -10,7 +10,6 @@ using NovelWebsite.NovelWebsite.Domain.Services;
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
     [ApiController]
-    [Route("/access")]
     public class AccessController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
@@ -65,8 +64,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return returnUrl;
         }
 
+        [HttpGet]
         [Route("/email-confimation")]
-        public AuthenticationResponse Index(string email, string token)
+        public AuthenticationResponse EmailConfimation(string email, string token)
         {
             var response = _mailService.ConfirmEmail(email, token);
             return response;

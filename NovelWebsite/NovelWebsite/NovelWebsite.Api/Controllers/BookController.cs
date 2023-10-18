@@ -38,7 +38,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-by-interaction-type")]
+        [Route("get-top-by-interaction-type")]
         public IEnumerable<BookModel> GetByInteractionType(InteractionType type)
         {
             var books = _bookService.GetBooks();

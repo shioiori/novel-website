@@ -10,7 +10,8 @@ namespace NovelWebsite.Api.Controllers
 {
 
     [Route("/chapter")]
-    public class ChapterController : Controller
+    [ApiController]
+    public class ChapterController : ControllerBase
     {
         private readonly IChapterService _chapterService;
 
@@ -46,6 +47,7 @@ namespace NovelWebsite.Api.Controllers
         }
 
         [Route("delete")]
+        [HttpDelete]
         public void DeleteChapter(int chapterId)
         {
             _chapterService.DeleteChapter(chapterId);
