@@ -8,29 +8,33 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 {
     public class AuthorizationService : IAuthorizationService
     {
-        private readonly IAccountRepository _accountRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthorizationService(IAccountRepository accountRepository, IUserRepository userRepository,
+        public AuthorizationService(IUserRepository userRepository,
+                                    IUserRoleRepository userRoleRepository,
                                     IHttpContextAccessor httpContextAccessor){
-            _accountRepository = accountRepository;
             _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task SetClaims(AccountModel account, string authenticationType){
-            var claims = CreateClaims(account);
+        public async Task SetClaims(UserModel user, string authenticationType){
+            var claims = CreateClaims(user);
             await SaveClaims(claims, authenticationType);
         }
 
-        public IEnumerable<Claim> CreateClaims(AccountModel account){
+        public IEnumerable<Claim> CreateClaims(UserModel user){
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()));
-            claims.Add(new Claim(ClaimTypes.Name, account.Username));
-            claims.Add(new Claim(ClaimTypes.Role, account.Role.ToString()));
-            claims.Add(new Claim(ClaimTypes.Sid, account.UserId.ToString()));
-            claims.Add(new Claim(ClaimTypes.Email, account.Email));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+            claims.Add(new Claim(ClaimTypes.Name, user.Username));
+            var roles = _userRoleRepository.Filter(x => x.UserId == user.UserId);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.Role.RoleName));
+            }
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
             return claims;
         }
         

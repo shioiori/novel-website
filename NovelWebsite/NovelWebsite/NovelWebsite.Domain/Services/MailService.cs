@@ -20,14 +20,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
     public class MailService : IMailService
     {
         private readonly MailSettings _mailSettings;
-        private readonly IAccountRepository _accountRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public MailService(IOptions<MailSettings> mailSettings, IAccountRepository accountRepository, IUserRepository userRepository, IMapper mapper)
+        public MailService(IOptions<MailSettings> mailSettings, IUserRepository userRepository, IMapper mapper)
         {
             _mailSettings = mailSettings.Value;
-            _accountRepository = accountRepository;
             _userRepository = userRepository;
             _mapper = mapper;
         }
@@ -71,8 +69,6 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         {
             try
             {
-                var account = _accountRepository.GetAccountByEmail(mail);
-                account.Status = (int)AccountStatus.Active;
                 var decrypt = AesOperation.DecryptString(token);
                 var user = JsonConvert.DeserializeObject<UserModel>(decrypt);
                 _userRepository.Insert(_mapper.Map<UserModel, User>(user));

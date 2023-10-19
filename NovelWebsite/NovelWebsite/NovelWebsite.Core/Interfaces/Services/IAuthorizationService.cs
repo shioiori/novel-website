@@ -5,7 +5,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 {
     public interface IAuthorizationService
     {
-        Task SetClaims(AccountModel account, string authenticationType);
+        Task SetClaims(UserModel account, string authenticationType);
         Task RemoveClaims();
     }
 

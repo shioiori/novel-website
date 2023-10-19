@@ -6,7 +6,6 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork{
         private readonly AppDbContext _dbContext;
-        private IAccountRepository _accountRepository;
         private IAuthorRepository _authorRepository;
         private IBannerRepository _bannerRepository;
         private IBookRepository _bookRepository;
@@ -29,18 +28,6 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-        public IAccountRepository AccountRepository
-        {
-            get
-            {
-                if (_accountRepository == null)
-                {
-                    _accountRepository = new AccountRepository(_dbContext);
-                }
-                return _accountRepository;
-            }
-        }
-
         public IAuthorRepository AuthorRepository
         {
             get
