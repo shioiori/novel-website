@@ -4,43 +4,9 @@
             <h3>Tin tức</h3>
             <div class="index__notice--list">
                 <ul class="list-group list-group-flush" id="new-posts">
-                    <li class="list-group-item odd">
+                    <li :class="getClass(index)" v-for="(item, index) in post" :key="index">
                         <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">Đăng ký convert</a>
-                    </li>
-                    <li class="list-group-item">
-                        <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">Bảng lương convert</a>
-                    </li>
-                    <li class="list-group-item odd">
-                        <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">Kiếm tiền</a>
-                    </li>
-                    <li class="list-group-item">
-                        <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">Đơn vị tiền</a>
-                    </li>
-                    <li class="list-group-item odd">
-                        <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)"
-                            >Các bước thành converter</a
-                        >
-                    </li>
-                    <li class="list-group-item">
-                        <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">Tin hot 1</a>
-                    </li>
-                    <li class="list-group-item odd">
-                        <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">Tin hot 2</a>
-                    </li>
-                    <li class="list-group-item">
-                        <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">Tin hot 3</a>
-                    </li>
-                    <li class="list-group-item odd">
-                        <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">Tin hot 4</a>
+                        <a href="javascript:void(0)">{{ item }}</a>
                     </li>
                 </ul>
             </div>
@@ -49,8 +15,33 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "article-layout",
+    data() {
+        return {
+            post: []
+        }
+    },
+    mounted() {
+        this.fetchArticle()
+    },
+    methods: {
+        async fetchArticle() {
+            try {
+                const url = `${apiPath}/post/get-by-filter`
+                let res = (await axios.get(url)).data
+                console.log(res);
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        getClass(index) {
+            return index % 2 == 0 ? 'list-group-item' : 'list-group-item odd'
+        }
+    }
 };
 </script>
 

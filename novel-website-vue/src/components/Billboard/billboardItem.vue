@@ -49,8 +49,27 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "billboard-item",
+    mounted() {
+        this.fetchData();
+    },
+    methods: {
+        async fetchData() {
+            try {
+                const url = `${apiPath}/book/get-all`;
+                let res = (await axios.get(url)).data;
+                console.log(res)
+                console.log(url);
+            }
+            catch (e) {
+                console.log(e)
+            }
+        }
+    }
 };
 </script>
 

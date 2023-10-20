@@ -20,6 +20,7 @@
                                 placeholder="Tên đăng nhập"
                                 name="AccountName"
                                 required
+                                v-model="username"
                             />
                             <label for="tdn"
                                 ><i class="fa-solid fa-user modal--icon"></i>Tên
@@ -34,6 +35,7 @@
                                 placeholder="Email"
                                 name="Email"
                                 required
+                                v-model="email"
                             />
                             <label for="eml"
                                 ><i class="fa-solid fa-envelope modal--icon"></i
@@ -48,6 +50,7 @@
                                 placeholder="Mật khẩu"
                                 name="Password"
                                 required
+                                v-model="password"
                             />
                             <label for="mk"
                                 ><i class="fa-solid fa-key modal--icon"></i>Mật
@@ -63,6 +66,7 @@
                                 placeholder="Nhập lại mật khẩu"
                                 name="PasswordAgain"
                                 required
+                                v-model="re_password"
                             />
                             <label for="rmk"
                                 ><i class="fa-solid fa-key modal--icon"></i>Nhập
@@ -74,7 +78,7 @@
                         <button
                             type="button"
                             class="btn btn-success"
-                            onclick="Signup()"
+                            :click="onRegister()"
                         >
                             Đăng ký
                         </button>
@@ -101,8 +105,37 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "register-modal",
+    data() {
+        return {
+            username: "",
+            password: "",
+            email: "",
+            re_password: "",
+        }
+    },
+    methods: {
+        async onRegister() {
+            try {
+                const url = `${apiPath}/register`
+                if(this.password == this.re_password && (this.password != null || this.password != "")) {
+                    let res = (await axios.post(url, {
+                        Username: this.username,
+                        Password: this.password,
+                        Email: this.email
+                    })).data;
+                    console.log(res)
+                }
+
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
 };
 </script>
 

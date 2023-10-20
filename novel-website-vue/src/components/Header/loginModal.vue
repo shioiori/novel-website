@@ -19,6 +19,7 @@
                                 name="AccountName"
                                 placeholder="Tên đăng nhập"
                                 required
+                                v-model="username"
                             />
                             <label
                                 ><i class="fa-solid fa-user modal--icon"></i>Tên
@@ -32,6 +33,7 @@
                                 name="Password"
                                 placeholder="Mật khẩu"
                                 required
+                                v-model="password"
                             />
                             <label
                                 ><i class="fa-solid fa-key modal--icon"></i>Mật
@@ -43,7 +45,7 @@
                         <button
                             type="button"
                             class="btn btn-success"
-                            onclick="Login()"
+                            :click="onLogin()"
                         >
                             Đăng nhập
                         </button>
@@ -70,8 +72,35 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "login-modal",
+    data() {
+        return {
+            username: "",
+            password: "",
+        };
+    },
+    mounted() {
+        
+    },
+    methods: {
+        async onLogin() {
+            try {
+                const url = `${apiPath}/login`;
+                let res = (await axios.post(url, {
+                    Username: this.username,
+                    Password: this.password,
+                    LoginProvider: 'Cookies'
+                })).data;
+                console.log(res)
+            } catch (e) {
+                console.log(e);
+            }
+        },
+    },
 };
 </script>
 
