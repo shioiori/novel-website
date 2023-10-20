@@ -14,6 +14,8 @@ using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 using System.Security.Claims;
 
+var corsNovelWebsite = "_corsNovelWebsite";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen(c =>
@@ -144,6 +146,16 @@ builder.Services.AddMvc()
                     jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(corsNovelWebsite,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:64082/",
+                                             "https://novel-website.somee.com/");
+                      });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -165,6 +177,7 @@ app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors(corsNovelWebsite);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
