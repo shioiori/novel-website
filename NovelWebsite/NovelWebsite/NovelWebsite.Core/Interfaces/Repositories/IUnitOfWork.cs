@@ -3,7 +3,6 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 
 public interface IUnitOfWork
     {
-        IAccountRepository AccountRepository { get; }
         IAuthorRepository AuthorRepository{ get; }
         IBannerRepository BannerRepository{ get; }
         IBookRepository BookRepository{ get; }

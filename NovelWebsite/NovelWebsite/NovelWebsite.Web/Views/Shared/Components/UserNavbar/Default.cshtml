@@ -8,14 +8,7 @@
         Thông báo
     </a>
 </div>
-@if (Model.Role != AccountRole.User){
-    <div class="col notification col-md-2 header-ele-container">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#dangnhap">
-            <i class="fa-solid fa-bell"></i>
-            Đi tới trang quản trị
-        </a>
-    </div>
-}
+
 <div class="dropdown">
     <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <img src="${user.user.avatar}" class="user-home-img">

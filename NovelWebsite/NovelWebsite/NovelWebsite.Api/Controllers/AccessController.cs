@@ -33,8 +33,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             var response = _authenticationService.Login(request);
             if (response.Success)
             {
-                var account = JsonConvert.DeserializeObject<AccountModel>(response.Context);
-                await _authorizationService.SetClaims(account, request.LoginProvider);
+                var user = JsonConvert.DeserializeObject<UserModel>(response.Context);
+                await _authorizationService.SetClaims(user, request.LoginProvider);
             }
             return response;
         }

@@ -24,14 +24,8 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<ReviewModel, Review>();
             CreateMap<Review, ReviewModel>();
 
-            CreateMap<RegisterRequest, Account>();
-            CreateMap<RegisterRequest, User>();
-
-            CreateMap<RegisterRequest, AccountModel>();
             CreateMap<RegisterRequest, UserModel>();
-
-            CreateMap<AccountModel, Account>();
-            CreateMap<Account, AccountModel>();
+            CreateMap<LoginRequest, UserModel>();
 
             CreateMap<UserModel, User>()
                     .ForMember(x => x.Avatar, y => y.NullSubstitute("default.jpg"))

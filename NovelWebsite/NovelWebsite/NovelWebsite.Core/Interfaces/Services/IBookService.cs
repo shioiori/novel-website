@@ -11,7 +11,6 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces
         void DeleteBookPermanent(int bookId);
         IEnumerable<BookModel> GetAllBooks();
         BookModel GetBook(int bookId);
-        IEnumerable<BookModel> GetBookByRoleInteractive(InteractionType type, AccountRole role);
         IEnumerable<BookModel> GetBookByUserInteractive(InteractionType type);
         IEnumerable<BookModel> GetBooks();
         IEnumerable<BookModel> GetBooksByAuthor(int authorId);

@@ -43,10 +43,6 @@ namespace NovelWebsite.Domain.Services
         {
             return b => b.InteractType == (int)type;
         }
-        Expression<Func<Book_User, bool>> expFilterByRole(AccountRole role)
-        {
-            return b => b.User.Account.RoleId == (int)role;
-        }
         public BookService(IBookRepository bookRepository, IBookUserRepository bookUserRepository, IMapper mapper)
         {
             _bookRepository = bookRepository;
@@ -252,15 +248,6 @@ namespace NovelWebsite.Domain.Services
         public IEnumerable<BookModel> GetBookByUserInteractive(InteractionType type)
         {
             var list = _bookUserRepository.GetByInteractionType(type).Select(x => x.BookId).ToList();
-            var books = GetBooks();
-            books = books.Where(x => list.Contains(x.BookId));
-            return books;
-        }
-
-        public IEnumerable<BookModel> GetBookByRoleInteractive(InteractionType type, AccountRole role)
-        {
-            var exp = ExpressionUtil<Book_User>.Combine(expFilterByInteractionType(type), expFilterByRole(role));
-            var list = _bookUserRepository.Filter(exp).Select(x => x.BookId);
             var books = GetBooks();
             books = books.Where(x => list.Contains(x.BookId));
             return books;
