@@ -13,9 +13,7 @@ using NovelWebsite.NovelWebsite.Core.Models.MailKit;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 using System.Security.Claims;
-
-var corsNovelWebsite = "_corsNovelWebsite";
-
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen(c =>
@@ -26,9 +24,19 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 // Add services to the container.
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+                          policy =>
+                          {
+                              policy.WithOrigins("*")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                          });
+});
 builder.Services.AddControllers(); 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NovelWebsite")));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
@@ -129,33 +137,6 @@ builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 builder.Services.AddTransient<IMailService, MailService>();
 
-builder.Services.AddMvc()
-                .AddRazorOptions(options =>
-                {
-                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/{1}/{0}.cshtml");
-                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/Shared/{0}.cshtml");
-                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/Shared/{1}/{0}.cshtml");
-                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Views/Shared/Partials/{0}.cshtml");
-                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{1}/{0}.cshtml");
-                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{1}/Partials/{0}.cshtml");
-                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/{1}/{0}.cshtml");
-                    options.ViewLocationFormats.Add("/NovelWebsite.Web/Admin/Views/Shared/{0}.cshtml");
-                })
-                .AddJsonOptions(jsonOptions =>
-                {
-                    jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
-                });
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(corsNovelWebsite,
-                      policy =>
-                      {
-                          policy.WithOrigins("https://localhost:64082/",
-                                             "https://novel-website.somee.com/");
-                      });
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -177,13 +158,8 @@ app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseCors(corsNovelWebsite);
-app.UseAuthentication();
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "mvc/{controller=Home}/{action=Index}/{id?}"
-);
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
