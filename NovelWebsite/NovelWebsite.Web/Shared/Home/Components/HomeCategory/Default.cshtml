@@ -1,0 +1,30 @@
+﻿@using NovelWebsite.NovelWebsite.Core.Models;
+@model IEnumerable<CategoryModel>
+
+<div class="index__theloai col-md-3">
+    <div class="index__theloai--wrap">
+        @{
+            int idx = 0;
+            for (int i = 0; i < Model.Count(); i++)
+            {
+                <div class="index__theloai--chitiet row">
+                @{
+                    for (int j = 1; j <= 2; ++j){
+                        var item = Model.ElementAt(i);
+                        <div class="index__theloai--chitiet-cot col-md-6">
+                            <a href="/bo-loc?categoryId=@item.CategoryId">
+                                <img src="@item.CategoryImage" />
+                                <span>
+                                    <p class="tentruyen">@item.CategoryName</p>
+                                    <p class="soluongtruyen">@item.Quantity</p>
+                                </span>
+                            </a>
+                        </div>
+                        if (j == 1) i++;
+                    }
+                }
+                </div>
+            }
+        }
+    </div>
+</div>

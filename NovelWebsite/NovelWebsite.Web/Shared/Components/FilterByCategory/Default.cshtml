@@ -1,0 +1,14 @@
+﻿@using NovelWebsite.NovelWebsite.Core.Models;
+@model IEnumerable<CategoryModel>
+
+<a class="dropdown-button" data-hover="true" data-beloworigin="true"
+   data-constrainwidth="false" data-activates='ddRankCate'
+   style="font-size: 1.23rem; color: #666666;">Thể loại<i class="fa fa-sort-desc" aria-hidden="true" style="font-size: 1.6rem; margin: 0 0.4rem; vertical-align: top; line-height: 1.2rem"></i></a>
+<ul id='ddRankCate' class='dropdown-content'>
+    @{
+        foreach (var item in Model)
+        {
+            <li class=""><a href="/bang-xep-hang?category=@item.Slug">@item.CategoryName</a></li>
+        }
+    }
+</ul>

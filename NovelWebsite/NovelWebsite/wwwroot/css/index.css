@@ -1174,3 +1174,25 @@ img {
     background-color: #dd4b39;
     border-color: rgba(0,0,0,0.2);
 }
+
+
+.header-ele-container{
+    display: flex;
+}
+
+.header-ele-container a{
+    align-items: center;
+    display: flex;
+    font-size: 16px;
+    opacity: 0.5;
+    margin-top: auto;
+    margin-bottom: auto;
+    flex-grow: 1;
+    justify-content: end;
+    width: 100%;
+}
+
+.header-ele-container i {
+    font-size: 1.25rem;
+    padding: 0 0.5rem;
+}

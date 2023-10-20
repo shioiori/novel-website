@@ -1,0 +1,70 @@
+﻿@using NovelWebsite.NovelWebsite.Core.Models;
+@model IEnumerable<PostModel>
+
+<link rel="stylesheet" href="~/css/listpost.css">
+<link href="~/css/utils/animate.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+<link rel="stylesheet" href="~/css/utils/railcast.css">
+<link href="~/css/utils/materialize-wiki.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+<link href="~/css/wiki/base-0.1.0.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+
+<script type="text/javascript" src="~/js/utils/materialize-wiki.min.js"></script>
+<script type="text/javascript" src="~/js/utils/jquery-2.2.4.min.js"></script>
+<script src="/js/utils/materialize-wiki.min.js"></script>
+
+
+<main class="page-category ">
+    <div class="postfilter">
+        
+        @await Html.PartialAsync("FilterBySortOrder")
+
+        <form action="/tin-tuc" method="get">
+            <div class="right search input-group">
+                <input type="text" class="form-control shadow-none" name="name" placeholder="Nhập tiêu đề bài viết">
+                <button class="btn btn-success btn--search-color" type="submit" title="searchButton">
+                    <i class="fa-solid fa-magnifying-glass search__btn--icons"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container" id="content">
+        <div class="row">
+            <div class="category col-sm-12">
+                <ul class="topic-list">
+                    <meta itemprop="itemListOrder">
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <li component="category/topic" class="row clearfix" data-index="0" vitemprop="itemListElement">
+                                <meta itemprop="name" content="@item.Title">
+
+                                <div class="content">
+                                    <div class="avatar pull-left" title="@item.User.Name">
+                                        <a href="" class="pull-left">
+                                            <img component="user/picture" data-uid="23027" src="@item.User.Avatar" class="user-img" />
+                                        </a>
+                                    </div>
+                                    <h2 component="topic/header" class="title">
+                                        <i component="topic/pinned" class="fa fa-thumb-tack hide" title="Pinned"></i>
+                                        <i component="topic/locked" class="fa fa-lock hide" title="Khóa"></i>
+
+                                        <div class="card-title">
+                                            <a href="/tin-tuc/@item.Slug-@item.PostId" itemprop="url">@item.Title</a><br />
+                                        </div>
+                                        <small href="">@item.User.Name &bull; @item.CreatedDate</small>
+                                        <div>
+                                            <span>
+                                                @item.Description
+                                            </span>
+                                        </div>
+
+                                    </h2>
+                                </div>
+                            </li>
+                        }
+                    }
+                    <!--  -->
+                </ul>
+            </div>
+        </div><!-- END container -->
+</main>

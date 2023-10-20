@@ -1,0 +1,87 @@
+﻿@using NovelWebsite.NovelWebsite.Core.Models;
+@model IEnumerable<BookModel>
+@if (Model.Count() > 0){
+    
+    var firstItem = Model.ElementAt(0);
+    
+
+    <div id="index__four" class="index__row row">
+        <h4 class="index__wrap-title">
+            Truyện mới
+            <a href="/bo-loc">
+                Tất cả
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </h4>
+        <div class="index__left-wrap col-md-3" id="newbook-avatar">
+            <div class="index__left-wrap-detail card">
+                <img class="card-img-top" src="/image/test.jpg" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/html//truyen.html">@firstItem.BookName</a>
+                    </h4>
+                    <p class="card-text index__left-wrap--theloai">@firstItem.Category.CategoryName</p>
+                    <p class="card-text index__left-wrap--sochuong">@firstItem.TotalChapters</p>
+                    <p class="card-text index__left-wrap--gioithieu">
+                        <i>
+                            @firstItem.Introduce
+                        </i>
+                    </p>
+                    <a href="/html/truyen.html" class="btn btn-primary index__left-wrap--cardbtn">
+                        Đọc truyện
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="index__right-wrap col-md-9" id="newbook">
+            @for(int i = 1; i < Model.Count(); ++i)
+            {
+                <div class="index__right-wrap--list row">
+                    @for(int j = 0; j < 3; ++j)
+                    {
+                        var item = Model.ElementAt(j);
+                        <div class="index__right-wrap--listitem col-md-4">
+                            <div class="book--img">
+                                <a href="javascript:void(0)">
+                                    <img src="/image/test3.jpg" class="book--imgcss">
+                                </a>
+                            </div>
+                            <div class="book--info">
+                                <div class="book-name">
+                                    <a href="/html/truyen.html">@item.BookName</a>
+                                </div>
+                                <div class="book-state">
+                                    <a href="javascript:void(0)">@item.BookStatus</a>
+                                </div>
+                                <p>
+                                    <em>
+                                        <span class="chapters">@item.TotalChapters</span>
+                                    </em>
+                                    <cite>Số chương</cite>
+                                    <i>|</i>
+                                    <em>
+                                        <span class="views">@item.Views</span>
+                                    </em>
+                                    <cite>Lượt xem</cite>
+                                </p>
+                                <div class="category">
+                                    <p>Thể loại:</p>
+                                    <p class="category-wrap">
+                                        <a href="javascript:void(0)">@item.Category.CategoryName</a>
+                                    </p>
+                                </div>
+                                <div class="describe">
+                                    <i class="fa-solid fa-quote-left"></i>@item.Introduce
+                                </div>
+                            </div>
+                        </div>
+                        @if (j == 2) i--;
+                    }
+                    </div>
+            }
+        </div>
+    </div>
+}
