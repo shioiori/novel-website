@@ -55,16 +55,19 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public void CreatePost(PostModel post)
         {
             _postRepository.Insert(_mapper.Map<PostModel, Post>(post));
+            _postRepository.Save();
         }
 
         public void UpdatePost(PostModel post)
         {
             _postRepository.Update(_mapper.Map<PostModel, Post>(post));
+            _postRepository.Save();
         }
 
         public void DeletePost(int postId)
         {
             _postRepository.Delete(postId);
+            _postRepository.Save();
         }
     }
 }

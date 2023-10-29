@@ -61,16 +61,19 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public void CreateComment(CommentModel comment)
         {
             _commentRepository.Insert(_mapper.Map<CommentModel, Comment>(comment));
+            _commentRepository.Save();
         }
 
         public void UpdateComment(CommentModel comment)
         {
             _commentRepository.Update(_mapper.Map<CommentModel, Comment>(comment));
+            _commentRepository.Save();
         }
 
         public void DeleteComment(int commentId)
         {
             _commentRepository.Delete(commentId);
+            _commentRepository.Save();
         }
     }
 }

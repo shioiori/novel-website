@@ -72,16 +72,21 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public void CreateBanner(BannerModel banner)
         {
             _bannerRepository.Insert(_mapper.Map<BannerModel, Banner>(banner));
+            _bannerRepository.Save();
         }
 
         public void UpdateBanner(BannerModel banner)
         {
             _bannerRepository.Update(_mapper.Map<BannerModel, Banner>(banner));
+            _bannerRepository.Save();
+
         }
 
         public void DeleteBanner(object bannerId)
         {
             _bannerRepository.Delete(bannerId);
+            _bannerRepository.Save();
+
         }
 
     }

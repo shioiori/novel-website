@@ -10,12 +10,15 @@ namespace NovelWebsite.Domain.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository,
+                        IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -38,6 +41,13 @@ namespace NovelWebsite.Domain.Services
             return _mapper.Map<User, UserModel>(user);
         }
 
+        public IEnumerable<UserModel> GetUsersByRole(int roleId)
+        {
+            var userRoles = _userRoleRepository.Filter(x => x.RoleId == roleId);
+            var user = userRoles.Select(x => _userRepository.GetById(x.UserId)).ToList();
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(user);
+        }
+
         public IEnumerable<UserModel> GetUsers()
         {
             var users = _userRepository.GetAll();
@@ -47,16 +57,43 @@ namespace NovelWebsite.Domain.Services
         public void CreateUser(UserModel model)
         {
             _userRepository.Insert(_mapper.Map<UserModel, User>(model));
+            _userRepository.Save();
         }
 
         public void UpdateUser(UserModel model)
         {
             _userRepository.Update(_mapper.Map<UserModel, User>(model));
+            _userRepository.Save();
         }
 
         public void DeleteUser(int id)
         {
             _userRepository.Delete(id);
+            _userRepository.Save();
+        }
+
+        public void SetUserStatus(int userId, int status)
+        {
+            var user = _userRepository.GetById(userId);
+            user.Status = status;
+            _userRepository.Insert(user);
+            _userRepository.Save();
+        }
+
+        public void SetUserRole(int userId, int roleId)
+        {
+            _userRoleRepository.Insert(new User_Role()
+            {
+                UserId = userId,
+                RoleId = roleId
+            });
+            _userRoleRepository.Save();
+        }
+
+        public void RemoveUserRole(int userId, int roleId)
+        {
+            _userRoleRepository.Delete(userId, roleId);
+            _userRoleRepository.Save();
         }
     }
 }

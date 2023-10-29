@@ -31,5 +31,26 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             var banners = _bannerService.GetBannersByType(BannerType.Advertise);
             return RandomUtil<BannerModel>.GetRandom(banners, banners.Count());
         }
+
+        [HttpPost]
+        [Route("add")]
+        public void AddBanner(BannerModel banner)
+        {
+            _bannerService.CreateBanner(banner);
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public void UpdateBanner(BannerModel banner)
+        {
+            _bannerService.UpdateBanner(banner);
+        }
+
+        [HttpDelete]
+        [Route("delete")]
+        public void DeleteBanner(int id)
+        {
+            _bannerService.DeleteBanner(id);
+        }
     }
 }

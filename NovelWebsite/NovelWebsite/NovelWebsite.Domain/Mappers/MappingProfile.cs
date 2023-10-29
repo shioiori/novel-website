@@ -19,7 +19,8 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<BookModel, Book>();
             CreateMap<Book, BookModel>();
 
-            CreateMap<CategoryModel, Category>();
+            CreateMap<CategoryModel, Category>()
+                    .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.CategoryName) : x.Slug)); ;
             CreateMap<Category, CategoryModel>();
 
             CreateMap<PostModel, Post>();
