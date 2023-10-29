@@ -122,7 +122,7 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 //builder.Services.AddScoped<IReviewUserService, ReviewUserService>();
 //builder.Services.AddScoped<IRoleService, RoleService>();
-//builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
 

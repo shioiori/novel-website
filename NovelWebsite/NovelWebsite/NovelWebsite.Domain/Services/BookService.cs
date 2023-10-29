@@ -229,20 +229,24 @@ namespace NovelWebsite.Domain.Services
         public void CreateBook(BookModel book)
         {
             _bookRepository.Insert(_mapper.Map<BookModel, Book>(book));
+            _bookRepository.Save();
         }
         public void UpdateBook(BookModel book)
         {
             _bookRepository.Update(_mapper.Map<BookModel, Book>(book));
+            _bookRepository.Save();
         }
         public void DeleteBook(int bookId)
         {
             var book = _bookRepository.GetById(bookId);
             book.IsDeleted = true;
             _bookRepository.Update(book);
+            _bookRepository.Save();
         }
         public void DeleteBookPermanent(int bookId)
         {
             _bookRepository.Delete(bookId);
+            _bookRepository.Save();
         }
 
         public IEnumerable<BookModel> GetBookByUserInteractive(InteractionType type)

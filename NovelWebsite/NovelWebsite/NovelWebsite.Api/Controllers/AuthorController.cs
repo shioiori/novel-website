@@ -21,5 +21,26 @@ namespace NovelWebsite.Api.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost]
+        [Route("add")]
+        public void Add(AuthorModel author)
+        {
+            _authorService.CreateAuthor(author);
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public void Update(AuthorModel author)
+        {
+            _authorService.UpdateAuthor(author);
+        }
+
+        [HttpPost]
+        [Route("delete")]
+
+        public void Delete(int authorId)
+        {
+            _authorService.DeleteAuthor(authorId);
+        }
     }
 }

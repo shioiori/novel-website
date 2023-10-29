@@ -28,7 +28,6 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public DateTime UpdatedDate { get; set; }
         public int Status { get; set; } = (int)UploadStatus.Moderation;
         public bool IsDeleted { get; set; } = false;
-        public IEnumerable<ChapterModel>? Chapters { get; set; }
         public int TotalChapters { get; set; } = 0;
     }
 }
