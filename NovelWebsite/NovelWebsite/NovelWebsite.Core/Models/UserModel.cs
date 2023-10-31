@@ -13,5 +13,7 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public string Name { get; set; }
         public string Avatar { get; set; } = "default.jpg";
         public string CoverPhoto { get; set; } = "default.jpg";
+        public DateTime CreatedDate { get; set; } 
+        public int Status { get; set; }
     }
 }

@@ -36,9 +36,11 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                     InteractType = (int)type,
                 };
                 _postUserRepository.Insert(post);
+                _postUserRepository.Save();
                 return true;
             }
             _postUserRepository.Delete(post);
+            _postUserRepository.Save();
             return false;
         }
 

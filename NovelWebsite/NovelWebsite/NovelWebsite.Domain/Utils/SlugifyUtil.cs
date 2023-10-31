@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NovelWebsite.NovelWebsite.Domain.Utils
 {
@@ -8,15 +9,14 @@ namespace NovelWebsite.NovelWebsite.Domain.Utils
     {
         public static string Slugify(string phrase)
         {
-            string str = phrase.RemoveAccent().ToLower();
-            // invalid chars           
-            str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-            // convert multiple spaces into one space   
-            str = Regex.Replace(str, @"\s+", " ").Trim();
-            // cut and trim 
-            str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
-            str = Regex.Replace(str, @"\s", "-"); // hyphens   
-            return str;
+            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string slug = phrase.Normalize(NormalizationForm.FormD).Trim().ToLower();
+            slug = regex.Replace(slug, String.Empty)
+              .Replace('\u0111', 'd').Replace('\u0110', 'D')
+              .Replace(",", "-").Replace(".", "-").Replace("!", "")
+              .Replace("(", "").Replace(")", "").Replace(";", "-")
+              .Replace("?", "").Replace('"', '-').Replace(' ', '-');
+            return slug.RemoveAccent();
         }
         public static string RemoveAccent(this string txt)
         {

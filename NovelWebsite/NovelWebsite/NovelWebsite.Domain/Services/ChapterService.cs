@@ -61,15 +61,18 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public void CreateChapter(ChapterModel chapter)
         {
             _chapterRepository.Insert(_mapper.Map<ChapterModel, Chapter>(chapter));
+            _chapterRepository.Save();
         }
         public void UpdateChapter(ChapterModel chapter)
         {
             _chapterRepository.Update(_mapper.Map<ChapterModel, Chapter>(chapter));
+            _chapterRepository.Save();
         }
 
         public void DeleteChapter(int chapterId)
         {
             _chapterRepository.Delete(chapterId);
+            _chapterRepository.Save();
         }
 
     }

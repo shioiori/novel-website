@@ -109,14 +109,13 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
-//builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBannerService, BannerService>();
-//builder.Services.AddScoped<IBillboardService, BillboardService>();
 builder.Services.AddScoped<IBookService, BookService>();
 //builder.Services.AddScoped<IBookTagService, BookTagService>();
 //builder.Services.AddScoped<IBookUserService, BookUserService>();
@@ -129,8 +128,8 @@ builder.Services.AddScoped<IPostService, PostService>();
 //builder.Services.AddScoped<IPostUserService, PostUserService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 //builder.Services.AddScoped<IReviewUserService, ReviewUserService>();
-//builder.Services.AddScoped<IRoleService, RoleService>();
-//builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
 

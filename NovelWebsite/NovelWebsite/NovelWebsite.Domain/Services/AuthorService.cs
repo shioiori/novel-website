@@ -28,5 +28,40 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var author = _authorRepository.GetByExpression(x => x.Slug == slug);
             return _mapper.Map<Author, AuthorModel>(author);
         }
+
+        public void CreateAuthor(AuthorModel author)
+        {
+            _authorRepository.Insert(_mapper.Map<AuthorModel, Author>(author));
+            _authorRepository.Save();
+        }
+
+        public void UpdateAuthor(AuthorModel author)
+        {
+            _authorRepository.Update(_mapper.Map<AuthorModel, Author>(author));
+            _authorRepository.Save();
+        }
+
+        public void DeleteAuthor(int authorId)
+        {
+            _authorRepository.Delete(authorId);
+            _authorRepository.Save();
+        }
+
+        public AuthorModel GetAuthorByName(string name)
+        {
+            var author = _authorRepository.GetByExpression(x => x.AuthorName == name);
+            if (author == null)
+            {
+                author = _authorRepository.Filter(x => x.AuthorName.ToLower().Trim()
+                                                                            .Contains(name.ToLower().Trim())).FirstOrDefault();
+            }
+            return _mapper.Map<Author, AuthorModel>(author);
+        }
+
+        public IEnumerable<AuthorModel> GetAllAuthor()
+        {
+            var authors = _authorRepository.GetAll();
+            return _mapper.Map<IEnumerable<Author>, IEnumerable<AuthorModel>>(authors);
+        }
     }
 }
