@@ -1,0 +1,90 @@
+/* #hoso,
+#tutruyen {
+    border: none;
+}
+
+#hoso > a {
+    color: black;
+}
+
+#truyendang {
+    border: 0.5px solid rgba(190, 186, 186, 0.7);
+    border-radius: 5px;
+}
+
+#truyendang > a {
+    color: #ee4259;
+}
+
+li.list-group-item {
+    border: none;
+}
+
+.book--info-buttons {
+    width: 100%;
+    position: relative;
+}
+
+   .book--info-buttons p {
+        position: absolute;
+        bottom: -64px;
+        margin: 0;
+        display: flex;
+        justify-content: flex-end;
+        
+        padding-left: 555px;
+    }
+
+.book--info-buttons p > a:first-child {
+    margin-right: 24px;
+    background-color: #f44b4b;
+    color: #fff;
+}
+
+.book--info-buttons p > a {
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 0;
+    border: 1px solid;
+}
+
+.book-state > p {
+    padding-left: 5px;
+}
+h4 {
+    margin-left: 16px;
+}
+.rank-box-main-header {
+    display: flex;
+}
+.rank-box-main-header > a {
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 0;
+    border: 1px solid;
+    margin-left: auto;
+}
+.book-state a {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.rank-view-list {
+    padding: 0 10px;
+}
+
+.rank-view-list-item li {
+    padding: 10px 0;
+}
+
+.rank-view-list-item div.book--info {
+    width: 550px;
+} */
+
+.user-upload-book {
+    padding: 0 10px;
+}
+
+.user-upload-book-btn a {
+    margin: 0;
+}
