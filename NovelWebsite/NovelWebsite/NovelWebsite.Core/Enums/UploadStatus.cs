@@ -2,8 +2,8 @@
 {
     public enum UploadStatus
     {
-        Draft,
-        Moderation,
-        Publish
+        Draft = 0,
+        Moderation = 1,
+        Publish = 2
     }
 }

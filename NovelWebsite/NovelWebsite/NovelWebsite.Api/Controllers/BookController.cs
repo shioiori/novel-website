@@ -5,6 +5,9 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -27,8 +30,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all")]
-        public IEnumerable<BookModel> GetAll(){
-            return _bookService.GetAllBooks();
+        public PagedList<BookModel> GetAll([FromQuery] PagedListRequest request){
+            var books = _bookService.GetAllBooks();
+            return PagedList<BookModel>.ToPagedList(books, request);
         }
 
         [HttpGet]
@@ -39,57 +43,67 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-top-by-interaction-type")]
-        public IEnumerable<BookModel> GetByInteractionType(InteractionType type)
+        public PagedList<BookModel> GetByInteractionType(InteractionType type, [FromQuery] PagedListRequest request)
         {
             var books = _bookService.GetBooks();
             var res = _statisticService.StatisticOfEachInteractionType(books, type);
-            return res;
+            return PagedList<BookModel>.ToPagedList(res, request);
         }
 
         [HttpGet]
         [Route("get-by-book-status")]
-        public IEnumerable<BookModel> GetByBookStatus(string status){
+        public PagedList<BookModel> GetByBookStatus(string status, [FromQuery] PagedListRequest request){
             var books = _bookService.GetBooksByBookStatus(status);
             foreach (var item in books)
             {
                 item.TotalChapters = _chapterService.GetChapters(item.BookId).Count();
             }
-            return books;
+            return PagedList<BookModel>.ToPagedList(books, request);
         }
 
         [HttpGet]
-        [Route("get-by-author")]
-        public IEnumerable<BookModel> GetByAuthor(int authorId){
-            return _bookService.GetBooksByAuthor(authorId);
+        [Route("get-by-author-id")]
+        public PagedList<BookModel> GetByAuthor(int authorId, [FromQuery] PagedListRequest request)
+        {
+            var books = _bookService.GetBooksByAuthor(authorId);
+            return PagedList<BookModel>.ToPagedList(books, request);
         }
 
         [HttpGet]
         [Route("get-by-interaction-type")]
-        public IEnumerable<BookModel> GetByInteractionType(string type){
+        public PagedList<BookModel> GetByInteractionType(string type, [FromQuery] PagedListRequest request)
+        {
+            IEnumerable<BookModel> books;
             if (int.TryParse(type, out var num)){
-                return _bookService.GetBookByUserInteractive((InteractionType)num);
+                books = _bookService.GetBookByUserInteractive((InteractionType)num);
             }
-            return _bookService.GetBookByUserInteractive((InteractionType)Enum.Parse(typeof (InteractionType), type, true));
+            books = _bookService.GetBookByUserInteractive((InteractionType)Enum.Parse(typeof (InteractionType), type, true));
+            return PagedList<BookModel>.ToPagedList(books, request);
         }
 
         [HttpGet]
         [Route("get-by-filter")]
-        public IEnumerable<BookModel> GetByFilter(FilterModel filter){
-            return _bookService.GetBooksByFilter(filter);
+        public PagedList<BookModel> GetByFilter(FilterModel filter, [FromQuery] PagedListRequest request)
+        {
+            var books = _bookService.GetBooksByFilter(filter);
+            return PagedList<BookModel>.ToPagedList(books, request);
         }
 
         [HttpGet]
         [Route("get-by-name")]
-        public IEnumerable<BookModel> GetByName(string name){
-            return _bookService.GetBooksByFilter(new FilterModel(){
+        public PagedList<BookModel> GetByName(string name, [FromQuery] PagedListRequest request){
+            var books = _bookService.GetBooksByFilter(new FilterModel(){
                 SearchName = name,
             });
+            return PagedList<BookModel>.ToPagedList(books, request);
         }
 
         [HttpGet]
-        [Route("get-by-category")]
-        public IEnumerable<BookModel> GetByCategory(int categoryId){
-            return _bookService.GetBooksByCategory(categoryId);
+        [Route("get-by-category-id")]
+        public PagedList<BookModel> GetByCategory(int categoryId, [FromQuery] PagedListRequest request)
+        {
+            var books = _bookService.GetBooksByCategory(categoryId);
+            return PagedList<BookModel>.ToPagedList(books, request);
         }
 
         [HttpPost]

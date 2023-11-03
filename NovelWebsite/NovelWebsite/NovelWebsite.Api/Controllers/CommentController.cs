@@ -4,6 +4,8 @@ using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -25,6 +27,12 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             _commentService.CreateComment(comment);
         }
 
+        [HttpPost]
+        public void UpdateComment(CommentModel comment)
+        {
+            _commentService.UpdateComment(comment);
+        }
+
         [HttpDelete]
         [Route("delete")]
         public void DeleteComment(int commentId)
@@ -34,9 +42,42 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-reply-comment")]
-        public IEnumerable<CommentModel> GetReplyComment(int commentId)
+        public PagedList<CommentModel> GetReplyComment(int id, [FromQuery] PagedListRequest request)
         {
-            return _commentService.GetReplyComments(commentId);
+            var comments = _commentService.GetReplyComments(id);
+            return PagedList<CommentModel>.ToPagedList(comments, request);
+        }
+
+        [HttpGet]
+        [Route("get-comments-book")]
+        public PagedList<CommentModel> GetCommentsBook(int id, [FromQuery] PagedListRequest request)
+        {
+            var comments = _commentService.GetCommentsOfBook(id); 
+            return PagedList<CommentModel>.ToPagedList(comments, request);
+        }
+
+        [HttpGet]
+        [Route("get-comments-post")]
+        public PagedList<CommentModel> GetCommentsPost(int id, [FromQuery] PagedListRequest request)
+        {
+            var comments = _commentService.GetCommentsOfPost(id);
+            return PagedList<CommentModel>.ToPagedList(comments, request);
+        }
+
+        [HttpGet]
+        [Route("get-comments-chapter")]
+        public PagedList<CommentModel> GetCommentsChapter(int id, [FromQuery] PagedListRequest request)
+        {
+            var comments = _commentService.GetCommentsOfChapter(id);
+            return PagedList<CommentModel>.ToPagedList(comments, request);
+        }
+
+        [HttpGet]
+        [Route("get-comments-review")]
+        public PagedList<CommentModel> GetCommentsReview(int id, [FromQuery] PagedListRequest request)
+        {
+            var comments = _commentService.GetCommentsOfReview(id);
+            return PagedList<CommentModel>.ToPagedList(comments, request);
         }
     }
 }
