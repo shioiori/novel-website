@@ -13,9 +13,16 @@
                 <reviewNav></reviewNav>
                 <div id="commentList">
                     <div class="review-group" id="review-@item.ReviewId">
-                        <reviewItem></reviewItem>
-                        <reviewItem></reviewItem>
-                        <reviewItem></reviewItem>
+                        <reviewItem v-for="(item, index) in tempReviewArr" :key="index"
+                        :avatar="item.avatar"
+                        :userName="item.userName"
+                        :content="item.content"
+                        :likes="item.likes"
+                        :bookCover="item.bookCover"
+                        :bookName="item.bookName"
+                        :authorName="item.authorName"
+                        :describe="item.describe"
+                        ></reviewItem>
                     </div>
                 </div>
             </div>
@@ -54,6 +61,8 @@ import Header from "../Header/Header.vue";
 import Footer from "../Footer/Footer.vue";
 import reviewNav from "./reviewNav.vue";
 import reviewItem from "./reviewItem.vue";
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
     name: "review-layout",
@@ -63,6 +72,36 @@ export default {
         reviewNav,
         reviewItem
     },
+    data() {
+        return {
+            tempReviewArr: []
+        }
+    },
+    created() {
+        this.getTempReviewArr()
+    },
+    computed: {
+        reivewArr() {
+            return this.$store.getters.getReviewArr
+        }
+    },
+    watch: {
+        reivewArr(newArr) {
+            console.log(newArr);
+        }
+    },
+    methods: {
+        async getTempReviewArr() {
+            try {
+                let url = `${apiPath}/review/get-by-filter`
+                let res = (await axios.get(url)).data
+                console.log(res, "lay review");
+                this.tempReviewArr = res
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
 };
 </script>
 

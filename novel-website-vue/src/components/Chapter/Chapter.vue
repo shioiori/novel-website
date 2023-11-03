@@ -3,13 +3,13 @@
         <Header></Header>
         <div class="container body-container">
             <div class="content">
-                <a href="/truyen/@Model.Book.Slug-@Model.BookId"><h1 class="truyen-title">@Model.Book.BookName</h1></a>
-                <h2 class="truyen-chapter">Chương @Model.ChapterNumber: @Model.ChapterName</h2>
+                <a href="/truyen/@Model.Book.Slug-@Model.BookId"><h1 class="truyen-title">{{ bookName }}</h1></a>
+                <h2 class="truyen-chapter">Chương {{ chapNumb }}: {{ chapName }}</h2>
                 <p class="truyen-author">
                     Người đăng:
-                    <a href="javascript:void(0)">@Model.Book.Author.AuthorName</a>
+                    <a href="javascript:void(0)">{{ authorName }}</a>
                 </p>
-                <p class="truyen-time">Ngày đăng: @Model.CreatedDate</p>
+                <p class="truyen-time">Ngày đăng: {{ createdDate }}</p>
             </div>
             <chapterContent></chapterContent>
         </div>
@@ -31,6 +31,15 @@ export default {
         Header,
         Footer,
         chapterContent,
+    },
+    data() {
+        return {
+            bookName: "",
+            chapNumb: "",
+            chapName: "",
+            authorName: "",
+            createdDate: "",
+        }
     }
 }
 </script>

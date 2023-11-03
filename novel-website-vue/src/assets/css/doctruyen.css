@@ -211,7 +211,7 @@
     position: absolute;
     top: 0;
     left: 60px;
-    /* background: url(/image/bkg.jpg) repeat; */
+    background: url(../img/bkg.jpg) repeat;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
 }

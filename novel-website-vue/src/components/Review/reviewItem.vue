@@ -5,7 +5,10 @@
                 <div class="comment-avatar-box">
                     <div class="center-align comment-avatar">
                         <a href="/user/lycorisaki" class="avatar-link">
-                            <img src="../../assets/logo.png" class="avatar-img" />
+                            <img
+                                src="../../assets/logo.png"
+                                class="avatar-img"
+                            />
                         </a>
                     </div>
                 </div>
@@ -13,14 +16,14 @@
                     <div class="comment-content-box">
                         <div class="comment-username">
                             <a href="/user/lycorisaki" class="username-link">
-                                @item.User.UserName
+                                {{ userName }}
                             </a>
                         </div>
                         <div class="comment-info">
                             <a href="#!" class="comment-interval"></a>
                         </div>
                         <div class="comment-content-msg word-wrap">
-                            @Html.Raw(HttpUtility.HtmlDecode(item.Content))
+                            {{ content }}
                         </div>
                         <div class="comment-content-footer float-end">
                             <div
@@ -42,7 +45,7 @@
                             >
                                 <i class="fa-sharp fa-regular fa-thumbs-up"></i>
                                 Cảm ơn
-                                <span class="thank-num">@item.Likes</span>
+                                <span class="thank-num">{{ likes }}</span>
                             </a>
                         </div>
                     </div>
@@ -62,17 +65,13 @@
             </a>
             <div class="midup-body card-body">
                 <h5 class="book-title">
-                    <a href="/truyen/@item.Book.Slug-@item.Book.BookId"
-                        >@item.Book.BookName</a
-                    >
+                    <a href="/truyen/@item.Book.Slug-@item.Book.BookId">{{ bookName}}</a>
                 </h5>
                 <p class="book-author index__truyenmoito--theloai">
-                    <a class="truncate" href="">@item.Book.Author.AuthorName</a>
+                    <a class="truncate" href="">{{ authorName }}</a>
                 </p>
                 <p class="index__truyenmoito--gioithieu">
-                    <i
-                        >@Html.Raw(HttpUtility.HtmlDecode
-                    </i>
+                    <i>{{ describe }}</i>
                 </p>
             </div>
         </div>
@@ -82,6 +81,16 @@
 <script>
 export default {
     name: "reviewitem-layout",
+    props: {
+        avatar: String,
+        userName: String,
+        content: String,
+        likes: Number,
+        bookCover: String,
+        bookName: String,
+        authorName: String,
+        describe: String,
+    },
 };
 </script>
 

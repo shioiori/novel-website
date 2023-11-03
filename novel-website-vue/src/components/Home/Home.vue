@@ -12,10 +12,10 @@
         </div>
         <banner></banner>
         <div class="index__row row">
-            <rankList></rankList>
-            <rankList></rankList>
-            <rankList></rankList>
-            <rankList></rankList>
+            <rankList :criteria="view" :criteria_name="'Lượt xem'"></rankList>
+            <rankList :criteria="like" :criteria_name="'Yêu thích'"></rankList>
+            <rankList :criteria="recommend" :criteria_name="'Đề cử'"></rankList>
+            <rankList :criteria="follow" :criteria_name="'Theo dõi'"></rankList>
         </div>
         <banner></banner>
         <div class="index__row row">
@@ -26,8 +26,8 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
             </h4>
-            <truyenCard></truyenCard>
-            <truyenMoi></truyenMoi>
+            <truyenCard :item-status="CONTIEP"></truyenCard>
+            <truyenMoi :item-status="CONTIEP"></truyenMoi>
         </div>
         <banner></banner>
         <div class="index__row row">
@@ -38,8 +38,8 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
             </h4>
-            <truyenCard></truyenCard>
-            <truyenMoi></truyenMoi>
+            <truyenCard :item-status="HOANTHANH"></truyenCard>
+            <truyenMoi :item-status="HOANTHANH"></truyenMoi>
         </div>
         <Footer></Footer>
     </div>

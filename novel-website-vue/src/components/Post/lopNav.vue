@@ -18,50 +18,81 @@
         ></a>
         <ul aria-labelledby="dropdown1" class="dropdown-menu">
             <li>
-                <a
-                    href="/bang-xep-hang?category_id=@item.CategoryId"
-                    class="dropdown-item"
+                <a @click="getPostByDate('down')" class="dropdown-item"
                     >Mới nhất</a
                 >
             </li>
             <li>
-                <a
-                    href="/bang-xep-hang?category_id=@item.CategoryId"
-                    class="dropdown-item"
+                <a @click="getPostByDate('up')" class="dropdown-item"
                     >Cũ nhất</a
                 >
             </li>
         </ul>
-        <form action="/tin-tuc" method="get">
-            <div class="right search input-group">
+
+            <div class="right search input-group search-item">
                 <input
                     type="text"
                     class="form-control shadow-none"
                     name="name"
                     placeholder="Nhập tiêu đề bài viết"
+                    v-model="searchItem"
                 />
                 <button
                     class="btn btn-success btn--search-color"
                     type="submit"
                     title="searchButton"
+                    @click="getPostBySearch(searchItem)"
                 >
                     <i
                         class="fa-solid fa-magnifying-glass search__btn--icons"
                     ></i>
                 </button>
             </div>
-        </form>
+
     </div>
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
-    name: "lopnav-layout"
+    name: "lopnav-layout",
+    data() {
+        return {
+            searchItem: "",
+        }
+    },
+    methods: {
+        async getPostByDate(criteria) {
+            try {
+                let url = `${apiPath}/post/get-by-filter?orderDate=${criteria}`;
+                let res = (await axios.get(url)).data;
+                console.log(res, "lay post theo ngay", criteria);
+                this.$store.dispatch("setPostArr", res);
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async getPostBySearch(item) {
+            try {
+                let url = `${apiPath}/post/get-by-filter?name=${item}`;
+                let res = (await axios.get(url)).data;
+                console.log(res, "lay post theo search", item);
+                this.$store.dispatch("setPostArr", res);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    },
 };
 </script>
 
 <style>
 .lop-nav {
     justify-content: space-between;
+}
+.search-item {
+    margin: 0;
 }
 </style>

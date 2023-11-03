@@ -1,13 +1,13 @@
 <template>
     <div class="row-right col-md-9">
-        <div class="row" style="padding: 0 10px">
+        <div class="row" style="padding: 0 10px 10px">
             <div class="reading col-md-6">
                 <span>Truyện đã đăng</span>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" style="padding-right: 0">
                 <a
                     class="btn btn-secondary float-end"
-                    href="/dang-tai/@ViewBag.UserId/truyen"
+                    @click="changeTab()"
                     >Đăng truyện mới</a
                 >
             </div>
@@ -15,30 +15,37 @@
         <div class="rank-view-list">
             <div class="rank-view-list-item user-upload-book">
                 <ul class="list-group" id="filter-book">
-                    <li class="list-group-item col-12">
+                    <li
+                        class="list-group-item col-12"
+                        v-for="truyen in userBookArr"
+                        :key="truyen.id"
+                    >
                         <div class="book--img">
                             <a href="javascript:void(0)">
-                                <img src="" class="book--imgcss" />
+                                <img
+                                    :src="truyen.avatar"
+                                    class="book--imgcss"
+                                />
                             </a>
                         </div>
                         <div class="book--info">
                             <h3>
-                                <a href="/truyen/@item.Slug-@item.BookId"
-                                    >@item.BookName</a
-                                >
+                                <a href="/truyen/@item.Slug-@item.BookId">{{
+                                    truyen.bookName
+                                }}</a>
                             </h3>
                             <div class="book-state">
-                                <a href="javascript:void(0)"
-                                    >@item.Author.AuthorName</a
-                                >
+                                <a href="javascript:void(0)">{{
+                                    truyen.authorName
+                                }}</a>
                                 <i>|</i>
-                                @item.BookStatus.BookStatusName
+                                {{ truyen.bookStatus }}
                                 <i>|</i>
-                                @item.NumberOfChapters
+                                {{ truyen.numberOfChapter }}
                             </div>
                             <div class="describe">
                                 <i class="fa-solid fa-quote-left"></i>
-                                @Html.Raw(HttpUtility.HtmlDecode(item.Introduce))
+                                {{ truyen.describe }}
                             </div>
                         </div>
                         <div class="book--info-buttons user-upload-book-btn">
@@ -88,10 +95,36 @@
 </template>
 
 <script>
-import "../../assets/css/truyendadang.css"
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+import "../../assets/css/truyendadang.css";
+import { EventBus } from "@/main";
 
 export default {
     name: "user-uploadbook",
+    data() {
+        return {
+            userBookArr: [],
+        };
+    },
+    created() {
+        this.fetchBookArr();
+    },
+    methods: {
+        async fetchBookArr() {
+            try {
+                let url = `${apiPath}/book/get-by-author?authorId=${this.$route.params.authorId}`;
+                let res = (await axios.get(url)).data;
+                console.log(res);
+                this.userBookArr = res.data;
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        changeTab() {
+            EventBus.$emit('changeTab', 4)
+        }
+    },
 };
 </script>
 

@@ -1,8 +1,8 @@
 <template>
     <div class="book-item col">
         <div class="cover-col">
-            <a class="hoverable" href="/truyen/@item.Slug-@item.BookId">
-                <img class="carousel-inner billboard-cover" src="https://wikidich6.com/photo/63d8b4ed54b80862372b0936?o=1" />
+            <a class="hoverable" :href="slug">
+                <img class="carousel-inner billboard-cover" :src="avatar" />
             </a>
         </div>
         <div class="info-col">
@@ -13,35 +13,35 @@
                 data-tooltip="@item.BookName"
                 href="/truyen/@item.Slug-@item.BookId"
             >
-                <h5 class="book-title truncate">@item.BookName</h5>
+                <h5 class="book-title truncate">{{ bookName }}</h5>
             </a>
             <p class="book-author">
                 <a
                     class="truncate"
                     href="/tac-gia/@item.Author.Slug-@item.Author.AuthorId"
-                    >@item.Author.AuthorName</a
+                    >{{ authorName }}</a
                 >
             </p>
             <p class="book-publisher">
                 <a class="truncate" href="/ho-so/@item.UserId"
-                    >@item.User.UserName</a
+                    >{{ userName }}</a
                 >
             </p>
             <p class="book-publisher">
-                <a class="truncate" href="">@item.BookStatus.BookStatusName</a>
+                <a class="truncate" href="">{{ bookStatus }}</a>
             </p>
             <p class="book-stats-box">
                 <span class="book-stats"
                     ><i class="fa fa-light fa-eye"></i
-                    ><span data-ready="abbrNum">@item.Views</span></span
+                    ><span data-ready="abbrNum">{{ views }}</span></span
                 >
                 <span class="book-stats"
                     ><i class="fa fa-thin fa-thumbs-up"></i
-                    ><span data-ready="abbrNum">@item.Likes</span></span
+                    ><span data-ready="abbrNum">{{ likes }}</span></span
                 >
                 <span class="book-stats"
                     ><i class="fa fa-thin fa-star"></i
-                    ><span data-ready="abbrNum">@item.Recommends</span></span
+                    ><span data-ready="abbrNum">{{ recommends }}</span></span
                 >
             </p>
         </div>
@@ -49,26 +49,18 @@
 </template>
 
 <script>
-import axios from "axios";
-const apiPath = process.env.VUE_APP_API_KEY;
-
 export default {
     name: "billboard-item",
-    mounted() {
-        this.fetchData();
-    },
-    methods: {
-        async fetchData() {
-            try {
-                const url = `${apiPath}/book/get-all`;
-                let res = (await axios.get(url)).data;
-                console.log(res)
-                console.log(url);
-            }
-            catch (e) {
-                console.log(e)
-            }
-        }
+    props: {
+        slug: String,
+        avatar: String,
+        bookName: String,
+        authorName: String,
+        userName: String,
+        bookStatus: String,
+        views: Number,
+        likes: Number,
+        recommends: Number,
     }
 };
 </script>

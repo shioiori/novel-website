@@ -22,7 +22,11 @@
                 data-bs-slide-to="2"
             ></button>
         </div>
-        <div class="carousel-inner" id="banner-carousel"></div>
+        <div class="carousel-inner" id="banner-carousel">
+            <div :class="index == 1 ? 'carousel-item active' : 'carousel-item'" v-for="(item, index) in bannerArr" :key="index">
+                <img :src=item class="d-block w-100" alt="..." />
+            </div>
+        </div>
         <button
             class="carousel-control-prev"
             type="button"
@@ -43,8 +47,31 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "carousel-layout",
+    data() {
+        return {
+            bannerArr: [],
+        };
+    },
+    created() {
+        this.getBannerCarousel();
+    },
+    methods: {
+        async getBannerCarousel() {
+            try {
+                let url = `${apiPath}/banner/get-home-banner`;
+                let res = (await axios.get(url)).data;
+                console.log(res);
+                this.bannerArr = res.data;
+            } catch (e) {
+                console.log(e);
+            }
+        },
+    },
 };
 </script>
 

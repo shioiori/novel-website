@@ -29,14 +29,14 @@
         <ul aria-labelledby="dropdown1" class="dropdown-menu">
             <li>
                 <a
-                    href="/bang-xep-hang?category_id=@item.CategoryId"
+                    @click="getReviewByOrderDate('down')"
                     class="dropdown-item"
                     >Mới nhất</a
                 >
             </li>
             <li>
                 <a
-                    href="/bang-xep-hang?category_id=@item.CategoryId"
+                    @click="getReviewByOrderDate('up')"
                     class="dropdown-item"
                     >Cũ nhất</a
                 >
@@ -59,18 +59,11 @@
             ></i
         ></a>
         <ul aria-labelledby="dropdown2" class="dropdown-menu">
-            <li>
+            <li v-for="(item, index) in categoryArray" :key="index">
                 <a
-                    href="/bang-xep-hang?category_id=@item.CategoryId"
+                    @click="getReviewByCategory(item)"
                     class="dropdown-item"
-                    >Mới nhất</a
-                >
-            </li>
-            <li>
-                <a
-                    href="/bang-xep-hang?category_id=@item.CategoryId"
-                    class="dropdown-item"
-                    >Cũ nhất</a
+                    >{{ item.name }}</a
                 >
             </li>
         </ul>
@@ -78,8 +71,51 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "reviewnav-layout",
+    data() {
+        return {
+            categoryArray: []
+        }
+    },
+    created() {
+        this.getCategory()
+    },
+    methods: {
+        async getCategory() {
+            try {
+                let url = `${apiPath}/category/get-all`
+                let res = (await axios.get(url)).data
+                console.log(res, "lay cate");
+                this.categoryArray = res
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async getReviewByOrderDate(criteria) {
+            try {
+                let url = `${apiPath}/review/get-by-filter?orderDate=${criteria}`
+                let res = (await axios.get(url)).data
+                console.log(res, "lay review theo ngay", criteria)
+                this.$store.dispatch("setReviewArr", res)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async getReviewByCategory(item) {
+            try {
+                let url = `${apiPath}/review/get-by-filter?category=${item}`
+                let res = (await axios.get(url)).data
+                console.log(res, "lay review theo cate")
+                this.$store.dispatch("setReviewArr", res)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+    }
 };
 </script>
 

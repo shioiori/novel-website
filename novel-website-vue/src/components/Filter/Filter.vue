@@ -3,7 +3,6 @@
         <Header></Header>
         <div class="rank-box box-center row">
             <filterRanklist></filterRanklist>
-
             <div class="rank-box-main col-9">
                 <div class="rank-box-main-header">
                     <h4>Bộ lọc</h4>
@@ -23,7 +22,7 @@
 
                         <li class="page-item">
                             <a class="page-link" href="/bo-loc?pageNumber=@i"
-                                >@i</a
+                                >i</a
                             >
                         </li>
 

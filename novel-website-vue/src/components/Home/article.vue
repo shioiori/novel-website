@@ -31,9 +31,9 @@ export default {
     methods: {
         async fetchArticle() {
             try {
-                const url = `${apiPath}/post/get-by-filter`
+                let url = `${apiPath}/post/get-by-filter`
                 let res = (await axios.get(url)).data
-                console.log(res);
+                console.log(res, "doc tin");
             } catch (e) {
                 console.log(e)
             }

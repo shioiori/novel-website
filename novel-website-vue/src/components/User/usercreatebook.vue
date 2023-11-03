@@ -59,13 +59,27 @@
                     </div>
                     <div class="col-md-10">
                         <div class="editor--content">
-                            <select
+                            <!-- <select
                                 name="bookstatusid"
                                 class="form-select"
                                 asp-for="@Model.BookStatusId"
                                 asp-items="@ViewBag.BookStatuses"
                                 value="@(Model != null ? Model.BookStatusId : 0)"
-                            ></select>
+                            ></select> -->
+                            <select
+                                v-model="selectedStatus"
+                                class="form-select"
+                            >
+                                <option disabled value="">
+                                    Please select one
+                                </option>
+                                <option
+                                    v-for="item in statusArr"
+                                    :key="item[1]"
+                                >
+                                    {{ item[0] }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -99,13 +113,19 @@
                     <div class="col-md-10">
                         <div class="editor--content">
                             <select
-                                name="categoryid"
+                                v-model="selectedStatus"
                                 class="form-select"
-                                asp-for="@Model.CategoryId"
-                                id="specificSizeSelect"
-                                asp-items="@ViewBag.Categories"
-                                value="@(Model != null ? Model.CategoryId : 0)"
-                            ></select>
+                            >
+                                <option disabled value="">
+                                    Please select one
+                                </option>
+                                <option
+                                    v-for="item in categoryArr"
+                                    :key="item.id"
+                                >
+                                    {{ item.name }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -116,15 +136,19 @@
                     <div class="col-md-10">
                         <div class="editor--content sub-catagory row">
                             <div class="form-check form-check-inline col-md-2">
-                                <input
-                                    class="form-check-input tag-checkbox"
-                                    name="tag"
-                                    type="checkbox"
-                                    value=""
-                                />
-                                <label class="form-check-label"
-                                    >@item.TagName</label
+                                <label
+                                    v-for="item in tagArr"
+                                    :key="item.id"
+                                    class="form-check-label"
                                 >
+                                    <input
+                                        class="form-check-input tag-checkbox"
+                                        type="checkbox"
+                                        v-model="selectedTag"
+                                        :value="item.tagName"
+                                    />
+                                    {{ item.tagName }}
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -153,7 +177,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" style="margin-top: 1rem">
                         <button
                             class="btn btn-primary submit-btn user-profile-submit-btn"
                             type="submit"
@@ -170,11 +194,46 @@
 <script>
 import Editor from "@tinymce/tinymce-vue";
 import "../../assets/css/dangtruyen.css";
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
     name: "user-createbook",
     components: {
         Editor,
+    },
+    data() {
+        return {
+            categoryArr: [],
+            tagArr: [],
+            statusArr: [
+                ["Đang ra", "CONTIEP"],
+                ["Hoàn thành", "HOANTHANH"],
+                ["Tạm ngưng", "TAMNGUNG"],
+            ],
+            selectedStatus: "",
+            selectedCategory: "",
+            selectedTag: [],
+        };
+    },
+    created() {
+        this.fetchData();
+    },
+    methods: {
+        async fetchData() {
+            try {
+                let url_category = `${apiPath}/category/get-all`;
+                let res1 = (await axios.get(url_category)).data;
+                console.log(res1);
+                this.categoryArr = res1.data;
+                let url_tag = `${apiPath}/tag/get-all`;
+                let res2 = (await axios.get(url_tag)).data;
+                console.log(res2);
+                this.tagArr = res2.data;
+            } catch (e) {
+                console.log(e);
+            }
+        },
     },
 };
 </script>

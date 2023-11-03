@@ -57,9 +57,9 @@
 </template>
 
 <script>
-import bookNavContent from './bookNavContent.vue';
-import bookNavChapter from './bookNavChapter.vue';
-import bookNavRate from './bookNavRate.vue';
+import bookNavContent from "./bookNavContent.vue";
+import bookNavChapter from "./bookNavChapter.vue";
+import bookNavRate from "./bookNavRate.vue";
 
 export default {
     name: "bookNav-layout",
@@ -67,7 +67,7 @@ export default {
         bookNavChapter,
         bookNavContent,
         bookNavRate,
-    }
+    },
 };
 </script>
 

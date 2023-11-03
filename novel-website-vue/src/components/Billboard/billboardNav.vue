@@ -17,11 +17,11 @@
             ></i
         ></a>
         <ul aria-labelledby="dropdown1" class="dropdown-menu">
-            <li>
+            <li v-for="(item, index) in categoryArray" :key="index">
                 <a
-                    href="/bang-xep-hang?category_id=@item.CategoryId"
+                    @click="getBookByCategory(item)"
                     class="dropdown-item"
-                    >@item.CategoryName</a
+                    >{{ item.name }}</a
                 >
             </li>
         </ul>
@@ -42,12 +42,12 @@
             ></i
         ></a>
         <ul aria-labelledby="dropdown2" class="dropdown-menu">
-            <li>
-                <a href="/bang-xep-hang?sort_by=like" class="dropdown-item"
-                    >Lượt yêu thích</a
+            <li v-for="(item, index) in criteria" :key="index">
+                <a @click="getBookBySort(item[1])" class="dropdown-item"
+                    >{{ item[0] }}</a
                 >
             </li>
-            <li>
+            <!-- <li>
                 <a href="/bang-xep-hang?sort_by=recommend" class="dropdown-item"
                     >Lượt đề cử</a
                 >
@@ -61,7 +61,7 @@
                 <a href="/bang-xep-hang?sort_by=view" class="dropdown-item"
                     >Lượt đọc</a
                 >
-            </li>
+            </li> -->
         </ul>
         <a
             class="ms-auto"
@@ -82,12 +82,12 @@
         ></a>
         <ul aria-labelledby="dropdown3" class="dropdown-menu">
             <li>
-                <a href="/bang-xep-hang?order=down" class="dropdown-item"
+                <a @click="getBookByDate('down')" class="dropdown-item"
                     >Mới nhất</a
                 >
             </li>
             <li>
-                <a href="/bang-xep-hang?order=up" class="dropdown-item"
+                <a @click="getBookByDate('up')" class="dropdown-item"
                     >Cũ nhất</a
                 >
             </li>
@@ -96,8 +96,67 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "billboard-nav",
+    data() {
+        return {
+            categoryArray: [],
+            criteria: [
+                ['Lượt yêu thích', 123], 
+                ['Lượt đề cử', 234], 
+                ['Lượt theo dõi', 345], 
+                ['Lượt đọc', 456]
+            ]
+        }
+    },
+    created() {
+        this.getCategory()
+    },
+    methods: {
+        async getCategory() {
+            try {
+                let url = `${apiPath}/category/get-all`
+                let res = (await axios.get(url)).data
+                console.log(res, "lay cate");
+                this.categoryArray = res
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async getBookByCategory(item) {
+            try {
+                let url = `${apiPath}/billboard/get-by-filter?category=${item}`
+                let res = (await axios.get(url)).data
+                console.log(res, "lay theo cate")
+                this.$store.dispatch("setBookArr", res)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async getBookBySort(criteria) {
+            try {
+                let url = `${apiPath}/billboard/get-by-filter?sortBy=${criteria}`
+                let res = (await axios.get(url)).data
+                console.log(res, "lay theo tieu chi", criteria)
+                this.$store.dispatch("setBookArr", res)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async getBookByDate(criteria) {
+            try {
+                let url = `${apiPath}/billboard/get-by-filter?orderDate=${criteria}`
+                let res = (await axios.get(url)).data
+                console.log(res, "lay theo ngay", criteria)
+                this.$store.dispatch("setBookArr", res)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
 };
 </script>
 

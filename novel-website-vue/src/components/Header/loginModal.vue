@@ -10,7 +10,7 @@
                         data-bs-dismiss="modal"
                     ></button>
                 </div>
-                <form class="needs-validation" id="login-form" method="post">
+                <div class="needs-validation" id="login-form">
                     <div class="modal-body" id="modal-body-login">
                         <div class="form-floating mb-3 mt-3">
                             <input
@@ -45,7 +45,7 @@
                         <button
                             type="button"
                             class="btn btn-success"
-                            :click="onLogin()"
+                            @click="onLogin()"
                         >
                             Đăng nhập
                         </button>
@@ -65,7 +65,7 @@
                             Đóng
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -83,19 +83,24 @@ export default {
             password: "",
         };
     },
-    mounted() {
+    // mounted() {
         
-    },
+    // },
     methods: {
         async onLogin() {
             try {
-                const url = `${apiPath}/login`;
+                let url = `${apiPath}/login`;
                 let res = (await axios.post(url, {
                     Username: this.username,
                     Password: this.password,
                     LoginProvider: 'Cookies'
                 })).data;
-                console.log(res)
+                if(res.success) {
+                    console.log("dang nhap")
+                    // localStorage.setItem('token', res.data.token);
+                } else {
+                    console.log(res.message)
+                }
             } catch (e) {
                 console.log(e);
             }

@@ -1,29 +1,20 @@
 <template>
     <div class="index__left-wrap col-md-3" id="newbook-avatar">
         <div class="index__left-wrap-detail card">
-            <img class="card-img-top" src="/image/test.jpg" alt="Card image" />
+            <img class="card-img-top" :src="bookCoverCard" alt="Card image" />
             <div class="card-body">
                 <h4 class="card-title">
-                    <a href="/html//truyen.html">Vĩnh dạ thần hành</a>
+                    <a href="/html//truyen.html">{{ bookNameCard }}</a>
                 </h4>
-                <p class="card-text index__left-wrap--theloai">Thể loại</p>
-                <p class="card-text index__left-wrap--sochuong">Số chương</p>
+                <p class="card-text index__left-wrap--theloai">
+                    {{ bookCategoryCard }}
+                </p>
+                <p class="card-text index__left-wrap--sochuong">
+                    {{ bookNumberChaptersCard }}
+                </p>
                 <p class="card-text index__left-wrap--gioithieu">
                     <i>
-                        Sương mù xám bao phủ, thế giới đắm chìm ở trong bóng
-                        tối. Bên tai ngươ i nghe đếnSương mù xám bao phủ, thế
-                        giới đắm chìm ở trong bóngSương mù xám bao phủ, thế giới
-                        đắm chìm ở trong bón gSương mù xám bao phủ, thế giới đắm
-                        chìm ở trong bóngSương mù xám bao phủ, thế giới đắm chìm
-                        ở trong bóng i nghe đếnSương mù xám bao phủ, thế giới
-                        đắm chìm ở trong bóngSương mù xám bao phủ, thế giới đắm
-                        chìm ở trong bón gSương mù xám bao phủ, thế giới đắm
-                        chìm ở trong bóngSương mù xám bao phủ, thế giới đắm chìm
-                        ở trong bóng i nghe đếnSương mù xám bao phủ, thế giới
-                        đắm chìm ở trong bóngSương mù xám bao phủ, thế giới đắm
-                        chìm ở trong bón gSương mù xám bao phủ, thế giới đắm
-                        chìm ở trong bóngSương mù xám bao phủ, thế giới đắm chìm
-                        ở trong bóng
+                        {{ bookDescribeCard }}
                     </i>
                 </p>
                 <a
@@ -39,8 +30,44 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "truyenCard-layout",
+    data() {
+        return {
+            bookNameCard: "",
+            bookCoverCard: "",
+            bookCategoryCard: "",
+            bookNumberChaptersCard: "",
+            bookDescribeCard: "",
+            bookSlugCard: "",
+        };
+    },
+    props: {
+        itemStatus: String,
+    },
+    created() {
+        this.fetchBook();
+    },
+    methods: {
+        async fetchBook() {
+            try {
+                let url = `${apiPath}/book/get-by-book-status?status=${this.itemStatus}`;
+                let res = (await axios.get(url)).data;
+                console.log(res, "lay sach moi");
+                this.bookNameCard = res.bookNameCard
+                this.bookCategoryCard = res.bookCategoryCard
+                this.bookDescribeCard = res.bookDescribeCard
+                this.bookCoverCard = res.bookCoverCard
+                this.bookNumberChaptersCard = res.bookNumberChaptersCard
+                this.bookSlugCard = res.bookSlugCard
+            } catch (e) {
+                console.log(e);
+            }
+        },
+    },
 };
 </script>
 

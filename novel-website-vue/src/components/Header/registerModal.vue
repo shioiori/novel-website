@@ -10,7 +10,7 @@
                         data-bs-dismiss="modal"
                     ></button>
                 </div>
-                <form class="needs-validation" id="signup-form">
+                <div class="needs-validation" id="signup-form">
                     <div class="modal-body" id="modal-body-signup">
                         <div class="form-floating mb-3 mt-3">
                             <input
@@ -78,7 +78,7 @@
                         <button
                             type="button"
                             class="btn btn-success"
-                            :click="onRegister()"
+                            @click="onRegister()"
                         >
                             Đăng ký
                         </button>
@@ -98,7 +98,7 @@
                             Đóng
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -121,14 +121,21 @@ export default {
     methods: {
         async onRegister() {
             try {
-                const url = `${apiPath}/register`
+                let url = `${apiPath}/register`
                 if(this.password == this.re_password && (this.password != null || this.password != "")) {
                     let res = (await axios.post(url, {
-                        Username: this.username,
-                        Password: this.password,
-                        Email: this.email
+                        name: this.username,
+                        username: this.username,
+                        password: this.password,
+                        email: this.email
                     })).data;
-                    console.log(res)
+                    if(res.success) {
+                        console.log("dang ky")
+                    } else {
+                        console.log(res.message)
+                    }
+                } else {
+                    console.log("khong trung mat khau")
                 }
 
             } catch (e) {

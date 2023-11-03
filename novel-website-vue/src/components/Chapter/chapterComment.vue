@@ -15,8 +15,23 @@
                                 </a>
                             </div>
                             <div class="input-comment col">
-                                <div id="postcomment-container"></div>
-                                <div id="postcomment-editor"></div>
+                                <editor
+                                    api-key="4as43w7o9gqeqdobwqmya3u4qnfsc0urrlt94qsrefzqo5s7"
+                                    :init="{
+                                        height: 300,
+                                        menubar: false,
+                                        plugins: [
+                                            'advlist autolink lists link image charmap print preview anchor',
+                                            'searchreplace visualblocks code fullscreen',
+                                            'insertdatetime media table paste code help wordcount',
+                                        ],
+                                        toolbar:
+                                            'undo redo | formatselect | bold italic backcolor | \
+                                            alignleft aligncenter alignright alignjustify | \
+                                            bullist numlist outdent indent | removeformat | help',
+                                    }"
+                                    v-model="userComment"
+                                />
                             </div>
 
                             <div class="submit-btn col-md-12">
@@ -451,10 +466,6 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <!-- <form class="form-horizontal">
-                                                                <input type="hidden" name="" value="testing" />
-                                                                <button class="btn btn-primary submit-btn" type="submit">Đăng</button>
-                                                            </form> -->
                                             </div>
                                         </li>
                                     </ul>
@@ -463,19 +474,47 @@
                         </div>
                     </li>
                 </ul>
-                @*
                 <p class="go--discuss">
                     <a href="javascript:void(0)">Thêm bình luận</a>
                 </p>
-                *@
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Editor from "@tinymce/tinymce-vue";
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "chapterComment",
+    components: {
+        Editor,
+    },
+    data() {
+        return {
+            userComment: "",
+            chapterId: "",
+        };
+    },
+    methods: {
+        async addComment() {
+            try {
+                let url = `${apiPath}/comment/add`;
+                let res = (
+                    await axios.post(url, {
+                        UserId: 1,
+                        ChapterId: this.chapterId,
+                        Content: this.userComment,
+                    })
+                ).data;
+                console.log(res);
+            } catch (e) {
+                console.log(e);
+            }
+        },
+    },
 };
 </script>
 

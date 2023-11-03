@@ -7,9 +7,9 @@
                     class="list-group list-group-horizontal row"
                     id="list-chuong"
                 >
-                    <li class="list-group-item col-4">
+                    <li class="list-group-item col-4" v-for="(item, index) in chapterArr" :key="index">
                         <a href="/html/doctruyen.html"
-                            >Chương 1: Vương trường sinh</a
+                            >Chương {{ item.number }}: {{ item.chapterName }}</a
                         >
                     </li>
                 </ul>
@@ -54,9 +54,44 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "bookNavChapter",
+    props: {
+        bookId: Number,
+    },
+    data() {
+        return {
+            chapterArr: [],
+        }
+    },
+    created() {
+        this.fetchChapter()
+    },
+    methods: {
+        async fetchChapter() {
+            try {
+                let url = `${apiPath}/chapter/get-by-book-id?bookId=${this.bookId}`;
+                let res = (await axios.get(url)).data;
+                console.log(res);
+                this.chapterArr = res.data;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
 };
 </script>
 
-<style></style>
+<style>
+.container {
+    width: 1200px !important;
+    margin: 20px auto !important;
+    padding: initial !important;
+}
+#book--chapter-id.active {
+    border: none;
+}
+</style>

@@ -8,18 +8,16 @@
                 </a>
             </li>
             <li class="nav-item navlist">
-                <a class="nav-link navlist--item" href="/bang-xep-hang"
-                    >Bảng xếp hạng</a
-                >
+                <a class="nav-link navlist--item" href="/billboard">Bảng xếp hạng</a>
             </li>
             <li class="nav-item navlist">
-                <a class="nav-link navlist--item" href="/bo-loc">Bộ lọc</a>
+                <a class="nav-link navlist--item" href="/filter">Bộ lọc</a>
             </li>
             <li class="nav-item navlist">
                 <a class="nav-link navlist--item" href="/review">Reviews</a>
             </li>
             <li class="nav-item navlist">
-                <a class="nav-link navlist--item" href="/tin-tuc">Tin tức</a>
+                <a class="nav-link navlist--item" href="/list-post">Tin tức</a>
             </li>
         </ul>
     </div>

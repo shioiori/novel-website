@@ -3,50 +3,10 @@
         <h4>Truyện mới cập nhật</h4>
         <div class="index__truyenmoi--list">
             <ul class="list-group list-group-flush" id="new-chapters">
-                <li class="list-group-item">
+                <li class="list-group-item" v-for="(item, index) in bookArray" :key="index">
                     <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Thanh liên chi đỉnh</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
-                </li>
-                <li class="list-group-item">
-                    <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Đấu la đại lục</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
-                </li>
-                <li class="list-group-item">
-                    <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Bà võ</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
-                </li>
-                <li class="list-group-item">
-                    <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Bắc âm đại thanh</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
-                </li>
-                <li class="list-group-item">
-                    <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Cẩu tại dị giới</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
-                </li>
-                <li class="list-group-item">
-                    <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Luân hồi lạc viên</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
-                </li>
-                <li class="list-group-item">
-                    <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Đại thừa ký</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
-                </li>
-                <li class="list-group-item">
-                    <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Đại thừa ký</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
-                </li>
-                <li class="list-group-item">
-                    <i class="fa-solid fa-book-open"></i>
-                    <a href="/html/truyen.html">Đại thừa ký</a>
-                    <span class="index__truyenmoi--chuong">Chương 1</span>
+                    <a href="/book">{{ item.name }}</a>
+                    <span class="index__truyenmoi--chuong">{{ item.chapter }}</span>
                 </li>
             </ul>
         </div>
@@ -54,8 +14,31 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "truyenUpdate-layout",
+    data() {
+        return {
+            bookArray: []
+        }
+    },
+    created() {
+        this.getBookArray()
+    },
+    methods: {
+        async getBookArray() {
+            try {
+                let url = `${apiPath}/book/get-top-by-interaction-type?type=8`
+                let res = (await axios.get(url)).data
+                console.log(res, "top moi cap nhat");
+                this.bookArray = res
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
 };
 </script>
 

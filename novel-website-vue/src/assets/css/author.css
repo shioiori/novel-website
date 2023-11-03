@@ -2,13 +2,14 @@
     width: 100%;
 }
 
-.rank-box-main-header, .rank-box-main-body {
+.rank-box-main-header,
+.rank-box-main-body {
     margin-bottom: 15px;
 }
 
-    .rank-box-main-header h4 {
-        font-size: 2rem;
-    }
+.rank-box-main-header h4 {
+    font-size: 2rem;
+}
 
 .book--info {
     width: 100% !important;

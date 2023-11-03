@@ -3,7 +3,7 @@
         <div class="avatar pull-left" title="@item.User.UserName">
             <a href="" class="pull-left">
                 <img
-                    src="../../assets/img/logo1.png"
+                    :src="avatar"
                     class="user-img"
                 />
             </a>
@@ -21,12 +21,12 @@
             ></i> -->
             <div class="card-title">
                 <a href="/tin-tuc/@item.Slug-@item.PostId" itemprop="url"
-                    >@item.Title</a
+                    >{{ title }}</a
                 ><br />
             </div>
-            <div href="">@item.User.UserName &bull; @item.CreatedDate</div>
+            <div href="">{{ userName }} &bull; {{ createdDate }}</div>
             <div>
-                <span> @item.Description </span>
+                <span>{{ description }}</span>
             </div>
         </h2>
     </div>
@@ -35,6 +35,13 @@
 <script>
 export default {
     name: "lopitem-layout",
+    props: {
+        avatar: String,
+        title: String,
+        userName: String,
+        createdDate: Date,
+        description: String
+    }
 };
 </script>
 

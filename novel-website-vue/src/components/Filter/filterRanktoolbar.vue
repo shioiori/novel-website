@@ -6,57 +6,14 @@
                     <a
                         href="javascript:void(0)"
                         class="active--type-list"
-                        onclick="typeListClick(this)"
+                        @click="getBookByCategory()"
                         >Tất cả</a
                     >
                     <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Tiên hiệp</a
+                    <a href="javascript:void(0)" @click="getBookByCategory(item.id)" v-for="(item, index) in categoryArray" :key="index"
+                        >{{ item.name }}</a
                     >
                     <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Huyền huyễn</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Đô thị</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Khoa huyễn</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Kỳ huyễn</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Võ hiệp</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Lịch sử</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Đồng nhân</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Quân sự</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Du hí</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Cạnh ký</a
-                    >
-                    <i>·</i>
-                    <a href="javascript:void(0)" onclick="typeListClick(this)"
-                        >Linh dị</a
-                    >
                 </p>
             </div>
         </div>
@@ -64,8 +21,46 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "filterRanktoolbar",
+    data() {
+        return {
+            categoryArray: []
+        }
+    },
+    created() {
+        this.fetchCategoryArray() 
+    },
+    methods: {
+        async fetchCategoryArray() {
+            try {
+                let url = `${apiPath}/category/get-all`
+                let res = (await axios.get(url)).data
+                console.log(res, "lấy cate");
+                this.categoryArray = res.data
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async getBookByCategory(criteria) {
+            let url
+            try {
+                if (criteria == "" || criteria == null) {
+                    url = `${apiPath}/book/get-by-category`
+                } else {
+                    url = `${apiPath}/book/get-by-category/categoryId=${criteria}`
+                }
+                let res = (await axios.get(url)).data
+                console.log(res, "lay sach theo tieu chi", criteria)
+                this.$store.dispatch("setBookArr", res)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
 };
 </script>
 
