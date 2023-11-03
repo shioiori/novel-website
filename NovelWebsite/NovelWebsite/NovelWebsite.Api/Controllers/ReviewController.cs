@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
@@ -22,7 +24,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-by-filter")]
-        public IEnumerable<ReviewModel> GetByFilter(string? category, string? orderDate)
+        public PagedList<ReviewModel> GetByFilter(string? category, string? orderDate, [FromQuery] PagedListRequest request)
         {
             int categoryId = 0;
             if (!string.IsNullOrEmpty(category))
@@ -64,7 +66,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                 default:
                     break;
             }
-            return reviews;
+            return PagedList<ReviewModel>.ToPagedList(reviews);
         }
 
         [HttpPost]

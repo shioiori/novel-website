@@ -4,6 +4,8 @@ using Microsoft.Extensions.Caching.Memory;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.Api.Controllers
@@ -29,9 +31,10 @@ namespace NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-by-book-id")]
-        public IEnumerable<ChapterModel> GetListChapters(int bookId)
+        public PagedList<ChapterModel> GetListChapters(int bookId, PagedListRequest request)
         {
-            return _chapterService.GetChapters(bookId);
+            var chapters = _chapterService.GetChapters(bookId);
+            return PagedList<ChapterModel>.ToPagedList(chapters, request);
         }
 
         [HttpPost]

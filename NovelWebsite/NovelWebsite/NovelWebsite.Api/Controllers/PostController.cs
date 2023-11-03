@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -19,7 +21,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("get-by-filter")]
         [HttpGet]
-        public IEnumerable<PostModel> GetByFilter(string? name, string? orderDate)
+        public PagedList<PostModel> GetByFilter(string? name, string? orderDate, [FromQuery] PagedListRequest)
         {
             SortOrder ordDate = SortOrder.Descending;
             if (!string.IsNullOrEmpty(orderDate))
@@ -53,7 +55,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                 default:
                     break;
             }
-            return posts;
+            return PagedList<PostModel>.ToPagedList(posts);
         }
     }
 }

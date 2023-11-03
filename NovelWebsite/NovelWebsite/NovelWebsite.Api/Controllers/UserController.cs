@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -18,16 +20,18 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all")]
-        public IEnumerable<UserModel> GetAll()
+        public PagedList<UserModel> GetAll([FromQuery] PagedListRequest request)
         {
-            return _userService.GetUsers();
+            var users = _userService.GetUsers();
+            return PagedList<UserModel>.ToPagedList(users, request);
         }
 
         [HttpGet]
         [Route("get-by-role")]
-        public IEnumerable<UserModel> GetByRole(int roleId)
+        public PagedList<UserModel> GetByRole(int roleId, [FromQuery] PagedListRequest request)
         {
-            return _userService.GetUsersByRole(roleId);
+            var users = _userService.GetUsersByRole(roleId);
+            return PagedList<UserModel>.ToPagedList(users, request);
         }
 
         [HttpGet]
@@ -57,8 +61,6 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpPut]
         [Route("set-status")] 
-        
-        
         public void SetStatus(int userId, int status)
         {
             _userService.SetUserStatus(userId, status);
