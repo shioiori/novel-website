@@ -10,10 +10,14 @@
                         >Tất cả</a
                     >
                     <i>·</i>
-                    <a href="javascript:void(0)" @click="getBookByCategory(item.id)" v-for="(item, index) in categoryArray" :key="index"
-                        >{{ item.name }}</a
-                    >
-                    <i>·</i>
+                    <a
+                        href="javascript:void(0)"
+                        @click="getBookByCategory(item.categoryId)"
+                        v-for="(item, index) in categoryArray"
+                        :key="index"
+                        >{{ item.categoryName }}
+                        <i>·</i>
+                    </a>
                 </p>
             </div>
         </div>
@@ -28,40 +32,45 @@ export default {
     name: "filterRanktoolbar",
     data() {
         return {
-            categoryArray: []
-        }
+            categoryArray: [],
+        };
     },
     created() {
-        this.fetchCategoryArray() 
+        this.fetchCategoryArray();
     },
     methods: {
         async fetchCategoryArray() {
             try {
-                let url = `${apiPath}/category/get-all`
-                let res = (await axios.get(url)).data
+                let url = `${apiPath}/category/get-all`;
+                let res = (await axios.get(url)).data;
                 console.log(res, "lấy cate");
-                this.categoryArray = res.data
+                this.categoryArray = res;
             } catch (e) {
-                console.log(e)
+                console.log(e);
             }
         },
         async getBookByCategory(criteria) {
-            let url
+            let url;
             try {
                 if (criteria == "" || criteria == null) {
-                    url = `${apiPath}/book/get-by-category`
+                    url = `${apiPath}/book/get-by-category`;
+                    console.log(url)
                 } else {
-                    url = `${apiPath}/book/get-by-category/categoryId=${criteria}`
+                    url = `${apiPath}/book/get-by-category?categoryId=${criteria}`;
                 }
-                let res = (await axios.get(url)).data
-                console.log(res, "lay sach theo tieu chi", criteria)
-                this.$store.dispatch("setBookArr", res)
+                let res = (await axios.get(url)).data;
+                console.log(res, "lay sach theo tieu chi", criteria);
+                this.$store.dispatch("setBookArr", res);
             } catch (e) {
-                console.log(e)
+                console.log(e);
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style></style>
+<style>
+#type-list i {
+    margin-right: 5px;
+}
+</style>

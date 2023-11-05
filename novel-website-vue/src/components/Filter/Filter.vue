@@ -62,4 +62,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.rank-box-main {
+    width: 970px !important;
+}
+</style>

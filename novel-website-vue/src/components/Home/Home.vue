@@ -26,8 +26,8 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
             </h4>
-            <truyenCard :item-status="CONTIEP"></truyenCard>
-            <truyenMoi :item-status="CONTIEP"></truyenMoi>
+            <truyenCard :item-status="contiep"></truyenCard>
+            <truyenMoi :item-status="contiep"></truyenMoi>
         </div>
         <banner></banner>
         <div class="index__row row">

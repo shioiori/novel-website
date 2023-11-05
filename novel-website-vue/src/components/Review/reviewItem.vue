@@ -134,4 +134,7 @@ export default {
     margin: 1rem 0;
     font-size: 1rem;
 }
+.book-item {
+    margin: 0;
+}
 </style>

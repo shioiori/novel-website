@@ -61,9 +61,9 @@
         <ul aria-labelledby="dropdown2" class="dropdown-menu">
             <li v-for="(item, index) in categoryArray" :key="index">
                 <a
-                    @click="getReviewByCategory(item)"
+                    @click="getReviewByCategory(item.categoryId)"
                     class="dropdown-item"
-                    >{{ item.name }}</a
+                    >{{ item.categoryName }}</a
                 >
             </li>
         </ul>

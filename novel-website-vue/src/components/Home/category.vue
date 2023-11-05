@@ -3,16 +3,17 @@
         <div class="index__theloai--wrap">
             <div class="index__theloai--chitiet row">
                 <div class="index__theloai--chitiet-cot col-md-6" v-for="(item, index) in categoryArray" :key="index">
-                    <a @click="getBookByCategory(item.id)">
-                        <i class="fa-solid fa-tags"></i>
+                    <a @click="getBookByCategory(item.categoryId)">
+                        <!-- <i class="fa-solid fa-tags" :url="item.categoryImage"></i> -->
+                        <img :src="item.categoryImage" />
                         <span>
-                            <p class="tentruyen">{{ item.cateName }}</p>
-                            <p class="soluongtruyen">{{ item.cateQuantity }}</p>
+                            <p class="tentruyen">{{ item.categoryName }}</p>
+                            <p class="soluongtruyen">{{ item.quantity }}</p>
                         </span>
                     </a>
                 </div>
                 <div class="index__theloai--chitiet-cot col-md-6">
-                    <a @click="getBookByCategory(123)">
+                    <a @click="$router.push(`/filter`)">
                         <i class="fa-solid fa-bars"></i>
                         <span>
                             <p class="tentruyen tatca">Tất cả</p>

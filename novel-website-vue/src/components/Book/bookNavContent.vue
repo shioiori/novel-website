@@ -50,584 +50,8 @@
                                 class="list-group list-group-flush"
                                 id="list-comment"
                             >
-                                <li class="list-group-item">
-                                    <div class="row user--comment-section">
-                                        <div class="user--photo col-md-auto">
-                                            <a href="javascript:void(0)">
-                                                <img src="/image/test3.jpg" />
-                                            </a>
-                                        </div>
-                                        <div class="input-comment col">
-                                            <editor
-                                                api-key="4as43w7o9gqeqdobwqmya3u4qnfsc0urrlt94qsrefzqo5s7"
-                                                :init="{
-                                                    height: 300,
-                                                    menubar: false,
-                                                    plugins: [
-                                                        'advlist autolink lists link image charmap print preview anchor',
-                                                        'searchreplace visualblocks code fullscreen',
-                                                        'insertdatetime media table paste code help wordcount',
-                                                    ],
-                                                    toolbar:
-                                                        'undo redo | formatselect | bold italic backcolor | \
-                                                        alignleft aligncenter alignright alignjustify | \
-                                                        bullist numlist outdent indent | removeformat | help',
-                                                }"
-                                                v-model="userComment"
-                                            />
-                                        </div>
-                                        <div class="submit-btn col-md-12">
-                                            <div class="submit-btn-wrap">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-primary"
-                                                    @click="addComment()"
-                                                >
-                                                    Đăng
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row user--comment-section">
-                                        <div class="user--photo col-md-auto">
-                                            <a href="javascript:void(0)">
-                                                <img src="/image/test3.jpg" />
-                                            </a>
-                                        </div>
-                                        <div class="col user--discussion-main">
-                                            <div class="user--discussion">
-                                                <p class="users">
-                                                    <a href="javascript:void(0)"
-                                                        >kfc group</a
-                                                    >
-                                                    <span
-                                                        >bá tánh bình dân</span
-                                                    >
-                                                </p>
-                                                <p class="comments">
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                </p>
-                                                <p class="info--wrap">
-                                                    <span>2 hrs</span>
-                                                    <a
-                                                        href="javascript:void(0)"
-                                                    >
-                                                        <i
-                                                            class="fa-regular fa-comment-dots info-icon"
-                                                        ></i>
-                                                        0 trả lời
-                                                    </a>
-                                                    <a
-                                                        href="javascript:void(0)"
-                                                    >
-                                                        <i
-                                                            class="fa-regular fa-thumbs-up info-icon"
-                                                        ></i>
-                                                        0
-                                                    </a>
-                                                </p>
-                                            </div>
-                                            <div class="user--discussion-child">
-                                                <ul
-                                                    class="list-group list-group-flush"
-                                                >
-                                                    <li class="list-group-item">
-                                                        <div
-                                                            class="row user--comment-section"
-                                                        >
-                                                            <div
-                                                                class="user--photo col-md-auto"
-                                                            >
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    <img
-                                                                        src="/image/test3.jpg"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                            <div
-                                                                class="user--discussion-main col"
-                                                            >
-                                                                <div
-                                                                    class="user--discussion"
-                                                                >
-                                                                    <p
-                                                                        class="users"
-                                                                    >
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                            >kfc
-                                                                            group</a
-                                                                        >
-                                                                        <span
-                                                                            >bá
-                                                                            tánh
-                                                                            bình
-                                                                            dân</span
-                                                                        >
-                                                                    </p>
-                                                                    <p
-                                                                        class="comments"
-                                                                    >
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                    </p>
-                                                                    <p
-                                                                        class="info--wrap"
-                                                                    >
-                                                                        <span
-                                                                            >2
-                                                                            hrs</span
-                                                                        >
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                        >
-                                                                            <i
-                                                                                class="fa-regular fa-comment-dots info-icon"
-                                                                            ></i>
-                                                                            0
-                                                                            trả
-                                                                            lời
-                                                                        </a>
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                        >
-                                                                            <i
-                                                                                class="fa-regular fa-thumbs-up info-icon"
-                                                                            ></i>
-                                                                            0
-                                                                        </a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <div
-                                                            class="row user--comment-section"
-                                                        >
-                                                            <div
-                                                                class="user--photo col-md-auto"
-                                                            >
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    <img
-                                                                        src="/image/test3.jpg"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                            <div
-                                                                class="input-comment col"
-                                                            >
-                                                                <textarea></textarea>
-                                                            </div>
-                                                            <div
-                                                                class="submit-btn col-md-12"
-                                                            >
-                                                                <div
-                                                                    class="submit-btn-wrap"
-                                                                >
-                                                                    <button
-                                                                        class="btn btn-primary"
-                                                                    >
-                                                                        Đăng
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <!-- <form class="form-horizontal">
-                                                                <input type="hidden" name="" value="testing" />
-                                                                <button class="btn btn-primary submit-btn" type="submit">Đăng</button>
-                                                            </form> -->
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row user--comment-section">
-                                        <div class="user--photo col-md-auto">
-                                            <a href="javascript:void(0)">
-                                                <img src="/image/test3.jpg" />
-                                            </a>
-                                        </div>
-                                        <div class="col user--discussion-main">
-                                            <div class="user--discussion">
-                                                <p class="users">
-                                                    <a href="javascript:void(0)"
-                                                        >kfc group</a
-                                                    >
-                                                    <span
-                                                        >bá tánh bình dân</span
-                                                    >
-                                                </p>
-                                                <p class="comments">
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                </p>
-                                                <p class="info--wrap">
-                                                    <span>2 hrs</span>
-                                                    <a
-                                                        href="javascript:void(0)"
-                                                    >
-                                                        <i
-                                                            class="fa-regular fa-comment-dots info-icon"
-                                                        ></i>
-                                                        0 trả lời
-                                                    </a>
-                                                    <a
-                                                        href="javascript:void(0)"
-                                                    >
-                                                        <i
-                                                            class="fa-regular fa-thumbs-up info-icon"
-                                                        ></i>
-                                                        0
-                                                    </a>
-                                                </p>
-                                            </div>
-                                            <div class="user--discussion-child">
-                                                <ul
-                                                    class="list-group list-group-flush"
-                                                >
-                                                    <li class="list-group-item">
-                                                        <div
-                                                            class="row user--comment-section"
-                                                        >
-                                                            <div
-                                                                class="user--photo col-md-auto"
-                                                            >
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    <img
-                                                                        src="/image/test3.jpg"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                            <div
-                                                                class="user--discussion-main col"
-                                                            >
-                                                                <div
-                                                                    class="user--discussion"
-                                                                >
-                                                                    <p
-                                                                        class="users"
-                                                                    >
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                            >kfc
-                                                                            group</a
-                                                                        >
-                                                                        <span
-                                                                            >bá
-                                                                            tánh
-                                                                            bình
-                                                                            dân</span
-                                                                        >
-                                                                    </p>
-                                                                    <p
-                                                                        class="comments"
-                                                                    >
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                    </p>
-                                                                    <p
-                                                                        class="info--wrap"
-                                                                    >
-                                                                        <span
-                                                                            >2
-                                                                            hrs</span
-                                                                        >
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                        >
-                                                                            <i
-                                                                                class="fa-regular fa-comment-dots info-icon"
-                                                                            ></i>
-                                                                            0
-                                                                            trả
-                                                                            lời
-                                                                        </a>
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                        >
-                                                                            <i
-                                                                                class="fa-regular fa-thumbs-up info-icon"
-                                                                            ></i>
-                                                                            0
-                                                                        </a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <div
-                                                            class="row user--comment-section"
-                                                        >
-                                                            <div
-                                                                class="user--photo col-md-auto"
-                                                            >
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    <img
-                                                                        src="/image/test3.jpg"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                            <div
-                                                                class="input-comment col"
-                                                            >
-                                                                <textarea></textarea>
-                                                            </div>
-                                                            <div
-                                                                class="submit-btn col-md-12"
-                                                            >
-                                                                <div
-                                                                    class="submit-btn-wrap"
-                                                                >
-                                                                    <button
-                                                                        class="btn btn-primary"
-                                                                    >
-                                                                        Đăng
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <!-- <form class="form-horizontal">
-                                                                <input type="hidden" name="" value="testing" />
-                                                                <button class="btn btn-primary submit-btn" type="submit">Đăng</button>
-                                                            </form> -->
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row user--comment-section">
-                                        <div class="user--photo col-md-auto">
-                                            <a href="javascript:void(0)">
-                                                <img src="/image/test3.jpg" />
-                                            </a>
-                                        </div>
-                                        <div class="col user--discussion-main">
-                                            <div class="user--discussion">
-                                                <p class="users">
-                                                    <a href="javascript:void(0)"
-                                                        >kfc group</a
-                                                    >
-                                                    <span
-                                                        >bá tánh bình dân</span
-                                                    >
-                                                </p>
-                                                <p class="comments">
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                    truyện hay truyện hay truyện
-                                                    hay truyện hay truyện hay
-                                                </p>
-                                                <p class="info--wrap">
-                                                    <span>2 hrs</span>
-                                                    <a
-                                                        href="javascript:void(0)"
-                                                    >
-                                                        <i
-                                                            class="fa-regular fa-comment-dots info-icon"
-                                                        ></i>
-                                                        0 trả lời
-                                                    </a>
-                                                    <a
-                                                        href="javascript:void(0)"
-                                                    >
-                                                        <i
-                                                            class="fa-regular fa-thumbs-up info-icon"
-                                                        ></i>
-                                                        0
-                                                    </a>
-                                                </p>
-                                            </div>
-                                            <div class="user--discussion-child">
-                                                <ul
-                                                    class="list-group list-group-flush"
-                                                >
-                                                    <li class="list-group-item">
-                                                        <div
-                                                            class="row user--comment-section"
-                                                        >
-                                                            <div
-                                                                class="user--photo col-md-auto"
-                                                            >
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    <img
-                                                                        src="/image/test3.jpg"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                            <div
-                                                                class="user--discussion-main col"
-                                                            >
-                                                                <div
-                                                                    class="user--discussion"
-                                                                >
-                                                                    <p
-                                                                        class="users"
-                                                                    >
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                            >kfc
-                                                                            group</a
-                                                                        >
-                                                                        <span
-                                                                            >bá
-                                                                            tánh
-                                                                            bình
-                                                                            dân</span
-                                                                        >
-                                                                    </p>
-                                                                    <p
-                                                                        class="comments"
-                                                                    >
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                        truyện
-                                                                        hay
-                                                                    </p>
-                                                                    <p
-                                                                        class="info--wrap"
-                                                                    >
-                                                                        <span
-                                                                            >2
-                                                                            hrs</span
-                                                                        >
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                        >
-                                                                            <i
-                                                                                class="fa-regular fa-comment-dots info-icon"
-                                                                            ></i>
-                                                                            0
-                                                                            trả
-                                                                            lời
-                                                                        </a>
-                                                                        <a
-                                                                            href="javascript:void(0)"
-                                                                        >
-                                                                            <i
-                                                                                class="fa-regular fa-thumbs-up info-icon"
-                                                                            ></i>
-                                                                            0
-                                                                        </a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <div
-                                                            class="row user--comment-section"
-                                                        >
-                                                            <div
-                                                                class="user--photo col-md-auto"
-                                                            >
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    <img
-                                                                        src="/image/test3.jpg"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                            <div
-                                                                class="input-comment col"
-                                                            >
-                                                                <textarea></textarea>
-                                                            </div>
-                                                            <div
-                                                                class="submit-btn col-md-12"
-                                                            >
-                                                                <div
-                                                                    class="submit-btn-wrap"
-                                                                >
-                                                                    <button
-                                                                        class="btn btn-primary"
-                                                                    >
-                                                                        Đăng
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
+                                <comment-area></comment-area>
+                                <comment></comment>
                             </ul>
                             <!-- <p class="go--discuss">
                                 <a href="javascript:void(0)">Thêm bình luận</a>
@@ -644,10 +68,14 @@
                             <li class="list-group-item">
                                 <h5>Truyện cùng tác giả</h5>
                             </li>
-                            <li class="list-group-item" v-for="(item, index) in bookAuthorArray" :key="index">
-                                <a href="javascript:void(0)"
-                                    >{{ item.bookName }}</a
-                                >
+                            <li
+                                class="list-group-item"
+                                v-for="(item, index) in bookAuthorArray"
+                                :key="index"
+                            >
+                                <a href="javascript:void(0)">{{
+                                    item.bookName
+                                }}</a>
                             </li>
                         </ul>
                     </div>
@@ -660,10 +88,14 @@
                             <li class="list-group-item">
                                 <h5>Truyện cùng người đăng</h5>
                             </li>
-                            <li class="list-group-item" v-for="(item, index) in bookUploaderArray" :key="index">
-                                <a href="javascript:void(0)"
-                                    >{{ item.bookName }}</a
-                                >
+                            <li
+                                class="list-group-item"
+                                v-for="(item, index) in bookUploaderArray"
+                                :key="index"
+                            >
+                                <a href="javascript:void(0)">{{
+                                    item.bookName
+                                }}</a>
                             </li>
                         </ul>
                     </div>
@@ -676,16 +108,20 @@
                             class="list-group list-group-flush"
                             id="book-same-like"
                         >
-                            <li class="list-group-item" v-for="(item, index) in bookRecommendArray" :key="index">
+                            <li
+                                class="list-group-item"
+                                v-for="(item, index) in bookRecommendArray"
+                                :key="index"
+                            >
                                 <div class="like-more-img">
                                     <a href="javascript:void(0)">
                                         <img :src="item.avatar" />
                                     </a>
                                 </div>
                                 <h4 class="relate-content">
-                                    <a href="/html/truyen.html"
-                                        >{{ item.bookName }}</a
-                                    >
+                                    <a href="/html/truyen.html">{{
+                                        item.bookName
+                                    }}</a>
                                     <p>{{ item.author }}</p>
                                     <a
                                         href="/html/truyen.html"
@@ -709,7 +145,8 @@
 <script>
 import axios from "axios";
 const apiPath = process.env.VUE_APP_API_KEY;
-import Editor from "@tinymce/tinymce-vue";
+import CommentArea from "../Comment/CommentArea.vue";
+import Comment from "../Comment/Comment.vue";
 
 export default {
     name: "bookNavContent",
@@ -732,12 +169,13 @@ export default {
         };
     },
     components: {
-        Editor,
+        CommentArea,
+        Comment,
     },
     created() {
         this.getBannerRandomize();
-        this.getBookAuthor()
-        this.getBookUploader()
+        this.getBookAuthor();
+        this.getBookUploader();
     },
     methods: {
         async getBannerRandomize() {
@@ -770,7 +208,7 @@ export default {
                 let url = `${apiPath}/book/get-by-author?authorId=${this.bookAuthorId}`;
                 let res = (await axios.get(url)).data;
                 console.log(res);
-                this.bookAuthorArray = res
+                this.bookAuthorArray = res;
             } catch (e) {
                 console.log(e);
             }
@@ -780,7 +218,7 @@ export default {
                 let url = `${apiPath}/book/get-by-author?authorId=${this.bookUploaderId}`;
                 let res = (await axios.get(url)).data;
                 console.log(res);
-                this.bookUploaderArray = res
+                this.bookUploaderArray = res;
             } catch (e) {
                 console.log(e);
             }
@@ -790,11 +228,11 @@ export default {
                 let url = `${apiPath}/book/get-by-interaction-type?type=8`;
                 let res = (await axios.get(url)).data;
                 console.log(res);
-                this.bookRecommendArray = res
+                this.bookRecommendArray = res;
             } catch (e) {
                 console.log(e);
             }
-        }
+        },
     },
 };
 </script>

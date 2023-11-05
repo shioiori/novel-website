@@ -87,7 +87,7 @@ export default {
     },
     watch: {
         reivewArr(newArr) {
-            console.log(newArr);
+            this.tempReviewArr = newArr
         }
     },
     methods: {

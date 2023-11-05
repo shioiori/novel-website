@@ -10,6 +10,7 @@
                     :slug="item.slug"
                     :avatar="item.avatar"
                     :bookName="item.bookName"
+                    :bookId="item.bookId"
                     :authorName="item.authorName"
                     :userName="item.userName"
                     :bookStatus="item.bookStatus"
@@ -71,6 +72,7 @@ export default {
             slug: "",
             avatar: "",
             bookName: "",
+            bookId: "",
             authorName: "",
             userName: "",
             bookStatus: "",
@@ -89,7 +91,7 @@ export default {
     },
     watch: {
         bookArr(newArr) {
-            console.log(newArr);
+            this.bookArray = newArr
         }
     },
     methods: {
@@ -97,9 +99,8 @@ export default {
             try {
                 let url = `${apiPath}/book/get-all`;
                 let res = (await axios.get(url)).data;
-                console.log(res, "doc sach");
-                console.log(url);
-                this.bookArray = res.data;
+                this.bookArray = res;
+                console.log(this.bookArray)
             } catch (e) {
                 console.log(e);
             }
@@ -113,5 +114,8 @@ export default {
     padding-top: 20px;
     margin: auto;
     width: 1200px;
+}
+.book-list {
+    margin-top: 1rem;
 }
 </style>

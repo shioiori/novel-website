@@ -19,9 +19,9 @@
         <ul aria-labelledby="dropdown1" class="dropdown-menu">
             <li v-for="(item, index) in categoryArray" :key="index">
                 <a
-                    @click="getBookByCategory(item)"
+                    @click="getBookByCategory(item.categoryId)"
                     class="dropdown-item"
-                    >{{ item.name }}</a
+                    >{{ item.categoryName }}</a
                 >
             </li>
         </ul>
@@ -47,21 +47,6 @@
                     >{{ item[0] }}</a
                 >
             </li>
-            <!-- <li>
-                <a href="/bang-xep-hang?sort_by=recommend" class="dropdown-item"
-                    >Lượt đề cử</a
-                >
-            </li>
-            <li>
-                <a href="/bang-xep-hang?sort_by=follow" class="dropdown-item"
-                    >Lượt theo dõi</a
-                >
-            </li>
-            <li>
-                <a href="/bang-xep-hang?sort_by=view" class="dropdown-item"
-                    >Lượt đọc</a
-                >
-            </li> -->
         </ul>
         <a
             class="ms-auto"
@@ -128,7 +113,7 @@ export default {
         },
         async getBookByCategory(item) {
             try {
-                let url = `${apiPath}/billboard/get-by-filter?category=${item}`
+                let url = `${apiPath}/book/get-by-category?categoryId=${item}`
                 let res = (await axios.get(url)).data
                 console.log(res, "lay theo cate")
                 this.$store.dispatch("setBookArr", res)

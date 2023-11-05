@@ -68,9 +68,9 @@
                     data-temp-value="view"
                     v-for="(item, index) in tagID"
                     :key="index"
-                    :class="{ selected: TagIds.includes(item.TagId) }"
+                    :class="{ selected: TagIds.includes(item.tagId) }"
                 >
-                    <a @click="toggleTagIds(item.TagId)">{{ item.TagName }}</a>
+                    <a @click="toggleTagIds(item.tagId)">{{ item.tagName }}</a>
                 </li>
             </ul>
         </div>
@@ -96,9 +96,9 @@ export default {
         return {
             criteria1: [
                 ["Toàn bộ", ""],
-                ["Đang ra", "CONTIEP"],
-                ["Hoàn thành", "HOANTHANH"],
-                ["Tạm ngưng", "TAMNGUNG"],
+                ["Đang ra", "contiep"],
+                ["Hoàn thành", "hoanthanh"],
+                ["Tạm ngưng", "tamngung"],
             ],
             criteria2: [
                 ["Xem nhiều", 1],
@@ -156,6 +156,7 @@ export default {
                     OrderBy: this.OrderBy,
                 };
                 let requestDataJSON = JSON.stringify(requestData);
+                console.log(requestDataJSON)
                 let res = (
                     await axios.request({
                         url: url,

@@ -3,17 +3,21 @@
         <div class="rank-view-list">
             <div class="rank-view-list-item">
                 <ul class="list-group" id="filter-book">
-                    <li class="list-group-item" v-for="(item, index) in tempBookArr" :key="index">
+                    <li
+                        class="list-group-item"
+                        v-for="(item, index) in tempBookArr"
+                        :key="index"
+                    >
                         <div class="book--img">
-                            <a href="/truyen/@book.Slug-@book.BookId">
-                                <img src="https://wikidich6.com/photo/63d8b4ed54b80862372b0936?o=1" class="book--imgcss" />
+                            <a @click="$router.push(`/book/${slug}-${id}`)">
+                                <img :src="item.avatar" class="book--imgcss" />
                             </a>
                         </div>
-                        <div class="book--info">
+                        <div class="book--info book--info-rankbodyfilter">
                             <h3>
-                                <a href="/truyen/@book.Slug-@book.BookId"
-                                    >{{ item.bookName }}</a
-                                >
+                                <a href="/truyen/@book.Slug-@book.BookId">{{
+                                    item.bookName
+                                }}</a>
                             </h3>
                             <div class="book-state">
                                 <a
@@ -23,17 +27,15 @@
                                 <i>|</i>
                                 <p>{{ item.bookStatus }}</p>
                                 <i>|</i>
-                                <p>{{ item.numberOfChapter }} chương</p>
+                                <p>{{ item.totalChapters }} chương</p>
                             </div>
-                            <div class="describe">
-                                {{ item.describe }}
-                            </div>
+                            <div class="describe" v-html="item.introduce"></div>
                         </div>
                         <div class="book--info-buttons">
                             <p class="book--info-buttons-filterarea">
                                 <a
                                     class="btn"
-                                    href="/truyen/@book.Slug-@book.BookId"
+                                    @click="$router.push(`/book/${item.slug}-${item.bookId}`)"
                                     >Đọc truyện</a
                                 >
                             </p>
@@ -61,35 +63,43 @@ export default {
             // bookStatus: "",
             // numberOfChapter: "",
             // describe: ""
-        }
+        };
     },
     created() {
-        this.getBook()
+        this.getBook();
     },
     computed: {
         bookArr() {
-            return this.$store.getters.getBookArr
-        }
+            return this.$store.getters.getBookArr;
+        },
     },
     watch: {
         bookArr(newArr) {
             console.log(newArr, "thay doi");
-            this.tempBookArr = newArr
-        }
+            this.tempBookArr = newArr;
+        },
     },
     methods: {
         async getBook() {
             try {
-                let url = `${apiPath}/book/get-all`
-                let res = (await axios.get(url)).data
+                let url = `${apiPath}/book/get-all`;
+                let res = (await axios.get(url)).data;
                 console.log(res, "lay sach loc");
-                this.tempBookArr = res
+                this.tempBookArr = res;
             } catch (e) {
-                console.log(e)
+                console.log(e);
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style></style>
+<style>
+.describe {
+    height: 100px;
+    overflow: hidden;
+}
+.book--info-rankbodyfilter {
+    width: calc(100% - 200px) !important;
+}
+</style>

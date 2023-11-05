@@ -20,7 +20,34 @@ import AdminPostList from "./components/Admin/AdminPostList.vue";
 import AdminPost from "./components/Admin/AdminPost.vue";
 import AdminRole from "./components/Admin/AdminRole.vue";
 
+import store from "./store/store";
+// import axios from "axios";
+
 Vue.use(VueRouter);
+
+// const apiPath = process.env.VUE_APP_API_KEY;
+
+const requireAuth = async (to, from, next) => {
+    const token = store.state.token; // Access the token from the store
+    console.log(token, 'token o route')
+    // const headers = {'Authorization': `Bearer ${token}`}
+    if (token) {
+      // Send the token to the server for validation
+    //   try {
+    //     let res = await axios.post(`${apiPath}/login`, {
+    //         headers: headers
+    //       });
+    //       if (res.status === 200) {
+    //         next();
+    //       } else {
+    //         console.log('error')
+    //       }
+    //   } catch (e) {
+    //     console.log(e, 'loi o route')
+    //   }
+    next()
+  }
+}
 
 const router = new VueRouter({
     mode: "history",
@@ -31,7 +58,7 @@ const router = new VueRouter({
             name: "home",
         },
         {
-            path: "/book",
+            path: "/book/:slug-:id",
             component: Book,
             name: "book",
         },
@@ -74,6 +101,7 @@ const router = new VueRouter({
             path: "/user",
             component: User,
             name: "user",
+            beforeEnter: requireAuth
         },
         {
             path: "/dashboard",

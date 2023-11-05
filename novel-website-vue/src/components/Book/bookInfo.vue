@@ -100,7 +100,7 @@ export default {
 
 <style>
 .book--info-buttons {
-    width: initial !important;
+    width: initial;
 }
 .book--info a {
     font-size: initial !important;

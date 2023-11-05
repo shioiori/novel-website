@@ -120,7 +120,7 @@ export default {
 }
 
 .book--info {
-    width: 100% !important;
+    width: 100%;
 }
 
 .rank-view-list-item div.describe {

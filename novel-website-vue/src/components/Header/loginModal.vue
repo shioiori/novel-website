@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="dangnhap">
+    <div class="modal fade" id="dangnhap" ref="dangnhap">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -88,18 +88,27 @@ export default {
     // },
     methods: {
         async onLogin() {
+            const headers = {'Content-Type': 'application/json'}
             try {
                 let url = `${apiPath}/login`;
-                let res = (await axios.post(url, {
-                    Username: this.username,
-                    Password: this.password,
-                    LoginProvider: 'Cookies'
-                })).data;
-                if(res.success) {
-                    console.log("dang nhap")
-                    // localStorage.setItem('token', res.data.token);
+                let res = await axios.post(url, {
+                        Username: this.username,
+                        Password: this.password,
+                        LoginProvider: 'Cookies'
+                    }, {
+                        headers: headers
+                    })
+                console.log(res, 'res login')
+                if(res.data.success) {
+                    let data = 'tokenbimat'
+                    if (data) {
+                        this.$store.dispatch('setToken', data);
+                        // this.$router.push("/")
+                    } else {
+                        alert('Đăng nhập thất bại')
+                    }
                 } else {
-                    console.log(res.message)
+                    console.log(res.message, 'loi o login')
                 }
             } catch (e) {
                 console.log(e);
