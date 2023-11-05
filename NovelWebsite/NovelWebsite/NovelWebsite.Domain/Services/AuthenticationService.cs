@@ -26,18 +26,18 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _config;
 
-        Expression<Func<User, bool>> expUsername(string username)
-        {
-            return x => x.Username == username;
-        }
-        Expression<Func<User, bool>> expEmail(string email)
-        {
-            return x => x.Email == email;
-        }
-        Expression<Func<User, bool>> expLogin(string username, string password)
-        {
-            return x => x.Username == username && x.Password == password;
-        }
+        //Expression<Func<User, bool>> expUsername(string username)
+        //{
+        //    return x => x.Username == username;
+        //}
+        //Expression<Func<User, bool>> expEmail(string email)
+        //{
+        //    return x => x.Email == email;
+        //}
+        //Expression<Func<User, bool>> expLogin(string username, string password)
+        //{
+        //    return x => x.Username == username && x.Password == password;
+        //}
 
         public AuthenticationService(IConfiguration config, 
                                     IUserRepository userRepository, 
@@ -54,29 +54,29 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public AuthenticationResponse Login(LoginRequest loginRequest)
         {
-            var user = _userRepository.IfExistsUser(expLogin(loginRequest.Username, loginRequest.Password));
-            if (user == null)
-            {
-                return new AuthenticationResponse()
-                {
-                    Success = false,
-                    Message = "Tài khoản hoặc mật khẩu không đúng",
-                };
-            }
-            if (user.Status == (int)AccountStatus.Verifying)
-            {
-                return new AuthenticationResponse()
-                {
-                    Success = false,
-                    Message = "Email chưa được xác nhận. Hãy kiểm tra lại email của bạn",
-                };
-            }
-            var obj = _mapper.Map<User, UserModel>(user);
+            //var user = _userRepository.IfExistsUser(expLogin(loginRequest.Username, loginRequest.Password));
+            //if (user == null)
+            //{
+            //    return new AuthenticationResponse()
+            //    {
+            //        Success = false,
+            //        Message = "Tài khoản hoặc mật khẩu không đúng",
+            //    };
+            //}
+            //if (user.Status == (int)AccountStatus.Verifying)
+            //{
+            //    return new AuthenticationResponse()
+            //    {
+            //        Success = false,
+            //        Message = "Email chưa được xác nhận. Hãy kiểm tra lại email của bạn",
+            //    };
+            //}
+            //var obj = _mapper.Map<User, UserModel>(user);
             return new AuthenticationResponse()
             {
                 Success = true,
                 Message = "Đăng nhập thành công",
-                Context = JsonConvert.SerializeObject(obj),
+                //Context = JsonConvert.SerializeObject(obj),
             };
         }
 
@@ -102,20 +102,20 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         }
 
         public AuthenticationResponse ValidateField(RegisterRequest request){
-            var user = _userRepository.IfExistsUser(expUsername(request.Username));
-            if (user != null){
-                return new AuthenticationResponse(){
-                    Success = false,
-                    Message = "Tên tài khoản này đã có người đăng ký",
-                };
-            }
-            user = _userRepository.IfExistsUser(expEmail(request.Email));
-            if (user != null){
-                return new AuthenticationResponse(){
-                    Success = false,
-                    Message = "Email này đã được đăng ký",
-                };
-            }
+        //    var user = _userRepository.IfExistsUser(expUsername(request.Username));
+        //    if (user != null){
+        //        return new AuthenticationResponse(){
+        //            Success = false,
+        //            Message = "Tên tài khoản này đã có người đăng ký",
+        //        };
+        //    }
+        //    user = _userRepository.IfExistsUser(expEmail(request.Email));
+        //    if (user != null){
+        //        return new AuthenticationResponse(){
+        //            Success = false,
+        //            Message = "Email này đã được đăng ký",
+        //        };
+        //    }
             return new AuthenticationResponse(){
                 Success = true,
             };

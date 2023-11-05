@@ -1,7 +1,7 @@
 ﻿using NovelWebsite.NovelWebsite.Core.Enums;
 using System.Linq.Expressions;
 
-namespace NovelWebsite.NovelWebsite.Core.Interfaces
+namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
     public interface IGenericRepository<T>
     {

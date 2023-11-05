@@ -21,7 +21,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("get-by-filter")]
         [HttpGet]
-        public PagedList<PostModel> GetByFilter(string? name, string? orderDate, [FromQuery] PagedListRequest)
+        public PagedList<PostModel> GetByFilter(string? name, string? orderDate, [FromQuery] PagedListRequest request)
         {
             SortOrder ordDate = SortOrder.Descending;
             if (!string.IsNullOrEmpty(orderDate))
@@ -55,7 +55,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                 default:
                     break;
             }
-            return PagedList<PostModel>.ToPagedList(posts);
+            return PagedList<PostModel>.ToPagedList(posts, request);
         }
     }
 }

@@ -12,7 +12,6 @@ public interface IUnitOfWork
         IChapterRepository ChapterRepository{ get; }
         IChapterUserRepository ChapterUserRepository{ get; }
         ICommentRepository CommentRepository{ get; }
-        ICommentUserRepository CommentUserRepository{ get; }
         IPostRepository PostRepository{ get; }
         IPostUserRepository PostUserRepository{ get; }
         IReviewRepository ReviewRepository{ get; }

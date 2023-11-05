@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.NovelWebsite.Core.Enums;
-using NovelWebsite.NovelWebsite.Core.Interfaces;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using System.Linq.Expressions;
 
-namespace NovelWebsite.Infrastructure.Repositories
+namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {

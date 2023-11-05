@@ -10,6 +10,7 @@ namespace NovelWebsite.Infrastructure.Entities
         public int UserId { get; set; }
         [ForeignKey("fk_book_user")]
         public int BookId { get; set; }
+        [ForeignKey("fk_bu_interaction")]
         public int InteractType { get; set; }
         public virtual Book Book { get; set; }
         public virtual User User { get; set; }

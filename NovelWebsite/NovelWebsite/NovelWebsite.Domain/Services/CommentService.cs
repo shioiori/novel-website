@@ -10,13 +10,11 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
     public class CommentService : ICommentService
     {
         private readonly ICommentRepository _commentRepository;
-        private readonly ICommentUserRepository _commentUserRepository;
         private readonly IMapper _mapper;
 
-        public CommentService(ICommentRepository commentRepository, ICommentUserRepository commentUserRepository, IMapper mapper)
+        public CommentService(ICommentRepository commentRepository, IMapper mapper)
         {
             _commentRepository = commentRepository;
-            _commentUserRepository = commentUserRepository;
             _mapper = mapper;
         }
 
