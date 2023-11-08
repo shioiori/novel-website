@@ -36,6 +36,7 @@
                     <li
                         class="col-left"
                         :class="{ 'active-userprofile': flag == 4 }"
+                        v-if="userFlag"
                     >
                         <a @click="changeTab(4)">
                             <i class="fa-solid fa-briefcase"></i>
@@ -67,8 +68,8 @@
             </div>
             <UserProfile v-if="flag == 1"></UserProfile>
             <UserBookself v-if="flag == 2"></UserBookself>
-            <UserUploadBook v-if="flag == 3"></UserUploadBook>
-            <UserCreateBook v-if="flag == 4"></UserCreateBook>
+            <UserUploadBook v-if="flag == 3" :user-flag="userFlag"></UserUploadBook>
+            <UserCreateBook v-if="flag == 4 && userFlag"></UserCreateBook>
         </div>
         <Footer></Footer>
     </div>
@@ -84,6 +85,9 @@ import UserUploadBook from "../User/useruploadbook.vue";
 import UserCreateBook from "../User/usercreatebook.vue";
 import { EventBus } from "@/main";
 
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "user-layout",
     components: {
@@ -97,16 +101,34 @@ export default {
     data() {
         return {
             flag: 1,
+            userFlag: false,
+            userId: null,
         };
     },
     mounted() {
         EventBus.$on("changeTab", (flag) => {
             this.flag = flag;
         });
+        this.fetchUser()
     },
     methods: {
         changeTab(tabIndex) {
             this.flag = tabIndex;
+        },
+        async fetchUser() {
+            try {
+                let url = `${apiPath}/user/get-by-id?userId=${this.$route.params.id}`;
+                let res = (await axios.get(url)).data;
+                console.log(res);
+                let flagCheckId = this.$store.state.userId
+                this.userId = res.userId;
+                if(flagCheckId == this.userId) {
+                    this.userFlag = true;
+                }
+                console.log(this.userFlag)
+            } catch (e) {
+                console.log(e);
+            }
         },
     },
 };

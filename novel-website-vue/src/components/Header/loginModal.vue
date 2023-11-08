@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="dangnhap" ref="dangnhap">
+    <div class="modal fade" id="dangnhap">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -46,6 +46,7 @@
                             type="button"
                             class="btn btn-success"
                             @click="onLogin()"
+                            data-modal-hide="dangnhap"
                         >
                             Đăng nhập
                         </button>
@@ -74,6 +75,7 @@
 <script>
 import axios from "axios";
 const apiPath = process.env.VUE_APP_API_KEY;
+// import { bootstrap } from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 export default {
     name: "login-modal",
@@ -81,34 +83,42 @@ export default {
         return {
             username: "",
             password: "",
+            // modalShow: true,
         };
     },
-    // mounted() {
-        
-    // },
     methods: {
         async onLogin() {
-            const headers = {'Content-Type': 'application/json'}
+            const headers = { "Content-Type": "application/json" };
             try {
                 let url = `${apiPath}/login`;
-                let res = await axios.post(url, {
+                let res = await axios.post(
+                    url,
+                    {
                         Username: this.username,
                         Password: this.password,
-                        LoginProvider: 'Cookies'
-                    }, {
-                        headers: headers
-                    })
-                console.log(res, 'res login')
-                if(res.data.success) {
-                    let data = 'tokenbimat'
-                    if (data) {
-                        this.$store.dispatch('setToken', data);
-                        // this.$router.push("/")
-                    } else {
-                        alert('Đăng nhập thất bại')
+                        LoginProvider: "Cookies",
+                    },
+                    {
+                        headers: headers,
                     }
+                );
+                let userId = JSON.parse(res.data.context).UserId;
+                console.log(JSON.parse(res.data.context), "res login");
+                console.log(userId);
+                if (res.data.success) {
+                    let data = "tokenbimat";
+                    if (data) {
+                        this.$store.dispatch("setToken", { data, userId });
+                        // this.$router.push("/")
+                        
+                    } else {
+                        alert("Đăng nhập thất bại");
+                    }
+                    // let myModalEl = new bootstrap.Modal(document.getElementById('dangnhap'));
+                    //     myModalEl.hide();
+                    // this.modalShow = false
                 } else {
-                    console.log(res.message, 'loi o login')
+                    console.log(res.message, "loi o login");
                 }
             } catch (e) {
                 console.log(e);

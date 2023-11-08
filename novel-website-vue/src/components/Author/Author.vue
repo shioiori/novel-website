@@ -43,19 +43,20 @@
                                             </p>
                                             <i>|</i>
                                             <p>
-                                                {{ book.numberOfChapter }}
+                                                {{ book.totalChapters }}
                                                 chương
                                             </p>
                                         </div>
-                                        <div class="describe">
-                                            {{ book.describe }}
-                                        </div>
+                                        <div
+                                            class="describe"
+                                            :v-html="book.describe"
+                                        ></div>
                                     </div>
                                     <div class="book--info-buttons">
                                         <p>
                                             <a
                                                 class="btn"
-                                                href="/truyen/@book.Slug-@book.BookId"
+                                                @click="$router.push(`/book/${book.slug}/${book.bookId}`)"
                                                 >Đọc truyện</a
                                             >
                                         </p>
@@ -89,15 +90,22 @@ export default {
         return {
             authorName: "",
             bookArray: [],
+            authorId: this.$route.params.id,
+            authorSlug: this.$route.params.slug,
         };
+    },
+    mounted() {
+        this.getBookArray();
     },
     methods: {
         async getBookArray() {
             try {
-                let url = `${apiPath}/book/get-by-author?authorId=${this.$route.params.id}`;
+                let url = `${apiPath}/book/get-by-author?authorId=${this.authorId}`;
                 let res = (await axios.get(url)).data;
+                console.log(url);
                 console.log(res);
-                this.bookArray = res.data;
+                this.bookArray = res;
+                this.authorName = res[0].author;
             } catch (e) {
                 console.log(e);
             }

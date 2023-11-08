@@ -8,7 +8,8 @@ export default new Vuex.Store({
         postArr: [],
         bookArr: [],
         reviewArr: [],
-        token: localStorage.getItem('token') || null,
+        token: localStorage.getItem("token") || null,
+        userId: localStorage.getItem("userId") || null,
     },
     getters: {
         getPostArr(state) {
@@ -19,7 +20,7 @@ export default new Vuex.Store({
         },
         getReviewArr(state) {
             return state.reviewArr;
-        }
+        },
     },
     mutations: {
         SET_POST_ARR(state, postArr) {
@@ -31,30 +32,34 @@ export default new Vuex.Store({
         SET_REVIEW_ARR(state, reviewArr) {
             state.reviewArr = reviewArr;
         },
-        SET_TOKEN(state, token) {
+        SET_TOKEN(state, { token, userId }) {
             state.token = token;
-            localStorage.setItem('token', token);
+            state.userId = userId;
+            localStorage.setItem("token", token);
+            localStorage.setItem("userId", userId);
         },
         CLEAR_TOKEN(state) {
             state.token = null;
-            localStorage.removeItem('token');
-        }
+            state.userId = null;
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+        },
     },
     actions: {
         setPostArr(context, postArr) {
-            context.commit('SET_POST_ARR', postArr);
+            context.commit("SET_POST_ARR", postArr);
         },
         setBookArr(context, bookArr) {
-            context.commit('SET_BOOK_ARR', bookArr);
+            context.commit("SET_BOOK_ARR", bookArr);
         },
         setReviewArr(context, reviewArr) {
-            context.commit('SET_REVIEW_ARR', reviewArr);
+            context.commit("SET_REVIEW_ARR", reviewArr);
         },
-        setToken(context, token) {
-            context.commit('SET_TOKEN', token);
+        setToken(context, { token, userId }) {
+            context.commit("SET_TOKEN", { token, userId });
         },
         clearToken(context) {
-            context.commit('CLEAR_TOKEN')
-        }
+            context.commit("CLEAR_TOKEN");
+        },
     },
-})
+});

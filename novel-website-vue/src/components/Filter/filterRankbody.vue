@@ -9,7 +9,7 @@
                         :key="index"
                     >
                         <div class="book--img">
-                            <a @click="$router.push(`/book/${slug}-${id}`)">
+                            <a @click="$router.push(`/book/${slug}/${id}`)">
                                 <img :src="item.avatar" class="book--imgcss" />
                             </a>
                         </div>

@@ -8,6 +8,7 @@
                 <a
                     class="btn btn-secondary float-end"
                     @click="changeTab()"
+                    v-if="userFlag"
                     >Đăng truyện mới</a
                 >
             </div>
@@ -107,13 +108,16 @@ export default {
             userBookArr: [],
         };
     },
+    props: {
+        userFlag: Boolean
+    },
     created() {
         this.fetchBookArr();
     },
     methods: {
         async fetchBookArr() {
             try {
-                let url = `${apiPath}/book/get-by-author?authorId=${this.$route.params.authorId}`;
+                let url = `${apiPath}/book/get-by-author?authorId=${this.$route.params.id}`;
                 let res = (await axios.get(url)).data;
                 console.log(res);
                 this.userBookArr = res.data;

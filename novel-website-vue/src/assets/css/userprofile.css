@@ -1,9 +1,9 @@
-.row-right {
+/* .row-right {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
-}
+} */
 .index__truyendangdoc--listitem {
     display: flex;
     margin-bottom: 3rem;
@@ -212,7 +212,7 @@
     position: absolute;
     top: 100px;
     left: 230px;
-    color: #fff;
+    /* color: #fff; */
     font-size: 25px;
     font-weight: bold;
 }
@@ -347,6 +347,7 @@ li.col-left {
     border-radius: 10px;
     width: 80%;
     padding: 10px;
+    min-height: 20rem;
 }
 
 .col-left {
@@ -375,15 +376,22 @@ form {
     display: grid;
 }
 
-.container {
+.container-1 {
     width: 80%;
-    /* box-sizing: border-box;
-
-  border: 1px solid #e7e7e7;
-  border-radius: 20px; */
-    margin-top: 5rem;
-    margin-bottom: 20px;
+    margin: 5rem auto 1rem auto;
     padding: 10px;
+}
+
+.container-1 label {
+    width: 10rem;
+}
+
+.container-1 input {
+    width: 20rem;
+}
+
+.container-sub {
+    margin-bottom: 1rem;
 }
 
 input#name,

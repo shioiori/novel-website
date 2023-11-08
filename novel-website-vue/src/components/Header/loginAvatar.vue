@@ -8,10 +8,11 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
         >
-            <img src="../../assets/logo.png" />
+            <img :src="avatar" />
         </a>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" @click="$router.push(`/user/${userSlug}-${userId}?auth=true`)">Trang cá nhân</a></li>
             <li><a class="dropdown-item" @click="onLogOut()">Thoát</a></li>
         </ul>
     </div>
@@ -23,10 +24,15 @@ const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
     name: "avatar-layout",
+    props: {
+        avatar: String,
+        userId: Number,
+        userSlug: String,
+    },
     methods: {
         async onLogOut() {
             try {
-                let url = `${apiPath}/logout?returnUrl=${1}`;
+                let url = `${apiPath}/logout?returnURL=%2F`;
                 let res = await axios.get(url)
                 console.log(res, 'res logout')
                 this.$store.dispatch('clearToken')

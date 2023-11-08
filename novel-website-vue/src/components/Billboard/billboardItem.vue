@@ -1,7 +1,7 @@
 <template>
     <div class="book-item col">
         <div class="cover-col">
-            <a class="hoverable" @click="$router.push(`/book/${slug}-${bookId}`)">
+            <a class="hoverable" @click="$router.push(`/book/${slug}/${bookId}`)">
                 <img class="carousel-inner billboard-cover" :src="avatar" />
             </a>
         </div>
@@ -11,7 +11,7 @@
                 data-position="bottom"
                 data-delay="50"
                 data-tooltip="@item.BookName"
-                @click="$router.push(`/book/${slug}-${bookId}`)"
+                @click="$router.push(`/book/${slug}/${bookId}`)"
             >
                 <h5 class="book-title truncate">{{ bookName }}</h5>
             </a>

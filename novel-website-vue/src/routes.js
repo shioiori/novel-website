@@ -58,7 +58,7 @@ const router = new VueRouter({
             name: "home",
         },
         {
-            path: "/book/:slug-:id",
+            path: "/book/:slug/:id",
             component: Book,
             name: "book",
         },
@@ -83,7 +83,7 @@ const router = new VueRouter({
             name: "billboard",
         },
         {
-            path: "/author",
+            path: "/author/:slug-:id",
             component: Author,
             name: "author",
         },
@@ -98,10 +98,15 @@ const router = new VueRouter({
             name: "review",
         },
         {
-            path: "/user",
+            path: "/user/:slug-:id?auth=true",
+            component: User,
+            name: "user-auth",
+            beforeEnter: requireAuth
+        },
+        {
+            path: "/user/:slug-:id",
             component: User,
             name: "user",
-            beforeEnter: requireAuth
         },
         {
             path: "/dashboard",

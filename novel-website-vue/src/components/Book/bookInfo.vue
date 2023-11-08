@@ -22,19 +22,25 @@
                             >{{ bookCategory }}</a
                         >
                     </p>
-                    <p>
+                    <p class="interaction-data">
+                        <i class="dash">|</i>
                         <span class="like">{{ likes }}</span>
                         <i class="no-italic">Yêu thích</i>
-                        <i>|</i>
+                        <i class="dash">|</i>
 
                         <span class="view">{{ views }}</span>
                         <i class="no-italic">Lượt xem</i>
-                        <i>|</i>
+                        <i class="dash">|</i>
 
                         <span class="nominate">{{ recommend }}</span>
                         <i class="no-italic">Đề cử</i>
+                        <i class="dash">|</i>
+
+                        <span class="nominate">{{ totalChapters }}</span>
+                        <i class="no-italic">Chương</i>
+                        <i class="dash">|</i>
                     </p>
-                    <div class="book--info-buttons">
+                    <div class="book--info-buttons book-info-page">
                         <a
                             class="btn"
                             href="/truyen/@Model.Slug-@Model.BookId/@firstChapterUrl"
@@ -83,11 +89,12 @@ export default {
         likes: Number,
         views: Number,
         recommend: Number,
+        totalChapters: Number,
     },
     methods: {
         async getAction(action) {
             try {
-                let url = `${apiPath}/interact/book/set-status-${action}?bookId=${this.$route.params.bookId}`
+                let url = `${apiPath}/interact/book/set-status-${action}?bookId=${this.$route.params.id}`
                 let res = (await axios.get(url)).data
                 console.log(res);
             } catch (e) {
@@ -99,11 +106,22 @@ export default {
 </script>
 
 <style>
-.book--info-buttons {
+.book--info-buttons.book-info-page {
     width: initial;
 }
 .book--info a {
     font-size: initial !important;
     font-weight: initial !important;
+}
+.book--img img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+.interaction-data span {
+    margin-right: .5rem;
+}
+.dash {
+    margin: 0 .5rem;
 }
 </style>
