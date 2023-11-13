@@ -13,5 +13,7 @@ namespace NovelWebsite.Infrastructure.Entities
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public string? ValidateEmailToken { get; set; }
         public int Status { get; set; } = (int)AccountStatus.Verifying;
+        //public string? RefreshToken { get; set; }
+        //public DateTime RefreshTokenExpiryTime { get; set; }
     }
 }

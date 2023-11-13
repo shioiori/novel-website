@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Constants;
 using NovelWebsite.NovelWebsite.Core.Enums;
@@ -11,6 +12,7 @@ using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("/book")]
     [ApiController]
     public class BookController : ControllerBase

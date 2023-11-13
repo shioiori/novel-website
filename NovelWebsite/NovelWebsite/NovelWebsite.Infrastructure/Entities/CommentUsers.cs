@@ -14,7 +14,6 @@ namespace NovelWebsite.Infrastructure.Entities
         public int InteractType { get; set; }
         [ForeignKey("fk_cu_reply_comment")]
         public int? ReplyCommentId { get; set; }
-        public virtual User User { get; set; }
         public virtual Comment Comment { get; set; }
         public virtual Comment ReplyComment { get; set; }
     }

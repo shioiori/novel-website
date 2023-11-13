@@ -80,8 +80,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                     {
                         Success = true,
                         Message = "Login success",
-                        Token = new JwtSecurityTokenHandler().WriteToken(token),
-                        Expiration = token.ValidTo,
+                        AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
                         StatusCode = StatusCodes.Status200OK,
                     };
                 }

@@ -11,7 +11,6 @@ namespace NovelWebsite.Infrastructure.Entities
         public int ReviewId { get; set; }
         [ForeignKey("fk_ru_interaction")]
         public int InteractType { get; set; }
-        public User User { get; set; }
         public virtual Review Review { get; set; }
     }
 }

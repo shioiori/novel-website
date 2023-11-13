@@ -11,7 +11,6 @@ namespace NovelWebsite.Infrastructure.Entities
         public int PostId { get; set; }
         [ForeignKey("fk_pu_interaction")]
         public int InteractType { get; set; }
-        public virtual User User { get; set; }
         public virtual Post Post { get; set; }
     }
 }
