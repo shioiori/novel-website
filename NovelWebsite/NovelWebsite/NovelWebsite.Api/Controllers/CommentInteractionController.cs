@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
@@ -6,6 +7,7 @@ using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/interact/comment")]
     public class CommentInteractionController : ControllerBase

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
@@ -69,6 +70,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return PagedList<ReviewModel>.ToPagedList(reviews);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
         public IActionResult AddReview(ReviewModel review)

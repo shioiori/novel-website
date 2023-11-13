@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
@@ -40,25 +41,28 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return _userService.GetUserById(userId);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
         public void Add(UserModel model) {
             _userService.CreateUser(model);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
         public void Update(UserModel model) {
             _userService.UpdateUser(model);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete]
         [Route("delete")]
         public void Delete(int id) {
             _userService.DeleteUser(id);
         }
 
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         [Route("set-status")] 
         public void SetStatus(int userId, int status)
@@ -66,13 +70,14 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             _userService.SetUserStatus(userId, status);
         }
 
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         [Route("set-role")]
         public void SetRole(int userId, int roleId) {
             _userService.SetUserRole(userId, roleId);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         [Route("remove-role")]
         public void RemoveRole(int userId, int roleId) 

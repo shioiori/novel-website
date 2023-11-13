@@ -6,6 +6,7 @@ using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/interact/post")]
     public class PostInteractionController : ControllerBase
