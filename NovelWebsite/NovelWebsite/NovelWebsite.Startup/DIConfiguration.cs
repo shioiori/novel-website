@@ -1,8 +1,11 @@
-﻿using NovelWebsite.Domain.Services;
+﻿using Microsoft.AspNetCore.Identity;
+using NovelWebsite.Domain.Services;
+using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Startup
@@ -11,9 +14,7 @@ namespace NovelWebsite.NovelWebsite.Startup
     {
         public static IServiceCollection AddDIService(this IServiceCollection services)
         {
-
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IAccessService, AccessService>();
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBannerService, BannerService>();
             services.AddScoped<IBookService, BookService>();
@@ -57,7 +58,6 @@ namespace NovelWebsite.NovelWebsite.Startup
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             return services;

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace NovelWebsite.NovelWebsite.Startup
 {
@@ -6,21 +9,20 @@ namespace NovelWebsite.NovelWebsite.Startup
     {
         public static IServiceCollection AddAuthenticatedConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-            {
-                options.LoginPath = "/Admin/Account/Login";
-            });
-            services.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                IConfigurationSection googleAuthNSection = configuration.GetSection("Authentication:Google");
-                googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-            }).AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.AccessDeniedPath = "/Error/Log";
-            });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = configuration["Jwt:Issuer"],
+                            ValidAudience = configuration["Jwt:Issuer"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                        };
+                    });
             return services;
         }
     }

@@ -3,8 +3,8 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
-    public interface IBookUserRepository : IGenericRepository<Book_User>
+    public interface IBookUserRepository : IGenericRepository<BookUsers>
     {
-        IEnumerable<Book_User> GetByInteractionType(InteractionType type);
+        IEnumerable<BookUsers> GetByInteractionType(InteractionType type);
     }
 }

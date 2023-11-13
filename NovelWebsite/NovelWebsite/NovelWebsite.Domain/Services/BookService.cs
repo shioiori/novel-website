@@ -39,7 +39,7 @@ namespace NovelWebsite.Domain.Services
         {
             return b => b.CreatedDate >= start;
         }
-        Expression <Func<Book_User, bool>> expFilterByInteractionType(InteractionType type)
+        Expression <Func<BookUsers, bool>> expFilterByInteractionType(InteractionType type)
         {
             return b => b.InteractType == (int)type;
         }

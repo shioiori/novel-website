@@ -2,7 +2,7 @@
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
-    public interface IChapterUserRepository : IGenericRepository<Chapter_User>
+    public interface IChapterUserRepository : IGenericRepository<ChapterUsers>
     {
     }
 }

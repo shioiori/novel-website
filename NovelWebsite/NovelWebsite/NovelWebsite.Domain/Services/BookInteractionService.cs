@@ -29,7 +29,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var book = _bookUserRepository.GetByExpression(x => x.BookId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (book == null)
             {
-                book = new Book_User()
+                book = new BookUsers()
                 {
                     BookId = tId,
                     UserId = uId,

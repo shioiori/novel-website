@@ -2,7 +2,7 @@
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
-    public interface IPostUserRepository : IGenericRepository<Post_User>
+    public interface IPostUserRepository : IGenericRepository<PostUsers>
     {
     }
 }

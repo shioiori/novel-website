@@ -2,6 +2,7 @@
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 
 namespace NovelWebsite.NovelWebsite.Domain.Mappers
@@ -29,13 +30,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<ReviewModel, Review>();
             CreateMap<Review, ReviewModel>();
 
-            CreateMap<RegisterRequest, UserModel>();
-            CreateMap<LoginRequest, UserModel>();
+            CreateMap<RegisterRequest, User>();
+            CreateMap<LoginRequest, User>();
 
             CreateMap<UserModel, User>()
                     .ForMember(x => x.Avatar, y => y.NullSubstitute("default.jpg"))
-                    .ForMember(x => x.CoverPhoto, y => y.NullSubstitute("default.jpg"))
-                    ;
+                    .ForMember(x => x.CoverPhoto, y => y.NullSubstitute("default.jpg"));
             CreateMap<User, UserModel>();
 
             CreateMap<Tag, TagModel>();

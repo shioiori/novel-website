@@ -31,6 +31,10 @@ namespace NovelWebsite.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -47,6 +51,8 @@ namespace NovelWebsite.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -173,7 +179,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasKey("AuthorId");
 
-                    b.ToTable("Author", (string)null);
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Banner", b =>
@@ -204,7 +210,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Banner", (string)null);
+                    b.ToTable("Banners", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Book", b =>
@@ -270,10 +276,10 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Book", (string)null);
+                    b.ToTable("Books", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Book_Tag", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.BookTags", b =>
                 {
                     b.Property<int>("BookId")
                         .HasColumnType("int");
@@ -285,10 +291,10 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("BookTag", (string)null);
+                    b.ToTable("BookTags", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Book_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.BookUsers", b =>
                 {
                     b.Property<int>("BookId")
                         .HasColumnType("int");
@@ -306,7 +312,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Book_User", (string)null);
+                    b.ToTable("BookUsers", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Category", b =>
@@ -331,7 +337,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Chapter", b =>
@@ -376,10 +382,10 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Chapter", (string)null);
+                    b.ToTable("Chapters", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Chapter_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.ChapterUsers", b =>
                 {
                     b.Property<int>("ChapterId")
                         .HasColumnType("int");
@@ -397,7 +403,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Chapter_User", (string)null);
+                    b.ToTable("ChapterUsers", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Comment", b =>
@@ -448,10 +454,10 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Comment", (string)null);
+                    b.ToTable("Comments", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Comment_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.CommentUsers", b =>
                 {
                     b.Property<int>("CommentId")
                         .HasColumnType("int");
@@ -474,7 +480,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Comment_User", (string)null);
+                    b.ToTable("CommentUsers", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Post", b =>
@@ -522,10 +528,10 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Post", (string)null);
+                    b.ToTable("Posts", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Post_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.PostUsers", b =>
                 {
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -543,7 +549,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Post_User", (string)null);
+                    b.ToTable("PostUsers", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Review", b =>
@@ -579,10 +585,10 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Review", (string)null);
+                    b.ToTable("Reviews", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Review_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.ReviewUsers", b =>
                 {
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
@@ -600,24 +606,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Review_User", (string)null);
-                });
-
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role");
+                    b.ToTable("ReviewUsers", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Tag", b =>
@@ -638,7 +627,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasKey("TagId");
 
-                    b.ToTable("Tag", (string)null);
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.User", b =>
@@ -711,6 +700,9 @@ namespace NovelWebsite.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("ValidateEmailToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -722,27 +714,6 @@ namespace NovelWebsite.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.User_Role", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("User_Role", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Interaction", b =>
@@ -759,7 +730,7 @@ namespace NovelWebsite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Interaction", (string)null);
+                    b.ToTable("Interactions", (string)null);
                 });
 
             modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Permission", b =>
@@ -776,10 +747,10 @@ namespace NovelWebsite.Migrations
 
                     b.HasKey("PermissionId");
 
-                    b.ToTable("Permission", (string)null);
+                    b.ToTable("Permissions", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Role_Permission", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.RolePermissions", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -787,11 +758,24 @@ namespace NovelWebsite.Migrations
                     b.Property<int>("PermissionId")
                         .HasColumnType("int");
 
+                    b.Property<string>("RoleId1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("RoleId", "PermissionId");
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("Role_Permission", (string)null);
+                    b.HasIndex("RoleId1");
+
+                    b.ToTable("RolePermissions", (string)null);
+                });
+
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Role", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.HasDiscriminator().HasValue("Role");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -879,7 +863,7 @@ namespace NovelWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Book_Tag", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.BookTags", b =>
                 {
                     b.HasOne("NovelWebsite.Infrastructure.Entities.Book", "Book")
                         .WithMany()
@@ -898,7 +882,7 @@ namespace NovelWebsite.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Book_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.BookUsers", b =>
                 {
                     b.HasOne("NovelWebsite.Infrastructure.Entities.Book", "Book")
                         .WithMany()
@@ -926,7 +910,7 @@ namespace NovelWebsite.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Chapter_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.ChapterUsers", b =>
                 {
                     b.HasOne("NovelWebsite.Infrastructure.Entities.Chapter", "Chapter")
                         .WithMany()
@@ -976,7 +960,7 @@ namespace NovelWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Comment_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.CommentUsers", b =>
                 {
                     b.HasOne("NovelWebsite.Infrastructure.Entities.Comment", "Comment")
                         .WithMany()
@@ -1010,7 +994,7 @@ namespace NovelWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Post_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.PostUsers", b =>
                 {
                     b.HasOne("NovelWebsite.Infrastructure.Entities.Post", "Post")
                         .WithMany()
@@ -1044,7 +1028,7 @@ namespace NovelWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Review_User", b =>
+            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.ReviewUsers", b =>
                 {
                     b.HasOne("NovelWebsite.Infrastructure.Entities.Review", "Review")
                         .WithMany()
@@ -1061,26 +1045,7 @@ namespace NovelWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.User_Role", b =>
-                {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Role_Permission", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.RolePermissions", b =>
                 {
                     b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Permission", "Permission")
                         .WithMany()
@@ -1088,9 +1053,9 @@ namespace NovelWebsite.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Role", "Role")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RoleId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

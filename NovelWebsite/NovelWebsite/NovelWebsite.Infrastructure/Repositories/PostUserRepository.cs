@@ -4,7 +4,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
-    public class PostUserRepository : GenericRepository<Post_User>, IPostUserRepository
+    public class PostUserRepository : GenericRepository<PostUsers>, IPostUserRepository
     {
         public PostUserRepository(AppDbContext dbContext) : base(dbContext)
         {

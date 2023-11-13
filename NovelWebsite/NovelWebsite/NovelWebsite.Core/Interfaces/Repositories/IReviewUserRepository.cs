@@ -2,7 +2,7 @@
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
-    public interface IReviewUserRepository : IGenericRepository<Review_User>
+    public interface IReviewUserRepository : IGenericRepository<ReviewUsers>
     {
     }
 }

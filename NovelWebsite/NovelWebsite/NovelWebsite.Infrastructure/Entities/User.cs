@@ -11,6 +11,7 @@ namespace NovelWebsite.Infrastructure.Entities
         public string Avatar { get; set; } = "default.jpg";
         public string CoverPhoto { get; set; } = "default.jpg";
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public string? ValidateEmailToken { get; set; }
         public int Status { get; set; } = (int)AccountStatus.Verifying;
     }
 }

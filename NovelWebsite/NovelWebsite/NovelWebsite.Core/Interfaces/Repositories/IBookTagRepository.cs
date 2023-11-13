@@ -2,7 +2,7 @@
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
-    public interface IBookTagRepository : IGenericRepository<Book_Tag>
+    public interface IBookTagRepository : IGenericRepository<BookTags>
     {
     }
 }

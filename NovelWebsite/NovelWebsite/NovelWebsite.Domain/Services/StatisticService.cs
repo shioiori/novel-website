@@ -20,7 +20,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         {
             return b => categoryId == 0 || b.CategoryId == categoryId;
         }
-        Expression<Func<Book_User, bool>> expFilterInteractionType(InteractionType type)
+        Expression<Func<BookUsers, bool>> expFilterInteractionType(InteractionType type)
         {
             return x => x.InteractType == (int)type;
         }

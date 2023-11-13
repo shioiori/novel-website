@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Domain.Providers;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.NovelWebsite.Startup
 {
     public static class IdentityConfiguration
     {
-        public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, Role>()
                     .AddEntityFrameworkStores<AppDbContext>()
-                    .AddDefaultTokenProviders();
+                    .AddDefaultTokenProviders()
+                    .AddTokenProvider<EmailConfirmationTokenProvider<User>>(configuration["Environment:EmailConfirmationTokenProvider"]);
 
             services.Configure<IdentityOptions>(options => {
                 // Thiết lập về Password
@@ -34,7 +38,12 @@ namespace NovelWebsite.NovelWebsite.Startup
                 // Cấu hình đăng nhập.
                 options.SignIn.RequireConfirmedEmail = true;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
                 options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
+
+                options.Tokens.EmailConfirmationTokenProvider = configuration["Environment:EmailConfirmationTokenProvider"];
             });
+
+            services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
+                    opt.TokenLifespan = TimeSpan.FromDays(7));
             return services;
         }
     }

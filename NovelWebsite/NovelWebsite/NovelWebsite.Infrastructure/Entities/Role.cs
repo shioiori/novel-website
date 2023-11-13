@@ -1,8 +1,8 @@
-﻿namespace NovelWebsite.Infrastructure.Entities
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
-    public class Role
+    public class Role : IdentityRole
     {
-        public int RoleId { get; set; }
-        public string RoleName { get; set; }
     }
 }

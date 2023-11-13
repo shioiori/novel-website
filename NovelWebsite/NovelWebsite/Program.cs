@@ -21,7 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddAuthenticatedConfiguration(builder.Configuration);
 builder.Services.AddAuthorizedConfiguration();
-builder.Services.AddIdentityConfiguration();
+builder.Services.AddIdentityConfiguration(builder.Configuration);
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddMemoryCache();
@@ -57,6 +57,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors(corsNovelWebsite);
+//app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(

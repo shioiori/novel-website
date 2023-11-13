@@ -7,13 +7,13 @@ using System.Linq.Expressions;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
-    public class BookUserRepository : GenericRepository<Book_User>, IBookUserRepository
+    public class BookUserRepository : GenericRepository<BookUsers>, IBookUserRepository
     {
         public BookUserRepository(AppDbContext dbContext) : base(dbContext)
         {
         }
 
-        public IEnumerable<Book_User> GetByInteractionType(InteractionType type)
+        public IEnumerable<BookUsers> GetByInteractionType(InteractionType type)
         {
             return _table.Where(x => x.InteractType == (int)type);
         } 

@@ -2,6 +2,7 @@
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
