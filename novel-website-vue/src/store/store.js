@@ -32,11 +32,11 @@ export default new Vuex.Store({
         SET_REVIEW_ARR(state, reviewArr) {
             state.reviewArr = reviewArr;
         },
-        SET_TOKEN(state, { token, userId }) {
-            state.token = token;
-            state.userId = userId;
-            localStorage.setItem("token", token);
-            localStorage.setItem("userId", userId);
+        SET_TOKEN(state, payload) {
+            state.token = payload.token;
+            state.userId = payload.userId;
+            localStorage.setItem("token", payload.token);
+            localStorage.setItem("userId", payload.userId);
         },
         CLEAR_TOKEN(state) {
             state.token = null;
@@ -55,8 +55,8 @@ export default new Vuex.Store({
         setReviewArr(context, reviewArr) {
             context.commit("SET_REVIEW_ARR", reviewArr);
         },
-        setToken(context, { token, userId }) {
-            context.commit("SET_TOKEN", { token, userId });
+        setToken(context, payload) {
+            context.commit("SET_TOKEN",  payload);
         },
         clearToken(context) {
             context.commit("CLEAR_TOKEN");

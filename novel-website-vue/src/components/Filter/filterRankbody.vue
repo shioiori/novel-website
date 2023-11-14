@@ -9,13 +9,13 @@
                         :key="index"
                     >
                         <div class="book--img">
-                            <a @click="$router.push(`/book/${slug}/${id}`)">
+                            <a @click="$router.push(`/book/${item.slug}/${item.bookId}`)">
                                 <img :src="item.avatar" class="book--imgcss" />
                             </a>
                         </div>
                         <div class="book--info book--info-rankbodyfilter">
                             <h3>
-                                <a href="/truyen/@book.Slug-@book.BookId">{{
+                                <a @click="$router.push(`/book/${item.slug}/${item.bookId}`)">{{
                                     item.bookName
                                 }}</a>
                             </h3>

@@ -3,8 +3,7 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="book--content-detail">
-                    <div class="book--content-detail-intro">
-                        {{ bookIntroduce }}
+                    <div class="book--content-detail-intro" v-html="bookIntroduce">
                     </div>
                     <div class="book--content-detail-state">
                         <ul class="list-group list-group-flush">
@@ -73,7 +72,7 @@
                                 v-for="(item, index) in bookAuthorArray"
                                 :key="index"
                             >
-                                <a href="javascript:void(0)">{{
+                                <a  >{{
                                     item.bookName
                                 }}</a>
                             </li>
@@ -93,7 +92,7 @@
                                 v-for="(item, index) in bookUploaderArray"
                                 :key="index"
                             >
-                                <a href="javascript:void(0)">{{
+                                <a >{{
                                     item.bookName
                                 }}</a>
                             </li>
@@ -207,7 +206,7 @@ export default {
             try {
                 let url = `${apiPath}/book/get-by-author?authorId=${this.bookAuthorId}`;
                 let res = (await axios.get(url)).data;
-                console.log(res);
+                console.log(res, 'getbookauthor');
                 this.bookAuthorArray = res;
             } catch (e) {
                 console.log(e);
@@ -233,6 +232,9 @@ export default {
                 console.log(e);
             }
         },
+        changeRoute(slug, id) {
+            this.$router.push(`/book/${slug}/${id}`)
+        }
     },
 };
 </script>

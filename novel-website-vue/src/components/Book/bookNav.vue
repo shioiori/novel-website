@@ -49,7 +49,14 @@
             </div>
         </div>
         <div class="tab-content">
-            <bookNavContent></bookNavContent>
+            <bookNavContent
+                :book-introduce="bookIntroduce"
+                :book-uploader="bookUser"
+                :book-uploader-id="bookUserId"
+                :book-id="bookId"
+                :book-author="bookAuthor"
+                :book-author-id="bookAuthorId"
+            ></bookNavContent>
             <bookNavChapter></bookNavChapter>
             <bookNavRate></bookNavRate>
         </div>
@@ -67,6 +74,14 @@ export default {
         bookNavChapter,
         bookNavContent,
         bookNavRate,
+    },
+    props: {
+        bookUser: String,
+        bookUserId: Number,
+        bookIntroduce: String,
+        bookId: Number,
+        bookAuthor: String,
+        bookAuthorId: Number,
     },
 };
 </script>

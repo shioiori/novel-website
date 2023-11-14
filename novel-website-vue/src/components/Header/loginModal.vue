@@ -75,7 +75,6 @@
 <script>
 import axios from "axios";
 const apiPath = process.env.VUE_APP_API_KEY;
-// import { bootstrap } from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 export default {
     name: "login-modal",
@@ -83,7 +82,6 @@ export default {
         return {
             username: "",
             password: "",
-            // modalShow: true,
         };
     },
     methods: {
@@ -105,20 +103,18 @@ export default {
                 let userId = JSON.parse(res.data.context).UserId;
                 console.log(JSON.parse(res.data.context), "res login");
                 console.log(userId);
+
                 if (res.data.success) {
-                    let data = "tokenbimat";
-                    if (data) {
-                        this.$store.dispatch("setToken", { data, userId });
-                        // this.$router.push("/")
-                        
+                    let token = "token" + userId;
+                    if (token) {
+                        this.$store.dispatch("setToken", { token, userId });
+                        alert("Đăng nhập thành công");
+                        window.location.reload();
                     } else {
                         alert("Đăng nhập thất bại");
                     }
-                    // let myModalEl = new bootstrap.Modal(document.getElementById('dangnhap'));
-                    //     myModalEl.hide();
-                    // this.modalShow = false
                 } else {
-                    console.log(res.message, "loi o login");
+                    console.log(res.message);
                 }
             } catch (e) {
                 console.log(e);

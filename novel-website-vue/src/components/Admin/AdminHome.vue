@@ -3,137 +3,189 @@
         <AdminHeader></AdminHeader>
         <div class="container-fluid">
             <div class="row">
-                <AdminSidebar></AdminSidebar>
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    <h2>Section title</h2>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Header</th>
-                                    <th scope="col">Header</th>
-                                    <th scope="col">Header</th>
-                                    <th scope="col">Header</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1,001</td>
-                                    <td>random</td>
-                                    <td>data</td>
-                                    <td>placeholder</td>
-                                    <td>text</td>
-                                </tr>
-                                <tr>
-                                    <td>1,002</td>
-                                    <td>placeholder</td>
-                                    <td>irrelevant</td>
-                                    <td>visual</td>
-                                    <td>layout</td>
-                                </tr>
-                                <tr>
-                                    <td>1,003</td>
-                                    <td>data</td>
-                                    <td>rich</td>
-                                    <td>dashboard</td>
-                                    <td>tabular</td>
-                                </tr>
-                                <tr>
-                                    <td>1,003</td>
-                                    <td>information</td>
-                                    <td>placeholder</td>
-                                    <td>illustrative</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr>
-                                    <td>1,004</td>
-                                    <td>text</td>
-                                    <td>random</td>
-                                    <td>layout</td>
-                                    <td>dashboard</td>
-                                </tr>
-                                <tr>
-                                    <td>1,005</td>
-                                    <td>dashboard</td>
-                                    <td>irrelevant</td>
-                                    <td>text</td>
-                                    <td>placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>1,006</td>
-                                    <td>dashboard</td>
-                                    <td>illustrative</td>
-                                    <td>rich</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr>
-                                    <td>1,007</td>
-                                    <td>placeholder</td>
-                                    <td>tabular</td>
-                                    <td>information</td>
-                                    <td>irrelevant</td>
-                                </tr>
-                                <tr>
-                                    <td>1,008</td>
-                                    <td>random</td>
-                                    <td>data</td>
-                                    <td>placeholder</td>
-                                    <td>text</td>
-                                </tr>
-                                <tr>
-                                    <td>1,009</td>
-                                    <td>placeholder</td>
-                                    <td>irrelevant</td>
-                                    <td>visual</td>
-                                    <td>layout</td>
-                                </tr>
-                                <tr>
-                                    <td>1,010</td>
-                                    <td>data</td>
-                                    <td>rich</td>
-                                    <td>dashboard</td>
-                                    <td>tabular</td>
-                                </tr>
-                                <tr>
-                                    <td>1,011</td>
-                                    <td>information</td>
-                                    <td>placeholder</td>
-                                    <td>illustrative</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr>
-                                    <td>1,012</td>
-                                    <td>text</td>
-                                    <td>placeholder</td>
-                                    <td>layout</td>
-                                    <td>dashboard</td>
-                                </tr>
-                                <tr>
-                                    <td>1,013</td>
-                                    <td>dashboard</td>
-                                    <td>irrelevant</td>
-                                    <td>text</td>
-                                    <td>visual</td>
-                                </tr>
-                                <tr>
-                                    <td>1,014</td>
-                                    <td>dashboard</td>
-                                    <td>illustrative</td>
-                                    <td>rich</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr>
-                                    <td>1,015</td>
-                                    <td>random</td>
-                                    <td>tabular</td>
-                                    <td>information</td>
-                                    <td>text</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </main>
+                <div
+                    class="col-md-2 d-md-block bg-light sidebar collapse pt-3"
+                >
+                    <ul class="list-unstyled ps-0">
+                        <li class="mb-1">
+                            <button
+                                class="btn btn-toggle align-items-center rounded collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#home-collapse"
+                                aria-expanded="false"
+                                @click="changeTab(1)"
+                            >
+                                Home
+                            </button>
+                        </li>
+                        <li class="border-top my-3"></li>
+                        <li class="mb-1">
+                            <button
+                                class="btn btn-toggle align-items-center rounded collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#quanly-collapse"
+                                aria-expanded="false"
+                            >
+                                Quản lý
+                            </button>
+                            <div
+                                class="collapse ps-4"
+                                id="quanly-collapse"
+                                style=""
+                            >
+                                <ul
+                                    class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                                >
+                                    <li>
+                                        <button
+                                            class="btn align-items-center rounded collapsed"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#quanly-tintuc-collapse"
+                                            aria-expanded="false"
+                                        >
+                                            Tin tức
+                                        </button>
+                                        <div
+                                            class="collapse ps-3"
+                                            id="quanly-tintuc-collapse"
+                                            style=""
+                                        >
+                                            <ul
+                                                class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                                            >
+                                                <li>
+                                                    <button
+                                                        @click="changeTab(2)"
+                                                        class="btn align-items-center rounded"
+                                                    >
+                                                        Tất cả bài viết
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        @click="changeTab(3)"
+                                                        class="btn align-items-center rounded"
+                                                    >
+                                                        Tạo bài viết mới
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <button
+                                            @click="changeTab(4)"
+                                            class="btn align-items-center rounded"
+                                        >
+                                            Banner
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            @click="changeTab(8)"
+                                            class="btn align-items-center rounded"
+                                        >
+                                            Vai trò
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="border-top my-3"></li>
+                        <li class="mb-1">
+                            <button
+                                class="btn btn-toggle align-items-center rounded collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#truyen-collapse"
+                                aria-expanded="false"
+                            >
+                                Truyện
+                            </button>
+                            <div
+                                class="collapse ps-4"
+                                id="truyen-collapse"
+                                style=""
+                            >
+                                <ul
+                                    class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                                >
+                                    <li>
+                                        <button
+                                            class="btn align-items-center rounded collapsed"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#truyen-truyen-collapse"
+                                            aria-expanded="false"
+                                        >
+                                            Quản lý truyện
+                                        </button>
+                                        <div
+                                            class="collapse ps-3"
+                                            id="truyen-truyen-collapse"
+                                            style=""
+                                        >
+                                            <ul
+                                                class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                                            >
+                                                <li>
+                                                    <button
+                                                        @click="changeTab(5)"
+                                                        class="btn align-items-center rounded"
+                                                    >
+                                                        Tất cả truyện
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        class="btn align-items-center rounded"
+                                                    >
+                                                        Tạo truyện mới
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <button
+                                            @click="changeTab(6)"
+                                            class="btn align-items-center rounded"
+                                        >
+                                            Thể loại
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            @click="changeTab(7)"
+                                            class="btn align-items-center rounded"
+                                        >
+                                            Thẻ
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="border-top my-3"></li>
+                        <li class="mb-1">
+                            <button
+                                class="btn btn-toggle align-items-center rounded collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#account-collapse"
+                                aria-expanded="false"
+                                @click="changeTab(9)"
+                            >
+                                Người dùng
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <admin-dashboard v-if="flag == 1"></admin-dashboard>
+                <admin-banner v-if="flag == 4"></admin-banner>
+                <admin-category v-if="flag == 6"></admin-category>
+                <admin-post v-if="flag == 3"></admin-post>
+                <admin-post-list v-if="flag == 2"></admin-post-list>
+                <admin-tag v-if="flag == 7"></admin-tag>
+                <admin-truyen v-if="flag == 5"></admin-truyen>
+                <admin-role v-if="flag == 8"></admin-role>
+                <admin-user v-if="flag == 9"></admin-user>
             </div>
         </div>
     </div>
@@ -141,15 +193,56 @@
 
 <script>
 import AdminHeader from "./AdminHeader.vue";
-import AdminSidebar from "./AdminSidebar.vue";
+import AdminBanner from "./AdminBanner.vue";
+import AdminCategory from "./AdminCategory.vue";
+import AdminPost from "./AdminPost.vue";
+import AdminPostList from "./AdminPostList.vue";
+import AdminTag from "./AdminTag.vue";
+import AdminTruyen from "./AdminTruyen.vue";
+import AdminRole from "./AdminRole.vue";
+import AdminUser from "./AdminUser.vue";
+import AdminDashboard from "./AdminDashboard.vue";
 
 export default {
     name: "adminhome-layout",
     components: {
         AdminHeader,
-        AdminSidebar,
+        AdminBanner,
+        AdminCategory,
+        AdminPost,
+        AdminPostList,
+        AdminTag,
+        AdminTruyen,
+        AdminRole,
+        AdminUser,
+        AdminDashboard,
+    },
+    data() {
+        return {
+            flag: 1,
+        };
+    },
+    methods: {
+        changeTab(index) {
+            this.flag = index;
+        },
     },
 };
 </script>
 
-<style></style>
+<style>
+.btn-toggle[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+.btn-toggle::before {
+    width: 1.25em;
+    line-height: 0;
+    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition: transform 0.35s ease;
+    transform-origin: 0.5em 50%;
+}
+.row.col-md-10, .col-md-10 {
+    padding: 1rem;
+    margin: 0;
+}
+</style>

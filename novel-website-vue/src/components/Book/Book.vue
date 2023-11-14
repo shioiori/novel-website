@@ -11,7 +11,14 @@
             :views="views"
             :recommend="recommend"
         ></bookInfo>
-        <bookNav></bookNav>
+        <bookNav
+            :book-author="bookAuthor"
+            :book-author-id="bookAuthorId"
+            :book-introduce="bookIntroduce"
+            :book-user="bookUser"
+            :book-user-id="bookUserId"
+            :book-id="bookId"
+        ></bookNav>
         <Footer></Footer>
     </div>
 </template>
@@ -51,6 +58,7 @@ export default {
             bookUser: "",
             bookUserId: null,
             bookIntroduce: "",
+            bookId: null,
         };
     },
     mounted() {
@@ -67,12 +75,17 @@ export default {
                 this.avatar = res.avatar;
                 this.bookName = res.bookName;
                 this.bookAuthor = res.author;
+                this.bookAuthorId = res.authorId;
                 this.bookStatus = res.bookStatus;
                 this.likes = res.likes;
                 this.views = res.views;
                 this.recommend = res.recommend;
                 this.bookSlug = res.slug;
-                this.category = res.categoryId
+                this.category = res.categoryId;
+                this.bookUser = res.user;
+                this.bookUserId = res.userId;
+                this.bookIntroduce = res.introduce;
+                this.bookId = res.bookId;
             } catch (e) {
                 console.log(e);
             }

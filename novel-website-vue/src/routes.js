@@ -13,12 +13,14 @@ import User from "./components/User/User.vue";
 
 import AdminHome from "./components/Admin/AdminHome.vue";
 import AdminTruyen from "./components/Admin/AdminTruyen.vue";
-import AdminTheLoai from "./components/Admin/AdminTheLoai.vue";
+import AdminCategory from "./components/Admin/AdminCategory.vue";
 import AdminTag from "./components/Admin/AdminTag.vue";
 import AdminBanner from "./components/Admin/AdminBanner.vue";
 import AdminPostList from "./components/Admin/AdminPostList.vue";
 import AdminPost from "./components/Admin/AdminPost.vue";
 import AdminRole from "./components/Admin/AdminRole.vue";
+import Adminlogin from "./components/Admin/AdminLogin.vue";
+import AdminTruyenChapter from "./components/Admin/AdminTruyenChapter.vue";
 
 import store from "./store/store";
 // import axios from "axios";
@@ -120,8 +122,8 @@ const router = new VueRouter({
         },
         {
             path: "/admin/theloai",
-            component: AdminTheLoai,
-            name: 'admintheloai'
+            component: AdminCategory,
+            name: 'admincategory'
         },
         {
             path: "/admin/tag",
@@ -147,7 +149,17 @@ const router = new VueRouter({
             path: "/admin/role",
             component: AdminRole,
             name: 'adminRole'
-        }
+        },
+        {
+            path: "/admin/login",
+            component: Adminlogin,
+            name: 'adminLogin'
+        },
+        {
+            path: "/admin/listchapter",
+            component: AdminTruyenChapter,
+            name: 'admintruyenlist'
+        },
     ],
 });
 
