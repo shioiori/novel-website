@@ -1,4 +1,4 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
@@ -14,25 +14,25 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _commentUserRepository = commentUserRepository;
         }
 
-        public override bool IsInteractionEnabled(int tId, int uId, InteractionType type)
+        public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
         {
-            var comment = _commentUserRepository.Filter(x => x.CommentId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var comment = _commentUserRepository.Filter(x => x.CommentId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (comment == null)
             {
                 return false;
             }
             return true;
         }
-        public override bool SetStatusOfInteraction(int tId, int uId, InteractionType type)
+        public override bool SetStatusOfInteraction(string tId, string uId, InteractionType type)
         {
-            var comment = _commentUserRepository.GetByExpression(x => x.CommentId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var comment = _commentUserRepository.GetByExpression(x => x.CommentId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (comment == null)
             {
                 comment = new CommentUsers()
                 {
                     CommentId = tId,
                     UserId = uId,
-                    InteractType = (int)type,
+                    InteractionId = (int)type,
                 };
                 _commentUserRepository.Insert(comment);
                 _commentUserRepository.Save();

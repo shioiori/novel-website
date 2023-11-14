@@ -3,7 +3,7 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
     public class User : IdentityUser
     {

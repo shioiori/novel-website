@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Constants;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
@@ -41,7 +41,7 @@ namespace NovelWebsite.Domain.Services
         }
         Expression <Func<BookUsers, bool>> expFilterByInteractionType(InteractionType type)
         {
-            return b => b.InteractType == (int)type;
+            return b => b.InteractionId == (int)type;
         }
         public BookService(IBookRepository bookRepository, IBookUserRepository bookUserRepository, IMapper mapper)
         {

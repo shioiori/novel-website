@@ -6,7 +6,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 {
     public abstract class InterationService : IInteractionService
     {
-        public abstract bool IsInteractionEnabled(int tId, int uId, InteractionType type);
-        public abstract bool SetStatusOfInteraction(int tId, int uId, InteractionType type);
+        public abstract bool IsInteractionEnabled(string tId, string uId, InteractionType type);
+        public abstract bool SetStatusOfInteraction(string tId, string uId, InteractionType type);
     }
 }

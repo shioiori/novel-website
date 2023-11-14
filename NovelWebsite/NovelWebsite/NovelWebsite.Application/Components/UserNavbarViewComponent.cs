@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using NovelWebsite.Infrastructure.Contexts;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;

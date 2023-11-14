@@ -12,7 +12,6 @@ using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("/book")]
     [ApiController]
     public class BookController : ControllerBase

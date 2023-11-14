@@ -1,4 +1,4 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Services

@@ -5,13 +5,13 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces.Services
     public interface ICommentService
     {
         void CreateComment(CommentModel comment);
-        void DeleteComment(int commentId);
-        CommentModel GetComment(int commentId);
-        IEnumerable<CommentModel> GetCommentsOfBook(int bookId);
-        IEnumerable<CommentModel> GetCommentsOfChapter(int chapterId);
-        IEnumerable<CommentModel> GetCommentsOfPost(int postId);
-        IEnumerable<CommentModel> GetCommentsOfReview(int reviewId);
-        IEnumerable<CommentModel> GetReplyComments(int commentId);
+        void DeleteComment(string commentId);
+        CommentModel GetComment(string commentId);
+        IEnumerable<CommentModel> GetCommentsOfBook(string bookId);
+        IEnumerable<CommentModel> GetCommentsOfChapter(string chapterId);
+        IEnumerable<CommentModel> GetCommentsOfPost(string postId);
+        IEnumerable<CommentModel> GetCommentsOfReview(string reviewId);
+        IEnumerable<CommentModel> GetReplyComments(string commentId);
         void UpdateComment(CommentModel comment);
     }
 }

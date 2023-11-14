@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
@@ -12,7 +12,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
-        private Expression<Func<Review, bool>> expSearchByBookId(int bookId)
+        private Expression<Func<Review, bool>> expSearchByBookId(string bookId)
         {
             return x => x.BookId == bookId;
         }
@@ -33,7 +33,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }
 
-        public IEnumerable<ReviewModel> GetListReviewsByBookId(int bookId)
+        public IEnumerable<ReviewModel> GetListReviewsByBookId(string bookId)
         {
             var reviews = _reviewRepository.Filter(expSearchByBookId(bookId));
             return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);

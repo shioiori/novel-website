@@ -1,5 +1,5 @@
 ﻿using NovelWebsite.Infrastructure.Contexts;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 
         public IEnumerable<BookUsers> GetByInteractionType(InteractionType type)
         {
-            return _table.Where(x => x.InteractType == (int)type);
+            return _table.Where(x => x.InteractionId == (int)type);
         } 
     }
 }

@@ -31,7 +31,7 @@ namespace NovelWebsite.Domain.Authorization
                 context.Succeed(requirement);
                 return Task.CompletedTask;
             }
-            var bookUser = _dbContext.Books.Where(b => b.BookId == int.Parse(bookId)).FirstOrDefault();
+            var bookUser = _dbContext.Books.Where(b => b.BookId == bookId).FirstOrDefault();
             if (bookUser == null)
             {
                 return Task.CompletedTask;

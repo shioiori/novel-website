@@ -1,16 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
     public class ReviewUsers
     {
         [ForeignKey("fk_ru_user")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey("fk_ru_review")]
-        public int ReviewId { get; set; }
+        public string ReviewId { get; set; }
         [ForeignKey("fk_ru_interaction")]
-        public int InteractType { get; set; }
+        public int InteractionId { get; set; }
+        public virtual User User { get; set; }  
         public virtual Review Review { get; set; }
+        //public virtual Interaction Interaction { get; set; }
+
     }
 }

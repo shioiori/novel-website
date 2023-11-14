@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
@@ -21,6 +22,7 @@ namespace NovelWebsite.Api.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
         public void Add(AuthorModel author)
@@ -28,6 +30,7 @@ namespace NovelWebsite.Api.Controllers
             _authorService.CreateAuthor(author);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
         public void Update(AuthorModel author)
@@ -35,6 +38,7 @@ namespace NovelWebsite.Api.Controllers
             _authorService.UpdateAuthor(author);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("delete")]
 

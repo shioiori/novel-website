@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -22,36 +23,40 @@ namespace NovelWebsite.Api.Controllers
             _chapterService = chapterService;
         }
 
+
         [HttpGet]
         [Route("get-by-chapter-id")]
-        public ChapterModel GetByChapter(int chapterId)
+        public ChapterModel GetByChapter(string chapterId)
         {
             return _chapterService.GetChapter(chapterId);
         }
 
         [HttpGet]
         [Route("get-by-book-id")]
-        public PagedList<ChapterModel> GetListChapters(int bookId, PagedListRequest request)
+        public PagedList<ChapterModel> GetListChapters(string bookId, PagedListRequest request)
         {
             var chapters = _chapterService.GetChapters(bookId);
             return PagedList<ChapterModel>.ToPagedList(chapters, request);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
         public void AddChapter(ChapterModel model){
             _chapterService.CreateChapter(model);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
         public void UpdateChapter(ChapterModel model){
             _chapterService.UpdateChapter(model);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [Route("delete")]
         [HttpDelete]
-        public void DeleteChapter(int chapterId)
+        public void DeleteChapter(string chapterId)
         {
             _chapterService.DeleteChapter(chapterId);
         }

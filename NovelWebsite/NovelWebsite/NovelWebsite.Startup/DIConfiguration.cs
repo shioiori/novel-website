@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NovelWebsite.Domain.Services;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
-using NovelWebsite.NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Startup

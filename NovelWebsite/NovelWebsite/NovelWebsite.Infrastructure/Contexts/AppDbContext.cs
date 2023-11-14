@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.Infrastructure.Contexts
 {
@@ -21,9 +21,6 @@ namespace NovelWebsite.Infrastructure.Contexts
         public DbSet<PostUsers> PostUsers { get; set; }
         public DbSet<ReviewUsers> ReviewUsers { get; set; }
         public DbSet<User> Users { get; set; }
-        //public DbSet<UserLogin> UserLogins {  get; set; }
-        //public DbSet<Role> Roles { get; set; }
-        //public DbSet<User_Role> User_Roles { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Review> Reviews { get; set; }
@@ -32,6 +29,7 @@ namespace NovelWebsite.Infrastructure.Contexts
         public DbSet<Interaction> Interactions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Interaction>().ToTable("Interactions");
             modelBuilder.Entity<Category>().ToTable("Categories");
             modelBuilder.Entity<Author>().ToTable("Authors");
             modelBuilder.Entity<Book>().ToTable("Books");
@@ -40,18 +38,15 @@ namespace NovelWebsite.Infrastructure.Contexts
             modelBuilder.Entity<Chapter>().ToTable("Chapters");
             modelBuilder.Entity<Comment>().ToTable("Comments");
             modelBuilder.Entity<User>().ToTable("Users");
-            //modelBuilder.Entity<UserLogin>().ToTable("UserLogin").HasKey(x => new { x.ProviderKey, x.LoginProvider });
-            //modelBuilder.Entity<Role>().ToTable("Role");
             modelBuilder.Entity<Permission>().ToTable("Permissions");
             modelBuilder.Entity<Post>().ToTable("Posts");
             modelBuilder.Entity<Review>().ToTable("Reviews");
             modelBuilder.Entity<Banner>().ToTable("Banners");
-            modelBuilder.Entity<Interaction>().ToTable("Interactions");
-            modelBuilder.Entity<BookUsers>().ToTable("BookUsers").HasKey(bu => new { bu.BookId, bu.UserId, bu.InteractType });
-            modelBuilder.Entity<ChapterUsers>().ToTable("ChapterUsers").HasKey(bu => new { bu.ChapterId, bu.UserId, bu.InteractType });
-            modelBuilder.Entity<PostUsers>().ToTable("PostUsers").HasKey(bu => new { bu.PostId, bu.UserId, bu.InteractType });
-            modelBuilder.Entity<ReviewUsers>().ToTable("ReviewUsers").HasKey(bu => new { bu.ReviewId, bu.UserId, bu.InteractType });
-            modelBuilder.Entity<CommentUsers>().ToTable("CommentUsers").HasKey(bu => new { bu.CommentId, bu.UserId, bu.InteractType, bu.ReplyCommentId });
+            modelBuilder.Entity<BookUsers>().ToTable("BookUsers").HasKey(bu => new { bu.BookId, bu.UserId, bu.InteractionId });
+            modelBuilder.Entity<ChapterUsers>().ToTable("ChapterUsers").HasKey(bu => new { bu.ChapterId, bu.UserId, bu.InteractionId });
+            modelBuilder.Entity<PostUsers>().ToTable("PostUsers").HasKey(bu => new { bu.PostId, bu.UserId, bu.InteractionId });
+            modelBuilder.Entity<ReviewUsers>().ToTable("ReviewUsers").HasKey(bu => new { bu.ReviewId, bu.UserId, bu.InteractionId });
+            modelBuilder.Entity<CommentUsers>().ToTable("CommentUsers").HasKey(bu => new { bu.CommentId, bu.UserId, bu.InteractionId, bu.ReplyCommentId });
             modelBuilder.Entity<RolePermissions>().ToTable("RolePermissions").HasKey(bu => new { bu.RoleId, bu.PermissionId });
             
             base.OnModelCreating(modelBuilder);

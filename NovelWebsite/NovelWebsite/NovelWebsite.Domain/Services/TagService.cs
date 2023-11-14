@@ -1,5 +1,5 @@
 using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
@@ -9,11 +9,15 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
     public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
+        private readonly IBookTagRepository _bookTagRepository;
         private readonly IMapper _mapper;
 
-        public TagService(ITagRepository tagRepository, IMapper mapper)
+        public TagService(ITagRepository tagRepository, 
+            IBookTagRepository bookTagRepository,
+            IMapper mapper)
         {
             _tagRepository = tagRepository;
+            _bookTagRepository = bookTagRepository;
             _mapper = mapper;
         }
 
@@ -50,6 +54,17 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         {
             var tag = _tagRepository.GetByExpression(x => x.Slug == slug);
             return _mapper.Map<Tag, TagModel>(tag);
+        }
+
+        public IEnumerable<TagModel> GetTagsOfBook(string bookId)
+        {
+            var bookTags = _bookTagRepository.Filter(x => x.BookId == bookId);
+            var tags = new List<Tag>();
+            foreach (var bookTag in bookTags)
+            {
+                tags.Add(_tagRepository.GetById(bookTag.TagId));
+            }
+            return _mapper.Map<List<Tag>, List<TagModel>>(tags);
         }
     }
 }

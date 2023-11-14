@@ -6,10 +6,10 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces
     public interface IPostService
     {
         void CreatePost(PostModel post);
-        void DeletePost(int postId);
+        void DeletePost(string postId);
         IEnumerable<PostModel> GetPosts(string name);
         IEnumerable<PostModel> GetPublishedPosts(string name);
-        PostModel GetPublishedPost(int postId);
+        PostModel GetPublishedPost(string postId);
         IEnumerable<PostModel> GetPublishedPosts();
         void UpdatePost(PostModel post);
     }

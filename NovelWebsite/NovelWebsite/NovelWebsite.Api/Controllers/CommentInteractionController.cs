@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
@@ -23,7 +23,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("is-liked")]
         [HttpGet]
-        public bool IsCommentLiked(int commentId)
+        public bool IsCommentLiked(string commentId)
         {
             var user = _userService.GetCurrentUser();
             return _commentInteractionService.IsInteractionEnabled(commentId, user.UserId, InteractionType.Like);
@@ -31,7 +31,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("is-disliked")]
         [HttpGet]
-        public bool IsCommentDisliked(int commentId)
+        public bool IsCommentDisliked(string commentId)
         {
             var user = _userService.GetCurrentUser();
             return _commentInteractionService.IsInteractionEnabled(commentId, user.UserId, InteractionType.Dislike);
@@ -39,7 +39,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("set-status-like")]
         [HttpGet]
-        public bool SetCommentLike(int commentId)
+        public bool SetCommentLike(string commentId)
         {
             var user = _userService.GetCurrentUser();
             return _commentInteractionService.SetStatusOfInteraction(commentId, user.UserId, InteractionType.Like);
@@ -47,7 +47,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("set-status-dislike")]
         [HttpGet]
-        public bool SetCommentDislike(int commentId)
+        public bool SetCommentDislike(string commentId)
         {
             var user = _userService.GetCurrentUser();
             return _commentInteractionService.SetStatusOfInteraction(commentId, user.UserId, InteractionType.Dislike);

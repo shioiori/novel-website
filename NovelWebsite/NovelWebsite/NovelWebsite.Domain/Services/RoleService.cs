@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
-using NovelWebsite.NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using System.Data;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
@@ -33,7 +33,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _roleRepository.Save();
         }
 
-        public void Delete(int roleId)
+        public void Delete(string roleId)
         {
             _roleRepository.Delete(roleId);
             _roleRepository.Save();
@@ -45,13 +45,13 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<IEnumerable<Role>, IEnumerable<RoleModel>>(roles);
         }
 
-        public void RemovePermissionToRole(int roleId, int perId)
+        public void RemovePermissionToRole(string roleId, int perId)
         {
             var rolePers = _rolePermissionRepository.GetById(roleId, perId);
             _rolePermissionRepository.Delete(roleId, perId);
         }
 
-        public void SetPermissionToRole(int roleId, int perId)
+        public void SetPermissionToRole(string roleId, int perId)
         {
             _rolePermissionRepository.Insert(new RolePermissions()
             {

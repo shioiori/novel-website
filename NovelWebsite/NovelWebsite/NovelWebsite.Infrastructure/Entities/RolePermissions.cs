@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
     public class RolePermissions
     {
         [ForeignKey("fk_rp_role")]
-        public int RoleId { get; set; }
+        public string RoleId { get; set; }
         [ForeignKey("fk_rp_per")]
         public int PermissionId { get; set; }
         public virtual Role Role { get; set; }

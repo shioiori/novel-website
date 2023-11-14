@@ -161,7 +161,7 @@ namespace NovelWebsite.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Author", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Author", b =>
                 {
                     b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
@@ -182,7 +182,7 @@ namespace NovelWebsite.Migrations
                     b.ToTable("Authors", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Banner", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Banner", b =>
                 {
                     b.Property<int>("BannerId")
                         .ValueGeneratedOnAdd()
@@ -203,8 +203,8 @@ namespace NovelWebsite.Migrations
                     b.Property<int>("BannerType")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BookId")
-                        .HasColumnType("int");
+                    b.Property<string>("BookId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BannerId");
 
@@ -213,13 +213,11 @@ namespace NovelWebsite.Migrations
                     b.ToTable("Banners", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Book", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Book", b =>
                 {
-                    b.Property<int>("BookId")
+                    b.Property<string>("BookId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"), 1L, 1);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
@@ -259,10 +257,8 @@ namespace NovelWebsite.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Views")
@@ -274,15 +270,15 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Books", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.BookTags", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.BookTags", b =>
                 {
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
+                    b.Property<string>("BookId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("TagId")
                         .HasColumnType("int");
@@ -294,28 +290,25 @@ namespace NovelWebsite.Migrations
                     b.ToTable("BookTags", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.BookUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.BookUsers", b =>
                 {
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InteractType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("BookId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("BookId", "UserId", "InteractType");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("UserId1");
+                    b.Property<int>("InteractionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookId", "UserId", "InteractionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("BookUsers", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Category", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -340,16 +333,15 @@ namespace NovelWebsite.Migrations
                     b.ToTable("Categories", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Chapter", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Chapter", b =>
                 {
-                    b.Property<int>("ChapterId")
+                    b.Property<string>("ChapterId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChapterId"), 1L, 1);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
+                    b.Property<string>("BookId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ChapterIndex")
                         .HasColumnType("int");
@@ -385,40 +377,35 @@ namespace NovelWebsite.Migrations
                     b.ToTable("Chapters", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.ChapterUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.ChapterUsers", b =>
                 {
-                    b.Property<int>("ChapterId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InteractType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("ChapterId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ChapterId", "UserId", "InteractType");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("UserId1");
+                    b.Property<int>("InteractionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ChapterId", "UserId", "InteractionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ChapterUsers", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Comment", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Comment", b =>
                 {
-                    b.Property<int>("CommentId")
+                    b.Property<string>("CommentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"), 1L, 1);
+                    b.Property<string>("BookId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ChapterId")
-                        .HasColumnType("int");
+                    b.Property<string>("ChapterId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -427,19 +414,17 @@ namespace NovelWebsite.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("ReviewId")
-                        .HasColumnType("int");
+                    b.Property<string>("ReviewId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CommentId");
@@ -452,44 +437,39 @@ namespace NovelWebsite.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.CommentUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.CommentUsers", b =>
                 {
-                    b.Property<int>("CommentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InteractType")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReplyCommentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("CommentId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("CommentId", "UserId", "InteractType", "ReplyCommentId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("InteractionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReplyCommentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CommentId", "UserId", "InteractionId", "ReplyCommentId");
 
                     b.HasIndex("ReplyCommentId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("CommentUsers", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Post", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Post", b =>
                 {
-                    b.Property<int>("PostId")
+                    b.Property<string>("PostId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"), 1L, 1);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -515,10 +495,8 @@ namespace NovelWebsite.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Views")
@@ -526,42 +504,38 @@ namespace NovelWebsite.Migrations
 
                     b.HasKey("PostId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.PostUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.PostUsers", b =>
                 {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InteractType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("PostId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("PostId", "UserId", "InteractType");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("UserId1");
+                    b.Property<int>("InteractionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostId", "UserId", "InteractionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("PostUsers", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Review", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Review", b =>
                 {
-                    b.Property<int>("ReviewId")
+                    b.Property<string>("ReviewId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"), 1L, 1);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
+                    b.Property<string>("BookId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -573,43 +547,38 @@ namespace NovelWebsite.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReviewId");
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.ReviewUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.ReviewUsers", b =>
                 {
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InteractType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("ReviewId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ReviewId", "UserId", "InteractType");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("UserId1");
+                    b.Property<int>("InteractionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReviewId", "UserId", "InteractionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ReviewUsers", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Tag", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Tag", b =>
                 {
                     b.Property<int>("TagId")
                         .ValueGeneratedOnAdd()
@@ -630,7 +599,7 @@ namespace NovelWebsite.Migrations
                     b.ToTable("Tags", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.User", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -716,24 +685,24 @@ namespace NovelWebsite.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Interaction", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities.Interaction", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("InteractionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InteractionId"), 1L, 1);
 
-                    b.Property<string>("Type")
+                    b.Property<string>("InteractionType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("InteractionId");
 
                     b.ToTable("Interactions", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Permission", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities.Permission", b =>
                 {
                     b.Property<int>("PermissionId")
                         .ValueGeneratedOnAdd()
@@ -750,28 +719,22 @@ namespace NovelWebsite.Migrations
                     b.ToTable("Permissions", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.RolePermissions", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities.RolePermissions", b =>
                 {
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PermissionId")
                         .HasColumnType("int");
-
-                    b.Property<string>("RoleId1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("RoleId", "PermissionId");
 
                     b.HasIndex("PermissionId");
 
-                    b.HasIndex("RoleId1");
-
                     b.ToTable("RolePermissions", (string)null);
                 });
 
-            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Role", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities.Role", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
 
@@ -789,7 +752,7 @@ namespace NovelWebsite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", null)
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -798,7 +761,7 @@ namespace NovelWebsite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", null)
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -813,7 +776,7 @@ namespace NovelWebsite.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", null)
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -822,39 +785,41 @@ namespace NovelWebsite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", null)
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Banner", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Banner", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Book", "Book")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId");
 
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Book", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Book", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Author", "Author")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Author", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Category", "Category")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Author");
 
@@ -863,15 +828,15 @@ namespace NovelWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.BookTags", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.BookTags", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Book", "Book")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Tag", "Tag")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -882,26 +847,28 @@ namespace NovelWebsite.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.BookUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.BookUsers", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Book", "Book")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Book");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Chapter", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Chapter", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Book", "Book")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -910,44 +877,48 @@ namespace NovelWebsite.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.ChapterUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.ChapterUsers", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Chapter", "Chapter")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Chapter", "Chapter")
                         .WithMany()
                         .HasForeignKey("ChapterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Chapter");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Comment", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Comment", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Book", "Book")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId");
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Chapter", "Chapter")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Chapter", "Chapter")
                         .WithMany()
                         .HasForeignKey("ChapterId");
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Post", "Post")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId");
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Review", "Review")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Review", "Review")
                         .WithMany()
                         .HasForeignKey("ReviewId");
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Book");
 
@@ -960,23 +931,25 @@ namespace NovelWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.CommentUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.CommentUsers", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Comment", "Comment")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Comment", "Comment")
                         .WithMany()
                         .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Comment", "ReplyComment")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Comment", "ReplyComment")
                         .WithMany()
                         .HasForeignKey("ReplyCommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Comment");
 
@@ -985,77 +958,85 @@ namespace NovelWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Post", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Post", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.PostUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.PostUsers", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Post", "Post")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Post");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.Review", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.Review", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Book", "Book")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Book");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.Infrastructure.Entities.ReviewUsers", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.ReviewUsers", b =>
                 {
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.Review", "Review")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Review", "Review")
                         .WithMany()
                         .HasForeignKey("ReviewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.Infrastructure.Entities.User", "User")
+                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Review");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NovelWebsite.NovelWebsite.Infrastructure.Entities.RolePermissions", b =>
+            modelBuilder.Entity("NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities.RolePermissions", b =>
                 {
-                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Permission", "Permission")
+                    b.HasOne("NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities.Permission", "Permission")
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NovelWebsite.NovelWebsite.Infrastructure.Entities.Role", "Role")
+                    b.HasOne("NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId1")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

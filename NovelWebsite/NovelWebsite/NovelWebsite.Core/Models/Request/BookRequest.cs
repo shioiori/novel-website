@@ -9,6 +9,6 @@
         public string UserId { get; set; }
         public string Avatar { get; set; } = "default.jpg";
         public string Introduce { get; set; } = String.Empty;
-        public string BookStatus { get; set; } = NovelWebsite.Core.Constants.BookStatus.Ongoing;
+        public string BookStatus { get; set; }
     }
 }

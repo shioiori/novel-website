@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
@@ -31,7 +32,7 @@ namespace NovelWebsite.Api.Controllers
         {
             return _tagService.GetTag(id);
         }
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
         public void Add(TagModel tag)
@@ -39,6 +40,7 @@ namespace NovelWebsite.Api.Controllers
             _tagService.AddTag(tag);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
         public void Update(TagModel tag)
@@ -46,6 +48,7 @@ namespace NovelWebsite.Api.Controllers
             _tagService.UpdateTag(tag);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("delete")]
 

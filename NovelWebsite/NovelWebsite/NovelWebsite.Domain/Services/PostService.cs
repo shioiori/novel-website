@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
@@ -40,7 +40,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
         }
 
-        public PostModel GetPublishedPost(int postId)
+        public PostModel GetPublishedPost(string postId)
         {
             var post = _postRepository.Filter(expPublishedPost).FirstOrDefault(x => x.PostId == postId);
             return _mapper.Map<Post, PostModel>(post);
@@ -64,7 +64,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _postRepository.Save();
         }
 
-        public void DeletePost(int postId)
+        public void DeletePost(string postId)
         {
             _postRepository.Delete(postId);
             _postRepository.Save();

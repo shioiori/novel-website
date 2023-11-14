@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
     public class BookTags
     {
         [ForeignKey("fk_book")]
-        public int BookId { get; set; }
+        public string BookId { get; set; }
         public virtual Book Book { get; set; }
         [ForeignKey("fk_tag")]
         public int TagId { get; set; }

@@ -1,4 +1,4 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
@@ -14,25 +14,25 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _chapterUserRepository = chapterUserRepository;
         }
 
-        public override bool IsInteractionEnabled(int tId, int uId, InteractionType type)
+        public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
         {
-            var chapter = _chapterUserRepository.Filter(x => x.ChapterId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var chapter = _chapterUserRepository.Filter(x => x.ChapterId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (chapter == null)
             {
                 return false;
             }
             return true;
         }
-        public override bool SetStatusOfInteraction(int tId, int uId, InteractionType type)
+        public override bool SetStatusOfInteraction(string tId, string uId, InteractionType type)
         {
-            var chapter = _chapterUserRepository.GetByExpression(x => x.ChapterId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var chapter = _chapterUserRepository.GetByExpression(x => x.ChapterId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (chapter == null)
             {
                 chapter = new ChapterUsers()
                 {
                     ChapterId = tId,
                     UserId = uId,
-                    InteractType = (int)type,
+                    InteractionId = (int)type,
                 };
                 _chapterUserRepository.Insert(chapter);
                 _chapterUserRepository.Save();

@@ -6,12 +6,12 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces.Services
     public interface IChapterService
     {
         void CreateChapter(ChapterModel chapter);
-        void DeleteChapter(int chapterId);
-        ChapterModel GetChapter(int chapterId);
-        IEnumerable<ChapterModel> GetChapters(int bookId);
-        IEnumerable<ChapterModel> GetChaptersByStatus(int bookId, UploadStatus uploadStatus);
-        ChapterModel GetNextChapter(int chapterId);
-        ChapterModel GetPrevChapter(int chapterId);
+        void DeleteChapter(string chapterId);
+        ChapterModel GetChapter(string chapterId);
+        IEnumerable<ChapterModel> GetChapters(string bookId);
+        IEnumerable<ChapterModel> GetChaptersByStatus(string bookId, UploadStatus uploadStatus);
+        ChapterModel GetNextChapter(string chapterId);
+        ChapterModel GetPrevChapter(string chapterId);
         void UpdateChapter(ChapterModel chapter);
     }
 }

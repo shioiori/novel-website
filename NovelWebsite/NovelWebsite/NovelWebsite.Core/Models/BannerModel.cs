@@ -1,4 +1,4 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NovelWebsite.NovelWebsite.Core.Models

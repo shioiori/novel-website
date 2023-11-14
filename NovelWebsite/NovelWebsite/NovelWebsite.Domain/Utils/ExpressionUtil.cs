@@ -1,4 +1,4 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using System;
 using System.Drawing;
 using System.Linq.Expressions;

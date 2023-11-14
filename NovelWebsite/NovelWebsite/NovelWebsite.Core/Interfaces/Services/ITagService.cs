@@ -9,6 +9,9 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces.Services
         void RemoveTag(int tagId);
         void UpdateTag(TagModel tag);
         TagModel GetTag(int tagId);
-        TagModel GetTag(string slug);
+        TagModel GetTagBySlug(string slug);
+        TagModel GetTagByName(string name);
+        IEnumerable<TagModel> GetTagsOfBook(string bookId);
+        void AddTagsOfBook(string bookId, IEnumerable<TagModel> tags);
     }
 }

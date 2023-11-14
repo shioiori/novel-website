@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Data.SqlClient;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
@@ -22,7 +22,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         }
         Expression<Func<BookUsers, bool>> expFilterInteractionType(InteractionType type)
         {
-            return x => x.InteractType == (int)type;
+            return x => x.InteractionId == (int)type;
         }
         public StatisticService(IBookRepository bookRepository, IBookUserRepository bookUserRepository, IMapper mapper)
         {

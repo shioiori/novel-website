@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
@@ -6,6 +7,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("/role")]
     [ApiController]
     public class RoleController : ControllerBase
@@ -37,14 +39,14 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpDelete]
         [Route("delete")]
-        public void Delete(int id) {
+        public void Delete(string id) {
             _roleService.Delete(id);
         }
 
 
         [HttpPut]
         [Route("set-permission")] 
-        public void SetPermission(int roleId, int permissionId)
+        public void SetPermission(string roleId, int permissionId)
         {
             _roleService.SetPermissionToRole(roleId, permissionId);
         }
@@ -52,7 +54,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpPut]
         [Route("remove-permission")]
-        public void RemovePermission(int roleId, int permissionId) 
+        public void RemovePermission(string roleId, int permissionId) 
         { 
             _roleService.RemovePermissionToRole(roleId, permissionId);
         }

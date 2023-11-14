@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Domain.Utils;
+using NovelWebsite.NovelWebsite.Core.Constants;
 
 namespace NovelWebsite.NovelWebsite.Domain.Mappers
 {
@@ -11,17 +12,23 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
     {
         public MappingProfile()
         {
+            CreateMap<AuthorModel, Author>()
+                .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.AuthorName) : x.Slug));
             CreateMap<Author, AuthorModel>();
-            CreateMap<AuthorModel, Author>();
 
             CreateMap<BannerModel, Banner>();
             CreateMap<Banner, BannerModel>();
 
-            CreateMap<BookModel, Book>();
+            CreateMap<BookModel, Book>()
+                .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.BookName) : x.Slug))
+                .ForMember(x => x.BookStatus, y => y.NullSubstitute(BookStatus.Ongoing));
+
             CreateMap<Book, BookModel>();
 
             CreateMap<CategoryModel, Category>()
-                    .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.CategoryName) : x.Slug)); ;
+                    .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.CategoryName) : x.Slug))
+                    .ForMember(x => x.CategoryImage, y => y.NullSubstitute("default.jpg")); 
+
             CreateMap<Category, CategoryModel>();
 
             CreateMap<PostModel, Post>();
