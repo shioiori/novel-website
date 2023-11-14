@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
-    public class Role
+    public class Role : IdentityRole
     {
-        [Key]
-        public int RoleId { get; set; }
-        public string RoleName { get; set; }
     }
 }

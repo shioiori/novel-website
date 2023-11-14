@@ -2,13 +2,12 @@
 using System.Linq.Expressions;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Infrastructure.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
-    public class RolePermissionRepository : GenericRepository<Role_Permission>, IRolePermissionRepository
+    public class RolePermissionRepository : GenericRepository<RolePermissions>, IRolePermissionRepository
     {
         public RolePermissionRepository(AppDbContext dbContext) : base(dbContext) { }
 
@@ -18,7 +17,7 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
             _table.Remove(rolePer);
         }
 
-        public Role_Permission GetById(int roleId, int perId)
+        public RolePermissions GetById(int roleId, int perId)
         {
             return _table.FirstOrDefault(x => x.RoleId == roleId && x.PermissionId == perId);
         }

@@ -10,15 +10,13 @@ namespace NovelWebsite.Domain.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserRoleRepository _userRoleRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository,
+        public UserService(IUserRepository userRepository, 
                         IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
-            _userRoleRepository = userRoleRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -43,9 +41,10 @@ namespace NovelWebsite.Domain.Services
 
         public IEnumerable<UserModel> GetUsersByRole(int roleId)
         {
-            var userRoles = _userRoleRepository.Filter(x => x.RoleId == roleId);
-            var user = userRoles.Select(x => _userRepository.GetById(x.UserId)).ToList();
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(user);
+            //var userRoles = _userRoleRepository.Filter(x => x.RoleId == roleId);
+            //var user = userRoles.Select(x => _userRepository.GetById(x.UserId)).ToList();
+            //return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(user);
+            throw new NotImplementedException();
         }
 
         public IEnumerable<UserModel> GetUsers()
@@ -82,18 +81,18 @@ namespace NovelWebsite.Domain.Services
 
         public void SetUserRole(int userId, int roleId)
         {
-            _userRoleRepository.Insert(new User_Role()
-            {
-                UserId = userId,
-                RoleId = roleId
-            });
-            _userRoleRepository.Save();
+            //_userRoleRepository.Insert(new User_Role()
+            //{
+            //    UserId = userId,
+            //    RoleId = roleId
+            //});
+            //_userRoleRepository.Save();
         }
 
         public void RemoveUserRole(int userId, int roleId)
         {
-            _userRoleRepository.Delete(userId, roleId);
-            _userRoleRepository.Save();
+        //    _userRoleRepository.Delete(userId, roleId);
+        //    _userRoleRepository.Save();
         }
     }
 }

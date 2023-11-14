@@ -28,7 +28,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var comment = _commentUserRepository.GetByExpression(x => x.CommentId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (comment == null)
             {
-                comment = new Comment_User()
+                comment = new CommentUsers()
                 {
                     CommentId = tId,
                     UserId = uId,

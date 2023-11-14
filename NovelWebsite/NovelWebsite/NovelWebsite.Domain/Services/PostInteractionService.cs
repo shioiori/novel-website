@@ -29,7 +29,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var post = _postUserRepository.GetByExpression(x => x.PostId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (post == null)
             {
-                post = new Post_User()
+                post = new PostUsers()
                 {
                     PostId = tId,
                     UserId = uId,

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MailKit.Security;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -20,13 +21,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
     public class MailService : IMailService
     {
         private readonly MailSettings _mailSettings;
-        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public MailService(IOptions<MailSettings> mailSettings, IUserRepository userRepository, IMapper mapper)
+        public MailService(IOptions<MailSettings> mailSettings, 
+            IMapper mapper)
         {
             _mailSettings = mailSettings.Value;
-            _userRepository = userRepository;
             _mapper = mapper;
         }
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
@@ -65,28 +65,5 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             smtp.Disconnect(true);
         }
 
-        public AuthenticationResponse ConfirmEmail(string mail, string token)
-        {
-            try
-            {
-                var decrypt = AesOperation.DecryptString(token);
-                var user = JsonConvert.DeserializeObject<UserModel>(decrypt);
-                _userRepository.Insert(_mapper.Map<UserModel, User>(user));
-                _userRepository.Save();
-                return new AuthenticationResponse()
-                {
-                    Success = true,
-                    Message = "Xác minh thành công. Từ giờ bạn có thể đăng nhập bình thường"
-                };
-            }
-            catch (Exception ex)
-            {
-                return new AuthenticationResponse()
-                {
-                    Success = false,
-                    Message = "Có lỗi xảy ra khi xác nhận mail"
-                };
-            }
-        }
     }
 }

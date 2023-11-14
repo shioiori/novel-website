@@ -19,7 +19,6 @@ namespace NovelWebsite.Infrastructure.Entities
         public virtual Author Author { get; set; }
         [ForeignKey("UserId")]
         public int UserId { get; set; }
-        public virtual User User { get; set; }
         public string Avatar { get; set; } = "default.jpg";
         public string Introduce { get; set; } = String.Empty;
         public string BookStatus { get; set; } = NovelWebsite.Core.Constants.BookStatus.Ongoing;

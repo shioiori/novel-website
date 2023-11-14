@@ -30,7 +30,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var review = _reviewUserRepository.GetByExpression(x => x.ReviewId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (review == null)
             {
-                review = new Review_User()
+                review = new ReviewUsers()
                 {
                     ReviewId = tId,
                     UserId = uId,

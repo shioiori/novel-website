@@ -1,4 +1,5 @@
 ﻿using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces
 {

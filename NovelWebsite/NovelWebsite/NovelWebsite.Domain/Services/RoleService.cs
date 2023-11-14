@@ -53,7 +53,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public void SetPermissionToRole(int roleId, int perId)
         {
-            _rolePermissionRepository.Insert(new Role_Permission()
+            _rolePermissionRepository.Insert(new RolePermissions()
             {
                 RoleId = roleId,
                 PermissionId = perId

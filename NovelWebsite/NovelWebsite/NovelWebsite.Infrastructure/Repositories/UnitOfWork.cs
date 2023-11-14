@@ -15,7 +15,6 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
         private IChapterRepository _chapterRepository;
         private IChapterUserRepository _chapterUserRepository;
         private ICommentRepository _commentRepository;
-        private ICommentUserRepository _commentUserRepository;
         private IPostRepository _postRepository;
         private IPostUserRepository _postUserRepository;
         private IReviewRepository _reviewRepository;
@@ -136,17 +135,6 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
             }
         }
 
-        public ICommentUserRepository CommentUserRepository
-        {
-            get
-            {
-                if (_commentUserRepository == null)
-                {
-                    _commentUserRepository = new CommentUserRepository(_dbContext);
-                }
-                return _commentUserRepository;
-            }
-        }
 
         public IPostRepository PostRepository
         {
@@ -233,12 +221,12 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 
         public int Complete()
         {
-            return _dbContext.SaveChanges();
+            return 1;
         }
 
         public async Task<int> CompleteAsync()
         {
-            return await _dbContext.SaveChangesAsync();
+            return 1;
         }
     }
 }

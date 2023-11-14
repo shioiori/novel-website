@@ -28,7 +28,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var chapter = _chapterUserRepository.GetByExpression(x => x.ChapterId == tId && x.UserId == uId && x.InteractType == (int)type);
             if (chapter == null)
             {
-                chapter = new Chapter_User()
+                chapter = new ChapterUsers()
                 {
                     ChapterId = tId,
                     UserId = uId,
