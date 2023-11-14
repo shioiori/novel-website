@@ -2,14 +2,15 @@
 
 namespace NovelWebsite.NovelWebsite.Core.Models
 {
-    public class ChapterModel : BaseModel
+    public class ChapterModel
     {
-        public int? ChapterId { get; set; }
-        public int BookId { get; set; }
-        public string? ChapterNumber { get; set; }
+        public string ChapterId { get; set; }
+        public string BookId { get; set; }
+        public int ChapterNumber { get; set; }
         public string ChapterName { get; set; }
         public string Content { get; set; }
-        public int? Views { get; set; }
-        public int? Likes { get; set; }
+        public int Views { get; set; } = 0;
+        public int Likes { get; set; } = 0;
+        public string Slug { get; set; }
     }
 }

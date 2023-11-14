@@ -50,40 +50,40 @@ namespace NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<BookModel> GetBooks()
+        public IEnumerable<BookModel> GetAll()
         {
             var books = _bookRepository.Filter(expValidBooks);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBooksByAuthor(int authorId)
+        public IEnumerable<BookModel> GetByAuthor(int authorId)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByAuthor(authorId));
             var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books); 
         }
 
-        public IEnumerable<BookModel> GetBooksByCategory(int categoryId)
+        public IEnumerable<BookModel> GetByCategory(int categoryId)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByCategory(categoryId));
             var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBooksByBookStatus(string status)
+        public IEnumerable<BookModel> GetByBookStatus(string status)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByBookStatus(status));
             var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBooksFromTime(DateTime start)
+        public IEnumerable<BookModel> GetFromTime(DateTime start)
         {
             var books = _bookRepository.Filter(expFromTime(start));
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBooksByFilter(FilterModel filter)
+        public IEnumerable<BookModel> GetByFilter(FilterModel filter)
         {
             throw new NotImplementedException();
             //var query = _dbContext.Books.Where(b => filterModel.CategoryId == 0 || b.CategoryId == filterModel.CategoryId)
@@ -220,39 +220,41 @@ namespace NovelWebsite.Domain.Services
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public BookModel GetBook(int bookId)
+        public BookModel GetById(string bookId)
         {
             var book = _bookRepository.GetById(bookId);
             return _mapper.Map<Book, BookModel>(book);
         }
 
-        public void CreateBook(BookModel book)
+        public BookModel Add(BookModel book)
         {
-            _bookRepository.Insert(_mapper.Map<BookModel, Book>(book));
+            var res = _bookRepository.Insert(_mapper.Map<BookModel, Book>(book));
             _bookRepository.Save();
+            return _mapper.Map<Book, BookModel>(res);
         }
-        public void UpdateBook(BookModel book)
+        public BookModel Update(BookModel book)
         {
-            _bookRepository.Update(_mapper.Map<BookModel, Book>(book));
+            var res = _bookRepository.Update(_mapper.Map<BookModel, Book>(book));
             _bookRepository.Save();
+            return _mapper.Map<Book, BookModel>(res);
         }
-        public void DeleteBook(int bookId)
+        public void DeleteTemporary(string bookId)
         {
             var book = _bookRepository.GetById(bookId);
             book.IsDeleted = true;
             _bookRepository.Update(book);
             _bookRepository.Save();
         }
-        public void DeleteBookPermanent(int bookId)
+        public void Delete(BookModel book)
         {
-            _bookRepository.Delete(bookId);
+            _bookRepository.Delete(book);
             _bookRepository.Save();
         }
 
-        public IEnumerable<BookModel> GetBookByUserInteractive(InteractionType type)
+        public IEnumerable<BookModel> GetByUserInteractive(InteractionType type)
         {
             var list = _bookUserRepository.GetByInteractionType(type).Select(x => x.BookId).ToList();
-            var books = GetBooks();
+            var books = GetAll();
             books = books.Where(x => list.Contains(x.BookId));
             return books;
         }

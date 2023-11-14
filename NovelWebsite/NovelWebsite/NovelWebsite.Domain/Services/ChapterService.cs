@@ -60,6 +60,11 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public void CreateChapter(ChapterModel chapter)
         {
+            if (chapter.ChapterNumber == null)
+            {
+                var count = _chapterRepository.Filter(x => x.BookId == chapter.BookId).Count();
+                chapter.ChapterNumber = count + 1;
+            }
             _chapterRepository.Insert(_mapper.Map<ChapterModel, Chapter>(chapter));
             _chapterRepository.Save();
         }

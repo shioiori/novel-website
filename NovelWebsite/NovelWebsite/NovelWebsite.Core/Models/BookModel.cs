@@ -12,11 +12,11 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public string BookId { get; set; }
         public string BookName { get; set; }
         public int CategoryId { get; set; }
-        public CategoryModel? Category { get; set; }
+        public CategoryModel Category { get; set; }
         public int AuthorId { get; set; }
-        public AuthorModel? Author { get; set; }
+        public AuthorModel Author { get; set; }
         public string UserId {  get; set; }
-        public UserModel? User { get; set; }
+        public UserModel User { get; set; }
         public string Avatar { get; set; } = "default.jpg";
         public string Introduce { get; set; } = String.Empty;
         public string BookStatus { get; set; }

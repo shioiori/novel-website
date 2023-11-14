@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NovelWebsite.Infrastructure.Contexts;
+using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
@@ -32,33 +33,74 @@ namespace NovelWebsite.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-by-book-id")]
+        [Route("get-all")]
         public PagedList<ChapterModel> GetListChapters(string bookId, PagedListRequest request)
         {
             var chapters = _chapterService.GetChapters(bookId);
             return PagedList<ChapterModel>.ToPagedList(chapters, request);
         }
 
+        [HttpGet]
+        [Route("get-all-published")]
+        public PagedList<ChapterModel> GetListChaptersPublished(string bookId, PagedListRequest request)
+        {
+            var chapters = _chapterService.GetChaptersByStatus(bookId, UploadStatus.Publish);
+            return PagedList<ChapterModel>.ToPagedList(chapters, request);
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet]
+        [Route("get-all-draft")]
+        public PagedList<ChapterModel> GetListChaptersDraft(string bookId, PagedListRequest request)
+        {
+            var chapters = _chapterService.GetChaptersByStatus(bookId, UploadStatus.Draft);
+            return PagedList<ChapterModel>.ToPagedList(chapters, request);
+        }
+
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
-        public void AddChapter(ChapterModel model){
-            _chapterService.CreateChapter(model);
+        public IActionResult AddChapter(ChapterModel model){
+            try
+            {
+                _chapterService.CreateChapter(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
-        public void UpdateChapter(ChapterModel model){
-            _chapterService.UpdateChapter(model);
+        public IActionResult UpdateChapter(ChapterModel model){
+            try
+            {
+                _chapterService.UpdateChapter(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Route("delete")]
         [HttpDelete]
-        public void DeleteChapter(string chapterId)
+        public IActionResult DeleteChapter(string chapterId)
         {
-            _chapterService.DeleteChapter(chapterId);
+            try
+            {
+                _chapterService.DeleteChapter(chapterId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

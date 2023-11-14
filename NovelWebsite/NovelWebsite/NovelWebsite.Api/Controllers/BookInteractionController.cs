@@ -4,6 +4,7 @@ using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -26,24 +27,29 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpGet]
         public bool IsBookLiked(string bookId)
         {
-            var user = _userService.GetCurrentUser();
-            return _bookInteractionService.IsInteractionEnabled(bookId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _bookInteractionService.IsInteractionEnabled(bookId, userId, InteractionType.Like);
         }
 
         [Route("is-recommended")]
         [HttpGet]
         public bool IsBookRecommended(string bookId)
         {
-            var user = _userService.GetCurrentUser();
-            return _bookInteractionService.IsInteractionEnabled(bookId, user.UserId, InteractionType.Recommend);
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _bookInteractionService.IsInteractionEnabled(bookId, userId, InteractionType.Recommend);
         }
 
         [Route("is-followed")]
         [HttpGet]
         public bool IsBookFollowed(string bookId)
         {
-            var user = _userService.GetCurrentUser();
-            return _bookInteractionService.IsInteractionEnabled(bookId, user.UserId, InteractionType.Follow);
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _bookInteractionService.IsInteractionEnabled(bookId, userId, InteractionType.Follow);
         }
 
         [HttpGet]
@@ -51,8 +57,10 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         public bool SetBookLike(string bookId)
         {
-            var user = _userService.GetCurrentUser();
-            return _bookInteractionService.SetStatusOfInteraction(bookId, user.UserId, InteractionType.Like);
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _bookInteractionService.SetStatusOfInteraction(bookId, userId, InteractionType.Like);
         }
 
         [HttpGet]
@@ -60,16 +68,19 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         public bool SetBookRecommend(string bookId)
         {
-            var user = _userService.GetCurrentUser();
-            return _bookInteractionService.SetStatusOfInteraction(bookId, user.UserId, InteractionType.Recommend);
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _bookInteractionService.SetStatusOfInteraction(bookId, userId, InteractionType.Recommend);
         }
 
         [HttpGet]
         [Route("set-status-follow")]
         public bool SetBookFollow(string bookId)
         {
-            var user = _userService.GetCurrentUser();
-            return _bookInteractionService.SetStatusOfInteraction(bookId, user.UserId, InteractionType.Follow);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _bookInteractionService.SetStatusOfInteraction(bookId, userId, InteractionType.Follow);
         }
     }
 }

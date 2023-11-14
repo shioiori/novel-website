@@ -21,36 +21,44 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<TagModel> GetAllTags()
+        public IEnumerable<TagModel> GetAll()
         {
             var categories = _tagRepository.GetAll();
             return _mapper.Map<IEnumerable<Tag>, IEnumerable<TagModel>>(categories);
         }
 
-        public void AddTag(TagModel tag)
+        public TagModel Add(TagModel tag)
         {
-            _tagRepository.Insert(_mapper.Map<TagModel, Tag>(tag));
+            var res = _tagRepository.Insert(_mapper.Map<TagModel, Tag>(tag));
+            _tagRepository.Save();
+            return _mapper.Map<Tag, TagModel>(res);
+        }
+
+        public TagModel Update(TagModel tag)
+        {
+            var res = _tagRepository.Update(_mapper.Map<TagModel, Tag>(tag));
+            _tagRepository.Save();
+            return _mapper.Map<Tag, TagModel>(res);
+        }
+
+        public void Delete(TagModel tag)
+        {
+            _tagRepository.Delete(tag);
             _tagRepository.Save();
         }
 
-        public void UpdateTag(TagModel tag)
-        {
-            _tagRepository.Update(_mapper.Map<TagModel, Tag>(tag));
-            _tagRepository.Save();
-        }
-
-        public void RemoveTag(int tagId)
-        {
-            _tagRepository.Delete(tagId);
-            _tagRepository.Save();
-        }
-
-        public TagModel GetTag(int tagId){
+        public TagModel GetById(int tagId){
             var tag = _tagRepository.GetById(tagId);
             return _mapper.Map<Tag, TagModel>(tag);
         }
 
-        public TagModel GetTag(string slug)
+        public TagModel GetTagByName(string name)
+        {
+            var tag = _tagRepository.GetByExpression(x => x.TagName == name);
+            return _mapper.Map<Tag, TagModel>(tag);
+        }
+
+        public TagModel GetTagBySlug(string slug)
         {
             var tag = _tagRepository.GetByExpression(x => x.Slug == slug);
             return _mapper.Map<Tag, TagModel>(tag);
@@ -65,6 +73,25 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                 tags.Add(_tagRepository.GetById(bookTag.TagId));
             }
             return _mapper.Map<List<Tag>, List<TagModel>>(tags);
+        }
+
+        public void AddTagsOfBook(string bookId, IEnumerable<TagModel> tags)
+        {
+            var prevTags = _bookTagRepository.Filter(x => x.BookId == bookId);
+            foreach (var tag in prevTags)
+            {
+                _bookTagRepository.Delete(prevTags);
+            }
+            foreach (var tag in tags)
+            {
+                var id = _tagRepository.GetByExpression(x => x.TagName == tag.TagName).TagId;
+                _bookTagRepository.Insert(new BookTags()
+                {
+                    BookId = bookId,
+                    TagId = id,
+                });
+            }
+            _bookTagRepository.Save();
         }
     }
 }

@@ -28,8 +28,13 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<CategoryModel, Category>()
                     .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.CategoryName) : x.Slug))
                     .ForMember(x => x.CategoryImage, y => y.NullSubstitute("default.jpg")); 
-
             CreateMap<Category, CategoryModel>();
+
+            CreateMap<ChapterModel, Chapter>()
+                    .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.ChapterName) : x.Slug))
+                    .ForMember(x => x.ChapterIndex, y => y.MapFrom(x => x.ChapterNumber));
+
+            CreateMap<Chapter, ChapterModel>();
 
             CreateMap<PostModel, Post>();
             CreateMap<Post, PostModel>();

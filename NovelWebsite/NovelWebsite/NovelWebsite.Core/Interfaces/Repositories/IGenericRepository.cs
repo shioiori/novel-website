@@ -8,9 +8,10 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
         IEnumerable<T> GetAll();
         T GetById(object id);
         T GetByExpression(Expression<Func<T, bool>> expression);
-        void Insert(T obj);
-        void Update(T obj);
+        T Insert(T obj);
+        T Update(T obj);
         void Delete(object id);
+        void Delete(T obj);
         void Save();
         IEnumerable<T> Order(Expression<Func<T, dynamic>> expression, SortOrder sortOrder);
         IEnumerable<T> Filter(Expression<Func<T, bool>> expression);

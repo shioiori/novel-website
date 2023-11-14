@@ -34,6 +34,9 @@ namespace NovelWebsite.NovelWebsite.Startup
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStatisticService, StatisticService>();
 
+            services.AddScoped<BookInteractionService>();
+
+
             services.AddTransient<IMailService, MailService>();
             return services;
         }

@@ -32,19 +32,24 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
             return _table.FirstOrDefault(expression);
         }
 
-        public void Insert(T obj)
+        public T Insert(T obj)
         {
-            _table.Add(obj);
+            return _table.Add(obj).Entity;
         }
 
-        public void Update(T obj)
+        public T Update(T obj)
         {
-            _table.Update(obj);
+            return _table.Update(obj).Entity;
         }
 
         public void Delete(object id)
         {
             T obj = _table.Find(id);
+            _table.Remove(obj);
+        }
+
+        public void Delete(T obj)
+        {
             _table.Remove(obj);
         }
 

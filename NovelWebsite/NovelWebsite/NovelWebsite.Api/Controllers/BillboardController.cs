@@ -50,7 +50,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                     type = (InteractionType)Enum.Parse(typeof(InteractionType), orderDate, true);
                 }
             }
-            var books = _bookService.GetAllBooks();
+            var books = _bookService.GetAll();
             books = _statisticService.StatisticOfEachInteractionType(books, type);
             switch (ordDate)
             {

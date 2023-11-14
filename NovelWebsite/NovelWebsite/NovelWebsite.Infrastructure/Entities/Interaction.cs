@@ -9,7 +9,5 @@ namespace NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int InteractionId { get; set; }
         public string InteractionType { get; set; }
-
-        public Interaction() { }
     }
 }

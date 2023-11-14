@@ -23,21 +23,22 @@ namespace NovelWebsite.Api.Controllers
         [Route("get-all")]
         public IEnumerable<TagModel> GetAll()
         {
-            return _tagService.GetAllTags();
+            return _tagService.GetAll();
         }
 
         [HttpGet]
         [Route("get-by-id")]
         public TagModel GetById(int id)
         {
-            return _tagService.GetTag(id);
+            return _tagService.GetById(id);
         }
+
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
         public void Add(TagModel tag)
         {
-            _tagService.AddTag(tag);
+            _tagService.Add(tag);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -45,16 +46,16 @@ namespace NovelWebsite.Api.Controllers
         [Route("update")]
         public void Update(TagModel tag)
         {
-            _tagService.UpdateTag(tag);
+            _tagService.Update(tag);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("delete")]
 
-        public void Delete(int tagId)
+        public void Delete(TagModel tag)
         {
-            _tagService.RemoveTag(tagId);
+            _tagService.Delete(tag);
         }
     }
 }
