@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using NovelWebsite.NovelWebsite.Core.Constants;
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class RoleService : IRoleService
+    public class RoleService 
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IRolePermissionRepository _rolePermissionRepository;

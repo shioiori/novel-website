@@ -5,6 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using System.Security.Claims;
+using NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -14,9 +15,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     public class PostInteractionController : ControllerBase
     {
         private readonly PostInteractionService _postInteractionService;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public PostInteractionController(PostInteractionService postInteractionService, IUserService userService)
+        public PostInteractionController(PostInteractionService postInteractionService, UserService userService)
         {
             _postInteractionService = postInteractionService;
             _userService = userService;

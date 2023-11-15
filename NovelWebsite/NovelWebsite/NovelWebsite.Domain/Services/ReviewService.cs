@@ -8,7 +8,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class ReviewService : IReviewService
+    public class ReviewService 
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;

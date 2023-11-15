@@ -7,6 +7,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using System.Security.Claims;
+using NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -18,9 +19,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         private readonly ChapterInteractionService _chapterInteractionService;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public ChapterInteractionController(ChapterInteractionService chapterInteractionService, IUserService userService,
+        public ChapterInteractionController(ChapterInteractionService chapterInteractionService, UserService userService,
             UserManager<User> userManager)
         {
             _chapterInteractionService = chapterInteractionService;

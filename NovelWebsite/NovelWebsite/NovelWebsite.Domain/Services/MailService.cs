@@ -18,7 +18,7 @@ using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class MailService : IMailService
+    public class MailService
     {
         private readonly MailSettings _mailSettings;
         private readonly IMapper _mapper;

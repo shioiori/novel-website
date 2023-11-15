@@ -12,9 +12,9 @@ namespace NovelWebsite.Api.Controllers
     [Route("/category")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly CategoryService _categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(CategoryService categoryService)
         {
             _categoryService = categoryService;
         }

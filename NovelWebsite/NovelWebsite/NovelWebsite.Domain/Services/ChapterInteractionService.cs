@@ -5,7 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class ChapterInteractionService : InterationService
+    public class ChapterInteractionService : InteractionService
     {
         private readonly IChapterUserRepository _chapterUserRepository;
 

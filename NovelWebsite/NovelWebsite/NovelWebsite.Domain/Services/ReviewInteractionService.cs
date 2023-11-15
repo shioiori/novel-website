@@ -6,7 +6,7 @@ using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class ReviewInteractionService : InterationService
+    public class ReviewInteractionService : InteractionService
     {
         private readonly IReviewUserRepository _reviewUserRepository;
 

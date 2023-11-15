@@ -5,6 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Services;
 using System.Security.Cryptography;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
@@ -13,11 +14,11 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     [ApiController]
     public class BillboardController : ControllerBase
     {
-        private readonly IStatisticService _statisticService;
-        private readonly IBookService _bookService;
+        private readonly StatisticService _statisticService;
+        private readonly BookService _bookService;
 
-        public BillboardController(IStatisticService statisticService,
-                                   IBookService bookService)
+        public BillboardController(StatisticService statisticService,
+                                   BookService bookService)
         {
             _statisticService = statisticService;
             _bookService = bookService;

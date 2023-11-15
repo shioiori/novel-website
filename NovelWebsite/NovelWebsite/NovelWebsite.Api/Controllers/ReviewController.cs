@@ -14,10 +14,10 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     [ApiController]
     public class ReviewController : ControllerBase
     {
-        private readonly IReviewService _reviewService;
-        private readonly ICategoryService _categoryService;
+        private readonly ReviewService _reviewService;
+        private readonly CategoryService _categoryService;
 
-        public ReviewController(IReviewService reviewService, ICategoryService categoryService)
+        public ReviewController(ReviewService reviewService, CategoryService categoryService)
         {
             _reviewService = reviewService;
             _categoryService = categoryService;

@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
 
-    public class PostService : IPostService
+    public class PostService
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;

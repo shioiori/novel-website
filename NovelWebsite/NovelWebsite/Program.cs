@@ -35,7 +35,6 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddDIRepository();
-builder.Services.AddDIService();
 
 builder.Services.AddMVCViewsPathConfiguration();
 

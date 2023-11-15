@@ -5,6 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using System.Security.Claims;
+using NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -15,9 +16,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     public class ReviewInteractionController : ControllerBase
     {
         private readonly ReviewInteractionService _reviewInteractionService;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public ReviewInteractionController(ReviewInteractionService reviewInteractionService, IUserService userService)
+        public ReviewInteractionController(ReviewInteractionService reviewInteractionService, UserService userService)
         {
             _reviewInteractionService = reviewInteractionService;
             _userService = userService;

@@ -5,6 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using System.Security.Claims;
+using NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -14,9 +15,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     public class CommentInteractionController : ControllerBase
     {
         private readonly CommentInteractionService _commentInteractionService;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public CommentInteractionController(CommentInteractionService commentInteractionService, IUserService userService)
+        public CommentInteractionController(CommentInteractionService commentInteractionService, UserService userService)
         {
             _commentInteractionService = commentInteractionService;
             _userService = userService;

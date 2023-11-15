@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Services;
 using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
@@ -13,8 +14,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService) 
+        private readonly RoleService _roleService;
+        public RoleController(RoleService roleService) 
         { 
             _roleService = roleService;
         }

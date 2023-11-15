@@ -7,7 +7,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class ChapterService : IChapterService
+    public class ChapterService 
     {
         private readonly IChapterRepository _chapterRepository;
         private readonly IMapper _mapper;

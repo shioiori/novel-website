@@ -25,20 +25,20 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     {
         private readonly BookService _bookService;
 
-        private readonly IStatisticService _statisticService;
-        private readonly IChapterService _chapterService;
-        private readonly ITagService _tagService;
-        private readonly IAuthorService _authorService;
-        private readonly ICategoryService _categoryService;
-        private readonly IUserService _userService;
+        private readonly StatisticService _statisticService;
+        private readonly ChapterService _chapterService;
+        private readonly TagService _tagService;
+        private readonly AuthorService _authorService;
+        private readonly CategoryService _categoryService;
+        private readonly UserService _userService;
 
         public BookController(BookService bookService, 
-                              IStatisticService statisticService, 
-                              IChapterService chapterService,
-                              ITagService tagService,
-                              IAuthorService authorService, 
-                              ICategoryService categoryService,
-                              IUserService userService)
+                              StatisticService statisticService, 
+                              ChapterService chapterService,
+                              TagService tagService,
+                              AuthorService authorService, 
+                              CategoryService categoryService,
+                              UserService userService)
         {
             _bookService = bookService;
             _statisticService = statisticService;
@@ -289,7 +289,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                 {
                     stt = (int)((UploadStatus)Enum.Parse(typeof(UploadStatus), status, true));
                 }
-                _bookService.SetStatus(bookId, status);
+                _bookService.SetStatus(bookId, stt);
                 return Ok();
             }
             catch (Exception ex)

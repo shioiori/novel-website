@@ -5,7 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class CategoryService : ICategoryService
+    public class CategoryService 
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;

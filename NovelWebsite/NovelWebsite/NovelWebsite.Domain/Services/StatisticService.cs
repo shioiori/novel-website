@@ -11,7 +11,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class StatisticService : IStatisticService
+    public class StatisticService
     {
         private readonly IBookRepository _bookRepository;
         private readonly IBookUserRepository _bookUserRepository;

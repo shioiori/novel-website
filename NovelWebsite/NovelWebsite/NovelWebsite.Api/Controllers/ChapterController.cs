@@ -17,9 +17,9 @@ namespace NovelWebsite.Api.Controllers
     [ApiController]
     public class ChapterController : ControllerBase
     {
-        private readonly IChapterService _chapterService;
+        private readonly ChapterService _chapterService;
 
-        public ChapterController(IChapterService chapterService)
+        public ChapterController(ChapterService chapterService)
         {
             _chapterService = chapterService;
         }

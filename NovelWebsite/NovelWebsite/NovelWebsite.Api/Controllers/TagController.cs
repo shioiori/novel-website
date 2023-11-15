@@ -12,9 +12,9 @@ namespace NovelWebsite.Api.Controllers
     [Route("/tag")]
     public class TagController : ControllerBase
     {
-        private readonly ITagService _tagService;
+        private readonly TagService _tagService;
 
-        public TagController(ITagService tagService)
+        public TagController(TagService tagService)
         {
             _tagService = tagService;
         }

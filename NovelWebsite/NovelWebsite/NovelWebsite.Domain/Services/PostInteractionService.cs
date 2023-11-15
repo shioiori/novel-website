@@ -5,7 +5,7 @@ using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class PostInteractionService : InterationService
+    public class PostInteractionService : InteractionService
     {
         private readonly IPostUserRepository _postUserRepository;
 

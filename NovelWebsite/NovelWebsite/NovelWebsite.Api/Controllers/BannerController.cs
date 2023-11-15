@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
@@ -11,9 +12,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     [Route("/banner")]
     public class BannerController : ControllerBase
     {
-        private readonly IBannerService _bannerService;
+        private readonly BannerService _bannerService;
 
-        public BannerController(IBannerService bannerService)
+        public BannerController(BannerService bannerService)
         {
             _bannerService = bannerService;
         }

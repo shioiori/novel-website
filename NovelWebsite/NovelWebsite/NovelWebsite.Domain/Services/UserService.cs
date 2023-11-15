@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NovelWebsite.Domain.Services
 {
 
-    public class UserService : IUserService
+    public class UserService
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;

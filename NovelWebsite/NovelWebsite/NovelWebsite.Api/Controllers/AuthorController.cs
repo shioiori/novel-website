@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.NovelWebsite.Core.Interfaces;
-using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
+using NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.Api.Controllers
 {
@@ -11,15 +11,13 @@ namespace NovelWebsite.Api.Controllers
     [Route("/author")]
     public class AuthorController : ControllerBase
     {
-        private readonly IBookService _bookservice;
-        private readonly IAuthorService _authorService;
-        private readonly IMapper _mapper;
+        private readonly BookService _bookservice;
+        private readonly AuthorService _authorService;
 
-        public AuthorController(IBookService bookservice, IAuthorService authorService, IMapper mapper)
+        public AuthorController(BookService bookservice, AuthorService authorService)
         {
             _bookservice = bookservice;
             _authorService = authorService;
-            _mapper = mapper;
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]

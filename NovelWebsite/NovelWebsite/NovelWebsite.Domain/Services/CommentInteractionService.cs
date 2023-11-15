@@ -5,7 +5,7 @@ using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class CommentInteractionService : InterationService
+    public class CommentInteractionService : InteractionService
     {
         private readonly ICommentUserRepository _commentUserRepository;
 

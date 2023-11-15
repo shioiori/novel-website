@@ -6,7 +6,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class TagService : ITagService
+    public class TagService
     {
         private readonly ITagRepository _tagRepository;
         private readonly IBookTagRepository _bookTagRepository;

@@ -14,11 +14,11 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     [ApiController]
     public class AccessController : ControllerBase
     {
-        private readonly IAccessService _accessService;
-        private readonly IMailService _mailService;
+        private readonly AccessService _accessService;
+        private readonly MailService _mailService;
 
-        public AccessController(IAccessService accessService,
-                                IMailService mailService)
+        public AccessController(AccessService accessService,
+                                MailService mailService)
         {
             _accessService = accessService;
         }

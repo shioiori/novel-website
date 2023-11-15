@@ -5,7 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class BookInteractionService : InterationService
+    public class BookInteractionService : InteractionService
     {
         private readonly IBookUserRepository _bookUserRepository;
 
