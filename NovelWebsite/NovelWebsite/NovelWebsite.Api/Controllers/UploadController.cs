@@ -20,7 +20,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpPost]
         [Route("file/cloud")]        
         
-        public async Task<UploadFileResponse> UploadFileToCloud(string folder, [FromForm] IFormFile file)
+        public async Task<UploadFileResponse> UploadFileToCloud(string folder, IFormFile file)
         {
             using (var stream = file.OpenReadStream())
             {
