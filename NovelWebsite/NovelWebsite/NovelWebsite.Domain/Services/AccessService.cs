@@ -21,19 +21,19 @@ using Environment = NovelWebsite.NovelWebsite.Core.Constants.Environment;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class AccessService : IAccessService
+    public class AccessService
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly IMapper _mapper;
-        private readonly IMailService _mailService;
+        private readonly MailService _mailService;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
         public AccessService(
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
-            IMailService mailService,
+            MailService mailService,
             IMapper mapper,
             IHttpContextAccessor contextAccessor,
             IConfiguration configuration)
