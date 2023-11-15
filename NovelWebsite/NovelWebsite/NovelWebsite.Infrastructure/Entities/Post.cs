@@ -2,15 +2,15 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
     public class Post
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PostId { get; set; }
+        public string PostId { get; set; }
         [ForeignKey("fk_user")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual User User { get; set; }
         public string Title { get; set; }
         public string Description { get; set; } = String.Empty;

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
@@ -7,7 +7,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class ChapterService : IChapterService
+    public class ChapterService 
     {
         private readonly IChapterRepository _chapterRepository;
         private readonly IMapper _mapper;
@@ -18,25 +18,25 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<ChapterModel> GetChapters(int bookId)
+        public IEnumerable<ChapterModel> GetChapters(string bookId)
         {
             var chapters = _chapterRepository.Filter(x => x.BookId == bookId);
             return _mapper.Map<IEnumerable<Chapter>, IEnumerable<ChapterModel>>(chapters);
         }
 
-        public IEnumerable<ChapterModel> GetChaptersByStatus(int bookId, UploadStatus uploadStatus)
+        public IEnumerable<ChapterModel> GetChaptersByStatus(string bookId, UploadStatus uploadStatus)
         {
             var chapters = _chapterRepository.Filter(x => x.BookId == bookId && x.Status == (int)uploadStatus);
             return _mapper.Map<IEnumerable<Chapter>, IEnumerable<ChapterModel>>(chapters);
         }
 
-        public ChapterModel GetChapter(int chapterId)
+        public ChapterModel GetChapter(string chapterId)
         {
             var chapter = _chapterRepository.GetById(chapterId);
             return _mapper.Map<Chapter, ChapterModel>(chapter);
         }
 
-        public ChapterModel GetNextChapter(int chapterId)
+        public ChapterModel GetNextChapter(string chapterId)
         {
             var chapter = _chapterRepository.GetById(chapterId);
             var nextChapter = _chapterRepository.GetByExpression(x => x.BookId == chapter.BookId && x.ChapterIndex == chapter.ChapterIndex + 1);
@@ -47,7 +47,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<Chapter, ChapterModel>(nextChapter);
         }
 
-        public ChapterModel GetPrevChapter(int chapterId)
+        public ChapterModel GetPrevChapter(string chapterId)
         {
             var chapter = _chapterRepository.GetById(chapterId);
             var prevChapter = _chapterRepository.GetByExpression(x => x.BookId == chapter.BookId && x.ChapterIndex == chapter.ChapterIndex - 1);
@@ -60,6 +60,11 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public void CreateChapter(ChapterModel chapter)
         {
+            if (chapter.ChapterNumber == null)
+            {
+                var count = _chapterRepository.Filter(x => x.BookId == chapter.BookId).Count();
+                chapter.ChapterNumber = count + 1;
+            }
             _chapterRepository.Insert(_mapper.Map<ChapterModel, Chapter>(chapter));
             _chapterRepository.Save();
         }
@@ -69,7 +74,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _chapterRepository.Save();
         }
 
-        public void DeleteChapter(int chapterId)
+        public void DeleteChapter(string chapterId)
         {
             _chapterRepository.Delete(chapterId);
             _chapterRepository.Save();

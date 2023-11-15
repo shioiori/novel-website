@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Data.SqlClient;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
@@ -11,7 +11,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class StatisticService : IStatisticService
+    public class StatisticService
     {
         private readonly IBookRepository _bookRepository;
         private readonly IBookUserRepository _bookUserRepository;
@@ -22,7 +22,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         }
         Expression<Func<BookUsers, bool>> expFilterInteractionType(InteractionType type)
         {
-            return x => x.InteractType == (int)type;
+            return x => x.InteractionId == (int)type;
         }
         public StatisticService(IBookRepository bookRepository, IBookUserRepository bookUserRepository, IMapper mapper)
         {

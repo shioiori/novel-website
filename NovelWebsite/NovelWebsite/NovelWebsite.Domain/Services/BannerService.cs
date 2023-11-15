@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class BannerService : IBannerService
+    public class BannerService
     {
         private readonly IBannerRepository _bannerRepository;
         private readonly IMapper _mapper;

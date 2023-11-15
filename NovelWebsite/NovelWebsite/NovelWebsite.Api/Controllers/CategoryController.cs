@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
@@ -11,9 +12,9 @@ namespace NovelWebsite.Api.Controllers
     [Route("/category")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly CategoryService _categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(CategoryService categoryService)
         {
             _categoryService = categoryService;
         }
@@ -32,6 +33,7 @@ namespace NovelWebsite.Api.Controllers
             return _categoryService.GetCategory(id);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
         public void Add(CategoryModel category)
@@ -39,6 +41,7 @@ namespace NovelWebsite.Api.Controllers
             _categoryService.AddCategory(category);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
         public void Update(CategoryModel category)
@@ -46,6 +49,7 @@ namespace NovelWebsite.Api.Controllers
             _categoryService.UpdateCategory(category);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("delete")]
 

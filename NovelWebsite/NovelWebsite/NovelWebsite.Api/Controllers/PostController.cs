@@ -5,6 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Core.Models.Response;
+using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -12,9 +13,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        private readonly IPostService _postService;
+        private readonly PostService _postService;
 
-        public PostController(IPostService postService)
+        public PostController(PostService postService)
         {
             _postService = postService;
         }

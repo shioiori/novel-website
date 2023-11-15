@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.NovelWebsite.Core.Models.MailKit;
@@ -21,7 +22,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddAuthenticatedConfiguration(builder.Configuration);
 builder.Services.AddAuthorizedConfiguration();
 builder.Services.AddIdentityConfiguration(builder.Configuration);
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(options =>
@@ -34,7 +34,6 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddDIRepository();
-builder.Services.AddDIService();
 
 builder.Services.AddMVCViewsPathConfiguration();
 

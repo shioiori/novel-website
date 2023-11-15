@@ -1,11 +1,11 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class BookInteractionService : InterationService
+    public class BookInteractionService : InteractionService
     {
         private readonly IBookUserRepository _bookUserRepository;
 
@@ -14,9 +14,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _bookUserRepository = bookUserRepository;
         }
 
-        public override bool IsInteractionEnabled(int tId, int uId, InteractionType type)
+        public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
         {
-            var book = _bookUserRepository.Filter(x => x.BookId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var book = _bookUserRepository.Filter(x => x.BookId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (book == null)
             {
                 return false;
@@ -24,16 +24,16 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return true;
         }
 
-        public override bool SetStatusOfInteraction(int tId, int uId, InteractionType type)
+        public override bool SetStatusOfInteraction(string tId, string uId, InteractionType type)
         {
-            var book = _bookUserRepository.GetByExpression(x => x.BookId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var book = _bookUserRepository.GetByExpression(x => x.BookId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (book == null)
             {
                 book = new BookUsers()
                 {
                     BookId = tId,
                     UserId = uId,
-                    InteractType = (int)type,
+                    InteractionId = (int)type,
                 };
                 _bookUserRepository.Insert(book);
                 _bookUserRepository.Save();

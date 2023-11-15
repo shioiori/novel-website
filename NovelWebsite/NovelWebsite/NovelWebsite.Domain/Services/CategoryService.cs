@@ -1,11 +1,11 @@
 using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class CategoryService : ICategoryService
+    public class CategoryService 
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;

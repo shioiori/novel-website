@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using NovelWebsite.Infrastructure.Contexts;
-using NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.NovelWebsite.Domain.Providers;
 using NovelWebsite.NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Domain.Providers;
+using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.NovelWebsite.Startup
 {

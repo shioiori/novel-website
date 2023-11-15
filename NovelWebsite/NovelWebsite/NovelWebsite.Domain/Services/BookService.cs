@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Constants;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
@@ -8,14 +8,15 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 using System.Linq.Expressions;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace NovelWebsite.Domain.Services
 {
-    public class BookService : IBookService
+    public class BookService
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IChapterRepository _chapterRepository;
         private readonly IBookUserRepository _bookUserRepository;
+        private readonly IBookTagRepository _bookTagRepository;
         private readonly IMapper _mapper;
 
         Expression<Func<Book, bool>> expValidBooks = b => b.IsDeleted == false;
@@ -39,179 +40,147 @@ namespace NovelWebsite.Domain.Services
         {
             return b => b.CreatedDate >= start;
         }
-        Expression <Func<BookUsers, bool>> expFilterByInteractionType(InteractionType type)
+        Expression<Func<BookUsers, bool>> expFilterByInteractionType(InteractionType type)
         {
-            return b => b.InteractType == (int)type;
+            return b => b.InteractionId == (int)type;
         }
-        public BookService(IBookRepository bookRepository, IBookUserRepository bookUserRepository, IMapper mapper)
+        Expression<Func<Book, bool>> expSearchName(string name) {
+            return x => string.IsNullOrEmpty(name)
+                        || x.BookName.ToLower().Trim().Contains(name.ToLower().Trim());
+        }
+
+        public BookService(IBookRepository bookRepository, 
+            IBookUserRepository bookUserRepository, 
+            IChapterRepository chapterRepository,
+            IBookTagRepository bookTagRepository,
+            IMapper mapper)
         {
             _bookRepository = bookRepository;
             _bookUserRepository = bookUserRepository;
+            _chapterRepository = chapterRepository;
+            _bookTagRepository = bookTagRepository;
             _mapper = mapper;
         }
 
-        public IEnumerable<BookModel> GetBooks()
+        public IEnumerable<BookModel> GetAll()
         {
             var books = _bookRepository.Filter(expValidBooks);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBooksByAuthor(int authorId)
+        public IEnumerable<BookModel> GetByAuthor(int authorId)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByAuthor(authorId));
             var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books); 
         }
 
-        public IEnumerable<BookModel> GetBooksByCategory(int categoryId)
+        public IEnumerable<BookModel> GetByCategory(int categoryId)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByCategory(categoryId));
             var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBooksByBookStatus(string status)
+        public IEnumerable<BookModel> GetByBookStatus(string status)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByBookStatus(status));
             var books = _bookRepository.Filter(exp);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBooksFromTime(DateTime start)
+        public IEnumerable<BookModel> GetFromTime(DateTime start)
         {
             var books = _bookRepository.Filter(expFromTime(start));
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetBooksByFilter(FilterModel filter)
+        public IEnumerable<BookModel> GetByFilter(FilterModel filter)
         {
-            throw new NotImplementedException();
-            //var query = _dbContext.Books.Where(b => filterModel.CategoryId == 0 || b.CategoryId == filterModel.CategoryId)
-            //.Include(b => b.Author)
-            //                  .Include(b => b.BookStatus)
-            //                  .Where(b => b.IsDeleted == false)
-            //                  .ToList();
-            //var final = query;
-            //// lọc theo tình trạng
-            //if (filterModel.BookStatus != null)
-            //{
-            //    var f1 = query.Where(b => b.BookStatusId == filterModel.BookStatus[0]).ToList();
-            //    for (int i = 1; i < filterModel.BookStatus.Count(); i++)
-            //    {
-            //        var temp = query.Where(b => b.BookStatusId == filterModel.BookStatus[i]);
-            //        foreach (var item in temp)
-            //        {
-            //            f1.Add(item);
-            //        }
-            //    }
-            //    final = f1;
-            //}
+            var exp = expSearchName(filter.SearchName);
+            // lọc theo tình trạng
+            if (filter.BookStatuses != null)
+            {
+                var bookStatuses = filter.BookStatuses.ToArray();
+                if (bookStatuses.Length > 0)
+                {
+                    var expBookStatuses = expFilterByBookStatus(bookStatuses[0]);
+                    for (int i = 1; i < bookStatuses.Length; ++i)
+                    {
+                        expBookStatuses = ExpressionUtil<Book>.Or(expBookStatuses, expFilterByBookStatus(bookStatuses[i]));
+                    }
+                    exp = ExpressionUtil<Book>.Combine(exp, expBookStatuses);
+                }
+            }
 
-            //// lọc theo xếp hạng
-            //if (!string.IsNullOrEmpty(filterModel.Rank))
-            //{
-            //    var f2 = final;
-            //    switch (filterModel.Rank)
-            //    {
-            //        case "view":
-            //            f2 = f2.OrderByDescending(b => b.Views).ToList();
-            //            break;
-            //        case "like":
-            //            f2 = f2.OrderByDescending(b => b.Likes).ToList();
-            //            break;
-            //        case "recommend":
-            //            f2 = f2.OrderByDescending(b => b.Recommends).ToList();
-            //            break;
-            //        case "follow":
-            //            var mostFollow = _dbContext.BookUserFollows
-            //                            .GroupBy(bu => bu.BookId)
-            //                            .OrderByDescending(g => g.Count())
-            //                            .Select(g => g.Key)
-            //                            .ToList();
-            //            f2 = f2.OrderBy(b =>
-            //            {
-            //                var index = mostFollow.IndexOf(b.BookId);
-            //                return index == -1 ? mostFollow.Count : index;
-            //            }).ToList();
-            //            break;
-            //        case "comment":
-            //            var mostComment = _dbContext.Comments
-            //                            .GroupBy(bu => bu.BookId)
-            //                            .OrderByDescending(g => g.Count())
-            //                            .Select(g => g.Key)
-            //                            .ToList();
-            //            f2 = f2.OrderBy(b =>
-            //            {
-            //                var index = mostComment.IndexOf(b.BookId);
-            //                return index == -1 ? mostComment.Count : index;
-            //            }).ToList();
-            //            break;
-            //        default:
-            //            f2 = f2.OrderByDescending(b => b.CreatedDate).ToList();
-            //            break;
-            //    }
-            //    final = f2;
-            //}
+            // lọc theo thể loại
+            if (filter.CategoryIds != null)
+            {
+                var categories = filter.CategoryIds.ToArray();
+                if (categories.Length > 0)
+                {
+                    var expCategories = expFilterByCategory(categories[0]);
+                    for (int i = 1; i < categories.Length; ++i)
+                    {
+                        expCategories = ExpressionUtil<Book>.Or(expCategories, expFilterByCategory(categories[i]));
+                    }
+                    exp = ExpressionUtil<Book>.Combine(exp, expCategories);
+                }
+            }
 
-            //// lọc theo số chương
-            //if (filterModel.ChapterRange != null)
-            //{
-            //    var f3 = final;
-            //    int minRange = filterModel.ChapterRange[0];
-            //    f3 = f3.Where(b => b.NumberOfChapters <= filterModel.ChapterRange[0]).ToList();
-            //    for (int i = 1; i < filterModel.ChapterRange.Count(); i++)
-            //    {
-            //        var temp = final.Where(b => b.NumberOfChapters <= filterModel.ChapterRange[i] && b.NumberOfChapters > minRange);
-            //        minRange = filterModel.ChapterRange[i];
-            //        foreach (var item in temp)
-            //        {
-            //            f3.Add(item);
-            //        }
-            //    }
-            //    final = f3;
-            //}
-            //// sắp xếp
+            var books = _bookRepository.Filter(exp).ToList();
+            var size = books.Count();
+            // lọc theo số chương
+            if (filter.ChapterRanges != null)
+            {
+                var chapterRanges = filter.ChapterRanges.ToArray();
+                if (chapterRanges.Length > 0)
+                {
+                    for (int i = 0; i < size; ++i) 
+                    {
+                        var count = _chapterRepository.Filter(x => x.BookId == books[i].BookId).Count();
+                        foreach (var range in chapterRanges)
+                        {
+                            if (count >= range.MinRange && count <= range.MaxRange) continue;
+                            books.Remove(books[i]);
+                            size--;
+                            i--;
+                        }
+                    }
+                }
+            }
 
-            //if (!string.IsNullOrEmpty(filterModel.OrderBy))
-            //{
-            //    var f4 = final;
-            //    switch (filterModel.OrderBy)
-            //    {
-            //        case "new":
-            //            f4 = f4.OrderByDescending(b => b.CreatedDate).ToList();
-            //            break;
-            //        case "old":
-            //            f4 = f4.OrderBy(b => b.CreatedDate).ToList();
-            //            break;
-            //    }
-            //    final = f4;
-            //}
-
-            //// lọc theo tag
-            //// kiểm tra tag của những quyển đã có -> tag nào k có thì remove khỏi ds
-            //if (filterModel.Tag != null)
-            //{
-            //    var f5 = new List<Book>(final);
-            //    foreach (var item in final)
-            //    {
-            //        var temp = _dbContext.BookTags.Where(b => b.BookId == item.BookId).Select(b => b.TagId).ToList();
-            //        if (temp.Count == 0)
-            //        {
-            //            f5.Remove(item);
-            //            continue;
-            //        }
-            //        foreach (var tag in filterModel.Tag)
-            //        {
-            //            if (!temp.Contains(tag))
-            //            {
-            //                f5.Remove(item);
-            //                break;
-            //            }
-            //        }
-            //    }
-            //    final = f5;
-            //}
-
+            // lọc theo tag
+            // kiểm tra tag của những quyển đã có -> tag nào k có thì remove khỏi ds
+            if (filter.TagIds != null)
+            {
+                var tags = filter.TagIds.ToArray();
+                if (tags.Length > 0)
+                {
+                    for (int i = 0; i < size; ++i)
+                    {
+                        var bookTags = _bookTagRepository.Filter(x => x.BookId == books[i].BookId).Select(x => x.Tag.TagId);
+                        if (bookTags == null || bookTags.Count() == 0)
+                        {
+                            books.Remove(books[i]);
+                            size--;
+                            i--;
+                            continue;
+                        }
+                        foreach (var tag in bookTags)
+                        {
+                            if (!tags.Contains(tag))
+                            {
+                                books.Remove(books[i]);
+                                size--;
+                                i--;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return _mapper.Map<List<Book>, List<BookModel>>(books);
         }
 
         public IEnumerable<BookModel> GetAllBooks()
@@ -220,42 +189,64 @@ namespace NovelWebsite.Domain.Services
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public BookModel GetBook(int bookId)
+        public BookModel GetById(string bookId)
         {
             var book = _bookRepository.GetById(bookId);
             return _mapper.Map<Book, BookModel>(book);
         }
 
-        public void CreateBook(BookModel book)
+        public BookModel Add(BookModel book)
         {
-            _bookRepository.Insert(_mapper.Map<BookModel, Book>(book));
+            var res = _bookRepository.Insert(_mapper.Map<BookModel, Book>(book));
             _bookRepository.Save();
+            return _mapper.Map<Book, BookModel>(res);
         }
-        public void UpdateBook(BookModel book)
+        public BookModel Update(BookModel book)
         {
-            _bookRepository.Update(_mapper.Map<BookModel, Book>(book));
+            var res = _bookRepository.Update(_mapper.Map<BookModel, Book>(book));
             _bookRepository.Save();
+            return _mapper.Map<Book, BookModel>(res);
         }
-        public void DeleteBook(int bookId)
+        public void DeleteTemporary(string bookId)
         {
             var book = _bookRepository.GetById(bookId);
             book.IsDeleted = true;
             _bookRepository.Update(book);
             _bookRepository.Save();
         }
-        public void DeleteBookPermanent(int bookId)
+        public void Delete(BookModel book)
         {
-            _bookRepository.Delete(bookId);
+            _bookRepository.Delete(book);
             _bookRepository.Save();
         }
 
-        public IEnumerable<BookModel> GetBookByUserInteractive(InteractionType type)
+        public IEnumerable<BookModel> GetByUserInteractive(InteractionType type)
         {
             var list = _bookUserRepository.GetByInteractionType(type).Select(x => x.BookId).ToList();
-            var books = GetBooks();
+            var books = GetAll();
             books = books.Where(x => list.Contains(x.BookId));
             return books;
         }
 
+        public IEnumerable<BookModel> GetByUser(string userId)
+        {
+            var books = _bookRepository.Filter(x => x.UserId == userId).ToList();
+            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
+        }
+
+        public int CountInteractive(string bookId, InteractionType type)
+        {
+            var book = _bookRepository.GetById(bookId);
+            var qtt = _bookUserRepository.Filter(x => x.BookId == bookId && x.InteractionId == (int)type).Count();
+            return qtt;
+        }
+
+        public void SetStatus(string bookId, int status)
+        {
+            var book = _bookRepository.GetById(bookId);
+            book.Status = status;
+            _bookRepository.Update(book);
+            _bookRepository.Save();
+        }
     }
 }

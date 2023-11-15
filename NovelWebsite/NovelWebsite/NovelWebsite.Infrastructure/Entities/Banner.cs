@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
     public class Banner
     {
@@ -14,7 +14,7 @@ namespace NovelWebsite.Infrastructure.Entities
         public DateTime ActiveTo { get; set; } = DateTime.MinValue;
 
         [ForeignKey("BookId")]
-        public int? BookId { get; set; }
+        public string? BookId { get; set; }
         public virtual Book? Book { get; set; }
     }
 }

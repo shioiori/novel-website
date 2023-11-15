@@ -1,98 +1,107 @@
 ﻿using AutoMapper;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace NovelWebsite.Domain.Services
 {
-    public class UserService : IUserService
+
+    public class UserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(IUserRepository userRepository, 
+        public UserService(UserManager<User> userManager,
                         IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = userRepository;
+            _userManager = userManager;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public UserModel GetCurrentUser()
+        public async Task<UserModel> GetCurrentUserAsync(ClaimsPrincipal principal)
         {
-            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
-            {
-                var claims = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
-                var id = int.Parse(claims.FindFirst(ClaimTypes.Sid).Value.ToString());
-                var user = _userRepository.GetById(id);
-                return _mapper.Map<User, UserModel>(user);
-            }
-            return null;
-        }
-
-        public UserModel GetUserById(int id)
-        {
-            var user = _userRepository.GetById(id);
+            var user = await _userManager.GetUserAsync(principal);
             return _mapper.Map<User, UserModel>(user);
         }
 
-        public IEnumerable<UserModel> GetUsersByRole(int roleId)
+        public async Task<UserModel> GetUserByIdAsync(string id)
         {
-            //var userRoles = _userRoleRepository.Filter(x => x.RoleId == roleId);
-            //var user = userRoles.Select(x => _userRepository.GetById(x.UserId)).ToList();
-            //return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(user);
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(id);
+            return _mapper.Map<User, UserModel>(user);
         }
 
-        public IEnumerable<UserModel> GetUsers()
+        public async Task<IEnumerable<UserModel>> GetUsersByRole(string roleId)
         {
-            var users = _userRepository.GetAll();
+            var users = await _userManager.GetUsersInRoleAsync(roleId);
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
         }
 
-        public void CreateUser(UserModel model)
+        public async Task<IEnumerable<UserModel>> GetUsers()
         {
-            _userRepository.Insert(_mapper.Map<UserModel, User>(model));
-            _userRepository.Save();
+            var users = await _userManager.Users.ToListAsync();
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
         }
 
-        public void UpdateUser(UserModel model)
+        public async Task CreateUserAsync(UserModel model)
         {
-            _userRepository.Update(_mapper.Map<UserModel, User>(model));
-            _userRepository.Save();
+            var user = _mapper.Map<UserModel, User>(model);
+            var res = await _userManager.CreateAsync(user, model.Password);
         }
 
-        public void DeleteUser(int id)
+        public async Task UpdateUserAsync(UserModel model)
         {
-            _userRepository.Delete(id);
-            _userRepository.Save();
+            User user;
+            if (model.Username != null)
+            {
+                user = await _userManager.FindByNameAsync(model.Username);
+            }
+            else if (model.Email != null){
+                user = await _userManager.FindByEmailAsync(model.Email);
+            }
+            else
+            {
+                return;
+            }
+            user.Name = model.Name;
+            user.Avatar = model.Avatar;
+            user.CoverPhoto = model.CoverPhoto;
+            var res = await _userManager.UpdateAsync(user);
         }
 
-        public void SetUserStatus(int userId, int status)
+        public void DeleteUser(UserModel model)
         {
-            var user = _userRepository.GetById(userId);
+            _userManager.DeleteAsync(_mapper.Map<UserModel, User>(model));
+        }
+
+        public async Task DeleteAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            _userManager.DeleteAsync(user);
+        }
+
+        public async Task SetUserStatusAsync(string userId, int status)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
             user.Status = status;
-            _userRepository.Insert(user);
-            _userRepository.Save();
+            _userManager.UpdateAsync(user);
         }
 
-        public void SetUserRole(int userId, int roleId)
+        public async Task<UserModel> GetUserByUsernameAsync(string username)
         {
-            //_userRoleRepository.Insert(new User_Role()
-            //{
-            //    UserId = userId,
-            //    RoleId = roleId
-            //});
-            //_userRoleRepository.Save();
+            var user = await _userManager.FindByNameAsync(username);
+            return _mapper.Map<User, UserModel>(user);
         }
 
-        public void RemoveUserRole(int userId, int roleId)
+        public async Task<UserModel> GetUserByEmailAsync(string email)
         {
-        //    _userRoleRepository.Delete(userId, roleId);
-        //    _userRoleRepository.Save();
+            var user = await _userManager.FindByEmailAsync(email);
+            return _mapper.Map<User, UserModel>(user);
         }
     }
 }

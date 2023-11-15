@@ -2,16 +2,16 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
     public class Chapter
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ChapterId { get; set; }
+        public string ChapterId { get; set; }
 
         [ForeignKey("fk_book")]
-        public int BookId { get; set; }
+        public string BookId { get; set; }
         public virtual Book Book { get; set; }
         public int ChapterIndex { get; set; }
         public string ChapterName { get; set; }

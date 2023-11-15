@@ -5,10 +5,11 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces.Services
     public interface IRoleService
     {
         IEnumerable<RoleModel> GetRoles();
-        void Add(RoleModel role);
-        void Update(RoleModel role);
-        void Delete(int roleId);
-        void SetPermissionToRole(int roleId, int perId);
-        void RemovePermissionToRole(int roleId, int perId);
+        Task AddAsync(RoleModel role);
+        Task UpdateAsync(RoleModel role);
+        Task DeleteAsync(string name);
+        void SetPermissionToRole(string roleId, int perId);
+        void RemovePermissionToRole(string roleId, int perId);
+        Task<IEnumerable<RoleModel>> GetUserRole(string username);
     }
 }

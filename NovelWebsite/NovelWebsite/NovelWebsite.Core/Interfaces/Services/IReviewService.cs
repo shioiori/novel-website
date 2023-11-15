@@ -7,7 +7,7 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces
     {
         void AddReview(ReviewModel review);
         IEnumerable<ReviewModel> GetListReviews();
-        IEnumerable<ReviewModel> GetListReviewsByBookId(int bookId);
+        IEnumerable<ReviewModel> GetListReviewsByBookId(string bookId);
         IEnumerable<ReviewModel> GetListReviewsByCategoryId(int categoryId);
     }
 }

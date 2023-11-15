@@ -1,26 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovelWebsite.Infrastructure.Entities
+namespace NovelWebsite.NovelWebsite.Infrastructure.Entities
 {
     public class Comment
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CommentId { get; set; }
+        public string CommentId { get; set; }
         [ForeignKey("fk_user_comment")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey("fk_book_comment")]
-        public int? BookId { get; set; }
+        public string? BookId { get; set; }
         [ForeignKey("fk_chapter_comment")]
-        public int? ChapterId { get; set; }
+        public string? ChapterId { get; set; }
         [ForeignKey("fk_post_comment")]
-        public int? PostId { get; set; }
+        public string? PostId { get; set; }
         [ForeignKey("fk_review_comment")]
-        public int? ReviewId { get; set; }
+        public string? ReviewId { get; set; }
         public string Content { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
+        public virtual User? User { get; set; }
         public virtual Book? Book { get; set; }
         public virtual Chapter? Chapter { get; set; }
         public virtual Post? Post { get; set; }

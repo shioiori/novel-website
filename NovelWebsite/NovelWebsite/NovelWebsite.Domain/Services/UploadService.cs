@@ -8,7 +8,7 @@ using System.IO;
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
 
-    public class UploadService : IUploadService
+    public class UploadService
     {
         private readonly IWebHostEnvironment _environment;
 

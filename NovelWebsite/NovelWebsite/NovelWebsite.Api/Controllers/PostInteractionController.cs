@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Infrastructure.Entities;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using System.Security.Claims;
+using NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -12,9 +15,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     public class PostInteractionController : ControllerBase
     {
         private readonly PostInteractionService _postInteractionService;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public PostInteractionController(PostInteractionService postInteractionService, IUserService userService)
+        public PostInteractionController(PostInteractionService postInteractionService, UserService userService)
         {
             _postInteractionService = postInteractionService;
             _userService = userService;
@@ -22,34 +25,38 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("is-liked")]
         [HttpGet]
-        public bool IsPostLiked(int postId)
+        public bool IsPostLiked(string postId)
         {
-            var user = _userService.GetCurrentUser();
-            return _postInteractionService.IsInteractionEnabled(postId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _postInteractionService.IsInteractionEnabled(postId, userId, InteractionType.Like);
         }
 
         [Route("is-disliked")]
         [HttpGet]
-        public bool IsPostDisliked(int postId)
+        public bool IsPostDisliked(string postId)
         {
-            var user = _userService.GetCurrentUser();
-            return _postInteractionService.IsInteractionEnabled(postId, user.UserId, InteractionType.Dislike);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _postInteractionService.IsInteractionEnabled(postId, userId, InteractionType.Dislike);
         }
 
         [Route("set-status-like")]
         [HttpGet]
-        public bool SetPostLike(int postId)
+        public bool SetPostLike(string postId)
         {
-            var user = _userService.GetCurrentUser();
-            return _postInteractionService.SetStatusOfInteraction(postId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _postInteractionService.SetStatusOfInteraction(postId, userId, InteractionType.Like);
         }
 
         [Route("set-status-disliked")]
         [HttpGet]
-        public bool SetPostDislike(int postId)
+        public bool SetPostDislike(string postId)
         {
-            var user = _userService.GetCurrentUser();
-            return _postInteractionService.SetStatusOfInteraction(postId, user.UserId, InteractionType.Dislike);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _postInteractionService.SetStatusOfInteraction(postId, userId, InteractionType.Dislike);
         }
 
     }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using System.Security.Claims;
+using NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -13,9 +15,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     public class CommentInteractionController : ControllerBase
     {
         private readonly CommentInteractionService _commentInteractionService;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public CommentInteractionController(CommentInteractionService commentInteractionService, IUserService userService)
+        public CommentInteractionController(CommentInteractionService commentInteractionService, UserService userService)
         {
             _commentInteractionService = commentInteractionService;
             _userService = userService;
@@ -23,34 +25,38 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("is-liked")]
         [HttpGet]
-        public bool IsCommentLiked(int commentId)
+        public bool IsCommentLiked(string commentId)
         {
-            var user = _userService.GetCurrentUser();
-            return _commentInteractionService.IsInteractionEnabled(commentId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _commentInteractionService.IsInteractionEnabled(commentId,userId, InteractionType.Like);
         }
 
         [Route("is-disliked")]
         [HttpGet]
-        public bool IsCommentDisliked(int commentId)
+        public bool IsCommentDisliked(string commentId)
         {
-            var user = _userService.GetCurrentUser();
-            return _commentInteractionService.IsInteractionEnabled(commentId, user.UserId, InteractionType.Dislike);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _commentInteractionService.IsInteractionEnabled(commentId,userId, InteractionType.Dislike);
         }
 
         [Route("set-status-like")]
         [HttpGet]
-        public bool SetCommentLike(int commentId)
+        public bool SetCommentLike(string commentId)
         {
-            var user = _userService.GetCurrentUser();
-            return _commentInteractionService.SetStatusOfInteraction(commentId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _commentInteractionService.SetStatusOfInteraction(commentId,userId, InteractionType.Like);
         }
 
         [Route("set-status-dislike")]
         [HttpGet]
-        public bool SetCommentDislike(int commentId)
+        public bool SetCommentDislike(string commentId)
         {
-            var user = _userService.GetCurrentUser();
-            return _commentInteractionService.SetStatusOfInteraction(commentId, user.UserId, InteractionType.Dislike);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _commentInteractionService.SetStatusOfInteraction(commentId,userId, InteractionType.Dislike);
         }
 
     }

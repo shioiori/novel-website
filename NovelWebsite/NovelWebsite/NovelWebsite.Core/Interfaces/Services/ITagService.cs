@@ -2,13 +2,12 @@
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Services
 {
-    public interface ITagService
+    public interface ITagService : IService<TagModel>
     {
-        void AddTag(TagModel tag);
-        IEnumerable<TagModel> GetAllTags();
-        void RemoveTag(int tagId);
-        void UpdateTag(TagModel tag);
-        TagModel GetTag(int tagId);
-        TagModel GetTag(string slug);
+        TagModel GetById(int id);
+        TagModel GetTagBySlug(string slug);
+        TagModel GetTagByName(string name);
+        IEnumerable<TagModel> GetTagsOfBook(string bookId);
+        void AddTagsOfBook(string bookId, IEnumerable<TagModel> tags);
     }
 }

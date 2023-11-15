@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
@@ -10,9 +12,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     [Route("/banner")]
     public class BannerController : ControllerBase
     {
-        private readonly IBannerService _bannerService;
+        private readonly BannerService _bannerService;
 
-        public BannerController(IBannerService bannerService)
+        public BannerController(BannerService bannerService)
         {
             _bannerService = bannerService;
         }
@@ -32,6 +34,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return RandomUtil<BannerModel>.GetRandom(banners, banners.Count());
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
         public void AddBanner(BannerModel banner)
@@ -39,6 +42,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             _bannerService.CreateBanner(banner);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
         public void UpdateBanner(BannerModel banner)
@@ -46,6 +50,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             _bannerService.UpdateBanner(banner);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete]
         [Route("delete")]
         public void DeleteBanner(int id)

@@ -1,4 +1,6 @@
-﻿namespace NovelWebsite.NovelWebsite.Startup
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace NovelWebsite.NovelWebsite.Startup
 {
     public static class APIConfiguration
     {
@@ -7,6 +9,10 @@
             services.AddControllers().AddJsonOptions(jsonOptions =>
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
             });
             return services;
         }

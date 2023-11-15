@@ -1,4 +1,4 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using System.Linq.Expressions;
 
 namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories

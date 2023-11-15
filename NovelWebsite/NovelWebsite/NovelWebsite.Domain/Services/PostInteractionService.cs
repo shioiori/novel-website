@@ -1,11 +1,11 @@
-﻿using NovelWebsite.Infrastructure.Entities;
+﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class PostInteractionService : InterationService
+    public class PostInteractionService : InteractionService
     {
         private readonly IPostUserRepository _postUserRepository;
 
@@ -14,9 +14,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _postUserRepository = postUserRepository;
         }
 
-        public override bool IsInteractionEnabled(int tId, int uId, InteractionType type)
+        public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
         {
-            var post = _postUserRepository.Filter(x => x.PostId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var post = _postUserRepository.Filter(x => x.PostId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (post == null)
             {
                 return false;
@@ -24,16 +24,16 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return true;
         }
 
-        public override bool SetStatusOfInteraction(int tId, int uId, InteractionType type)
+        public override bool SetStatusOfInteraction(string tId, string uId, InteractionType type)
         {
-            var post = _postUserRepository.GetByExpression(x => x.PostId == tId && x.UserId == uId && x.InteractType == (int)type);
+            var post = _postUserRepository.GetByExpression(x => x.PostId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (post == null)
             {
                 post = new PostUsers()
                 {
                     PostId = tId,
                     UserId = uId,
-                    InteractType = (int)type,
+                    InteractionId = (int)type,
                 };
                 _postUserRepository.Insert(post);
                 _postUserRepository.Save();
