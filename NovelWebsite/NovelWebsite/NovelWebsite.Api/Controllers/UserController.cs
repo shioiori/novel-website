@@ -6,6 +6,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Core.Models.Response;
+using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -29,45 +30,81 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-by-role")]
-        public async Task<PagedList<UserModel>> GetByRoleAsync(string roleId, [FromQuery] PagedListRequest request)
+        public async Task<PagedList<UserModel>> GetByRoleAsync(string name, [FromQuery] PagedListRequest request)
         {
-            var users = await _userService.GetUsersByRole(roleId);
+            var users = await _userService.GetUsersByRole(name);
             return PagedList<UserModel>.ToPagedList(users, request);
         }
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<UserModel> GetOne(string userId) {
+        public async Task<UserModel> GetById(string userId) {
             return await _userService.GetUserByIdAsync(userId);
+        }
+
+        [HttpGet]
+        [Route("get-by-username")]
+        public async Task<UserModel> GetByUsername(string username)
+        {
+            return await _userService.GetUserByUsernameAsync(username);
+        }
+
+        [HttpGet]
+        [Route("get-by-email")]
+        public async Task<UserModel> GetByEmail(string email)
+        {
+            return await _userService.GetUserByEmailAsync(email);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
-        public void Add(UserModel model) {
-            _userService.CreateUser(model);
+        public async Task<IActionResult> AddAsync(UserModel model) {
+            try
+            {
+                await _userService.CreateUserAsync(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
-        public void Update(UserModel model) {
-            _userService.UpdateUser(model);
+        public async Task<IActionResult> UpdateAsync(UserModel model) {
+            try
+            {
+                if (model.Username == null)
+                {
+                    var identity = HttpContext.User.Identity as ClaimsIdentity;
+                    string username = identity.FindFirst(ClaimTypes.Name).Value;
+                    model.Username = username;
+                }
+                await _userService.UpdateUserAsync(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete]
         [Route("delete")]
-        public void Delete(string userId) {
-            _userService.DeleteAsync(userId);
+        public async Task DeleteAsync(string userId) {
+            await _userService.DeleteAsync(userId);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         [Route("set-status")] 
-        public void SetStatus(string userId, int status)
+        public async Task SetStatusAsync(string userId, int status)
         {
-            _userService.SetUserStatusAsync(userId, status);
+            await _userService.SetUserStatusAsync(userId, status);
         }
 
     }

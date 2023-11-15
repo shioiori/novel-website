@@ -47,8 +47,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
 
             CreateMap<UserModel, User>()
                     .ForMember(x => x.Avatar, y => y.NullSubstitute("default.jpg"))
-                    .ForMember(x => x.CoverPhoto, y => y.NullSubstitute("default.jpg"));
-            CreateMap<User, UserModel>();
+                    .ForMember(x => x.CoverPhoto, y => y.NullSubstitute("default.jpg"))
+                    .ForMember(x => x.UserName, y => y.MapFrom(x => x.Username))
+                    .ForMember(x => x.CreatedDate, y => y.NullSubstitute(DateTime.Now));
+
+            CreateMap<User, UserModel>()
+                    .ForMember(x => x.Username, y => y.MapFrom(x => x.UserName));
 
             CreateMap<Tag, TagModel>();
             CreateMap<TagModel, Tag>()

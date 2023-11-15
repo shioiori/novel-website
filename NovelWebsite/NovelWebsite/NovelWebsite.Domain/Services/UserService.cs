@@ -48,14 +48,26 @@ namespace NovelWebsite.Domain.Services
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
         }
 
-        public void CreateUser(UserModel model)
+        public async Task CreateUserAsync(UserModel model)
         {
-            _userManager.CreateAsync(_mapper.Map<UserModel, User>(model));
+            var user = _mapper.Map<UserModel, User>(model);
+            var res = await _userManager.CreateAsync(user, model.Password);
         }
 
-        public void UpdateUser(UserModel model)
+        public async Task UpdateUserAsync(UserModel model)
         {
-            _userManager.UpdateAsync(_mapper.Map<UserModel, User>(model));
+            User user;
+            if (model.Username != null)
+            {
+                user = await _userManager.FindByNameAsync(model.Username);
+            }
+            else if {
+                user = await _userManager.FindByEmailAsync(model.Email);
+            }
+            user.Name = model.Name;
+            user.Avatar = model.Avatar;
+            user.CoverPhoto = model.CoverPhoto;
+            var res = await _userManager.UpdateAsync(user);
         }
 
         public void DeleteUser(UserModel model)
@@ -76,5 +88,16 @@ namespace NovelWebsite.Domain.Services
             _userManager.UpdateAsync(user);
         }
 
+        public async Task<UserModel> GetUserByUsernameAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return _mapper.Map<User, UserModel>(user);
+        }
+
+        public async Task<UserModel> GetUserByEmailAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return _mapper.Map<User, UserModel>(user);
+        }
     }
 }
