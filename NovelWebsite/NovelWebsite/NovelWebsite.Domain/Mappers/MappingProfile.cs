@@ -5,6 +5,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 using NovelWebsite.NovelWebsite.Core.Constants;
+using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.NovelWebsite.Domain.Mappers
 {
@@ -45,14 +46,25 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<RegisterRequest, User>();
             CreateMap<LoginRequest, User>();
 
+            CreateMap<RoleModel, Role>()
+                    .ForMember(x => x.Id, y => y.MapFrom(x => x.RoleId))
+                    .ForMember(x => x.Name, y => y.MapFrom(x => x.RoleName));
+            CreateMap<Role, RoleModel>()
+                    .ForMember(x => x.RoleId, y => y.MapFrom(x => x.Id))
+                    .ForMember(x => x.RoleName, y => y.MapFrom(x => x.Name));
+            CreateMap<string, RoleModel>()
+                    .ForMember(x => x.RoleName, y => y.MapFrom(x => x));
+
             CreateMap<UserModel, User>()
                     .ForMember(x => x.Avatar, y => y.NullSubstitute("default.jpg"))
                     .ForMember(x => x.CoverPhoto, y => y.NullSubstitute("default.jpg"))
                     .ForMember(x => x.UserName, y => y.MapFrom(x => x.Username))
-                    .ForMember(x => x.CreatedDate, y => y.NullSubstitute(DateTime.Now));
+                    .ForMember(x => x.CreatedDate, y => y.NullSubstitute(DateTime.Now))
+                    .ForMember(x => x.Id, y => y.MapFrom(x => x.UserId));
 
             CreateMap<User, UserModel>()
-                    .ForMember(x => x.Username, y => y.MapFrom(x => x.UserName));
+                    .ForMember(x => x.Username, y => y.MapFrom(x => x.UserName))
+                    .ForMember(x => x.UserId, y => y.MapFrom(x => x.Id));
 
             CreateMap<Tag, TagModel>();
             CreateMap<TagModel, Tag>()

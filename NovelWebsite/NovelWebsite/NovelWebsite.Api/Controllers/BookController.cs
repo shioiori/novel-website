@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Core.Constants;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
@@ -14,6 +15,7 @@ using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Claims;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -21,7 +23,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly IBookService _bookService;
+        private readonly BookService _bookService;
 
         private readonly IStatisticService _statisticService;
         private readonly IChapterService _chapterService;
@@ -30,7 +32,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IUserService _userService;
 
-        public BookController(IBookService bookService, 
+        public BookController(BookService bookService, 
                               IStatisticService statisticService, 
                               IChapterService chapterService,
                               ITagService tagService,
@@ -263,6 +265,31 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             try
             {
                 _bookService.DeleteTemporary(bookId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = "Editor")]
+        [HttpPut]
+        public IActionResult SetStatusBook(string bookId, string status)
+        {
+            try
+            {
+                int stt;
+                if (int.TryParse(status, out var num))
+                {
+                    stt = num;
+                }
+                else
+                {
+                    stt = (int)((UploadStatus)Enum.Parse(typeof(UploadStatus), status, true));
+                }
+                _bookService.SetStatus(bookId, status);
                 return Ok();
             }
             catch (Exception ex)

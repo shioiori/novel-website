@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace NovelWebsite.Domain.Services
 {
-    public class BookService : IBookService
+    public class BookService
     {
         private readonly IBookRepository _bookRepository;
         private readonly IChapterRepository _chapterRepository;
@@ -239,6 +239,14 @@ namespace NovelWebsite.Domain.Services
             var book = _bookRepository.GetById(bookId);
             var qtt = _bookUserRepository.Filter(x => x.BookId == bookId && x.InteractionId == (int)type).Count();
             return qtt;
+        }
+
+        public void SetStatus(string bookId, int status)
+        {
+            var book = _bookRepository.GetById(bookId);
+            book.Status = status;
+            _bookRepository.Update(book);
+            _bookRepository.Save();
         }
     }
 }

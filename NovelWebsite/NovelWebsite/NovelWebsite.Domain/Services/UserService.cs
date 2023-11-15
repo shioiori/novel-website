@@ -61,8 +61,12 @@ namespace NovelWebsite.Domain.Services
             {
                 user = await _userManager.FindByNameAsync(model.Username);
             }
-            else if {
+            else if (model.Email != null){
                 user = await _userManager.FindByEmailAsync(model.Email);
+            }
+            else
+            {
+                return;
             }
             user.Name = model.Name;
             user.Avatar = model.Avatar;

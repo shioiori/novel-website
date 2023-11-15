@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -25,22 +26,37 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return _roleService.GetRoles();
         }
 
+        [HttpGet]
+        [Route("get-user-role")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IEnumerable<RoleModel>> GetUserRoleAsync(string username)
+        {
+            if (username == null)
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                username = identity.FindFirst(ClaimTypes.Name).Value;
+            }
+            return await _roleService.GetUserRole(username);
+        }
+
         [HttpPost]
         [Route("add")]
-        public void Add(RoleModel model) {
-            _roleService.Add(model);
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = "Host")]
+        public async Task AddAsync(RoleModel model) {
+            await _roleService.AddAsync(model);
         }
 
         [HttpPost]
         [Route("update")]
-        public void Update(RoleModel model) {
-            _roleService.Update(model);
+        public async Task UpdateAsync(RoleModel model) {
+            await _roleService.UpdateAsync(model);
         }
 
         [HttpDelete]
         [Route("delete")]
-        public void Delete(string id) {
-            _roleService.Delete(id);
+        public async Task DeleteAsync(string id) {
+            await _roleService.DeleteAsync(id);
         }
 
 
