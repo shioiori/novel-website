@@ -33,11 +33,28 @@ namespace NovelWebsite.NovelWebsite.Startup
             //services.AddScoped<ITagService, TagService>();
             //services.AddScoped<IUserService, UserService>();
             //services.AddScoped<IStatisticService, StatisticService>();
-
             //services.AddScoped<BookInteractionService>();
-
-
             //services.AddTransient<IMailService, MailService>();
+
+            services.AddScoped<AccessService>();
+            services.AddScoped<AuthorService>();
+            services.AddScoped<BannerService>();
+            services.AddScoped<BookService>();
+            services.AddScoped<CategoryService>();
+            services.AddScoped<ChapterService>();
+            services.AddScoped<CommentService>();
+            services.AddScoped<PostService>();
+            services.AddScoped<ReviewService>();
+            services.AddScoped<RoleService>();
+            services.AddScoped<TagService>();
+            services.AddScoped<UserService>();
+            services.AddScoped<UploadService>();
+            services.AddScoped<StatisticService>();
+
+            services.AddScoped<BookInteractionService>();
+
+
+            services.AddTransient<MailService>();
             return services;
         }
 

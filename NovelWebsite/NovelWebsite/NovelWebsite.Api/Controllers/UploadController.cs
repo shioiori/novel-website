@@ -6,7 +6,7 @@ using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/upload")]
     public class UploadController : ControllerBase
@@ -20,7 +20,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpPost]
         [Route("file/cloud")]        
         
-        public async Task<UploadFileResponse> UploadFileToCloud(IFormFile file, string folder)
+        public async Task<UploadFileResponse> UploadFileToCloud(string folder, [FromForm] IFormFile file)
         {
             using (var stream = file.OpenReadStream())
             {

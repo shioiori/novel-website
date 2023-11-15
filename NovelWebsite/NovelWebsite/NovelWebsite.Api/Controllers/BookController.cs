@@ -276,6 +276,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "Editor")]
         [HttpPut]
+        [Route("set-book-status")]
         public IActionResult SetStatusBook(string bookId, string status)
         {
             try
