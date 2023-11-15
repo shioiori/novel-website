@@ -57,7 +57,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors(corsNovelWebsite);
-//app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
