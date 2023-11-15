@@ -6,6 +6,7 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
+using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -31,24 +32,27 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpGet]
         public bool IsChapterLiked(string chapterId)
         {
-            var user = _userService.GetCurrentUser();
-            return _chapterInteractionService.IsInteractionEnabled(chapterId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _chapterInteractionService.IsInteractionEnabled(chapterId, userId, InteractionType.Like);
         }
 
         [Route("is-disliked")]
         [HttpGet]
         public bool IsChapterMarked(string chapterId)
         {
-            var user = _userService.GetCurrentUser();
-            return _chapterInteractionService.IsInteractionEnabled(chapterId, user.UserId, InteractionType.Mark);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _chapterInteractionService.IsInteractionEnabled(chapterId, userId, InteractionType.Mark);
         }
 
         [Route("set-status-like")]
         [HttpGet]
         public bool SetChapterLike(string chapterId)
         {
-            var user = _userService.GetCurrentUser();
-            return _chapterInteractionService.SetStatusOfInteraction(chapterId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _chapterInteractionService.SetStatusOfInteraction(chapterId, userId, InteractionType.Like);
         }
 
         [Route("set-status-mark")]
@@ -56,8 +60,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         public bool SetChapterMark(string chapterId)
         {
-            var user = _userService.GetCurrentUser();
-            return _chapterInteractionService.SetStatusOfInteraction(chapterId, user.UserId, InteractionType.Mark);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _chapterInteractionService.SetStatusOfInteraction(chapterId, userId, InteractionType.Mark);
         }
     }
 }

@@ -21,24 +21,24 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all")]
-        public PagedList<UserModel> GetAll([FromQuery] PagedListRequest request)
+        public async Task<PagedList<UserModel>> GetAllAsync([FromQuery] PagedListRequest request)
         {
-            var users = _userService.GetUsers();
+            var users = await _userService.GetUsers();
             return PagedList<UserModel>.ToPagedList(users, request);
         }
 
         [HttpGet]
         [Route("get-by-role")]
-        public PagedList<UserModel> GetByRole(int roleId, [FromQuery] PagedListRequest request)
+        public async Task<PagedList<UserModel>> GetByRoleAsync(string roleId, [FromQuery] PagedListRequest request)
         {
-            var users = _userService.GetUsersByRole(roleId);
+            var users = await _userService.GetUsersByRole(roleId);
             return PagedList<UserModel>.ToPagedList(users, request);
         }
 
         [HttpGet]
         [Route("get-by-id")]
-        public UserModel GetOne(int userId) {
-            return _userService.GetUserById(userId);
+        public async Task<UserModel> GetOne(string userId) {
+            return await _userService.GetUserByIdAsync(userId);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -58,31 +58,16 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete]
         [Route("delete")]
-        public void Delete(int id) {
-            _userService.DeleteUser(id);
+        public void Delete(string userId) {
+            _userService.DeleteAsync(userId);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         [Route("set-status")] 
-        public void SetStatus(int userId, int status)
+        public void SetStatus(string userId, int status)
         {
-            _userService.SetUserStatus(userId, status);
-        }
-
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPut]
-        [Route("set-role")]
-        public void SetRole(int userId, int roleId) {
-            _userService.SetUserRole(userId, roleId);
-        }
-
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPut]
-        [Route("remove-role")]
-        public void RemoveRole(int userId, int roleId) 
-        { 
-            _userService.RemoveUserRole(userId, roleId);
+            _userService.SetUserStatusAsync(userId, status);
         }
 
     }

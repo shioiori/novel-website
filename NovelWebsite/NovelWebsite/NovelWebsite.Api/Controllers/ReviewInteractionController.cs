@@ -4,6 +4,7 @@ using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -26,32 +27,36 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpGet]
         public bool IsReviewLiked(string reviewId)
         {
-            var user = _userService.GetCurrentUser();
-            return _reviewInteractionService.IsInteractionEnabled(reviewId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _reviewInteractionService.IsInteractionEnabled(reviewId, userId, InteractionType.Like);
         }
 
         [Route("is-disliked")]
         [HttpGet]
         public bool IsReviewDisliked(string reviewId)
         {
-            var user = _userService.GetCurrentUser();
-            return _reviewInteractionService.IsInteractionEnabled(reviewId, user.UserId, InteractionType.Dislike);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _reviewInteractionService.IsInteractionEnabled(reviewId, userId, InteractionType.Dislike);
         }
 
         [Route("set-status-like")]
         [HttpGet]
         public bool SetReviewLike(string reviewId)
         {
-            var user = _userService.GetCurrentUser();
-            return _reviewInteractionService.SetStatusOfInteraction(reviewId, user.UserId, InteractionType.Like);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _reviewInteractionService.SetStatusOfInteraction(reviewId, userId, InteractionType.Like);
         }
 
         [Route("set-status-dislike")]
         [HttpGet]
         public bool SetReviewDislike(string reviewId)
         {
-            var user = _userService.GetCurrentUser();
-            return _reviewInteractionService.SetStatusOfInteraction(reviewId, user.UserId, InteractionType.Dislike);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _reviewInteractionService.SetStatusOfInteraction(reviewId, userId, InteractionType.Dislike);
         }
 
     }

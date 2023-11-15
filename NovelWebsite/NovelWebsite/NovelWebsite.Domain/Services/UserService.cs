@@ -4,95 +4,77 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace NovelWebsite.Domain.Services
 {
+
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(IUserRepository userRepository, 
+        public UserService(UserManager<User> userManager,
                         IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = userRepository;
+            _userManager = userManager;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public UserModel GetCurrentUser()
+        public async Task<UserModel> GetCurrentUserAsync(ClaimsPrincipal principal)
         {
-            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
-            {
-                var claims = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
-                var id = int.Parse(claims.FindFirst(ClaimTypes.Sid).Value.ToString());
-                var user = _userRepository.GetById(id);
-                return _mapper.Map<User, UserModel>(user);
-            }
-            return null;
-        }
-
-        public UserModel GetUserById(int id)
-        {
-            var user = _userRepository.GetById(id);
+            var user = await _userManager.GetUserAsync(principal);
             return _mapper.Map<User, UserModel>(user);
         }
 
-        public IEnumerable<UserModel> GetUsersByRole(int roleId)
+        public async Task<UserModel> GetUserByIdAsync(string id)
         {
-            //var userRoles = _userRoleRepository.Filter(x => x.RoleId == roleId);
-            //var user = userRoles.Select(x => _userRepository.GetById(x.UserId)).ToList();
-            //return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(user);
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(id);
+            return _mapper.Map<User, UserModel>(user);
         }
 
-        public IEnumerable<UserModel> GetUsers()
+        public async Task<IEnumerable<UserModel>> GetUsersByRole(string roleId)
         {
-            var users = _userRepository.GetAll();
+            var users = await _userManager.GetUsersInRoleAsync(roleId);
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
+        }
+
+        public async Task<IEnumerable<UserModel>> GetUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
         }
 
         public void CreateUser(UserModel model)
         {
-            _userRepository.Insert(_mapper.Map<UserModel, User>(model));
-            _userRepository.Save();
+            _userManager.CreateAsync(_mapper.Map<UserModel, User>(model));
         }
 
         public void UpdateUser(UserModel model)
         {
-            _userRepository.Update(_mapper.Map<UserModel, User>(model));
-            _userRepository.Save();
+            _userManager.UpdateAsync(_mapper.Map<UserModel, User>(model));
         }
 
-        public void DeleteUser(int id)
+        public void DeleteUser(UserModel model)
         {
-            _userRepository.Delete(id);
-            _userRepository.Save();
+            _userManager.DeleteAsync(_mapper.Map<UserModel, User>(model));
         }
 
-        public void SetUserStatus(int userId, int status)
+        public async Task DeleteAsync(string userId)
         {
-            var user = _userRepository.GetById(userId);
+            var user = await _userManager.FindByIdAsync(userId);
+            _userManager.DeleteAsync(user);
+        }
+
+        public async Task SetUserStatusAsync(string userId, int status)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
             user.Status = status;
-            _userRepository.Insert(user);
-            _userRepository.Save();
+            _userManager.UpdateAsync(user);
         }
 
-        public void SetUserRole(int userId, int roleId)
-        {
-            //_userRoleRepository.Insert(new User_Role()
-            //{
-            //    UserId = userId,
-            //    RoleId = roleId
-            //});
-            //_userRoleRepository.Save();
-        }
-
-        public void RemoveUserRole(int userId, int roleId)
-        {
-        //    _userRoleRepository.Delete(userId, roleId);
-        //    _userRoleRepository.Save();
-        }
     }
 }
