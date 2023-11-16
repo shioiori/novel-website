@@ -29,6 +29,16 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return PagedList<UserModel>.ToPagedList(users, request);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet]
+        [Route("get-user")]
+        public async Task<UserModel> GetAsync()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            string username = identity.FindFirst(ClaimTypes.Name).Value;
+            return await _userService.GetUserByUsernameAsync(username);
+        }
+
         [HttpGet]
         [Route("get-by-role")]
         public async Task<PagedList<UserModel>> GetByRoleAsync(string name, [FromQuery] PagedListRequest request)

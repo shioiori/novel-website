@@ -1,7 +1,9 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
+using Microsoft.CodeAnalysis;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
 using System.IO;
 
@@ -17,6 +19,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         {
             _environment = environment;
             _configuration = configuration;
+
         }
 
         public UploadFileResponse SaveFileLocal(IFormFile file, string folder)
@@ -45,16 +48,25 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                 {
                     HttpClientInitializer = credential
                 });
+
+                // Create folder if not exist and get id
+                string folderId = CreateFolder(folder);
+                if (folderId == null)
+                {
+                    throw new Exception("Get folder parent failed");
+                }
                 var fileUpload = new Google.Apis.Drive.v3.Data.File()
                 {
                     Name = fileName + Guid.NewGuid().ToString(),
-                    Parents = new[] { folder }
+                    Parents = new[] { folderId }
                 };
+
+                
                 // Create a new file on Google Drive
                 using (var stream = fileStream)
                 {
                     // Create a new file, with metadata and stream.
-                    var request = service.Files.Create(fileUpload, stream, Path.GetExtension(fileName));
+                    var request = service.Files.Create(fileUpload, stream, MimeKit.MimeTypes.GetMimeType(fileName));
                     request.Fields = "id";
                     var results = await request.UploadAsync();
                     var uploadedFile = request.ResponseBody;
@@ -63,7 +75,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                         Success = true,
                         Message = "Upload thành công",
                         FileId = uploadedFile.Id,
-                        UrlAccess = $"https://drive.google.com/file/{folder}/{uploadedFile.Id}"
+                        UrlAccess = $"https://drive.google.com/file/{folder}/{uploadedFile.Id}{uploadedFile.ExportLinks}"
                     };
                 }
 
@@ -76,6 +88,48 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                     Message = "Upload thất bại",
                 };
                 throw;
+            }
+        }
+
+        public string CreateFolder(string folder)
+        {
+            try
+            {
+                var credential = GoogleCredential.FromFile(_configuration.GetValue<string>("FileStorage:GoogleCredentialFile"))
+                                                 .CreateScoped(DriveService.ScopeConstants.Drive);
+                var service = new DriveService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential
+                });
+
+                // Define parameters of request.
+                FilesResource.ListRequest listRequest = service.Files.List();
+                listRequest.PageSize = 10;
+                listRequest.Fields = "nextPageToken, files(id, name)";
+
+                // List files.
+                IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
+
+                if (files != null && files.Count > 0)
+                {
+                    foreach (var f in files)
+                    {
+                        if (f.Name == folder)
+                        {
+                            return f.Id;
+                        }
+                    }
+                }
+                var file = new Google.Apis.Drive.v3.Data.File();
+                file.Name = folder;
+                file.MimeType = "application/vnd.google-apps.folder";
+                var request = service.Files.Create(file);
+                request.Fields = "id";
+                return request.Execute().Id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }
