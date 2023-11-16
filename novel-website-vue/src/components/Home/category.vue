@@ -3,12 +3,12 @@
         <div class="index__theloai--wrap">
             <div class="index__theloai--chitiet row">
                 <div class="index__theloai--chitiet-cot col-md-6" v-for="(item, index) in categoryArray" :key="index">
-                    <a @click="getBookByCategory(item.categoryId)">
+                    <a @click="getBookByCategory(item.CategoryId)">
                         <!-- <i class="fa-solid fa-tags" :url="item.categoryImage"></i> -->
-                        <img :src="item.categoryImage" />
+                        <img :src="item.CategoryImage" />
                         <span>
-                            <p class="tentruyen">{{ item.categoryName }}</p>
-                            <p class="soluongtruyen">{{ item.quantity }}</p>
+                            <p class="tentruyen">{{ item.CategoryName }}</p>
+                            <p class="soluongtruyen">{{ item.Quantity }}</p>
                         </span>
                     </a>
                 </div>

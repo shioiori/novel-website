@@ -22,11 +22,11 @@
                     >{{ authorName }}</a
                 >
             </p>
-            <p class="book-publisher">
+            <!-- <p class="book-publisher">
                 <a class="truncate" href="/ho-so/@item.UserId">{{
                     userName
                 }}</a>
-            </p>
+            </p> -->
             <p class="book-publisher">
                 <a class="truncate" href="">{{ bookStatusFix }}</a>
             </p>
@@ -74,13 +74,13 @@ export default {
     methods: {
         dataCleanse() {
             switch (this.bookStatus) {
-                case "hoanthanh":
+                case "HOANTHANH":
                     this.bookStatusFix = "HOÀN THÀNH";
                     break;
-                case "tamngung":
+                case "TAMNGUNG":
                     this.bookStatusFix = "TẠM NGỪNG";
                     break;
-                case "contiep":
+                case "CONTIEP":
                     this.bookStatusFix = "CÒN TIẾP";
                     break;
             }

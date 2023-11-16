@@ -4,13 +4,13 @@
             <truyenItem
                 v-for="(item, index) in bookArray"
                 :key="index"
-                :avatar="item.avatar"
-                :bookName="item.bookName"
-                :author="item.author"
-                :numbChap="item.numbChap"
-                :views="item.views"
-                :category="item.category"
-                :describe="item.describe"
+                :Avatar="item.Avatar"
+                :BookName="item.BookName"
+                :Author="item.Author.AuthorName"
+                :TotalChapters="item.TotalChapters"
+                :Views="item.Views"
+                :Category="item.Category.CategoryName"
+                :Introduce="item.Introduce"
             ></truyenItem>
         </div>
     </div>
@@ -41,11 +41,14 @@ export default {
         async fetchBook() {
             try {
                 let url = `${apiPath}/book/get-by-book-status?status=${this.itemStatus}`;
-                let res = (await axios.get(url)).data;
+                console.log(123)
+                console.log(url,"sach moi")
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay sach moi");
-                for (let i = 0; i < 6; i++) {
-                    this.bookArray.push(res.data[i]);
-                }
+                res.forEach((item, index) => {
+                    this.bookArray.push(item);
+                    if (index > 5) return;
+                });
             } catch (e) {
                 console.log(e);
             }

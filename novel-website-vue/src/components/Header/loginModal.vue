@@ -86,7 +86,7 @@ export default {
     },
     methods: {
         async onLogin() {
-            const headers = { "Content-Type": "application/json" };
+            // const headers = { "Content-Type": "application/json" };
             try {
                 let url = `${apiPath}/login`;
                 let res = await axios.post(
@@ -96,9 +96,9 @@ export default {
                         Password: this.password,
                         LoginProvider: "Cookies",
                     },
-                    {
-                        headers: headers,
-                    }
+                    // {
+                    //     headers: headers,
+                    // }
                 );
                 let userId = JSON.parse(res.data.context).UserId;
                 console.log(JSON.parse(res.data.context), "res login");

@@ -11,7 +11,7 @@
             <ul class="list-group" id="book-most-recommends" v-for="(item, index) in bookArray" :key="index">
                 <li class="list-group-item">
                     <i class="fa-solid fa-star"></i>
-                    <a href="/book">{{ item.name }}</a>
+                    <a href="/book">{{ item.BookName }}</a>
                 </li>
             </ul>
         </div>
@@ -25,7 +25,7 @@ const apiPath = process.env.VUE_APP_API_KEY;
 export default {
     name: "ranklist-layout",
     props: {
-        criteria: String,
+        criteria: Number,
         criteria_name: String,
     },
     data() {
@@ -40,8 +40,7 @@ export default {
         async getBookArray() {
             try {
                 let url = `${apiPath}/book/get-top-by-interaction-type?type=${this.criteria}`
-                let res = (await axios.get(url)).data
-                console.log(res, "danh muc");
+                let res = (await axios.get(url)).data.Data
                 this.bookArray = res
             } catch (e) {
                 console.log(e)

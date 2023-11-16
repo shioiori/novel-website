@@ -7,19 +7,19 @@
                 <billboardItem
                     v-for="(item, index) in bookArray"
                     :key="index"
-                    :slug="item.slug"
-                    :avatar="item.avatar"
-                    :bookName="item.bookName"
-                    :bookId="item.bookId"
-                    :authorName="item.authorName"
+                    :slug="item.Slug"
+                    :avatar="item.Avatar"
+                    :bookName="item.BookName"
+                    :bookId="item.BookId"
+                    :authorName="item.Author.AuthorName"
                     :userName="item.userName"
-                    :bookStatus="item.bookStatus"
-                    :views="item.views"
-                    :likes="item.likes"
-                    :recommends="item.recommends"
+                    :bookStatus="item.BookStatus"
+                    :views="item.Views"
+                    :likes="item.Likes"
+                    :recommends="item.Recommends"
                 ></billboardItem>
             </div>
-            <div class="rank-box-main-pagination">
+            <!-- <div class="rank-box-main-pagination">
                 <ul class="pagination justify-content-end">
                     <li class="page-item">
                         <a
@@ -43,7 +43,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </div>
         <Footer></Footer>
     </div>
@@ -98,7 +98,7 @@ export default {
         async fetchData() {
             try {
                 let url = `${apiPath}/book/get-all`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 this.bookArray = res;
                 console.log(this.bookArray)
             } catch (e) {

@@ -1,11 +1,11 @@
 <template>
     <div class="row-right">
         <div class="edit--main-body">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-danger" role="alert">@error</div>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="editor--header">Giao diện đăng truyện</h3>
@@ -23,6 +23,7 @@
                             name="BookName"
                             placeholder="Nhập tên truyện..."
                             value=""
+                            v-model="tentruyen"
                         />
                         <input type="text" name="BookId" value="" hidden />
                         <input
@@ -46,6 +47,7 @@
                             name="AuthorName"
                             placeholder="Nhập tên tác giả..."
                             value=""
+                            v-model="tacgia"
                         />
                     </div>
                 </div>
@@ -103,8 +105,8 @@
                     <div class="editor--content">
                         <select v-model="selectedCategory" class="form-select">
                             <option value="">Please select one</option>
-                            <option v-for="item in categoryArr" :key="item.id" :value="item.categoryId">
-                                {{ item.categoryName }}
+                            <option v-for="item in categoryArr" :key="item.CategoryId" :value="item.CategoryId">
+                                {{ item.CategoryName }}
                             </option>
                         </select>
                     </div>
@@ -119,16 +121,16 @@
                         <div
                             class="form-check form-check-inline col-md-2"
                             v-for="item in tagArr"
-                            :key="item.id"
+                            :key="item.TagId"
                         >
                             <label class="form-check-label">
                                 <input
                                     class="form-check-input tag-checkbox"
                                     type="checkbox"
                                     v-model="selectedTag"
-                                    :value="item.tagName"
+                                    :value="item.TagId"
                                 />
-                                {{ item.tagName }}
+                                {{ item.TagName }}
                             </label>
                         </div>
                     </div>
@@ -139,7 +141,7 @@
                     <h4 class="editor--title">Nội dung truyện:</h4>
                 </div>
                 <div class="col-md-12">
-                    <editor
+                    <!-- <editor
                         api-key="4as43w7o9gqeqdobwqmya3u4qnfsc0urrlt94qsrefzqo5s7"
                         :init="{
                             height: 500,
@@ -154,7 +156,9 @@
                                     alignleft aligncenter alignright alignjustify | \
                                     bullist numlist outdent indent | removeformat | help',
                         }"
-                    />
+                        v-modal="noidung"
+                    /> -->
+                    <textarea v-model="noidung"></textarea>
                 </div>
             </div>
             <div class="row">
@@ -173,7 +177,7 @@
 </template>
 
 <script>
-import Editor from "@tinymce/tinymce-vue";
+// import Editor from "@tinymce/tinymce-vue";
 import "../../assets/css/dangtruyen.css";
 import axios from "axios";
 const apiPath = process.env.VUE_APP_API_KEY;
@@ -181,7 +185,7 @@ const apiPath = process.env.VUE_APP_API_KEY;
 export default {
     name: "user-createbook",
     components: {
-        Editor,
+        // Editor,
     },
     data() {
         return {
@@ -195,6 +199,9 @@ export default {
             selectedStatus: "",
             selectedCategory: "",
             selectedTag: [],
+            tentruyen: "",
+            tacgia: "",
+            noidung: "",
         };
     },
     mounted() {
@@ -205,6 +212,7 @@ export default {
             try {
                 let url_category = `${apiPath}/category/get-all`;
                 let res1 = (await axios.get(url_category)).data;
+                console.log(res1)
                 this.categoryArr = res1;
                 let url_tag = `${apiPath}/tag/get-all`;
                 let res2 = (await axios.get(url_tag)).data;
@@ -214,14 +222,36 @@ export default {
             }
         },
         async addBook() {
+            let selectedTagObject = []
+            this.selectedTag.forEach((tag) => {
+                selectedTagObject.push({
+                    TagId: tag
+                });
+            })
+            const headers = { 
+                Authorization: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjcyZDAxYTExLTNkYjctNDE3ZS1iYjA2LTgyOGFiOTI0OTMyOSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhZG1pbiIsImp0aSI6IjhkNmQ5ZjUwLTljM2UtNDFiOS04NTM1LTE2NjY1Yzk3ZTlmZiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3MDAxMzA4NTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUyMzQ2LyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUyMzQ2LyJ9.QPN6-K3e3YygR3rW8GKXxGRTsx0dnVXFQqb2xvcG-7w"
+             };
             try {
-                // let url = `${apiPath}/book/add`;
-                // let res = (await axios.post(, {
+                let url = `${apiPath}/book/add`;
+                let res = (await axios.post(url, {
+                    BookName: this.tentruyen,
+                    Author: {
+                        AuthorName: this.tacgia,
+                    },
+                    BookStatus: this.selectedStatus,
+                    Category: {
+                        CategoryId: this.selectedCategory
+                    },
+                    Tags: selectedTagObject,
+                    Introduce: this.noidung
+                },{
+                    headers: headers,
+                })).data;
+                console.log(res)
+                // console.log(this.selectedTag);
+                // console.log(this.selectedCategory, 'cate');
+                // console.log(this.selectedStatus, 'status');
 
-                // })).data;
-                console.log(this.selectedTag);
-                console.log(this.selectedCategory, 'cate');
-                console.log(this.selectedStatus, 'status');
             } catch (e) {
                 console.log(e);
             }

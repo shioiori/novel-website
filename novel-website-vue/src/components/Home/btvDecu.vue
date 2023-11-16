@@ -6,13 +6,13 @@
                 <truyenItem
                     v-for="(item, index) in bookArray"
                     :key="index"
-                    :avatar="item.avatar"
-                    :bookName="item.bookName"
-                    :author="item.author"
-                    :numbChap="item.numbChap"
-                    :views="item.views"
-                    :category="item.category"
-                    :describe="item.describe"
+                    :Avatar="item.Avatar"
+                    :BookName="item.BookName"
+                    :Author="item.Author.AuthorName"
+                    :TotalChapters="item.TotalChapters"
+                    :Views="item.Views"
+                    :Category="item.Category.CategoryName"
+                    :Introduce="item.Introduce"
                 ></truyenItem>
             </div>
         </div>
@@ -40,12 +40,19 @@ export default {
     methods: {
         async fetchBookRecommended() {
             try {
-                let url = `${apiPath}/book/get-top-by-interaction-type?type=8`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/book/get-top-by-interaction-type?type=4`;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay sach btv de cu");
-                for (let i = 0; i < 6; i++) {
-                    this.bookArray.push(res.data[i]);
-                }
+                res.forEach((item, index) => {
+                    this.bookArray.push(item)
+                    if(index > 5) 
+                        return;
+                })
+                // for (let i = 0; i < 6; i++) {
+                //     console.log(res[i])
+                //     this.bookArray.push(res[i]);
+                // }
+                console.log('book array', this.bookArray)
             } catch (e) {
                 console.log(e);
             }

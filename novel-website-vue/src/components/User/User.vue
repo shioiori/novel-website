@@ -35,8 +35,8 @@
                     </li>
                     <li
                         class="col-left"
-                        :class="{ 'active-userprofile': flag == 4 }"
-                        v-if="userFlag"
+                        
+                        
                     >
                         <a @click="changeTab(4)">
                             <i class="fa-solid fa-briefcase"></i>
@@ -68,8 +68,8 @@
             </div>
             <UserProfile v-if="flag == 1"></UserProfile>
             <UserBookself v-if="flag == 2"></UserBookself>
-            <UserUploadBook v-if="flag == 3" :user-flag="userFlag"></UserUploadBook>
-            <UserCreateBook v-if="flag == 4 && userFlag"></UserCreateBook>
+            <UserUploadBook v-if="flag == 3"></UserUploadBook>
+            <UserCreateBook v-if="flag == 4"></UserCreateBook>
         </div>
         <Footer></Footer>
     </div>

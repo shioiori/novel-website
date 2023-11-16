@@ -5,8 +5,8 @@
             <ul class="list-group list-group-flush" id="new-chapters">
                 <li class="list-group-item" v-for="(item, index) in bookArray" :key="index">
                     <i class="fa-solid fa-book-open"></i>
-                    <a href="/book">{{ item.name }}</a>
-                    <span class="index__truyenmoi--chuong">{{ item.chapter }}</span>
+                    <a href="/book">{{ item.BookName }}</a>
+                    <span class="index__truyenmoi--chuong">{{ item.TotalChapters }}</span>
                 </li>
             </ul>
         </div>
@@ -30,8 +30,8 @@ export default {
     methods: {
         async getBookArray() {
             try {
-                let url = `${apiPath}/book/get-top-by-interaction-type?type=8`
-                let res = (await axios.get(url)).data
+                let url = `${apiPath}/book/get-by-book-status?status=contiep`
+                let res = (await axios.get(url)).data.Data
                 console.log(res, "top moi cap nhat");
                 this.bookArray = res
             } catch (e) {

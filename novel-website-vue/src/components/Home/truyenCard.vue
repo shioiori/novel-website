@@ -10,12 +10,10 @@
                     {{ bookCategoryCard }}
                 </p>
                 <p class="card-text index__left-wrap--sochuong">
-                    {{ bookNumberChaptersCard }}
+                    {{ bookNumberChaptersCard }} chương
                 </p>
                 <p class="card-text index__left-wrap--gioithieu">
-                    <i>
-                        {{ bookDescribeCard }}
-                    </i>
+                    <i v-html="bookDescribeCard"> </i>
                 </p>
                 <a
                     href="/html/truyen.html"
@@ -55,14 +53,14 @@ export default {
         async fetchBook() {
             try {
                 let url = `${apiPath}/book/get-by-book-status?status=${this.itemStatus}`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data[0];
                 console.log(res, "lay sach moi");
-                this.bookNameCard = res.bookNameCard
-                this.bookCategoryCard = res.bookCategoryCard
-                this.bookDescribeCard = res.bookDescribeCard
-                this.bookCoverCard = res.bookCoverCard
-                this.bookNumberChaptersCard = res.bookNumberChaptersCard
-                this.bookSlugCard = res.bookSlugCard
+                this.bookNameCard = res.BookName;
+                this.bookCategoryCard = res.Category.CategoryName;
+                this.bookDescribeCard = res.Introduce;
+                this.bookCoverCard = res.Avatar;
+                this.bookNumberChaptersCard = res.TotalChapters;
+                this.bookSlugCard = res.Slug;
             } catch (e) {
                 console.log(e);
             }
