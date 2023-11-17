@@ -8,6 +8,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -27,6 +28,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("add")]
         public void AddComment(CommentModel comment)
         {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            comment.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
             _commentService.CreateComment(comment);
         }
         
@@ -34,6 +37,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpPost]
         public void UpdateComment(CommentModel comment)
         {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            comment.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
             _commentService.UpdateComment(comment);
         }
         

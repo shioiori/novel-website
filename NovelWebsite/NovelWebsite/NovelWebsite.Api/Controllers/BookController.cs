@@ -199,11 +199,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("add")]
         public IActionResult Add(BookModel model){
             try { 
-                if (model.UserId == null)
-                {
-                    var identity = HttpContext.User.Identity as ClaimsIdentity;
-                    model.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-                }
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                model.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
                 if (model.Author != null && model.AuthorId == 0)
                 {
                     var author = _authorService.GetAuthorByName(model.Author.AuthorName);
@@ -232,6 +229,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         public IActionResult Update(BookModel model){
             try
             {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                model.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
                 if (model.BookId == null)
                 {
                     return BadRequest();
