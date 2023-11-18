@@ -28,6 +28,8 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
         public int Status { get; set; } = (int)UploadStatus.Moderation;
+        public string StatusName {  get; set; }
+        public string StatusLabelColor { get; set; }
         public bool IsDeleted { get; set; } = false;
         public int TotalChapters { get; set; } = 0;
         public IEnumerable<TagModel> Tags { get; set; } = null;

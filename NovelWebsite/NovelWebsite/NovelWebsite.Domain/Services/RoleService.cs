@@ -30,10 +30,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         }
         public async Task AddAsync(RoleModel model)
         {
-            var role = _mapper.Map<RoleModel, Role>(model);
-            if (!await _roleManager.RoleExistsAsync(role.Name))
+            if (!await _roleManager.RoleExistsAsync(model.RoleName))
             {
-                await _roleManager.CreateAsync(role);
+                await _roleManager.CreateAsync(new Role()
+                {
+                    Name = model.RoleName,
+                });
             }
         }
         

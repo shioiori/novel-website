@@ -28,8 +28,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-user-role")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Route("get-role")]
         public async Task<IEnumerable<RoleModel>> GetUserRoleAsync(string username)
         {
             if (username == null)
@@ -42,27 +41,29 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [Authorize(Roles = "Host")]
+        //[Authorize(Roles = "Host")]
         public async Task AddAsync(RoleModel model) {
             await _roleService.AddAsync(model);
         }
 
         [HttpPost]
         [Route("update")]
+        [Authorize(Roles = "Host")]
         public async Task UpdateAsync(RoleModel model) {
             await _roleService.UpdateAsync(model);
         }
 
         [HttpDelete]
         [Route("delete")]
+        [Authorize(Roles = "Host")]
         public async Task DeleteAsync(string id) {
             await _roleService.DeleteAsync(id);
         }
 
 
         [HttpPut]
-        [Route("set-permission")] 
+        [Route("set-permission")]
+        [Authorize(Roles = "Host")]
         public void SetPermission(string roleId, int permissionId)
         {
             _roleService.SetPermissionToRole(roleId, permissionId);
@@ -71,6 +72,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpPut]
         [Route("remove-permission")]
+        [Authorize(Roles = "Host")]
         public void RemovePermission(string roleId, int permissionId) 
         { 
             _roleService.RemovePermissionToRole(roleId, permissionId);

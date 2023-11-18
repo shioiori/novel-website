@@ -4,6 +4,7 @@
     {
         Draft = 0,
         Moderation = 1,
-        Publish = 2
+        Publish = 2,
+        Denied = 3,
     }
 }

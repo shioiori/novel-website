@@ -41,9 +41,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<Tag, TagModel>(res);
         }
 
-        public void Delete(TagModel tag)
+        public void Delete(int id)
         {
-            _tagRepository.Delete(tag);
+            _tagRepository.Delete(id);
             _tagRepository.Save();
         }
 

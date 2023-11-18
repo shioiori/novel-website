@@ -9,8 +9,7 @@
                 options.AddPolicy(cors,
                                   policy =>
                                   {
-                                      policy.WithOrigins("https://localhost:64082/",
-                                                         "https://novel-website.somee.com/");
+                                      policy.WithOrigins("*").AllowAnyHeader();
                                   });
             });
             return services;

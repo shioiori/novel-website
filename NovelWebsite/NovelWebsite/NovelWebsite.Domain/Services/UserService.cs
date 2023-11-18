@@ -6,6 +6,8 @@ using NovelWebsite.NovelWebsite.Core.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NovelWebsite.NovelWebsite.Core.Constants;
+using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.Domain.Services
 {
@@ -13,13 +15,16 @@ namespace NovelWebsite.Domain.Services
     public class UserService
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(UserManager<User> userManager,
-                        IMapper mapper, IHttpContextAccessor httpContextAccessor)
+            RoleManager<Role> roleManager,
+            IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -102,6 +107,28 @@ namespace NovelWebsite.Domain.Services
         {
             var user = await _userManager.FindByEmailAsync(email);
             return _mapper.Map<User, UserModel>(user);
+        }
+
+        public async Task SetRoleAsync(string username, string role)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (!await _roleManager.RoleExistsAsync(role))
+            {
+                await _roleManager.CreateAsync(new Role()
+                {
+                    Name = role,
+                });
+            }
+            await _userManager.AddToRoleAsync(user, role);
+        }
+
+        public async Task RemoveRoleAsync(string username, string role)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (await _roleManager.RoleExistsAsync(role))
+            {
+                await _userManager.RemoveFromRoleAsync(user, role);
+            }
         }
     }
 }

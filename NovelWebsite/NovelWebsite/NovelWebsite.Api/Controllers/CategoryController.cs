@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.Api.Controllers
@@ -21,9 +23,9 @@ namespace NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all")]
-        public IEnumerable<CategoryModel> GetAll()
+        public PagedList<CategoryModel> GetAll([FromQuery] PagedListRequest request)
         {
-            return _categoryService.GetAllCategories();
+            return PagedList<CategoryModel>.ToPagedList(_categoryService.GetAllCategories());
         }
 
         [HttpGet]
@@ -50,12 +52,12 @@ namespace NovelWebsite.Api.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPost]
+        [HttpDelete]
         [Route("delete")]
 
-        public void Delete(int categoryId)
+        public void Delete(int id)
         {
-            _categoryService.RemoveCategory(categoryId);
+            _categoryService.RemoveCategory(id);
         }
     }
 }
