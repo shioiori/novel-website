@@ -32,10 +32,19 @@ namespace NovelWebsite.Infrastructure.Contexts
             modelBuilder.Entity<Interaction>().ToTable("Interactions");
             modelBuilder.Entity<Category>().ToTable("Categories");
             modelBuilder.Entity<Author>().ToTable("Authors");
-            modelBuilder.Entity<Book>().ToTable("Books");
+            modelBuilder.Entity<Book>(builder =>
+            {
+                builder.ToTable("Books");
+                builder.Navigation(e => e.Category).AutoInclude();
+                builder.Navigation(e => e.Author).AutoInclude();
+            });   
             modelBuilder.Entity<Tag>().ToTable("Tags");
             modelBuilder.Entity<BookTags>().ToTable("BookTags").HasKey(bt => new { bt.BookId, bt.TagId });
-            modelBuilder.Entity<Chapter>().ToTable("Chapters");
+            modelBuilder.Entity<Chapter>(builder =>
+            {
+                builder.ToTable("Chapters");
+                builder.Navigation(e => e.Book).AutoInclude();
+            });
             modelBuilder.Entity<Comment>().ToTable("Comments");
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Permission>().ToTable("Permissions");

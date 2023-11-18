@@ -84,11 +84,10 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             }
             foreach (var tag in tags)
             {
-                var id = _tagRepository.GetByExpression(x => x.TagName == tag.TagName).TagId;
                 _bookTagRepository.Insert(new BookTags()
                 {
                     BookId = bookId,
-                    TagId = id,
+                    TagId = tag.TagId,
                 });
             }
             _bookTagRepository.Save();
