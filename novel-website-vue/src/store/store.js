@@ -10,6 +10,7 @@ export default new Vuex.Store({
         reviewArr: [],
         token: localStorage.getItem("token") || null,
         userId: localStorage.getItem("userId") || null,
+        bookStore: null,
     },
     getters: {
         getPostArr(state) {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
         getReviewArr(state) {
             return state.reviewArr;
         },
+        getBookStore(state) {
+            return state.bookStore;
+        }
     },
     mutations: {
         SET_POST_ARR(state, postArr) {
@@ -31,6 +35,9 @@ export default new Vuex.Store({
         },
         SET_REVIEW_ARR(state, reviewArr) {
             state.reviewArr = reviewArr;
+        },
+        SET_BOOK_STORE(state, bookStore) {
+            state.bookStore = bookStore
         },
         SET_TOKEN(state, payload) {
             state.token = payload.token;
@@ -61,5 +68,8 @@ export default new Vuex.Store({
         clearToken(context) {
             context.commit("CLEAR_TOKEN");
         },
+        setBookStore(context, bookStore) {
+            context.commit("SET_BOOK_STORE", bookStore)
+        }
     },
 });

@@ -70,7 +70,7 @@ const router = new VueRouter({
             name: "filter",
         },
         {
-            path: "/chapter",
+            path: "/book/:slug/:id/chap-:number",
             component: Chapter,
             name: "chapter",
         },
@@ -85,7 +85,7 @@ const router = new VueRouter({
             name: "billboard",
         },
         {
-            path: "/author/:slug-:id",
+            path: "/author/:slug/:id",
             component: Author,
             name: "author",
         },
@@ -113,54 +113,59 @@ const router = new VueRouter({
         {
             path: "/dashboard",
             component: AdminHome,
-            name: 'adminhome'
+            name: "adminhome",
         },
         {
             path: "/admin/listbook",
             component: AdminTruyen,
-            name: 'admintruyen'
+            name: "admintruyen",
         },
         {
             path: "/admin/theloai",
             component: AdminCategory,
-            name: 'admincategory'
+            name: "admincategory",
         },
         {
             path: "/admin/tag",
             component: AdminTag,
-            name: 'admintag'
+            name: "admintag",
         },
         {
             path: "/admin/banner",
             component: AdminBanner,
-            name: 'adminbanner'
+            name: "adminbanner",
         },
         {
             path: "/admin/listpost",
             component: AdminPostList,
-            name: 'adminpostlist'
+            name: "adminpostlist",
         },
         {
             path: "/admin/post",
             component: AdminPost,
-            name: 'adminPost'
+            name: "adminPost",
         },
         {
             path: "/admin/role",
             component: AdminRole,
-            name: 'adminRole'
+            name: "adminRole",
         },
         {
             path: "/admin/login",
             component: Adminlogin,
-            name: 'adminLogin'
+            name: "adminLogin",
         },
         {
             path: "/admin/listchapter",
             component: AdminTruyenChapter,
-            name: 'admintruyenlist'
+            name: "admintruyenlist",
         },
     ],
+    // eslint-disable-next-line no-unused-vars
+    scrollBehavior(to, from, savedPosition) {
+        // Scroll to the top of the page for every route change
+        return { x: 0, y: 0 };
+    },
 });
 
 // router.replace("billboard")

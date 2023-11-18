@@ -3,8 +3,10 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="book--content-detail">
-                    <div class="book--content-detail-intro" v-html="bookIntroduce">
-                    </div>
+                    <div
+                        class="book--content-detail-intro"
+                        v-html="bookContent.Introduce"
+                    ></div>
                     <div class="book--content-detail-state">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
@@ -12,7 +14,7 @@
                                 <div class="detail">
                                     <p class="tag-wrap">
                                         <a href="javascript:void(0)">{{
-                                            bookUploader
+                                            bookContent.User
                                         }}</a>
                                     </p>
                                 </div>
@@ -23,9 +25,9 @@
                                     <p class="tag-wrap" id="book-tag">
                                         <a
                                             href="javascript:void(0)"
-                                            v-for="(item, index) in bookTag"
+                                            v-for="(item, index) in bookContent.Tags"
                                             :key="index"
-                                            >{{ item }}</a
+                                            >{{ item.Tags.TagName }}</a
                                         >
                                     </p>
                                 </div>
@@ -62,7 +64,7 @@
             <div class="col-md-3">
                 <div class="card author">
                     <div class="card-body">
-                        <h4 class="card-title">{{ bookAuthor }}</h4>
+                        <h4 class="card-title">{{ bookContent.Author.AuthorName }}</h4>
                         <ul class="list-group" id="book-same-author">
                             <li class="list-group-item">
                                 <h5>Truyện cùng tác giả</h5>
@@ -72,9 +74,10 @@
                                 v-for="(item, index) in bookAuthorArray"
                                 :key="index"
                             >
-                                <a  >{{
-                                    item.bookName
-                                }}</a>
+                                <a
+                                    @click="changeRoute(item.Slug, item.BookId)"
+                                    >{{ item.BookName }}</a
+                                >
                             </li>
                         </ul>
                     </div>
@@ -92,9 +95,10 @@
                                 v-for="(item, index) in bookUploaderArray"
                                 :key="index"
                             >
-                                <a >{{
-                                    item.bookName
-                                }}</a>
+                                <a
+                                    @click="changeRoute(item.Slug, item.BookId)"
+                                    >{{ item.BookName }}</a
+                                >
                             </li>
                         </ul>
                     </div>
@@ -114,16 +118,21 @@
                             >
                                 <div class="like-more-img">
                                     <a href="javascript:void(0)">
-                                        <img :src="item.avatar" />
+                                        <img :src="item.Avatar" />
                                     </a>
                                 </div>
                                 <h4 class="relate-content">
-                                    <a href="/html/truyen.html">{{
-                                        item.bookName
-                                    }}</a>
-                                    <p>{{ item.author }}</p>
                                     <a
-                                        href="/html/truyen.html"
+                                        @click="
+                                            changeRoute(item.Slug, item.BookId)
+                                        "
+                                        >{{ item.BookName }}</a
+                                    >
+                                    <p @click="$router.push(`/author/${item.Author.Slug}/${item.Author.AuthorId}`)">{{ item.Author.AuthorName }}</p>
+                                    <a
+                                        @click="
+                                            changeRoute(item.Slug, item.BookId)
+                                        "
                                         class="btn index__left-wrap--cardbtn truyen-btn"
                                     >
                                         Đọc truyện
@@ -154,7 +163,7 @@ export default {
         bookUploader: String,
         bookUploaderId: String,
         bookTag: Array,
-        bookId: Number,
+        bookId: String,
         bookAuthor: String,
         bookAuthorId: Number,
     },
@@ -165,16 +174,20 @@ export default {
             bookAuthorArray: [],
             bookUploaderArray: [],
             bookRecommendArray: [],
+            bookContent: this.$store.state.bookStore,
+            commentArr: [],
         };
     },
     components: {
         CommentArea,
         Comment,
     },
-    created() {
+    mounted() {
         this.getBannerRandomize();
         this.getBookAuthor();
         this.getBookUploader();
+        this.getBookRecommend();
+        this.getComment();
     },
     methods: {
         async getBannerRandomize() {
@@ -204,9 +217,10 @@ export default {
         },
         async getBookAuthor() {
             try {
-                let url = `${apiPath}/book/get-by-author?authorId=${this.bookAuthorId}`;
-                let res = (await axios.get(url)).data;
-                console.log(res, 'getbookauthor');
+                let url = `${apiPath}/book/get-by-author-id?authorId=${this.bookContent.Author.AuthorId}`;
+                let res = (await axios.get(url)).data.Data;
+                console.log(url, "getbookAuthor url");
+                console.log(res, "getbookauthor");
                 this.bookAuthorArray = res;
             } catch (e) {
                 console.log(e);
@@ -214,8 +228,8 @@ export default {
         },
         async getBookUploader() {
             try {
-                let url = `${apiPath}/book/get-by-author?authorId=${this.bookUploaderId}`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/book/get-by-user?userId=${this.bookContent.UserId}`;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res);
                 this.bookUploaderArray = res;
             } catch (e) {
@@ -224,16 +238,34 @@ export default {
         },
         async getBookRecommend() {
             try {
-                let url = `${apiPath}/book/get-by-interaction-type?type=8`;
-                let res = (await axios.get(url)).data;
-                console.log(res);
+                let url = `${apiPath}/book/get-top-by-interaction-type?type=8`;
+                let res = (await axios.get(url)).data.Data;
+                console.log(res, 'rec');
                 this.bookRecommendArray = res;
             } catch (e) {
                 console.log(e);
             }
         },
         changeRoute(slug, id) {
-            this.$router.push(`/book/${slug}/${id}`)
+            if (this.bookContent.BookId == id) {
+                window.scrollTo(0, 0);
+                return;
+            } else {
+                this.$router.push(`/book/${slug}/${id}`);
+                window.location.reload();
+            }
+        },
+        async getComment() {
+            try {
+                let url = `${apiPath}/comment/get-comments-book?id=${this.bookContent.BookId}`;
+                let res = (await axios.get(url)).data.Data;
+                console.log(res, 'comment');
+                url = `${apiPath}/user/get-by-id?userId=${res.UserId}`
+                // let res2 = (await axios.get(url)).data;
+                this.commentArr = res;
+            } catch (e) {
+                console.log(e);
+            }
         }
     },
 };
@@ -254,5 +286,8 @@ export default {
 .submit-btn {
     width: 100% !important;
     margin: 0 !important;
+}
+.relate-content p:hover {
+    cursor: pointer;
 }
 </style>

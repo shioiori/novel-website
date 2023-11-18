@@ -100,7 +100,7 @@ export default {
     name: "bookNavRate",
     props: {
         userId: Number,
-        bookId: Number,
+        bookId: String,
     },
     data() {
         return {

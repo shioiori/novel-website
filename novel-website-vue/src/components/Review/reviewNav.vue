@@ -29,14 +29,14 @@
         <ul aria-labelledby="dropdown1" class="dropdown-menu">
             <li>
                 <a
-                    @click="getReviewByOrderDate('down')"
+                    @click="getReviewByOrderDate(0)"
                     class="dropdown-item"
                     >Mới nhất</a
                 >
             </li>
             <li>
                 <a
-                    @click="getReviewByOrderDate('up')"
+                    @click="getReviewByOrderDate(1)"
                     class="dropdown-item"
                     >Cũ nhất</a
                 >
@@ -61,10 +61,13 @@
         <ul aria-labelledby="dropdown2" class="dropdown-menu">
             <li v-for="(item, index) in categoryArray" :key="index">
                 <a
-                    @click="getReviewByCategory(item.categoryId)"
+                    @click="getReviewByCategory(item.CategoryId)"
                     class="dropdown-item"
-                    >{{ item.categoryName }}</a
+                    >{{ item.CategoryName }}</a
                 >
+            </li>
+            <li>
+                <a @click="getTempReviewArr()" class="dropdown-item">Tất cả</a>
             </li>
         </ul>
     </div>
@@ -98,7 +101,7 @@ export default {
         async getReviewByOrderDate(criteria) {
             try {
                 let url = `${apiPath}/review/get-by-filter?orderDate=${criteria}`
-                let res = (await axios.get(url)).data
+                let res = (await axios.get(url)).data.Data
                 console.log(res, "lay review theo ngay", criteria)
                 this.$store.dispatch("setReviewArr", res)
             } catch (e) {
@@ -108,13 +111,23 @@ export default {
         async getReviewByCategory(item) {
             try {
                 let url = `${apiPath}/review/get-by-filter?category=${item}`
-                let res = (await axios.get(url)).data
+                let res = (await axios.get(url)).data.Data
                 console.log(res, "lay review theo cate")
                 this.$store.dispatch("setReviewArr", res)
             } catch (e) {
                 console.log(e)
             }
         },
+        async getTempReviewArr() {
+            try {
+                let url = `${apiPath}/review/get-by-filter`
+                let res = (await axios.get(url)).data.Data
+                console.log(res, "lay review theo cate all")
+                this.$store.dispatch("setReviewArr", res)
+            } catch (e) {
+                console.log(e)
+            }
+        }
     }
 };
 </script>

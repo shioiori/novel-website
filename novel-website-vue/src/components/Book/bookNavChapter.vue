@@ -8,44 +8,9 @@
                     id="list-chuong"
                 >
                     <li class="list-group-item col-4" v-for="(item, index) in chapterArr" :key="index">
-                        <a href="/html/doctruyen.html"
-                            >Chương {{ item.number }}: {{ item.chapterName }}</a
+                        <a @click="$router.push(`/book/${bookContent.Slug}/${item.BookId}/chap-${item.ChapterId}`)"
+                            >Chương {{ item.ChapterNumber }}: {{ item.ChapterName }}</a
                         >
-                    </li>
-                </ul>
-            </div>
-            <div class="book--pagination">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">5</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">571</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">572</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
                     </li>
                 </ul>
             </div>
@@ -60,23 +25,25 @@ const apiPath = process.env.VUE_APP_API_KEY;
 export default {
     name: "bookNavChapter",
     props: {
-        bookId: Number,
+        bookId: String,
     },
     data() {
         return {
             chapterArr: [],
+            bookContent: this.$store.state.bookStore,
         }
     },
-    created() {
+    mounted() {
         this.fetchChapter()
     },
     methods: {
         async fetchChapter() {
             try {
-                let url = `${apiPath}/chapter/get-by-book-id?bookId=${this.bookId}`;
-                let res = (await axios.get(url)).data;
-                console.log(res);
-                this.chapterArr = res.data;
+                let url = `${apiPath}/chapter/get-all?bookId=${this.bookContent.BookId}`;
+                console.log(url, 'chapter')
+                let res = (await axios.get(url)).data.Data;
+                console.log(res, 'chapter');
+                this.chapterArr = res;
             } catch (e) {
                 console.log(e);
             }

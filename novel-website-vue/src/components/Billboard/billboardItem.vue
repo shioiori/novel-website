@@ -18,7 +18,7 @@
             <p class="book-author">
                 <a
                     class="truncate"
-                    href="/tac-gia/@item.Author.Slug-@item.Author.AuthorId"
+                    @click="$router.push(`/author/${authorSlug}/${authorId}`)"
                     >{{ authorName }}</a
                 >
             </p>
@@ -55,13 +55,15 @@ export default {
         slug: String,
         avatar: String,
         bookName: String,
-        bookId: Number,
+        bookId: String,
         authorName: String,
         userName: String,
         bookStatus: String,
         views: Number,
         likes: Number,
         recommends: Number,
+        authorSlug: String,
+        authorId: Number,
     },
     data() {
         return {
@@ -122,5 +124,12 @@ export default {
 }
 .hoverable:hover img {
     transform: scale(1.05);
+}
+.book-title.truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 </style>

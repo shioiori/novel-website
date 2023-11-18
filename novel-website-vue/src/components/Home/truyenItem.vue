@@ -7,23 +7,23 @@
         </div>
         <div class="book--info">
             <div class="book-name">
-                <a href="/html/truyen.html"
+                <a @click="$router.push(`/book/${Slug}/${BookId}`)"
                     >{{ BookName }}</a
                 >
             </div>
             <div class="book-state">
-                <a href="javascript:void(0)">{{ Author }}</a>
+                <a @click="$router.push(`/author/${SlugAuthor}/${AuthorId}`)">{{ Author }}</a>
             </div>
             <p>
                 <em>
                     <span class="chapters">{{ TotalChapters }}</span>
                 </em>
-                <cite>Số chương</cite>
-                <i>|</i>
+                <cite> Số chương</cite>
+                <i> | </i>
                 <em>
                     <span class="views">{{ Views }}</span>
                 </em>
-                <cite>Lượt xem</cite>
+                <cite> Lượt xem</cite>
             </p>
             <div class="category">
                 <p>Thể loại:</p>
@@ -50,8 +50,16 @@ export default {
         Views: Number,
         Category: String,
         Introduce: String,
+        BookId: String,
+        Slug: String,
+        SlugAuthor: String,
+        AuthorId: Number
     }
 };
 </script>
 
-<style></style>
+<style>
+.book-name a:hover, .book-state a:hover {
+    cursor: pointer;
+}
+</style>

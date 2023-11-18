@@ -18,12 +18,12 @@
         ></a>
         <ul aria-labelledby="dropdown1" class="dropdown-menu">
             <li>
-                <a @click="getPostByDate('down')" class="dropdown-item"
+                <a @click="getPostByDate(1)" class="dropdown-item"
                     >Mới nhất</a
                 >
             </li>
             <li>
-                <a @click="getPostByDate('up')" class="dropdown-item"
+                <a @click="getPostByDate(0)" class="dropdown-item"
                     >Cũ nhất</a
                 >
             </li>
@@ -66,8 +66,8 @@ export default {
     methods: {
         async getPostByDate(criteria) {
             try {
-                let url = `${apiPath}/post/get-by-filter?orderDate=${criteria}`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/post/get-by-filter?sortOrder=${criteria}`;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay post theo ngay", criteria);
                 this.$store.dispatch("setPostArr", res);
             } catch (e) {
@@ -77,7 +77,7 @@ export default {
         async getPostBySearch(item) {
             try {
                 let url = `${apiPath}/post/get-by-filter?name=${item}`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay post theo search", item);
                 this.$store.dispatch("setPostArr", res);
             } catch (e) {

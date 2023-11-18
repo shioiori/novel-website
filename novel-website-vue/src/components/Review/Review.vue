@@ -14,19 +14,19 @@
                 <div id="commentList">
                     <div class="review-group" id="review-@item.ReviewId">
                         <reviewItem v-for="(item, index) in tempReviewArr" :key="index"
-                        :avatar="item.avatar"
-                        :userName="item.userName"
-                        :content="item.content"
-                        :likes="item.likes"
-                        :bookCover="item.bookCover"
-                        :bookName="item.bookName"
-                        :authorName="item.authorName"
-                        :describe="item.describe"
+                        :avatar="item.User.Avatar"
+                        :userName="item.User.Username"
+                        :content="item.Content"
+                        :likes="item.Likes"
+                        :bookCover="item.Book.Avatar"
+                        :bookName="item.Book.BookName"
+                        :authorName="item.Book.Author.AuthorName"
+                        :describe="item.Book.Introduce"
                         ></reviewItem>
                     </div>
                 </div>
             </div>
-            <div class="rank-box-main-pagination">
+            <!-- <div class="rank-box-main-pagination">
                 <ul class="pagination justify-content-end">
                     <li class="page-item">
                         <a
@@ -50,7 +50,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </div>
         <Footer></Footer>
     </div>
@@ -94,9 +94,12 @@ export default {
         async getTempReviewArr() {
             try {
                 let url = `${apiPath}/review/get-by-filter`
-                let res = (await axios.get(url)).data
+                let res = (await axios.get(url)).data.Data
                 console.log(res, "lay review");
                 this.tempReviewArr = res
+                res.forEach((item) => {
+                    this.tempReviewArr.push(item)
+                })
             } catch (e) {
                 console.log(e)
             }

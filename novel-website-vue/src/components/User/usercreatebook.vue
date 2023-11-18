@@ -141,7 +141,7 @@
                     <h4 class="editor--title">Nội dung truyện:</h4>
                 </div>
                 <div class="col-md-12">
-                    <!-- <editor
+                    <editor
                         api-key="4as43w7o9gqeqdobwqmya3u4qnfsc0urrlt94qsrefzqo5s7"
                         :init="{
                             height: 500,
@@ -157,8 +157,7 @@
                                     bullist numlist outdent indent | removeformat | help',
                         }"
                         v-modal="noidung"
-                    /> -->
-                    <textarea v-model="noidung"></textarea>
+                    />
                 </div>
             </div>
             <div class="row">

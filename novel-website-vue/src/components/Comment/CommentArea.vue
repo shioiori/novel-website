@@ -50,6 +50,11 @@ export default {
     components: {
         Editor,
     },
+    data() {
+        return {
+            userComment: ""
+        }
+    },
     methods: {
         async addComment() {
             try {

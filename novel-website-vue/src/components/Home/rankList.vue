@@ -11,7 +11,7 @@
             <ul class="list-group" id="book-most-recommends" v-for="(item, index) in bookArray" :key="index">
                 <li class="list-group-item">
                     <i class="fa-solid fa-star"></i>
-                    <a href="/book">{{ item.BookName }}</a>
+                    <a @click="$router.push(`/book/${item.Slug}/${item.BookId}`)">{{ item.BookName }}</a>
                 </li>
             </ul>
         </div>
@@ -50,4 +50,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.list-group-item a:hover {
+    cursor: pointer;
+    color: red !important;
+}
+</style>

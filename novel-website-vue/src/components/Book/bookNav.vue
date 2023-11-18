@@ -50,12 +50,7 @@
         </div>
         <div class="tab-content">
             <bookNavContent
-                :book-introduce="bookIntroduce"
-                :book-uploader="bookUser"
-                :book-uploader-id="bookUserId"
-                :book-id="bookId"
-                :book-author="bookAuthor"
-                :book-author-id="bookAuthorId"
+                
             ></bookNavContent>
             <bookNavChapter></bookNavChapter>
             <bookNavRate></bookNavRate>
@@ -75,13 +70,37 @@ export default {
         bookNavContent,
         bookNavRate,
     },
+    computed: {
+        bookUserNav() {
+            return this.bookUser;
+        },
+        bookUserIdNav() {
+            return this.bookUserId;
+        },
+        bookIntroduceNav() {
+            return this.bookIntroduce;
+        },
+        bookIdNav() {
+            return this.bookId;
+        },
+        bookAuthorNav() {
+            return this.bookAuthor;
+        },
+        bookAuthorIdNav() {
+            return this.bookAuthorId;
+        },
+        bookSlugNav() {
+            return this.bookSlug;
+        },
+    },
     props: {
         bookUser: String,
-        bookUserId: Number,
+        bookUserId: String,
         bookIntroduce: String,
-        bookId: Number,
+        bookId: String,
         bookAuthor: String,
         bookAuthorId: Number,
+        bookSlug: String,
     },
 };
 </script>
