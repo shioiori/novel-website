@@ -99,12 +99,12 @@ const router = new VueRouter({
             component: Review,
             name: "review",
         },
-        {
-            path: "/user/:slug-:id?auth=true",
-            component: User,
-            name: "user-auth",
-            // beforeEnter: requireAuth
-        },
+        // {
+        //     path: "/user/:slug-:id?auth=true",
+        //     component: User,
+        //     name: "user-auth",
+        //     // beforeEnter: requireAuth
+        // },
         {
             path: "/user/:slug-:id",
             component: User,

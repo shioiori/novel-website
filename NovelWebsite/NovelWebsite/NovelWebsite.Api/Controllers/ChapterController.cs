@@ -34,7 +34,7 @@ namespace NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all")]
-        public PagedList<ChapterModel> GetListChapters(string bookId, PagedListRequest request)
+        public PagedList<ChapterModel> GetListChapters(string bookId, [FromQuery] PagedListRequest request)
         {
             var chapters = _chapterService.GetChapters(bookId);
             return PagedList<ChapterModel>.ToPagedList(chapters, request);
@@ -42,7 +42,7 @@ namespace NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all-published")]
-        public PagedList<ChapterModel> GetListChaptersPublished(string bookId, PagedListRequest request)
+        public PagedList<ChapterModel> GetListChaptersPublished(string bookId, [FromQuery] PagedListRequest request)
         {
             var chapters = _chapterService.GetChaptersByStatus(bookId, UploadStatus.Publish);
             return PagedList<ChapterModel>.ToPagedList(chapters, request);
@@ -51,7 +51,7 @@ namespace NovelWebsite.Api.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         [Route("get-all-draft")]
-        public PagedList<ChapterModel> GetListChaptersDraft(string bookId, PagedListRequest request)
+        public PagedList<ChapterModel> GetListChaptersDraft(string bookId, [FromQuery] PagedListRequest request)
         {
             var chapters = _chapterService.GetChaptersByStatus(bookId, UploadStatus.Draft);
             return PagedList<ChapterModel>.ToPagedList(chapters, request);

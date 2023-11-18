@@ -59,24 +59,6 @@ export default {
                 let res = (await axios.get(url)).data;
                 console.log(url);
                 console.log(res);
-                // this.avatar = res.Avatar;
-                // this.bookName = res.BookName;
-                // this.bookAuthor = res.Author.AuthorName;
-                // this.bookAuthorId = res.Author.AuthorId;
-                // this.bookAuthorSlug = res.Author.Slug;
-                // this.bookStatus = res.BookStatus;
-                // this.likes = res.Likes;
-                // this.views = res.Views;
-                // this.recommend = res.Recommends;
-                // this.bookSlug = res.Slug;
-                // this.category = res.Category.CategoryName;
-                // this.bookUser = res.User;
-                // this.bookUserId = res.UserId;
-                // this.bookIntroduce = res.Introduce;
-                // this.bookId = res.BookId;
-                // this.bookTotalChapters = res.TotalChapters
-                // this.$store.dispatch('setAuthorId', this.bookAuthorId)
-                // this.$store.dispatch('setUserIdTemp', this.bookUserId)
                 this.$store.dispatch("setBookStore", res);
                 console.log(
                     this.$store.state.bookStore,

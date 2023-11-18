@@ -25,7 +25,9 @@
                                     <p class="tag-wrap" id="book-tag">
                                         <a
                                             href="javascript:void(0)"
-                                            v-for="(item, index) in bookContent.Tags"
+                                            v-for="(
+                                                item, index
+                                            ) in bookContent.Tags"
                                             :key="index"
                                             >{{ item.Tags.TagName }}</a
                                         >
@@ -43,16 +45,32 @@
                 <div class="user--comment">
                     <div class="user--comment-discuss-wrap">
                         <div class="user--comment-discuss-list">
-                            <div class="user--comment-discuss-list-title">
+                            <div
+                                class="user--comment-discuss-list-title"
+                                v-if="authenFlag"
+                            >
                                 Viết bình luận
                             </div>
-
+                            <div
+                                class="user--comment-discuss-list-title"
+                                v-if="!authenFlag"
+                            >
+                                Đăng nhập để viết bình luận
+                            </div>
                             <ul
                                 class="list-group list-group-flush"
                                 id="list-comment"
                             >
-                                <comment-area></comment-area>
-                                <comment></comment>
+                                <comment-area v-if="authenFlag"></comment-area>
+                                <comment v-for="(item, index) in commentArr"
+                                :key="index"
+                                :user-name="item.User.Username"
+                                :content="item.Content"
+                                :created-date="item.CreatedDate"
+                                :like="item.Like"
+                                :dislike="item.dislike"
+                                :comment-id="item.CommentId"
+                                ></comment>
                             </ul>
                             <!-- <p class="go--discuss">
                                 <a href="javascript:void(0)">Thêm bình luận</a>
@@ -64,7 +82,9 @@
             <div class="col-md-3">
                 <div class="card author">
                     <div class="card-body">
-                        <h4 class="card-title">{{ bookContent.Author.AuthorName }}</h4>
+                        <h4 class="card-title">
+                            {{ bookContent.Author.AuthorName }}
+                        </h4>
                         <ul class="list-group" id="book-same-author">
                             <li class="list-group-item">
                                 <h5>Truyện cùng tác giả</h5>
@@ -128,7 +148,15 @@
                                         "
                                         >{{ item.BookName }}</a
                                     >
-                                    <p @click="$router.push(`/author/${item.Author.Slug}/${item.Author.AuthorId}`)">{{ item.Author.AuthorName }}</p>
+                                    <p
+                                        @click="
+                                            $router.push(
+                                                `/author/${item.Author.Slug}/${item.Author.AuthorId}`
+                                            )
+                                        "
+                                    >
+                                        {{ item.Author.AuthorName }}
+                                    </p>
                                     <a
                                         @click="
                                             changeRoute(item.Slug, item.BookId)
@@ -176,6 +204,7 @@ export default {
             bookRecommendArray: [],
             bookContent: this.$store.state.bookStore,
             commentArr: [],
+            authenFlag: this.$store.state.authenFlag,
         };
     },
     components: {
@@ -196,21 +225,6 @@ export default {
                 let res = (await axios.get(url)).data;
                 console.log(res);
                 this.imgURL = res.data.bannerImage;
-            } catch (e) {
-                console.log(e);
-            }
-        },
-        async addComment() {
-            try {
-                let url = `${apiPath}/comment/add`;
-                let res = (
-                    await axios.post(url, {
-                        UserId: 1,
-                        BookId: this.bookId,
-                        Content: this.userComment,
-                    })
-                ).data;
-                console.log(res);
             } catch (e) {
                 console.log(e);
             }
@@ -240,7 +254,7 @@ export default {
             try {
                 let url = `${apiPath}/book/get-top-by-interaction-type?type=8`;
                 let res = (await axios.get(url)).data.Data;
-                console.log(res, 'rec');
+                console.log(res, "rec");
                 this.bookRecommendArray = res;
             } catch (e) {
                 console.log(e);
@@ -257,16 +271,14 @@ export default {
         },
         async getComment() {
             try {
-                let url = `${apiPath}/comment/get-comments-book?id=${this.bookContent.BookId}`;
+                let url = `${apiPath}/comment/get-comments-book?id=${this.$route.params.id}`
                 let res = (await axios.get(url)).data.Data;
-                console.log(res, 'comment');
-                url = `${apiPath}/user/get-by-id?userId=${res.UserId}`
-                // let res2 = (await axios.get(url)).data;
+                console.log(res, "comment");
                 this.commentArr = res;
             } catch (e) {
                 console.log(e);
             }
-        }
+        },
     },
 };
 </script>

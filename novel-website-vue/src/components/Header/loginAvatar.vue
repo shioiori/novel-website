@@ -12,35 +12,37 @@
         </a>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <li><a class="dropdown-item" @click="$router.push(`/user/${userSlug}-${userId}?auth=true`)">Trang cá nhân</a></li>
+            <li><a class="dropdown-item" @click="changeRoute()">Trang cá nhân</a></li>
             <li><a class="dropdown-item" @click="onLogOut()">Thoát</a></li>
         </ul>
     </div>
 </template>
 
 <script>
-import axios from "axios";
-const apiPath = process.env.VUE_APP_API_KEY;
-
 export default {
     name: "avatar-layout",
     props: {
         avatar: String,
-        userId: Number,
+        userId: String,
         userSlug: String,
     },
     methods: {
-        async onLogOut() {
+        onLogOut() {
             try {
-                let url = `${apiPath}/logout?returnURL=%2F`;
-                let res = await axios.get(url)
-                console.log(res, 'res logout')
-                this.$store.dispatch('clearToken')
+                localStorage.removeItem('JWT')
                 window.location.reload()
+                this.$store.dispatch('setAuthenFlag', false);
             } catch (e) {
                 console.log(e);
             }
         },
+        changeRoute() {
+            if(this.userSlug == this.$route.params.slug && this.userId == this.$route.params.id) {
+                return;
+            } else {
+                this.$router.push(`/user/${this.userSlug}-${this.userId}`)
+            }
+        }
     },
 
 };
