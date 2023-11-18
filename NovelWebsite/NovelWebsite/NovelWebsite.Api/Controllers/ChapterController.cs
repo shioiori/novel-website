@@ -33,6 +33,13 @@ namespace NovelWebsite.Api.Controllers
         }
 
         [HttpGet]
+        [Route("get-by-chapter-index")]
+        public ChapterModel GetByChapter(string bookId, int index)
+        {
+            return _chapterService.GetChapter(bookId, index);
+        }
+
+        [HttpGet]
         [Route("get-all")]
         public PagedList<ChapterModel> GetListChapters(string bookId, [FromQuery] PagedListRequest request)
         {

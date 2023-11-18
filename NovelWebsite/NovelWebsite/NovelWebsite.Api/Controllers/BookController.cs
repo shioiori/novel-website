@@ -301,10 +301,10 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [NonAction]
         public BookModel BindModelAsync(ref BookModel book)
         {
-            var author = _authorService.GetAuthorsById(book.AuthorId);
-            book.Author = author;
-            var category = _categoryService.GetCategory(book.CategoryId);
-            book.Category = category;
+            //var author = _authorService.GetAuthorsById(book.AuthorId);
+            //book.Author = author;
+            //var category = _categoryService.GetCategory(book.CategoryId);
+            //book.Category = category;
             var tags = _tagService.GetTagsOfBook(book.BookId);
             book.Tags = tags;
             book.Likes = _bookService.CountInteractive(book.BookId, InteractionType.Like);
