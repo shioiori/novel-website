@@ -94,7 +94,7 @@ export default {
                     {
                         Username: this.username,
                         Password: this.password,
-                        LoginProvider: "Cookies",
+                        //LoginProvider: "Cookies",
                     },
                     // {
                     //     headers: headers,
