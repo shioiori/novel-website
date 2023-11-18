@@ -24,7 +24,10 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
                 .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.BookName) : x.Slug))
                 .ForMember(x => x.BookStatus, y => y.NullSubstitute(BookStatus.Ongoing));
 
-            CreateMap<Book, BookModel>();
+            CreateMap<Book, BookModel>()
+                .ForMember(x => x.BookStatus, y => y.MapFrom(x => x.BookStatus == BookStatus.Complete ? "Hoàn thành"
+                                                                : (x.BookStatus == BookStatus.Ongoing ? "Còn tiếp"
+                                                                : (x.BookStatus == BookStatus.Drop ? "Tạm ngưng" : null))));
 
             CreateMap<CategoryModel, Category>()
                     .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.CategoryName) : x.Slug))
@@ -35,9 +38,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
                     .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.ChapterName) : x.Slug))
                     .ForMember(x => x.ChapterIndex, y => y.MapFrom(x => x.ChapterNumber));
 
-            CreateMap<Chapter, ChapterModel>();
+            CreateMap<Chapter, ChapterModel>()
+                    .ForMember(x => x.ChapterNumber, y => y.MapFrom(x => x.ChapterIndex)); 
 
-            CreateMap<PostModel, Post>();
+            CreateMap<PostModel, Post>()
+                    .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.Title) : x.Slug));
+
             CreateMap<Post, PostModel>();
 
             CreateMap<ReviewModel, Review>();

@@ -36,6 +36,11 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<Chapter, ChapterModel>(chapter);
         }
 
+        public ChapterModel GetChapter(string bookId, int chapterIndex)
+        {
+            var chapter = _chapterRepository.GetByExpression(x => x.BookId == bookId && x.ChapterIndex == chapterIndex);
+            return _mapper.Map<Chapter, ChapterModel>(chapter);
+        }
         public ChapterModel GetNextChapter(string chapterId)
         {
             var chapter = _chapterRepository.GetById(chapterId);

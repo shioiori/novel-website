@@ -199,11 +199,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("add")]
         public IActionResult Add(BookModel model){
             try { 
-                if (model.UserId == null)
-                {
-                    var identity = HttpContext.User.Identity as ClaimsIdentity;
-                    model.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-                }
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                model.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
                 if (model.Author != null && model.AuthorId == 0)
                 {
                     var author = _authorService.GetAuthorByName(model.Author.AuthorName);
@@ -232,6 +229,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         public IActionResult Update(BookModel model){
             try
             {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                model.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
                 if (model.BookId == null)
                 {
                     return BadRequest();
@@ -302,10 +301,10 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [NonAction]
         public BookModel BindModelAsync(ref BookModel book)
         {
-            var author = _authorService.GetAuthorsById(book.AuthorId);
-            book.Author = author;
-            var category = _categoryService.GetCategory(book.CategoryId);
-            book.Category = category;
+            //var author = _authorService.GetAuthorsById(book.AuthorId);
+            //book.Author = author;
+            //var category = _categoryService.GetCategory(book.CategoryId);
+            //book.Category = category;
             var tags = _tagService.GetTagsOfBook(book.BookId);
             book.Tags = tags;
             book.Likes = _bookService.CountInteractive(book.BookId, InteractionType.Like);
