@@ -20,10 +20,10 @@
                                 v-for="(item, index) in roles"
                                 :key="index">
                                     <td>
-                                        <div>{index + 1}</div>
+                                        <div>{{ index + 1 }}</div>
                                     </td>
                                     <td>
-                                        <div>Tên vai trò 1</div>
+                                        <div>{{ item.RoleName }}</div>
                                     </td>
                                     <td>
                                         <div class="dropstart">
@@ -46,19 +46,6 @@
         <div class="col-md-4 config-box">
                 <div class="col-md-12">
                     <h4>Thêm vai trò</h4>
-                </div>
-                <div class="col-12">
-                    <label for="inputMaTheLoai" class="form-label"
-                        >Mã vai trò</label
-                    >
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="inputMaTheLoai"
-                        readonly
-                        placeholder="Auto generated"
-                        v-model="role.RoleId"
-                    />
                 </div>
                 <div class="col-12">
                     <label for="inputTenTheLoai" class="form-label"
@@ -101,8 +88,13 @@ export default {
     methods: {
         async getRoles() {
             try {
+                let header = {
+                    headers: {
+                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    }
+                }
                 let url = `${env.VUE_APP_API_KEY}/role/get-all`;
-                let res = (await axios.get(url)).data.Data;
+                let res = (await axios.get(url, header)).data;
                 this.roles = res;
             } catch (e) {
                 console.log(e);
@@ -110,11 +102,13 @@ export default {
         },
         async deleteRole(name){
             try {
-                if (name == this.role.RoleName){
-                    this.role_state = "Thêm";
+                let header = {
+                    headers: {
+                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    }
                 }
                 let url = `${env.VUE_APP_API_KEY}/role/delete?role=` + name;
-                await axios.delete(url);
+                await axios.delete(url, header);
                 this.getRoles();
             } catch (e) {
                 console.log(e);
@@ -124,7 +118,9 @@ export default {
             try {
                 let url = `${env.VUE_APP_API_KEY}/role/add`;
                 let header = {
-                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    headers: {
+                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    }
                 }
                 axios.post(url, this.role, header);
                 this.getRoles();

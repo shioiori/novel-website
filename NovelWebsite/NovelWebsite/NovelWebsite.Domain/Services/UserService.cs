@@ -41,15 +41,28 @@ namespace NovelWebsite.Domain.Services
             return _mapper.Map<User, UserModel>(user);
         }
 
-        public async Task<IEnumerable<UserModel>> GetUsersByRole(string roleId)
+        public async Task<IEnumerable<UserModel>> GetUsersByRoleAsync(string role)
         {
-            var users = await _userManager.GetUsersInRoleAsync(roleId);
+            var users = await _userManager.GetUsersInRoleAsync(role);
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
         }
 
-        public async Task<IEnumerable<UserModel>> GetUsers()
+        public async Task<IEnumerable<UserModel>> GetUsersByStatusAsync(int status)
+        {
+            var users = await _userManager.Users.Where(x => x.Status == status).ToListAsync();
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
+        }
+
+        public async Task<IEnumerable<UserModel>> GetUsersAsync()
         {
             var users = await _userManager.Users.ToListAsync();
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
+        }
+
+        public async Task<IEnumerable<UserModel>> SearchUserAsync(string name)
+        {
+            var users = await _userManager.Users.Where(x => string.IsNullOrEmpty(name) || x.UserName.ToLower().Trim().Contains(name.ToLower().Trim())
+                                                        || x.Email.ToLower().Trim().Contains(name.ToLower().Trim())).ToListAsync();
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserModel>>(users);
         }
 
