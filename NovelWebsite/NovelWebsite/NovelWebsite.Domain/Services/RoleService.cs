@@ -28,6 +28,16 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _roleManager = roleManager;
             _userManager = userManager;
         }
+
+        public async Task<RoleModel> GetRole(string name)
+        {
+            if (await _roleManager.RoleExistsAsync(name))
+            {
+                var role = await _roleManager.FindByNameAsync(name);
+                return _mapper.Map<Role, RoleModel>(role);
+            }
+            return null;
+        }
         public async Task AddAsync(RoleModel model)
         {
             if (!await _roleManager.RoleExistsAsync(model.RoleName))
@@ -47,10 +57,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
         public async Task DeleteAsync(string name)
         {
             var role = await _roleManager.FindByNameAsync(name);
-            if (role != null)
+            if (role == null)
             {
-                await _roleManager.DeleteAsync(role);
+                role = await _roleManager.FindByIdAsync(name);
+                if (role == null) return;
             }
+            await _roleManager.DeleteAsync(role);
         }
 
         public IEnumerable<RoleModel> GetRoles()
