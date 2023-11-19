@@ -74,6 +74,7 @@
 
 <script>
 import axios from "axios";
+const env = process.env;
 const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
@@ -98,7 +99,7 @@ export default {
                 console.log(res, "login thanh cong");
                 if (res.Success) {
                     let token = res.AccessToken;
-                    localStorage.setItem("JWT", token);
+                    localStorage.setItem(env.JWT_API_KEY, token);
                     alert("Đăng nhập thành công");
                     window.location.reload();
                 } else {
