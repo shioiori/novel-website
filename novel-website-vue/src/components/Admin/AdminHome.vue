@@ -58,7 +58,15 @@
                                                         @click="changeTab(2)"
                                                         class="btn align-items-center rounded"
                                                     >
-                                                        Tất cả bài viết
+                                                        Tất cả tin tức
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        @click="changeTab(12)"
+                                                        class="btn align-items-center rounded"
+                                                    >
+                                                        Bài viết của bạn
                                                     </button>
                                                 </li>
                                                 <li>
@@ -78,14 +86,6 @@
                                             class="btn align-items-center rounded"
                                         >
                                             Banner
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            @click="changeTab(8)"
-                                            class="btn align-items-center rounded"
-                                        >
-                                            Vai trò
                                         </button>
                                     </li>
                                 </ul>
@@ -175,6 +175,32 @@
                             >
                                 Người dùng
                             </button>
+                            <div
+                                class="collapse ps-4"
+                                id="account-collapse"
+                                style=""
+                            >
+                                <ul
+                                    class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                                >
+                                    <li>
+                                        <button
+                                            @click="changeTab(8)"
+                                            class="btn align-items-center rounded"
+                                        >
+                                            Vai trò
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            @click="changeTab(11)"
+                                            class="btn align-items-center rounded"
+                                        >
+                                            Quyền
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>

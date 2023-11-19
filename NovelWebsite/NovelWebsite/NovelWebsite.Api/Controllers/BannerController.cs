@@ -31,6 +31,10 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         public BannerModel GetRandomAdvertiseBanner()
         {
             var banners = _bannerService.GetBannersByType(BannerType.Advertise);
+            if (banners == null || banners.Count() == 0)
+            {
+                return null;
+            }
             return RandomUtil<BannerModel>.GetRandom(banners, banners.Count());
         }
 

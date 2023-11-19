@@ -15,6 +15,8 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public string CoverPhoto { get; set; } = "default.jpg";
         public DateTime? CreatedDate { get; set; }
         public int Status { get; set; } = (int)AccountStatus.Verifying;
+        public string StatusName { get; set; }
+        public string StatusLabelColor { get; set; }
         public IEnumerable<RoleModel> Role { get; set; }
     }
 }

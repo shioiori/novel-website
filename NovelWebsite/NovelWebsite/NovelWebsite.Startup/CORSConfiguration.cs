@@ -9,7 +9,7 @@
                 options.AddPolicy(cors,
                                   policy =>
                                   {
-                                      policy.WithOrigins("*").AllowAnyHeader();
+                                      policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
                                   });
             });
             return services;

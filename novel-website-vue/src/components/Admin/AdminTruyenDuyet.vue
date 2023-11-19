@@ -1,10 +1,7 @@
 <template>
-    <div class="row">
+    <div class="row col-md-10">
         <div class="col-md-12">
             <h4>Truyện chưa duyệt</h4>
-        </div>
-        <div class="col-md-12">
-            <h4>Danh sách truyện</h4>
         </div>
         <div class="col-md-12">
             <div class="table-responsive">
@@ -19,6 +16,7 @@
                             <th>Tình trạng</th>
                             <th>Thời gian đăng</th>
                             <th>Cập nhật gần nhất</th>
+                            <th>Trạng thái</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,15 +43,14 @@
                             </td>
                             <td>
                                 <div>
-                                    {{ new Date(item.CreatedDate).toLocaleString() }}
+                                    {{ formatDate(item.CreatedDate) }}
                                 </div>
                             </td>
                             <td>
                                 <div>
-                                    {{ new Date(item.UpdatedDate).toLocaleString() }}
+                                    {{ formatDate(item.UpdatedDate) }}
                                 </div>
                             </td>
-                            
                             <td>
                                 <div class="dropstart">
                                     <button
@@ -98,7 +95,7 @@ export default {
     methods: {
         async getBooks(){
             try {
-                let url = `${env.VUE_APP_API_KEY}/book/get-all`;
+                let url = `${env.VUE_APP_API_KEY}/book/get-by-status?status=1`;
                 let res = (await axios.get(url)).data.Data;
                 this.books = res;
             } catch (e) {
@@ -107,12 +104,22 @@ export default {
         },
         async changeStatus(id, status){
             try {
+                let header = {
+                    headers: {
+                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    }
+                }
+                console.log(header);
                 let url = `${env.VUE_APP_API_KEY}/book/set-status?bookId=${id}&status=${status}`;
-                await axios.put(url);
+                await axios.put(url, {}, header);
                 this.getBooks();
             } catch (e) {
                 console.log(e);
             }
+        },
+        formatDate(datetime) {
+            var date = new Date(datetime);
+            return ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
         }
     }
 };

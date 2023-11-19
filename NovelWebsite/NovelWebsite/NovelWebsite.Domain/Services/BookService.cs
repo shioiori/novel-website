@@ -8,6 +8,7 @@ using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 using System.Linq.Expressions;
+using Google.Apis.Drive.v3.Data;
 
 namespace NovelWebsite.Domain.Services
 {
@@ -231,6 +232,12 @@ namespace NovelWebsite.Domain.Services
         public IEnumerable<BookModel> GetByUser(string userId)
         {
             var books = _bookRepository.Filter(x => x.UserId == userId).ToList();
+            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
+        }
+
+        public IEnumerable<BookModel> GetByUploadStatus(int status)
+        {
+            var books = _bookRepository.Filter(x => x.Status == status).ToList();
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 

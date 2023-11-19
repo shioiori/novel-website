@@ -78,7 +78,13 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
 
             CreateMap<User, UserModel>()
                     .ForMember(x => x.Username, y => y.MapFrom(x => x.UserName))
-                    .ForMember(x => x.UserId, y => y.MapFrom(x => x.Id));
+                    .ForMember(x => x.UserId, y => y.MapFrom(x => x.Id))
+                    .ForMember(x => x.StatusName, y => y.MapFrom(x => x.Status == (int)AccountStatus.Verifying ? "Chưa xác nhận"
+                                                                    : (x.Status == (int)AccountStatus.Active ? "Hoạt động"
+                                                                    : (x.Status == (int)AccountStatus.Banned ? "Chặn" : null))))
+                    .ForMember(x => x.StatusLabelColor, y => y.MapFrom(x => x.Status == (int)AccountStatus.Verifying ? "warning"
+                                                                    : (x.Status == (int)AccountStatus.Active ? "success"
+                                                                    : (x.Status == (int)AccountStatus.Banned ? "danger" : null))));
 
             CreateMap<Tag, TagModel>();
             CreateMap<TagModel, Tag>()

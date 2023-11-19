@@ -8,6 +8,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Core.Models.Response;
 using System.Security.Claims;
+using System.Xml.Linq;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -21,11 +22,12 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             _userService = userService;
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Host")]
         [HttpGet]
         [Route("get-all")]
         public async Task<PagedList<UserModel>> GetAllAsync([FromQuery] PagedListRequest request)
         {
-            var users = await _userService.GetUsers();
+            var users = await _userService.GetUsersAsync();
             return PagedList<UserModel>.ToPagedList(users, request);
         }
 
@@ -39,13 +41,34 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return await _userService.GetUserByUsernameAsync(username);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Host")]
         [HttpGet]
         [Route("get-by-role")]
-        public async Task<PagedList<UserModel>> GetByRoleAsync(string name, [FromQuery] PagedListRequest request)
+        public async Task<PagedList<UserModel>> GetByRoleAsync(string role, [FromQuery] PagedListRequest request)
         {
-            var users = await _userService.GetUsersByRole(name);
+            var users = await _userService.GetUsersByRoleAsync(role);
             return PagedList<UserModel>.ToPagedList(users, request);
         }
+
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Host")]
+        [HttpGet]
+        [Route("get-by-status")]
+        public async Task<PagedList<UserModel>> GetByStatusAsync(string status, [FromQuery] PagedListRequest request)
+        {
+            int stt;
+            if (int.TryParse(status, out var num))
+            {
+                stt = num;
+            }
+            else
+            {
+                stt = (int)((AccountStatus)Enum.Parse(typeof(AccountStatus), status, true));
+            }
+            var users = await _userService.GetUsersByStatusAsync(stt);
+            return PagedList<UserModel>.ToPagedList(users, request);
+        }
+
 
         [HttpGet]
         [Route("get-by-id")]
@@ -58,6 +81,15 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         public async Task<UserModel> GetByUsername(string username)
         {
             return await _userService.GetUserByUsernameAsync(username);
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Host")]
+        [HttpGet]
+        [Route("search")]
+        public async Task<PagedList<UserModel>> SearchUser(string name, [FromQuery] PagedListRequest request) 
+        { 
+            var users = await _userService.SearchUserAsync(name);
+            return PagedList<UserModel>.ToPagedList(users, request);
         }
 
         [HttpGet]

@@ -66,12 +66,12 @@
                             </td>
                             <td>
                                 <div>
-                                    {{ new Date(item.CreatedDate).toLocaleString() }}
+                                    {{ formatDate(item.CreatedDate) }}
                                 </div>
                             </td>
                             <td>
                                 <div>
-                                    {{ new Date(item.UpdatedDate).toLocaleString() }}
+                                    {{ formatDate(item.UpdatedDate) }}
                                 </div>
                             </td>
                             <th>
@@ -152,11 +152,9 @@ export default {
                 console.log(e);
             }
         },
-        async changeStatus(){
-
-        },
-        openStatusModal(){
-
+        formatDate(datetime) {
+            var date = new Date(datetime);
+            return ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
         }
     }
 };

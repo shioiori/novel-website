@@ -55,9 +55,9 @@ namespace NovelWebsite.Api.Controllers
         [HttpDelete]
         [Route("delete")]
 
-        public void Delete(int id)
+        public void Delete(string tag)
         {
-            _tagService.Delete(id);
+            _tagService.Delete(tag);
         }
     }
 }

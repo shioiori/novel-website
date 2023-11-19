@@ -29,7 +29,14 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-role")]
-        public async Task<IEnumerable<RoleModel>> GetUserRoleAsync(string username)
+        public async Task<RoleModel> GetAll(string role)
+        {
+            return await _roleService.GetRole(role);
+        }
+
+        [HttpGet]
+        [Route("get-one-role")]
+        public async Task<IEnumerable<RoleModel>> GetUserRoleAsync(string? username)
         {
             if (username == null)
             {
@@ -41,7 +48,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpPost]
         [Route("add")]
-        //[Authorize(Roles = "Host")]
+        [Authorize(Roles = "Host")]
         public async Task AddAsync(RoleModel model) {
             await _roleService.AddAsync(model);
         }
@@ -56,8 +63,9 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpDelete]
         [Route("delete")]
         [Authorize(Roles = "Host")]
-        public async Task DeleteAsync(string id) {
-            await _roleService.DeleteAsync(id);
+        public async Task DeleteAsync(string role) {
+
+            await _roleService.DeleteAsync(role);
         }
 
 
