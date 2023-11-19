@@ -135,7 +135,7 @@ export default {
         async fetchTagId() {
             try {
                 let url = `${apiPath}/tag/get-all`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay tag");
                 this.tagID = res;
             } catch (e) {

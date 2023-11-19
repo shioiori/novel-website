@@ -46,7 +46,7 @@ export default {
         async getCategoryArray() {
             try {
                 let url = `${apiPath}/category/get-all`
-                let res = (await axios.get(url)).data
+                let res = (await axios.get(url)).data.Data
                 console.log(res, "cateArray");
                 this.categoryArray = res
             } catch (e) {

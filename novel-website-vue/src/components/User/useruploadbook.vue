@@ -1,97 +1,14 @@
 <template>
-    <div class="row-right col-md-9">
-        <div class="row" style="padding: 0 10px 10px">
-            <div class="reading col-md-6">
-                <span>Truyện đã đăng</span>
-            </div>
-            <div class="col-md-6" style="padding-right: 0">
-                <a
-                    class="btn btn-secondary float-end"
-                    @click="changeTab()"
-                    v-if="userFlag"
-                    >Đăng truyện mới</a
-                >
-            </div>
-        </div>
-        <div class="rank-view-list">
-            <div class="rank-view-list-item user-upload-book">
-                <ul class="list-group" id="filter-book">
-                    <li
-                        class="list-group-item col-12"
-                        v-for="truyen in userBookArr"
-                        :key="truyen.id"
-                    >
-                        <div class="book--img">
-                            <a href="javascript:void(0)">
-                                <img
-                                    :src="truyen.avatar"
-                                    class="book--imgcss"
-                                />
-                            </a>
-                        </div>
-                        <div class="book--info">
-                            <h3>
-                                <a href="/truyen/@item.Slug-@item.BookId">{{
-                                    truyen.bookName
-                                }}</a>
-                            </h3>
-                            <div class="book-state">
-                                <a href="javascript:void(0)">{{
-                                    truyen.authorName
-                                }}</a>
-                                <i>|</i>
-                                {{ truyen.bookStatus }}
-                                <i>|</i>
-                                {{ truyen.numberOfChapter }}
-                            </div>
-                            <div class="describe">
-                                <i class="fa-solid fa-quote-left"></i>
-                                {{ truyen.describe }}
-                            </div>
-                        </div>
-                        <div class="book--info-buttons user-upload-book-btn">
-                            <p>
-                                <a
-                                    class="btn"
-                                    href="/dang-tai/@item.UserId/truyen/@item.BookId"
-                                    >Sửa truyện</a
-                                >
-                                <a
-                                    class="btn"
-                                    href="/dang-tai/@item.UserId/truyen/@item.BookId/danh-sach-chuong"
-                                    >Danh sách chương</a
-                                >
-                            </p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="rank-box-main-pagination">
-            <ul class="pagination justify-content-end pagination-user">
-                <li class="page-item">
-                    <a
-                        class="page-link"
-                        href="/bo-loc?pageNumber=@Math.Max(1, pageNumber - 1)"
-                    >
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-
-                <li class="page-item">
-                    <a class="page-link" href="/bo-loc?pageNumber=@i">@i</a>
-                </li>
-
-                <li class="page-item">
-                    <a
-                        class="page-link"
-                        href="/bo-loc?pageNumber=@Math.Min(pageNumber + 1, pageCount)"
-                    >
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="row-right">
+        <Userbooklist
+            v-if="tabFlag == 1"
+            @tabChange="handleTabChange"
+        ></Userbooklist>
+        <Userchapterlist
+            v-if="tabFlag == 2"
+            @tabChange="tabFlag = 1"
+            :chapterArr="chapterArr"
+        ></Userchapterlist>
     </div>
 </template>
 
@@ -99,17 +16,16 @@
 import axios from "axios";
 const apiPath = process.env.VUE_APP_API_KEY;
 import "../../assets/css/truyendadang.css";
-import { EventBus } from "@/main";
+import Userbooklist from "./userbooklist.vue";
+import Userchapterlist from "./userchapterlist.vue";
 
 export default {
     name: "user-uploadbook",
     data() {
         return {
-            userBookArr: [],
+            tabFlag: 1,
+            chapterArr: [],
         };
-    },
-    props: {
-        userFlag: Boolean
     },
     created() {
         this.fetchBookArr();
@@ -117,19 +33,42 @@ export default {
     methods: {
         async fetchBookArr() {
             try {
-                let url = `${apiPath}/book/get-by-author?authorId=${this.$route.params.id}`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/book/get-by-user?userId=${this.$route.params.id}`;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res);
-                this.userBookArr = res.data;
+                this.userBookArr = res;
             } catch (e) {
                 console.log(e);
             }
         },
-        changeTab() {
-            EventBus.$emit('changeTab', 4)
-        }
+        async handleTabChange(bookId) {
+            try {
+                let url = `${apiPath}/chapter/get-all?bookId=${bookId}`;
+                let res = (await axios.get(url)).data.Data;
+                console.log(res, "chapterArr");
+                this.chapterArr = res;
+                this.tabFlag = 2;
+            } catch (e) {
+                console.log(e);
+            }
+        },
     },
+    components: { Userbooklist, Userchapterlist },
 };
 </script>
 
-<style></style>
+<style>
+.describe-userupload p {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 3;
+    overflow: hidden !important;
+    white-space: initial !important;
+}
+.user-upload-book-btn p > a:first-child {
+    margin-right: 1rem !important;
+}
+.user-upload-book-btn p {
+    margin-left: 1rem;
+}
+</style>

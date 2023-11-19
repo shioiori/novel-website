@@ -109,7 +109,7 @@ export default {
         async getCategory() {
             try {
                 let url = `${apiPath}/category/get-all`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay cate");
                 this.categoryArray = res;
             } catch (e) {

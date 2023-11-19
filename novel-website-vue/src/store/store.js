@@ -13,6 +13,7 @@ export default new Vuex.Store({
         authenFlag: false,
         bookStore: null,
         chapStore: null,
+        bookFixItem: null,
     },
     getters: {
         getPostArr(state) {
@@ -32,7 +33,10 @@ export default new Vuex.Store({
         },
         getAuthenFlag(state) {
             return state.authenFlag;
-        }
+        },
+        getBookFixItem(state) {
+            return state.bookFixItem;
+        },
     },
     mutations: {
         SET_POST_ARR(state, postArr) {
@@ -50,20 +54,11 @@ export default new Vuex.Store({
         SET_CHAP_STORE(state, chapStore) {
             state.bookStore = chapStore
         },
-        // SET_TOKEN(state, payload) {
-        //     state.token = payload.token;
-        //     state.userId = payload.userId;
-        //     localStorage.setItem("token", payload.token);
-        //     localStorage.setItem("userId", payload.userId);
-        // },
-        // CLEAR_TOKEN(state) {
-        //     state.token = null;
-        //     state.userId = null;
-        //     localStorage.removeItem("token");
-        //     localStorage.removeItem("userId");
-        // },
         SET_AUTHEN_FLAG(state, authenFlag) {
             state.authenFlag = authenFlag
+        },
+        SET_BOOK_FIX_ITEM(state, bookFixItem) {
+            state.bookFixItem = bookFixItem
         },
     },
     actions: {
@@ -90,6 +85,9 @@ export default new Vuex.Store({
         },
         setAuthenFlag(context, authenFlag) {
             context.commit("SET_AUTHEN_FLAG", authenFlag)
-        }
+        },
+        setBookFixItem(context, bookFixItem) {
+            context.commit("SET_BOOK_FIX_ITEM", bookFixItem)
+        },
     },
 });

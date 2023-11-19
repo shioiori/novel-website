@@ -42,7 +42,7 @@ export default {
         async fetchCategoryArray() {
             try {
                 let url = `${apiPath}/category/get-all`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lấy cate");
                 this.categoryArray = res;
             } catch (e) {
