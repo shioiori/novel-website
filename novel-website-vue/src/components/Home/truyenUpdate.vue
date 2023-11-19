@@ -5,7 +5,7 @@
             <ul class="list-group list-group-flush" id="new-chapters">
                 <li class="list-group-item" v-for="(item, index) in bookArray" :key="index">
                     <i class="fa-solid fa-book-open"></i>
-                    <a href="/book">{{ item.BookName }}</a>
+                    <a @click="$router.push(`/book/${item.Slug}/${item.BookId}`)">{{ item.BookName }}</a>
                     <span class="index__truyenmoi--chuong">{{ item.TotalChapters }}</span>
                 </li>
             </ul>
@@ -42,4 +42,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.list-group-item a:hover {
+    cursor: pointer;
+    color: red !important;
+}
+</style>

@@ -7,14 +7,14 @@
                 <lopitem
                     v-for="(item, index) in postArr"
                     :key="index"
-                    :avatar="item.avatar"
-                    :title="item.title"
-                    :userName="item.userName"
-                    :createdDate="item.createdDate"
-                    :description="item.description"
+                    :avatar="item.User.Avatar"
+                    :title="item.Title"
+                    :userName="item.User.Username"
+                    :createdDate="item.CreatedDate"
+                    :description="item.Description"
                 ></lopitem>
             </div>
-            <div class="rank-box-main-pagination">
+            <!-- <div class="rank-box-main-pagination">
                 <ul class="pagination justify-content-end">
                     <li class="page-item">
                         <a
@@ -38,7 +38,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </div>
         <Footer></Footer>
     </div>
@@ -87,7 +87,7 @@ export default {
         async getPostArray() {
             try {
                 let url = `${apiPath}/post/get-by-filter`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay post");
                 this.postArray = res;
             } catch (e) {

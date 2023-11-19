@@ -1,16 +1,9 @@
 <template>
     <div class="row-right">
         <div class="edit--main-body">
-            <!-- <div class="row">
-                <div class="col-md-12">
-                    <div class="alert alert-danger" role="alert">@error</div>
-                </div>
-            </div> -->
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="editor--header">
-                        Đăng truyện
-                    </h3>
+                    <h3 class="editor--header">Sửa truyện</h3>
                 </div>
             </div>
             <div class="row">
@@ -79,13 +72,12 @@
                             class="editor--img-container"
                             style="margin-bottom: 10px"
                         >
-                            <img src="" class="input-img" />
+                            <img :src="avatar" class="input-img" />
                         </div>
                         <input type="file" name="fileUpload" />
                         <input
                             type="text"
                             name="Avatar"
-                            asp-for="@Model.Avatar"
                             value=""
                             hidden
                         />
@@ -182,7 +174,7 @@ import axios from "axios";
 const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
-    name: "user-createbook",
+    name: "user-suatruyen",
     components: {
         Editor,
     },
@@ -201,10 +193,14 @@ export default {
             tentruyen: "",
             tacgia: "",
             noidung: "",
+            avatar: "",
         };
     },
     created() {
         this.fetchData();
+    },
+    mounted() {
+        this.handlerBookFix();
     },
     methods: {
         async fetchData() {
@@ -220,7 +216,7 @@ export default {
                 console.log(e);
             }
         },
-        async addBook() {
+        async updateBook() {
             let selectedTagObject = [];
             this.selectedTag.forEach((tag) => {
                 selectedTagObject.push({
@@ -233,7 +229,7 @@ export default {
                     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjcyZDAxYTExLTNkYjctNDE3ZS1iYjA2LTgyOGFiOTI0OTMyOSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhZG1pbiIsImp0aSI6IjhkNmQ5ZjUwLTljM2UtNDFiOS04NTM1LTE2NjY1Yzk3ZTlmZiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3MDAxMzA4NTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUyMzQ2LyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUyMzQ2LyJ9.QPN6-K3e3YygR3rW8GKXxGRTsx0dnVXFQqb2xvcG-7w",
             };
             try {
-                let url = `${apiPath}/book/add`;
+                let url = `${apiPath}/book/update`;
                 let res = (
                     await axios.post(
                         url,
@@ -248,6 +244,7 @@ export default {
                             },
                             Tags: selectedTagObject,
                             Introduce: this.noidung,
+                            Avatar: this.avatar,
                         },
                         {
                             headers: headers,
@@ -255,11 +252,23 @@ export default {
                     )
                 ).data;
                 console.log(res);
-                // console.log(this.selectedTag);
-                // console.log(this.selectedCategory, 'cate');
-                // console.log(this.selectedStatus, 'status');
             } catch (e) {
                 console.log(e);
+            }
+        },
+        handlerBookFix() {
+            let temp = this.$store.getters.getBookFixItem;
+            if (temp == null) {
+                return;
+            } else {
+                console.log(temp, "bookfixitem");
+                (this.selectedStatus = temp.BookStatus),
+                (this.selectedCategory = temp.Category.CategoryId),
+                (this.selectedTag = temp.Tags),
+                (this.tentruyen = temp.BookName),
+                (this.tacgia = temp.Author.AuthorName),
+                (this.noidung = temp.Introduce);
+                (this.avatar = temp.Avatar)
             }
         },
     },

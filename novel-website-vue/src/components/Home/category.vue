@@ -2,8 +2,8 @@
     <div class="index__theloai col-md-3">
         <div class="index__theloai--wrap">
             <div class="index__theloai--chitiet row">
-                <div class="index__theloai--chitiet-cot col-md-6" v-for="(item, index) in categoryArray" :key="index">
-                    <a @click="getBookByCategory(item.CategoryId)">
+                <div class="index__theloai--chitiet-cot col-md-6" v-for="(item, index) in categoryArray" :key="index" @click="getBookByCategory(item.CategoryId)">
+                    <a>
                         <!-- <i class="fa-solid fa-tags" :url="item.categoryImage"></i> -->
                         <img :src="item.CategoryImage" />
                         <span>
@@ -12,8 +12,8 @@
                         </span>
                     </a>
                 </div>
-                <div class="index__theloai--chitiet-cot col-md-6">
-                    <a @click="$router.push(`/filter`)">
+                <div class="index__theloai--chitiet-cot col-md-6" @click="$router.push(`/filter`)">
+                    <a>
                         <i class="fa-solid fa-bars"></i>
                         <span>
                             <p class="tentruyen tatca">Tất cả</p>
@@ -46,7 +46,7 @@ export default {
         async getCategoryArray() {
             try {
                 let url = `${apiPath}/category/get-all`
-                let res = (await axios.get(url)).data
+                let res = (await axios.get(url)).data.Data
                 console.log(res, "cateArray");
                 this.categoryArray = res
             } catch (e) {

@@ -12,10 +12,10 @@
                     <i>·</i>
                     <a
                         href="javascript:void(0)"
-                        @click="getBookByCategory(item.categoryId)"
+                        @click="getBookByCategory(item.CategoryId)"
                         v-for="(item, index) in categoryArray"
                         :key="index"
-                        >{{ item.categoryName }}
+                        >{{ item.CategoryName }}
                         <i>·</i>
                     </a>
                 </p>
@@ -42,7 +42,7 @@ export default {
         async fetchCategoryArray() {
             try {
                 let url = `${apiPath}/category/get-all`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lấy cate");
                 this.categoryArray = res;
             } catch (e) {
@@ -53,12 +53,12 @@ export default {
             let url;
             try {
                 if (criteria == "" || criteria == null) {
-                    url = `${apiPath}/book/get-by-category`;
+                    url = `${apiPath}/book/get-all`;
                     console.log(url)
                 } else {
-                    url = `${apiPath}/book/get-by-category?categoryId=${criteria}`;
+                    url = `${apiPath}/book/get-by-category-id?categoryId=${criteria}`;
                 }
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay sach theo tieu chi", criteria);
                 this.$store.dispatch("setBookArr", res);
             } catch (e) {

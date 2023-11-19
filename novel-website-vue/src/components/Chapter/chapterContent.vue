@@ -2,8 +2,6 @@
     <div class="chapter">
         <div class="chapter-content">
             <boxChapter
-                :chapter-content="chapterContent"
-                :chapter-likes="chapterLikes"
             ></boxChapter>
             <div class="quangcaotruyen">
                 <a href="javascript:void(0)"

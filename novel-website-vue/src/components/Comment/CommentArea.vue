@@ -50,18 +50,33 @@ export default {
     components: {
         Editor,
     },
+    data() {
+        return {
+            userComment: ""
+        }
+    },
     methods: {
         async addComment() {
             try {
                 let url = `${apiPath}/comment/add`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                console.log(localStorage.getItem("JWT"), 'add')
                 let res = (
-                    await axios.post(url, {
-                        UserId: 1,
-                        BookId: this.bookId,
-                        Content: this.userComment,
-                    })
+                    await axios.post(
+                        url,
+                        {
+                            BookId: this.$route.params.id,
+                            Content: this.userComment,
+                        },
+                        header
+                    )
                 ).data;
                 console.log(res);
+                alert('thanh cong')
             } catch (e) {
                 console.log(e);
             }

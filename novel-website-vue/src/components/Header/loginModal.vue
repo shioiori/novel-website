@@ -74,6 +74,7 @@
 
 <script>
 import axios from "axios";
+const env = process.env;
 const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
@@ -86,35 +87,23 @@ export default {
     },
     methods: {
         async onLogin() {
-            // const headers = { "Content-Type": "application/json" };
             try {
+                console.log(this.username, this.password);
                 let url = `${apiPath}/login`;
-                let res = await axios.post(
-                    url,
-                    {
+                let res = (
+                    await axios.post(url, {
                         Username: this.username,
                         Password: this.password,
-                        //LoginProvider: "Cookies",
-                    },
-                    // {
-                    //     headers: headers,
-                    // }
-                );
-                let userId = JSON.parse(res.data.context).UserId;
-                console.log(JSON.parse(res.data.context), "res login");
-                console.log(userId);
-
-                if (res.data.success) {
-                    let token = "token" + userId;
-                    if (token) {
-                        this.$store.dispatch("setToken", { token, userId });
-                        alert("Đăng nhập thành công");
-                        window.location.reload();
-                    } else {
-                        alert("Đăng nhập thất bại");
-                    }
+                    })
+                ).data;
+                console.log(res, "login thanh cong");
+                if (res.Success) {
+                    let token = res.AccessToken;
+                    localStorage.setItem(env.JWT_API_KEY, token);
+                    alert("Đăng nhập thành công");
+                    window.location.reload();
                 } else {
-                    console.log(res.message);
+                    alert("Đăng nhập thất bại");
                 }
             } catch (e) {
                 console.log(e);

@@ -9,26 +9,25 @@
             <div class="col user--discussion-main">
                 <div class="user--discussion">
                     <p class="users">
-                        <a href="javascript:void(0)">kfc group</a>
-                        <span>bá tánh bình dân</span>
+                        <a href="javascript:void(0)">{{ userName }}</a>
+                        <!-- <span>bá tánh bình dân</span> -->
                     </p>
-                    <p class="comments">
-                        truyện hay truyện hay truyện hay truyện hay truyện hay
-                        truyện hay truyện hay truyện hay truyện hay truyện hay
-                        truyện hay truyện hay truyện hay truyện hay truyện hay
-                        truyện hay truyện hay truyện hay truyện hay truyện hay
-                        truyện hay truyện hay truyện hay truyện hay truyện hay
-                        truyện hay truyện hay truyện hay truyện hay truyện hay
+                    <p class="comments" v-html="content">
+                        
                     </p>
                     <p class="info--wrap">
-                        <span>2 hrs</span>
-                        <a @click="toggleComment()" class="toggleComment">
+                        <span>{{ createdDate }}</span>
+                        <!-- <a @click="toggleComment()" class="toggleComment">
                             <i class="fa-regular fa-comment-dots info-icon"></i>
-                            0 trả lời
-                        </a>
-                        <a @click="submitLike()">
+                            Trả lời
+                        </a> -->
+                        <a @click="submitLike('like', commentId)">
                             <i class="fa-regular fa-thumbs-up info-icon"></i>
-                            0
+                            {{ like }}
+                        </a>
+                        <a @click="submitLike('dislike', commentId)">
+                            <i class="fa-regular fa-thumbs-down info-icon"></i>
+                            {{ dislike }}
                         </a>
                     </p>
                 </div>
@@ -50,6 +49,7 @@
 import NestedComment from "../Comment/NestedComment.vue"
 import CommentArea from "../Comment/CommentArea.vue"
 import axios from "axios";
+// import { stringify } from "postcss";
 const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
@@ -63,19 +63,27 @@ export default {
             commentFlag: false,
         }
     },
+    props: {
+        userName: String,
+        content: String,
+        createdDate: String,
+        like: Number,
+        dislike: Number,
+        commentId: String,
+    },
     methods: {
         toggleComment() {
             this.commentFlag = !this.commentFlag
         },
-        async submitLike() {
+        async submitLike(interact, commentId) {
             try {
-                let url = `${apiPath}/interaction/comment/set-like`;
+                let url = `${apiPath}/interact/comment/set-status-${interact}?commentId=${commentId}`;
                 let res = (await axios.get(url)).data;
                 console.log(res);
             } catch (e) {
                 console.log(e);
             }
-        }
+        },
     },
 };
 </script>

@@ -8,8 +8,12 @@ export default new Vuex.Store({
         postArr: [],
         bookArr: [],
         reviewArr: [],
-        token: localStorage.getItem("token") || null,
-        userId: localStorage.getItem("userId") || null,
+        // token: localStorage.getItem("token") || null,
+        // userId: localStorage.getItem("userId") || null,
+        authenFlag: false,
+        bookStore: null,
+        chapStore: null,
+        bookFixItem: null,
     },
     getters: {
         getPostArr(state) {
@@ -20,6 +24,18 @@ export default new Vuex.Store({
         },
         getReviewArr(state) {
             return state.reviewArr;
+        },
+        getBookStore(state) {
+            return state.bookStore;
+        },
+        getChapStore(state) {
+            return state.chapStore;
+        },
+        getAuthenFlag(state) {
+            return state.authenFlag;
+        },
+        getBookFixItem(state) {
+            return state.bookFixItem;
         },
     },
     mutations: {
@@ -32,17 +48,17 @@ export default new Vuex.Store({
         SET_REVIEW_ARR(state, reviewArr) {
             state.reviewArr = reviewArr;
         },
-        SET_TOKEN(state, payload) {
-            state.token = payload.token;
-            state.userId = payload.userId;
-            localStorage.setItem("token", payload.token);
-            localStorage.setItem("userId", payload.userId);
+        SET_BOOK_STORE(state, bookStore) {
+            state.bookStore = bookStore
         },
-        CLEAR_TOKEN(state) {
-            state.token = null;
-            state.userId = null;
-            localStorage.removeItem("token");
-            localStorage.removeItem("userId");
+        SET_CHAP_STORE(state, chapStore) {
+            state.bookStore = chapStore
+        },
+        SET_AUTHEN_FLAG(state, authenFlag) {
+            state.authenFlag = authenFlag
+        },
+        SET_BOOK_FIX_ITEM(state, bookFixItem) {
+            state.bookFixItem = bookFixItem
         },
     },
     actions: {
@@ -60,6 +76,18 @@ export default new Vuex.Store({
         },
         clearToken(context) {
             context.commit("CLEAR_TOKEN");
+        },
+        setBookStore(context, bookStore) {
+            context.commit("SET_BOOK_STORE", bookStore)
+        },
+        setChapStore(context, chapStore) {
+            context.commit("SET_CHAP_STORE", chapStore)
+        },
+        setAuthenFlag(context, authenFlag) {
+            context.commit("SET_AUTHEN_FLAG", authenFlag)
+        },
+        setBookFixItem(context, bookFixItem) {
+            context.commit("SET_BOOK_FIX_ITEM", bookFixItem)
         },
     },
 });

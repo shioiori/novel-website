@@ -17,6 +17,8 @@
                     :views="item.Views"
                     :likes="item.Likes"
                     :recommends="item.Recommends"
+                    :authorId="item.Author.AuthorId"
+                    :authorSlug="item.Author.Slug"
                 ></billboardItem>
             </div>
             <!-- <div class="rank-box-main-pagination">

@@ -35,12 +35,20 @@
                     </li>
                     <li
                         class="col-left"
-                        
-                        
+                        :class="{ 'active-userprofile': flag == 4 }"
                     >
                         <a @click="changeTab(4)">
                             <i class="fa-solid fa-briefcase"></i>
                             Đăng truyện
+                        </a>
+                    </li>
+                    <li
+                        class="col-left"
+                        :class="{ 'active-userprofile': flag == 5 }"
+                    >
+                        <a @click="changeTab(5)">
+                            <i class="fa-solid fa-briefcase"></i>
+                            Sửa truyện
                         </a>
                     </li>
                 </ul>
@@ -66,10 +74,11 @@
                     </li>
                 </ul> -->
             </div>
-            <UserProfile v-if="flag == 1"></UserProfile>
+            <UserProfile v-if="flag == 1" :user-flag="userFlag"></UserProfile>
             <UserBookself v-if="flag == 2"></UserBookself>
             <UserUploadBook v-if="flag == 3"></UserUploadBook>
             <UserCreateBook v-if="flag == 4"></UserCreateBook>
+            <Userfixbook v-if="flag == 5"></Userfixbook>
         </div>
         <Footer></Footer>
     </div>
@@ -83,21 +92,25 @@ import UserProfile from "../User/userprofile.vue";
 import UserBookself from "../User/userbookself.vue";
 import UserUploadBook from "../User/useruploadbook.vue";
 import UserCreateBook from "../User/usercreatebook.vue";
+
 import { EventBus } from "@/main";
 
 import axios from "axios";
+import Userfixbook from "./userfixbook.vue";
+
 const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
     name: "user-layout",
     components: {
-        Header,
-        Footer,
-        UserProfile,
-        UserBookself,
-        UserUploadBook,
-        UserCreateBook,
-    },
+    Header,
+    Footer,
+    UserProfile,
+    UserBookself,
+    UserUploadBook,
+    UserCreateBook,
+    Userfixbook,
+},
     data() {
         return {
             flag: 1,
@@ -109,23 +122,30 @@ export default {
         EventBus.$on("changeTab", (flag) => {
             this.flag = flag;
         });
-        this.fetchUser()
+        this.checkUser();
     },
     methods: {
         changeTab(tabIndex) {
             this.flag = tabIndex;
         },
-        async fetchUser() {
+        async checkUser() {
             try {
-                let url = `${apiPath}/user/get-by-id?userId=${this.$route.params.id}`;
-                let res = (await axios.get(url)).data;
-                console.log(res);
-                let flagCheckId = this.$store.state.userId
-                this.userId = res.userId;
-                if(flagCheckId == this.userId) {
+                // let url = `${apiPath}/user/get-by-id?userId=${this.$route.params.id}`;
+                // let res = (await axios.get(url)).data;
+                // console.log(res);
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                let flagCheckId = (
+                    await axios.get(`${apiPath}/user/get-user`, header)
+                ).data.UserId;
+                // this.userId = res.UserId;
+                if (flagCheckId == this.$route.params.id) {
                     this.userFlag = true;
                 }
-                console.log(this.userFlag)
+                console.log(this.userFlag);
             } catch (e) {
                 console.log(e);
             }

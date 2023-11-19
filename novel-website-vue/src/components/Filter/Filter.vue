@@ -9,7 +9,7 @@
                     <filterRanktoolbar></filterRanktoolbar>
                 </div>
                 <filterRankbody></filterRankbody>
-                <div class="rank-box-main-pagination">
+                <!-- <div class="rank-box-main-pagination">
                     <ul class="pagination justify-content-end">
                         <li class="page-item">
                             <a
@@ -35,7 +35,7 @@
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
         <Footer></Footer>

@@ -18,13 +18,28 @@
                                 class="form-control"
                                 id="tendangnhap2"
                                 placeholder="Tên đăng nhập"
-                                name="AccountName"
+                                name="UserName"
                                 required
                                 v-model="username"
                             />
                             <label for="tdn"
                                 ><i class="fa-solid fa-user modal--icon"></i>Tên
                                 đăng nhập</label
+                            >
+                        </div>
+                        <div class="form-floating mb-3 mt-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="tennguoidung2"
+                                placeholder="Tên người dùng"
+                                name="AccountName"
+                                required
+                                v-model="name"
+                            />
+                            <label for="tdn"
+                                ><i class="fa-solid fa-user modal--icon"></i>Tên
+                                người dùng</label
                             >
                         </div>
                         <div class="form-floating mb-3 mt-3">
@@ -57,7 +72,6 @@
                                 khẩu</label
                             >
                         </div>
-
                         <div class="form-floating mt-3 mb-3">
                             <input
                                 type="password"
@@ -71,6 +85,21 @@
                             <label for="rmk"
                                 ><i class="fa-solid fa-key modal--icon"></i>Nhập
                                 lại mật khẩu</label
+                            >
+                        </div>
+                        <div class="form-floating mb-3 mt-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="sodienthoai2"
+                                placeholder="Tên đăng nhập"
+                                name="Phone"
+                                required
+                                v-model="phone"
+                            />
+                            <label for="tdn"
+                                ><i class="fa-solid fa-user modal--icon"></i>Số
+                                điện thoại</label
                             >
                         </div>
                     </div>
@@ -116,33 +145,45 @@ export default {
             password: "",
             email: "",
             re_password: "",
-        }
+            name: "",
+            phone: "",
+        };
     },
     methods: {
         async onRegister() {
             try {
-                let url = `${apiPath}/register`
-                if(this.password == this.re_password && (this.password != null || this.password != "")) {
-                    let res = (await axios.post(url, {
-                        name: this.username,
-                        username: this.username,
-                        password: this.password,
-                        email: this.email
-                    })).data;
-                    if(res.success) {
-                        console.log("dang ky")
+                let url = `${apiPath}/register`;
+                if (
+                    this.password == this.re_password &&
+                    (this.password != null || this.password != "")
+                ) {
+                    let res = (
+                        await axios.post(url, {
+                            Username: this.username,
+                            Password: this.password,
+                            Name: this.name,
+                            Email: this.email,
+                            Phone: this.phone,
+                        })
+                    ).data;
+                    console.log(res, 'dang ký nè')
+                    if (res.Success) {
+                        console.log("dang ky");
+                        alert("Đăng ký thành công")
+                        window.location.reload()
                     } else {
-                        console.log(res.message)
+                        console.log(res.message);
+                        alert("Đăng ký thất bại")
                     }
                 } else {
-                    console.log("khong trung mat khau")
+                    console.log("khong trung mat khau");
+                    alert("Không trùng mật khẩu")
                 }
-
             } catch (e) {
-                console.log(e)
+                console.log(e);
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

@@ -4,7 +4,7 @@
             <img class="card-img-top" :src="bookCoverCard" alt="Card image" />
             <div class="card-body">
                 <h4 class="card-title">
-                    <a href="/html//truyen.html">{{ bookNameCard }}</a>
+                    <a @click="$router.push(`/book/${bookSlugCard}/${bookId}`)">{{ bookNameCard }}</a>
                 </h4>
                 <p class="card-text index__left-wrap--theloai">
                     {{ bookCategoryCard }}
@@ -41,6 +41,7 @@ export default {
             bookNumberChaptersCard: "",
             bookDescribeCard: "",
             bookSlugCard: "",
+            bookId: "",
         };
     },
     props: {
@@ -61,6 +62,7 @@ export default {
                 this.bookCoverCard = res.Avatar;
                 this.bookNumberChaptersCard = res.TotalChapters;
                 this.bookSlugCard = res.Slug;
+                this.bookId = res.BookId
             } catch (e) {
                 console.log(e);
             }

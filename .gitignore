@@ -5,6 +5,7 @@
 *.*~
 project.lock.json
 appsettings.json
+package-lock.json
 appsettings.Development.json
 launchsetting
 .DS_Store

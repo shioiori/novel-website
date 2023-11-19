@@ -8,7 +8,7 @@
                         src="../../assets/logo.png"
                         id="change-avatar"
                     />
-                    <div id="u-name">{{ userName }} (ID: {{ userId }})</div>
+                    <div id="u-name">{{ name }}</div>
                     <div class="tb" id="m-btns">
                         <div class="m-btn" id="change-cover-photo">
                             <i class="fas fa-cog"></i>
@@ -76,14 +76,14 @@ const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
     name: "user-profile",
-    // props: {
-    //     userName: String,
-    //     userId: Number,
-    //     userAvatar: String,
-    //     userEmail: String,
-    //     userCoverPhoto: String,
-    //     userFlag: Boolean,
-    // },
+    props: {
+        // userName: String,
+        // userId: Number,
+        // userAvatar: String,
+        // userEmail: String,
+        // userCoverPhoto: String,
+        userFlag: Boolean,
+    },
     data() {
         return {
             userName: "",
@@ -92,7 +92,8 @@ export default {
             userEmail: "",
             userCoverPhoto: "",
             userPassword: "",
-            userFlag: false,
+            // userFlag: false,
+            name: "",
         };
     },
     mounted() {
@@ -102,15 +103,21 @@ export default {
         async updateUser() {
             try {
                 let url = `${apiPath}/user/update`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                }
                 let res = (
                     await axios.post(url, {
-                        userId: this.userId,
-                        username: this.userName,
-                        password: this.userPassword,
-                        email: this.userEmail,
-                    })
+                        UserId: this.userId,
+                        Username: this.userName,
+                        Password: this.userPassword,
+                        Email: this.userEmail,
+                    }, header)
                 ).data;
-                console.log(res);
+                console.log(res, 'da thay doi ne');
+                alert("thành công")
             } catch (e) {
                 console.log(e);
             }
@@ -119,17 +126,14 @@ export default {
             try {
                 let url = `${apiPath}/user/get-by-id?userId=${this.$route.params.id}`;
                 let res = (await axios.get(url)).data;
-                console.log(res);
-                let flagCheckId = this.$store.state.userId
-                this.userName = res.username;
-                this.userAvatar = res.avatar;
-                this.userCoverPhoto = res.coverPhoto;
-                this.userEmail = res.email;
-                this.userId = res.userId;
-                this.userPassword = res.password;
-                if(flagCheckId == this.userId) {
-                    this.userFlag = true;
-                }
+                console.log(res, 'day là fetch user');
+                this.name = res.Name;
+                this.userName = res.Username;
+                this.userAvatar = res.Avatar;
+                this.userCoverPhoto = res.CoverPhoto;
+                this.userEmail = res.Email;
+                this.userId = res.UserId;
+                this.userPassword = res.Password;
                 console.log(this.userFlag)
             } catch (e) {
                 console.log(e);

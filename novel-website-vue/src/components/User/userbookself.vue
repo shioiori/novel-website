@@ -5,31 +5,42 @@
             <div
                 class="index__right-wrap--listitem col-md-12"
                 v-for="item in userBookArr"
-                :key="item.id"
+                :key="item.BookId"
             >
                 <div class="book--img">
-                    <a href="/truyen/@item.Slug-@item.BookId">
-                        <img :src="item.avatar" class="book--imgcss" />
+                    <a
+                        @click="
+                            $router.push(`/book/${item.Slug}/${item.BookId}`)
+                        "
+                    >
+                        <img :src="item.Avatar" class="book--imgcss" />
                     </a>
                 </div>
                 <div class="book--info">
                     <div class="book-name">
-                        <a href="/truyen/@item.Slug-@item.BookId">{{
-                            item.bookName
-                        }}</a>
+                        <a
+                            @click="
+                                $router.push(
+                                    `/book/${item.Slug}/${item.BookId}`
+                                )
+                            "
+                            >{{ item.BookName }}</a
+                        >
                     </div>
                     <div class="book-state">
-                        <a href="javascript:void(0)">{{ item.author }}</a>
+                        <a @click="$router.push(`/author/${item.Author.Slug}/${item.Author.AuthorId}`)">{{
+                            item.Author.AuthorName
+                        }}</a>
                     </div>
 
                     <div class="describe">
                         <i class="fa-solid fa-quote-left"></i>
-                        {{ item.introduce }}
+                        <p v-html="item.Introduce"></p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="rank-box-main-pagination">
+        <!-- <div class="rank-box-main-pagination">
             <ul class="pagination justify-content-end pagination-user">
                 <li class="page-item">
                     <a
@@ -51,7 +62,7 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -67,15 +78,15 @@ export default {
         };
     },
     created() {
-        this.fetchBookArr()
+        this.fetchBookArr();
     },
     methods: {
         async fetchBookArr() {
             try {
-                let url = `${apiPath}/book/get-by-interaction-type?type=3`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/book/get-by-user?userId=${this.$route.params.id}`;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res);
-                this.userBookArr = res.data;
+                this.userBookArr = res;
             } catch (e) {
                 console.log(e);
             }
@@ -84,4 +95,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.book-name a:hover, .book-state a:hover {
+    color: #dc3545 !important;
+    cursor: pointer;
+}
+</style>

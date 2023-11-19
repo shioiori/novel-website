@@ -15,7 +15,7 @@
             </ul>
         </div>
 
-        <div class="rank-box-item-box">
+        <!-- <div class="rank-box-item-box">
             <h4>Xếp hạng</h4>
             <ul class="nav nav-pills" id="filter-rank">
                 <li
@@ -28,7 +28,7 @@
                     <a @click="toggleInteractionType(item[1])">{{ item[0] }}</a>
                 </li>
             </ul>
-        </div>
+        </div> -->
 
         <div class="rank-box-item-box">
             <h4>Số chương</h4>
@@ -45,7 +45,7 @@
             </ul>
         </div>
 
-        <div class="rank-box-item-box">
+        <!-- <div class="rank-box-item-box">
             <h4>Sắp xếp theo</h4>
             <ul class="nav nav-pills" id="filter-sortby">
                 <li
@@ -58,7 +58,7 @@
                     <a @click="toggleOrderBy(item[1])">{{ item[0] }}</a>
                 </li>
             </ul>
-        </div>
+        </div> -->
 
         <div class="rank-box-item-box">
             <h4>Tags</h4>
@@ -68,9 +68,9 @@
                     data-temp-value="view"
                     v-for="(item, index) in tagID"
                     :key="index"
-                    :class="{ selected: TagIds.includes(item.tagId) }"
+                    :class="{ selected: TagIds.includes(item.TagId) }"
                 >
-                    <a @click="toggleTagIds(item.tagId)">{{ item.tagName }}</a>
+                    <a @click="toggleTagIds(item.TagId)">{{ item.TagName }}</a>
                 </li>
             </ul>
         </div>
@@ -95,7 +95,7 @@ export default {
     data() {
         return {
             criteria1: [
-                ["Toàn bộ", ""],
+                // ["Toàn bộ", ""],
                 ["Đang ra", "contiep"],
                 ["Hoàn thành", "hoanthanh"],
                 ["Tạm ngưng", "tamngung"],
@@ -108,10 +108,10 @@ export default {
                 ["Bình luận", 5],
             ],
             criteria3: [
-                ["< 300", 299],
-                ["300 - 1000", 999],
-                ["1000 - 2000", 1999],
-                ["> 2000", 9999],
+                ["< 300", {MinRange: 0, MaxRange: 299}],
+                ["300 - 1000", {MinRange: 300, MaxRange: 999}],
+                ["1000 - 2000", {MinRange: 1000, MaxRange: 1999}],
+                ["> 2000", {MinRange: 2000}],
             ],
             criteria4: [
                 ["Mới nhất", 1],
@@ -135,7 +135,7 @@ export default {
         async fetchTagId() {
             try {
                 let url = `${apiPath}/tag/get-all`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay tag");
                 this.tagID = res;
             } catch (e) {
@@ -144,29 +144,42 @@ export default {
         },
         async getBookByFilter() {
             try {
-                let url = `${apiPath}/book/get-by-filter`;
-                let requestData = {
-                    BookStatuses: this.bookStatuses,
-                    UploadStatuses: this.uploadStatus,
-                    CategoryIds: this.CategoryIds,
-                    ChapterRange: this.chapterRange,
-                    AuthorIds: this.AuthorIds,
-                    TagIds: this.TagIds,
-                    InteractionType: this.InteractionType,
-                    OrderBy: this.OrderBy,
-                };
-                let requestDataJSON = JSON.stringify(requestData);
-                console.log(requestDataJSON)
-                let res = (
-                    await axios.request({
-                        url: url,
-                        method: "GET",
-                        data: requestDataJSON,
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                let url = `${apiPath}/book/get-by-filter?`;
+                // let requestData = {
+                //     BookStatuses: this.bookStatuses,
+                //     UploadStatuses: this.uploadStatus,
+                //     CategoryIds: this.CategoryIds,
+                //     ChapterRange: this.chapterRange,
+                //     AuthorIds: this.AuthorIds,
+                //     TagIds: this.TagIds,
+                //     InteractionType: this.InteractionType,
+                //     OrderBy: this.OrderBy,
+                // };
+                // let requestDataJSON = JSON.stringify(requestData);
+                // console.log(requestDataJSON)
+                // let res = (
+                //     await axios.request({
+                //         url: url,
+                //         method: "GET",
+                //         data: requestDataJSON,
+                //         headers: {
+                //             "Content-Type": "application/json",
+                //         },
+                //     })
+                // ).data;
+                let requestData = "";
+                if(this.bookStatuses != null || this.bookStatuses != "") {
+                    this.bookStatuses.forEach((item) => {
+                        requestData += `BookStatuses=${item}&`
                     })
-                ).data;
+                }
+                if(this.TagIds != null || this.TagIds != "") {
+                    this.TagIds.forEach((item) => {
+                        requestData += `TagIds=${item}&`
+                    })
+                }
+                console.log(requestData)
+                let res = (await axios.get(url+requestData)).data.Data;
                 console.log(res);
                 this.$store.dispatch("setBookArr", res);
             } catch (e) {

@@ -1,7 +1,7 @@
 <template>
     <div class="col login">
-        <management></management>
-        <notification></notification>
+        <!-- <management></management>
+        <notification></notification> -->
         <a
             href="#"
             data-bs-toggle="modal"
@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import notification from "./notification.vue";
-import management from "./management.vue";
+// import notification from "./notification.vue";
+// import management from "./management.vue";
 import loginAvatar from "./loginAvatar.vue";
 import axios from "axios";
 const apiPath = process.env.VUE_APP_API_KEY;
@@ -31,8 +31,8 @@ const apiPath = process.env.VUE_APP_API_KEY;
 export default {
     name: "login-layout",
     components: {
-        notification,
-        management,
+        // notification,
+        // management,
         loginAvatar,
     },
     data() {
@@ -48,22 +48,27 @@ export default {
     },
     methods: {
         async checkLogin() {
-            let token = this.$store.state.token;
-            let userId = this.$store.state.userId;
-            if (token) {
-                this.loginFlag = true;
-                try {
-                    let url = `${apiPath}/user/get-by-id?userId=${userId}`;
-                    let res = (await axios.get(url)).data;
-                    console.log(res);
-                    this.id = res.userId;
-                    this.slug = res.username;
-                    this.avatar = res.avatar;
-                } catch (e) {
-                    console.log(e);
+            if (localStorage.getItem("JWT") != null) {
+                let url = `${apiPath}/user/get-user`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                console.log(header);
+                let res = (await axios.get(url, header)).data;
+                console.log(res, "user thong tin");
+                if (res) {
+                    this.loginFlag = true;
+                    this.id = res.UserId;
+                    this.avatar = res.Avatar;
+                    this.slug = res.Username;
+                    this.$store.dispatch("setAuthenFlag", true);
+                } else {
+                    this.loginFlag = false;
                 }
             } else {
-                this.loginFlag = false;
+                return;
             }
         },
     },

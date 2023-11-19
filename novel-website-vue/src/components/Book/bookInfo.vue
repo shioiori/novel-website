@@ -4,46 +4,46 @@
             <div class="col-md-2">
                 <div class="book--img">
                     <a href="javascript:void(0)">
-                        <img :src="bookCover" />
+                        <img :src="bookContent.Avatar" />
                     </a>
                 </div>
             </div>
             <div class="col-md-10">
                 <div class="book--info">
-                    <h1>{{ bookName }}</h1>
+                    <h1>{{ bookContent.BookName }}</h1>
                     <p class="book--info-tag">
-                        <a href="/tac-gia/@Model.AuthorId/@Model.Author.Slug"
-                            >{{ bookAuthor }}</a
+                        <a @click="$router.push(`/author/${bookContent.Author.Slug}/${bookContent.Author.AuthorId}`)"
+                            >{{ bookContent.Author.AuthorName }}</a
                         >
                         <a href="javascript:void(0)"
-                            >{{ bookStatus }}</a
+                            >{{ bookContent.BookStatus }}</a
                         >
                         <a href="javascript:void(0)"
-                            >{{ bookCategory }}</a
+                            >{{ bookContent.Category.CategoryName }}</a
                         >
                     </p>
                     <p class="interaction-data">
                         <i class="dash">|</i>
-                        <span class="like">{{ likes }}</span>
+                        <span class="like">{{ bookContent.Likes }}</span>
                         <i class="no-italic">Yêu thích</i>
                         <i class="dash">|</i>
 
-                        <span class="view">{{ views }}</span>
+                        <span class="view">{{ bookContent.Views }}</span>
                         <i class="no-italic">Lượt xem</i>
                         <i class="dash">|</i>
 
-                        <span class="nominate">{{ recommend }}</span>
+                        <span class="nominate">{{ bookContent.Recommends }}</span>
                         <i class="no-italic">Đề cử</i>
                         <i class="dash">|</i>
 
-                        <span class="nominate">{{ totalChapters }}</span>
+                        <span class="nominate">{{ bookContent.TotalChapters }}</span>
                         <i class="no-italic">Chương</i>
                         <i class="dash">|</i>
                     </p>
                     <div class="book--info-buttons book-info-page">
                         <a
                             class="btn"
-                            href="/truyen/@Model.Slug-@Model.BookId/@firstChapterUrl"
+                            @click="$router.push(`/book/${bookContent.Slug}/${bookContent.BookId}/chap-${chapStart}`)"
                             >Đọc truyện</a
                         >
                         <a
@@ -84,12 +84,25 @@ export default {
         bookCover: String,
         bookName: String,
         bookAuthor: String,
+        bookAuthorId: Number,
+        bookAuthorSlug: String,
         bookStatus: String,
         bookCategory: String,
         likes: Number,
         views: Number,
         recommend: Number,
         totalChapters: Number,
+        bookSlug: String,
+        bookId: String,
+    },
+    data() {
+        return {
+            bookContent: this.$store.state.bookStore,
+            chapStart: null,
+        }
+    },
+    mounted() {
+        this.getChapStart();
     },
     methods: {
         async getAction(action) {
@@ -99,6 +112,16 @@ export default {
                 console.log(res);
             } catch (e) {
                 console.log(e)
+            }
+        },
+        async getChapStart() {
+            try {
+                let url = `${apiPath}/chapter/get-all?bookId=${this.$route.params.id}`;
+                let res = (await axios.get(url)).data.Data[0];
+                console.log(res, 'res info')
+                this.chapStart = res.ChapterId;
+            } catch (e) {
+                console.log(e);
             }
         }
     }
@@ -123,5 +146,9 @@ export default {
 }
 .dash {
     margin: 0 .5rem;
+}
+.book--info-tag a:first-child:hover {
+    color: #df1c1c !important;
+    cursor: pointer;
 }
 </style>

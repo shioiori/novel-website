@@ -13,6 +13,10 @@
                     :Views="item.Views"
                     :Category="item.Category.CategoryName"
                     :Introduce="item.Introduce"
+                    :BookId="item.BookId"
+                    :AuthorId="item.Author.AuthorId"
+                    :SlugAuthor="item.Author.Slug"
+                    :Slug="item.Slug"
                 ></truyenItem>
             </div>
         </div>

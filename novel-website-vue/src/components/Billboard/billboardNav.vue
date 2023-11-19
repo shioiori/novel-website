@@ -72,12 +72,12 @@
         ></a>
         <ul aria-labelledby="dropdown3" class="dropdown-menu">
             <li>
-                <a @click="getBookByDate('down')" class="dropdown-item"
+                <a @click="getBookByDate(1)" class="dropdown-item"
                     >Mới nhất</a
                 >
             </li>
             <li>
-                <a @click="getBookByDate('up')" class="dropdown-item"
+                <a @click="getBookByDate(0)" class="dropdown-item"
                     >Cũ nhất</a
                 >
             </li>
@@ -95,10 +95,10 @@ export default {
         return {
             categoryArray: [],
             criteria: [
-                ["Lượt yêu thích", 123],
-                ["Lượt đề cử", 234],
-                ["Lượt theo dõi", 345],
-                ["Lượt đọc", 456],
+                ["Lượt yêu thích", 1],
+                ["Lượt đề cử", 4],
+                ["Lượt theo dõi", 3],
+                ["Lượt đọc", 6],
             ],
         };
     },
@@ -109,7 +109,7 @@ export default {
         async getCategory() {
             try {
                 let url = `${apiPath}/category/get-all`;
-                let res = (await axios.get(url)).data;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay cate");
                 this.categoryArray = res;
             } catch (e) {
@@ -134,8 +134,8 @@ export default {
         },
         async getBookBySort(criteria) {
             try {
-                let url = `${apiPath}/billboard/get-by-filter?sortBy=${criteria}`;
-                let res = (await axios.get(url)).data.Data;
+                let url = `${apiPath}/billboard/get-by-filter?interaction=${criteria}`;
+                let res = (await axios.get(url)).data;
                 console.log(res, "lay theo tieu chi", criteria);
                 this.$store.dispatch("setBookArr", res);
             } catch (e) {
@@ -144,8 +144,8 @@ export default {
         },
         async getBookByDate(criteria) {
             try {
-                let url = `${apiPath}/billboard/get-by-filter?orderDate=${criteria}`;
-                let res = (await axios.get(url)).data.Data;
+                let url = `${apiPath}/billboard/get-by-filter?sortOrder=${criteria}`;
+                let res = (await axios.get(url)).data;
                 console.log(res, "lay theo ngay", criteria);
                 this.$store.dispatch("setBookArr", res);
             } catch (e) {

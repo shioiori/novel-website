@@ -13,14 +13,14 @@
                                 <li
                                     class="list-group-item"
                                     v-for="book in bookArray"
-                                    :key="book.id"
+                                    :key="book.BookId"
                                 >
                                     <div class="book--img">
                                         <a
-                                            href="/truyen/@book.Slug-@book.BookId"
+                                            @click="$router.push(`/book/${book.Slug}/${book.BookId}`)"
                                         >
                                             <img
-                                                :src="book.avatar"
+                                                :src="book.Avatar"
                                                 class="book--imgcss"
                                             />
                                         </a>
@@ -28,35 +28,39 @@
                                     <div class="book--info">
                                         <h3>
                                             <a
-                                                href="/truyen/@book.Slug-@book.BookId"
-                                                >{{ book.bookName }}</a
+                                            @click="$router.push(`/book/${book.Slug}/${book.BookId}`)"
+                                                >{{ book.BookName }}</a
                                             >
                                         </h3>
                                         <div class="book-state">
-                                            <a
-                                                href="/tac-gia/@book.AuthorId/@book.Author.Slug"
-                                                >{{ book.authorName }}</a
+                                            <!-- <a
+                                            @click="$router.push(`/author/${authorSlug}/${authorId}`)"
+                                                >{{ book.Author.AuthorName }}</a
                                             >
-                                            <i>|</i>
+                                            <i>|</i> -->
                                             <p>
-                                                {{ book.bookStatus }}
+                                                {{ book.Category.CategoryName }}
                                             </p>
                                             <i>|</i>
                                             <p>
-                                                {{ book.totalChapters }}
+                                                {{ book.BookStatus }}
+                                            </p>
+                                            <i>|</i>
+                                            <p>
+                                                {{ book.TotalChapters }}
                                                 chương
                                             </p>
                                         </div>
                                         <div
                                             class="describe"
-                                            :v-html="book.describe"
+                                            v-html="book.Introduce"
                                         ></div>
                                     </div>
                                     <div class="book--info-buttons">
                                         <p>
                                             <a
                                                 class="btn"
-                                                @click="$router.push(`/book/${book.slug}/${book.bookId}`)"
+                                                @click="$router.push(`/book/${book.Slug}/${book.BookId}`)"
                                                 >Đọc truyện</a
                                             >
                                         </p>
@@ -100,12 +104,12 @@ export default {
     methods: {
         async getBookArray() {
             try {
-                let url = `${apiPath}/book/get-by-author?authorId=${this.authorId}`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/book/get-by-author-id?authorId=${this.authorId}`;
+                let res = (await axios.get(url)).data.Data;
                 console.log(url);
                 console.log(res);
                 this.bookArray = res;
-                this.authorName = res[0].author;
+                this.authorName = res[0].Author.AuthorName;
             } catch (e) {
                 console.log(e);
             }
@@ -162,5 +166,8 @@ export default {
 
 .book--info-buttons p > a:first-child {
     margin: 0;
+}
+.book--info-buttons a:hover {
+    color: white !important;
 }
 </style>
