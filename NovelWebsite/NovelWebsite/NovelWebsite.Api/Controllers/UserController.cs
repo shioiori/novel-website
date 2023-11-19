@@ -118,5 +118,31 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             await _userService.SetUserStatusAsync(userId, status);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Host")]
+        [HttpPut]
+        [Route("set-role")]
+        public async Task SetRoleAsync(string username, string role)
+        {
+            if (username == null)
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                username = identity.FindFirst(ClaimTypes.Name).Value;
+            }
+            await _userService.SetRoleAsync(username, role);
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Host")]
+        [HttpPut]
+        [Route("remove-role")]
+        public async Task RemoveRoleAsync(string username, string role)
+        {
+            if (username == null)
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                username = identity.FindFirst(ClaimTypes.Name).Value;
+            }
+            await _userService.RemoveRoleAsync(username, role);
+        }
+
     }
 }

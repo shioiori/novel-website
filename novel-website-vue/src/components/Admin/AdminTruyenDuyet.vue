@@ -1,26 +1,7 @@
 <template>
     <div class="row">
         <div class="col-md-12">
-            <h4>Tìm kiếm truyện</h4>
-            <div class="search input-group float-md-start w-50 search-admin">
-                <input
-                    type="text"
-                    class="form-control shadow-none"
-                    name="name"
-                    placeholder="Nhập tên truyện"
-                    v-model="search"
-                />
-                <button
-                    class="btn btn-success btn--search-color"
-                    type="submit"
-                    title="searchButton"
-                    @click="searchBook()"
-                >
-                    <i
-                        class="fa-solid fa-magnifying-glass search__btn--icons"
-                    ></i>
-                </button>
-            </div>
+            <h4>Truyện chưa duyệt</h4>
         </div>
         <div class="col-md-12">
             <h4>Danh sách truyện</h4>
@@ -38,8 +19,6 @@
                             <th>Tình trạng</th>
                             <th>Thời gian đăng</th>
                             <th>Cập nhật gần nhất</th>
-                            <th>Trạng thái</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,38 +53,23 @@
                                     {{ new Date(item.UpdatedDate).toLocaleString() }}
                                 </div>
                             </td>
-                            <th>
-                               <div>
-                                    <span :class="'badge bg-' + item.StatusLabelColor">{{ item.StatusName }}</span>
-                                </div> 
-                            </th>
+                            
                             <td>
                                 <div class="dropstart">
-                                    <ul
-                                        class="dropdown-menu"
-                                        aria-labelledby="dropdownMenuButton1"
+                                    <button
+                                        class="btn btn-success"
+                                        type="button"
+                                        @click="changeStatus(item.BookId, 2)"
                                     >
-                                        <li>
-                                            <a class="dropdown-item" href="#"
-                                                >Thông tin truyện</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#" @click="$emit('changeToChapter', item.BookId)"
-                                                >Danh sách chương</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#"
-                                                >Sửa trạng thái</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#"
-                                                >Xóa</a
-                                            >
-                                        </li>
-                                    </ul>
+                                    <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+                                    </button>
+                                    <button
+                                        class="btn btn-danger"
+                                        type="button"
+                                        @click="changeStatus(item.BookId, 3)"
+                                    >
+                                    <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -141,22 +105,14 @@ export default {
                 console.log(e);
             }
         },
-        async searchBook(){
-            if (this.search == "") return;
+        async changeStatus(id, status){
             try {
-                let url = `${env.VUE_APP_API_KEY}/book/get-by-name?name=${this.search}`;
-                let res = (await axios.get(url)).data.Data;
-                this.books = res;
-                console.log(res);
+                let url = `${env.VUE_APP_API_KEY}/book/set-status?bookId=${id}&status=${status}`;
+                await axios.put(url);
+                this.getBooks();
             } catch (e) {
                 console.log(e);
             }
-        },
-        async changeStatus(){
-
-        },
-        openStatusModal(){
-
         }
     }
 };

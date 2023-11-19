@@ -3,28 +3,6 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <h4>Tìm kiếm thể loại</h4>
-                    <div
-                        class="search input-group float-md-start w-50 search-admin"
-                    >
-                        <input
-                            type="text"
-                            class="form-control shadow-none"
-                            name="name"
-                            placeholder="Nhập tên tag"
-                        />
-                        <button
-                            class="btn btn-success btn--search-color"
-                            type="submit"
-                            title="searchButton"
-                        >
-                            <i
-                                class="fa-solid fa-magnifying-glass search__btn--icons"
-                            ></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-md-12">
                     <h4>Quản lý thể loại</h4>
                 </div>
                 <div class="col-md-12">
@@ -35,28 +13,30 @@
                                     <th>Mã thể loại</th>
                                     <th>Tên thể loại</th>
                                     <th>Số tác phẩm</th>
-                                    <th>Slug</th>
+                                    <th>Đường dẫn</th>
                                     <th>Ảnh đại diện</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="align-middle">
+                                <tr class="align-middle"
+                                v-for="(item, index) in categories"
+                                :key="index">
                                     <td>
-                                        <div>@item.CategoryId</div>
+                                        <div>{{item.CategoryId}}</div>
                                     </td>
                                     <td>
-                                        <div>@item.CategoryName</div>
+                                        <div>{{item.CategoryName}}</div>
                                     </td>
                                     <td>
-                                        <div>@item.Quantity</div>
+                                        <div>{{item.Quantity}}</div>
                                     </td>
                                     <td>
-                                        <div>@item.Slug</div>
+                                        <div>{{item.Slug}}</div>
                                     </td>
                                     <td>
                                         <div class="category-img">
-                                            <img src="" />
+                                            <img :src="item.Avatar" />
                                         </div>
                                     </td>
                                     <td>
@@ -64,31 +44,17 @@
                                             <button
                                                 class="btn btn-primary"
                                                 type="button"
-                                                id="dropdownMenuButton1"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
+                                                @click="editCategory(item.CategoryId)"
                                             >
-                                                Thay đổi
+                                                Edit
                                             </button>
-                                            <ul
-                                                class="dropdown-menu"
-                                                aria-labelledby="dropdownMenuButton1"
+                                            <button
+                                                class="btn btn-danger"
+                                                type="button"
+                                                @click="deleteCategory(item.CategoryId)"
                                             >
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="#"
-                                                        >Sửa</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="#"
-                                                        >Xóa</a
-                                                    >
-                                                </li>
-                                            </ul>
+                                                Delete
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -137,7 +103,7 @@
         </div>
         <div class="col-md-4 config-box">
             <div class="col-md-12">
-                <h4>Chỉnh sửa thể loại</h4>
+                <h4>{{ category_state }} thể loại</h4>
             </div>
             <div class="col-12">
                 <label for="inputMaTheLoai" class="form-label"
@@ -150,6 +116,7 @@
                     id="inputMaTheLoai"
                     placeholder="Id autogenerated"
                     readonly
+                    v-model="category.CategoryId"
                 />
             </div>
             <div class="col-12">
@@ -161,6 +128,7 @@
                     name="CategoryName"
                     class="form-control"
                     id="inputTenTheLoai"
+                    v-model="category.CategoryName"
                 />
             </div>
             <div class="col-12">
@@ -169,16 +137,16 @@
             <div class="col-auto">
                 <div class="category-select-picture">
                     <div class="category-img-container">
-                        <img src="/image/test.jpg" class="input-img" />
+                        <img :src="category.CategoryImage" class="input-img" />
                     </div>
                 </div>
             </div>
             <input type="text" name="CategoryImage" hidden />
             <div class="col-auto">
-                <input type="file" name="fileUpload" />
+                <input type="file" name="fileUpload" @change="handleFileChange($event)"/>
             </div>
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" @click="saveChange()">
                     Lưu thay đổi
                 </button>
             </div>
@@ -187,8 +155,102 @@
 </template>
 
 <script>
+import axios from "axios";
+const env = process.env
+
 export default {
     name: "admintheloai-layout",
+    data(){
+        return{
+            categories: [],
+            category_state: "Thêm",
+            category: {
+                "CategoryId": null,
+                "CategoryName": "",
+                "CategoryImage": null,
+            },
+            file_upload: null,
+        }
+    },
+    created() {
+        this.getCategories();
+    },
+    methods: {
+        async getCategories() {
+            try {
+                let url = `${env.VUE_APP_API_KEY}/category/get-all`;
+                let res = (await axios.get(url)).data.Data;
+                this.categories = res;
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async editCategory(id){
+            this.category_state = "Chỉnh sửa";
+            try {
+                let url = `${env.VUE_APP_API_KEY}/category/get-by-id?id=` + id;
+                let res = (await axios.get(url)).data;
+                this.category.CategoryId = res.CategoryId;
+                this.category.CategoryName = res.CategoryName;
+                this.category.CategoryImage = res.CategoryImage;
+                console.log("sucess")
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async deleteCategory(id){
+            try {
+                if (id == this.category.CategoryId){
+                    this.category_state = "Thêm";
+                }
+                let url = `${env.VUE_APP_API_KEY}/category/delete?id=` + id;
+                await axios.delete(url);
+                this.getCategories();
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async saveChange(){
+            await this.uploadFile();
+            try {
+                let url = `${env.VUE_APP_API_KEY}/category/${this.category.CategoryId == null ? "add" : "update"}`;
+                let header = {
+                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                }
+                axios.post(url, this.category, header);
+                console.log(header)
+                console.log(this.category)
+                this.getCategories();
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async uploadFile(){
+            if (this.file_upload) {
+                const formData = new FormData();
+                formData.append('image', this.file_upload);
+                await axios.post('https://api.imgur.com/3/image', formData, {
+                    headers: {
+                        Authorization: `Client-ID ${env.IMGUR_CLIENT_ID}`,
+                    },
+                })
+                .then(response => {
+                    this.category.CategoryImage =  response.data.data.link;
+                    console.log('Image uploaded. Link:', this.category.CategoryImage);
+                })
+                .catch(error => {
+                    console.error('Error uploading image:', error);
+                });
+            } 
+            else 
+            {
+                console.warn('No file selected for upload.');
+            }
+        },
+        handleFileChange(event) {
+            this.file_upload = event.target.files[0];
+        },
+    }
 };
 </script>
 

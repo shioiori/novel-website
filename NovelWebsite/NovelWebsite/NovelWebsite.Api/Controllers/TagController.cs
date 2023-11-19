@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
 
 namespace NovelWebsite.Api.Controllers
@@ -21,9 +23,9 @@ namespace NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all")]
-        public IEnumerable<TagModel> GetAll()
+        public PagedList<TagModel> GetAll([FromQuery] PagedListRequest request)
         {
-            return _tagService.GetAll();
+            return PagedList<TagModel>.ToPagedList(_tagService.GetAll());
         }
 
         [HttpGet]
@@ -50,12 +52,12 @@ namespace NovelWebsite.Api.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPost]
+        [HttpDelete]
         [Route("delete")]
 
-        public void Delete(TagModel tag)
+        public void Delete(int id)
         {
-            _tagService.Delete(tag);
+            _tagService.Delete(id);
         }
     }
 }

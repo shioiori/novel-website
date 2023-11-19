@@ -51,6 +51,27 @@ Vue.use(VueRouter);
 //   }
 // }
 
+// const requireAuth = async (to, from, next) => {
+//     const token = store.state.token; // Access the token from the store
+//     console.log(token, 'token o route')
+//     const headers = {'Authorization': `Bearer ${token}`}
+//     if (token) {
+//         try {
+//             let res = await axios.get(`${apiPath}/role/get-role`, {
+//                 headers: headers
+//             });
+//             if (res.status === 200) {
+//                 next();
+//             } else {
+//                 console.log('error')
+//             }
+//         } catch (e) {
+//             console.log(e, 'loi o route')
+//         }
+//     next()
+//   }
+// }
+
 const router = new VueRouter({
     mode: "history",
     routes: [
@@ -121,7 +142,7 @@ const router = new VueRouter({
             name: "admintruyen",
         },
         {
-            path: "/admin/theloai",
+            path: "/admin/category",
             component: AdminCategory,
             name: "admincategory",
         },

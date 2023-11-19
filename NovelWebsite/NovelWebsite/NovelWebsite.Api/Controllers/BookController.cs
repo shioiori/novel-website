@@ -62,6 +62,20 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [HttpGet]
+        [Route("get-published-book")]
+        public PagedList<BookModel> GetPublishedBook([FromQuery] PagedListRequest request)
+        {
+            var books = _bookService.GetByBookStatus(UploadStatus.Publish.ToString()).ToArray();
+            int count = books.Length;
+            for (int i = 0; i < count; ++i)
+            {
+                BindModelAsync(ref books[i]);
+            }
+            return PagedList<BookModel>.ToPagedList(books, request);
+        }
+
+
+        [HttpGet]
         [Route("get-by-book-id")]
         public BookModel GetByBookId(string bookId){
             var book = _bookService.GetById(bookId);
@@ -110,16 +124,28 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-by-interaction-type")]
-        public PagedList<BookModel> GetByInteractionType(string type, [FromQuery] PagedListRequest request)
+        public PagedList<BookModel> GetByInteractionType(string userId, string type, [FromQuery] PagedListRequest request)
         {
+            if (userId == null)
+            {
+                try
+                {
+                    var identity = HttpContext.User.Identity as ClaimsIdentity;
+                    userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
             BookModel[] books;
             if (int.TryParse(type, out var num))
             {
-                books = _bookService.GetByUserInteractive((InteractionType)num).ToArray();
+                books = _bookService.GetByUserInteractive(userId, (InteractionType)num).ToArray();
             }
             else
             {
-                books = _bookService.GetByUserInteractive((InteractionType)Enum.Parse(typeof(InteractionType), type, true)).ToArray();
+                books = _bookService.GetByUserInteractive(userId, (InteractionType)Enum.Parse(typeof(InteractionType), type, true)).ToArray();
             }
             int count = books.Length;
             for (int i = 0; i < count; ++i)
@@ -128,6 +154,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             };
             return PagedList<BookModel>.ToPagedList(books, request);
         }
+
 
         [HttpGet]
         [Route("get-by-user")]
@@ -275,7 +302,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "Editor")]
         [HttpPut]
-        [Route("set-book-status")]
+        [Route("set-status")]
         public IActionResult SetStatusBook(string bookId, string status)
         {
             try

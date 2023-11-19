@@ -19,7 +19,7 @@ namespace NovelWebsite.Domain.Services
         private readonly IBookTagRepository _bookTagRepository;
         private readonly IMapper _mapper;
 
-        Expression<Func<Book, bool>> expValidBooks = b => b.IsDeleted == false;
+        Expression<Func<Book, bool>> expValidBooks = b => b.IsDeleted == false && b.Status != (int)UploadStatus.Draft;
         Expression<Func<Book, bool>> expFilterByAuthor(int authorId)
         {
             return b => b.AuthorId == authorId;
@@ -220,9 +220,9 @@ namespace NovelWebsite.Domain.Services
             _bookRepository.Save();
         }
 
-        public IEnumerable<BookModel> GetByUserInteractive(InteractionType type)
+        public IEnumerable<BookModel> GetByUserInteractive(string userId, InteractionType type)
         {
-            var list = _bookUserRepository.GetByInteractionType(type).Select(x => x.BookId).ToList();
+            var list = _bookUserRepository.Filter(x => x.UserId == userId && x.InteractionId == (int)type).Select(x => x.BookId).ToList();
             var books = GetAll();
             books = books.Where(x => list.Contains(x.BookId));
             return books;

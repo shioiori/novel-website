@@ -6,6 +6,7 @@ using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 using NovelWebsite.NovelWebsite.Core.Constants;
 using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
+using NovelWebsite.NovelWebsite.Core.Enums;
 
 namespace NovelWebsite.NovelWebsite.Domain.Mappers
 {
@@ -27,7 +28,15 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<Book, BookModel>()
                 .ForMember(x => x.BookStatus, y => y.MapFrom(x => x.BookStatus == BookStatus.Complete ? "Hoàn thành"
                                                                 : (x.BookStatus == BookStatus.Ongoing ? "Còn tiếp"
-                                                                : (x.BookStatus == BookStatus.Drop ? "Tạm ngưng" : null))));
+                                                                : (x.BookStatus == BookStatus.Drop ? "Tạm ngưng" : null))))
+                .ForMember(x => x.StatusName, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "Bản nháp"
+                                                                : (x.Status == (int)UploadStatus.Moderation ? "Chờ duyệt"
+                                                                : (x.Status == (int)UploadStatus.Denied ? "Từ chối"
+                                                                : (x.Status == (int)UploadStatus.Publish ? "Xuất bản" : null)))))
+                .ForMember(x => x.StatusLabelColor, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "default"
+                                                                : (x.Status == (int)UploadStatus.Moderation ? "warning"
+                                                                : (x.Status == (int)UploadStatus.Denied ? "danger"
+                                                                : (x.Status == (int)UploadStatus.Publish ? "success" : null)))));
 
             CreateMap<CategoryModel, Category>()
                     .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.CategoryName) : x.Slug))
@@ -53,7 +62,6 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
             CreateMap<LoginRequest, User>();
 
             CreateMap<RoleModel, Role>()
-                    .ForMember(x => x.Id, y => y.MapFrom(x => x.RoleId))
                     .ForMember(x => x.Name, y => y.MapFrom(x => x.RoleName));
             CreateMap<Role, RoleModel>()
                     .ForMember(x => x.RoleId, y => y.MapFrom(x => x.Id))

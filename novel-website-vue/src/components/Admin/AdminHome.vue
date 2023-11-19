@@ -137,8 +137,9 @@
                                                 <li>
                                                     <button
                                                         class="btn align-items-center rounded"
+                                                        @click="changeTab(10)"
                                                     >
-                                                        Tạo truyện mới
+                                                        Truyện chưa duyệt
                                                     </button>
                                                 </li>
                                             </ul>
@@ -186,6 +187,7 @@
                 <admin-truyen v-if="flag == 5"></admin-truyen>
                 <admin-role v-if="flag == 8"></admin-role>
                 <admin-user v-if="flag == 9"></admin-user>
+                <admin-truyen-duyet v-if="flag == 10"></admin-truyen-duyet>
             </div>
         </div>
     </div>
@@ -202,6 +204,7 @@ import AdminTruyen from "./AdminTruyen.vue";
 import AdminRole from "./AdminRole.vue";
 import AdminUser from "./AdminUser.vue";
 import AdminDashboard from "./AdminDashboard.vue";
+import AdminTruyenDuyet from "./AdminTruyenDuyet.vue";
 
 export default {
     name: "adminhome-layout",
@@ -216,6 +219,7 @@ export default {
         AdminRole,
         AdminUser,
         AdminDashboard,
+        AdminTruyenDuyet
     },
     data() {
         return {
