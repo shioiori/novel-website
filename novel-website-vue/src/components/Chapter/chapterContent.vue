@@ -1,8 +1,7 @@
 <template>
     <div class="chapter">
         <div class="chapter-content">
-            <boxChapter
-            ></boxChapter>
+            <boxChapter></boxChapter>
             <div class="quangcaotruyen">
                 <a href="javascript:void(0)"
                     ><img :src="imgURL" class="banner-sm"
@@ -46,17 +45,17 @@ export default {
                 console.log(e);
             }
         },
-        async getChapterContent() {
-            try {
-                let url = `${apiPath}/chapter/get-by-chapter-id?chapterId=${this.$route.params.Id}`;
-                let res = (await axios.get(url)).data;
-                console.log(res);
-                this.chapterContent = res.data;
-                this.chapterLikes = res.data;
-            } catch (e) {
-                console.log(e);
-            }
-        },
+        // async getChapterContent() {
+        //     try {
+        //         let url = `${apiPath}/chapter/get-by-chapter-id?chapterId=${this.$route.params.Id}`;
+        //         let res = (await axios.get(url)).data;
+        //         console.log(res);
+        //         this.chapterContent = res.data;
+        //         this.chapterLikes = res.data;
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        // },
     },
 };
 </script>

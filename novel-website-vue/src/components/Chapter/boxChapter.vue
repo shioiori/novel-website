@@ -17,11 +17,11 @@
                             <i class="fa-solid fa-xmark"></i>
                         </a>
                         <div class="catalog-direct">
-                            <a href="" type="button" class="btn">
+                            <a @click="before()" type="button" class="btn">
                                 <i class="fa-solid fa-arrow-left"></i>
                                 <span>Chương trước</span>
                             </a>
-                            <a href="" type="button" class="btn">
+                            <a @click="next()" type="button" class="btn">
                                 <span>Chương sau</span>
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
@@ -34,12 +34,12 @@
                             >
                                 <li
                                     class="list-group-item col-6"
-                                    v-for="(item, index) in chapterArray"
+                                    v-for="(item, index) in chapterArr"
                                     :key="index"
                                 >
                                     <a href="/html/doctruyen.html"
-                                        >Chương {{ item.chapNumb }}:
-                                        {{ item.chapName }}</a
+                                        >Chương {{ item.ChapterNumber }}:
+                                        {{ item.ChapterName }}</a
                                     >
                                 </li>
                             </ul>
@@ -154,7 +154,7 @@
                             id="chapter-like-btn"
                         >
                             <i class="fa-regular fa-thumbs-up"></i>
-                            {{ chapterLikes }}
+                            {{ chapterLike }}
                         </a>
                         <a href="javascript:void(0)">
                             <i class="fa-solid fa-circle-dollar-to-slot"></i>
@@ -171,12 +171,11 @@
             </div>
             <div class="control-box">
                 <div class="control-box-content">
-                    <a href="">
+                    <a @click="before()">
                         <i class="fa-solid fa-angle-left"></i>
                         Chương trước
                     </a>
-
-                    <a href="">
+                    <a @click="next()">
                         Chương sau
                         <i class="fa-solid fa-angle-right"></i>
                     </a>
@@ -188,6 +187,7 @@
 
 <script>
 import axios from "axios";
+import { EventBus } from '../../main';
 const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
@@ -198,7 +198,14 @@ export default {
             valueFlag: false,
             showCatalog: false,
             showSettings: false,
-            chapterArray: [],
+            chapter: null,
+            chapterContent: null,
+            chapterLike: null,
+            chapterArr: null,
+            bookId: this.$route.params.id,
+            bookSlug: this.$route.params.slug,
+            chapNumb: Number(this.$route.params.number),
+            chapMax: null,
             themes: [
                 { id: "01", active: true },
                 { id: "02", active: false },
@@ -216,10 +223,10 @@ export default {
             ],
         };
     },
-    props: {
-        chapterContent: String,
-        chapterLikes: Number,
-    },
+    // props: {
+    //     chapterContent: String,
+    //     chapterLikes: Number,
+    // },
     methods: {
         async setChapterLike() {
             try {
@@ -241,12 +248,43 @@ export default {
         },
         async fetchChapter() {
             try {
-                let url = `${apiPath}/chapter/get-by-book-id?bookId=${this.bookId}`;
+                let url = `${apiPath}/chapter/get-by-chapter-index?bookId=${this.bookId}&index=${this.$route.params.number}`;
                 let res = (await axios.get(url)).data;
-                console.log(res);
-                this.chapterArr = res.data;
+                this.chapter = res;
+                this.chapterLike = res.Likes
+                this.chapterContent = res.Content
+                url = `${apiPath}/chapter/get-all?bookId=${this.$route.params.id}`;
+                res = (await axios.get(url)).data.Data;
+                this.chapterArr = res;
+                this.chapMax = res[res.length - 1].ChapterNumber;
             } catch (e) {
                 console.log(e);
+            }
+        },
+        next() {
+            if (this.chapNumb < this.chapMax) {
+                this.$router.push(
+                    `/book/${this.bookSlug}/${this.bookId}/chap-${
+                        this.chapNumb + 1
+                    }`
+                );
+                window.location.reload();
+                EventBus.$emit('changeChap', 1)
+            } else {
+                return;
+            }
+        },
+        before() {
+            if (this.chapNumb > 1) {
+                this.$router.push(
+                    `/book/${this.bookSlug}/${this.bookId}/chap-${
+                        this.chapNumb - 1
+                    }`
+                );
+                window.location.reload();
+                EventBus.$emit('changeChap', 0)
+            } else {
+                return;
             }
         },
         changeTheme(name) {

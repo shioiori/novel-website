@@ -2,11 +2,12 @@
     <div class="">
         <div class="edit--main-body">
             <div class="row">
-                <div class="col-md-12">
-                    <h3 class="editor--header">Chỉnh sửa chương - {{ tentruyen }}</h3>
+                <div class="col-md-12 thaydoi">
                     <a @click="$emit('tabChange')" class="btn btn-secondary"
                             >Quay lại</a
                         >
+                    <h3 class="editor--header">Chỉnh sửa chương</h3>
+                    
                 </div>
             </div>
             <div class="row">
@@ -21,6 +22,7 @@
                             class="editbook--name form-control"
                             placeholder="Nhập tên chương..."
                             value=""
+                            v-model="tenchuong"
                         />
                         <input
                             type="text"
@@ -29,22 +31,6 @@
                             hidden
                         />
                         <input type="text" name="ChapterId" value="" hidden />
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <h4 class="editor--title">Chương số:</h4>
-                </div>
-                <div class="col-md-10">
-                    <div class="editor--content input-group">
-                        <input
-                            type="text"
-                            class="editbook--name form-control"
-                            name="ChapterNumber"
-                            value=""
-                            readonly
-                        />
                     </div>
                 </div>
             </div>
@@ -91,6 +77,23 @@ export default {
     components: {
         Editor,
     },
+    data() {
+        return {
+            tenchuong: this.receiveData.ChapterName,
+            noidung: this.receiveData.Content,
+        }
+    },
+    props: {
+        receiveData: Object
+    },
+    // created() {
+    //     this.fetch();
+    // },
+    // methods: {
+    //     fetch() {
+    //         console.log(this.receiveData, 'fixchapter')
+    //     }
+    // }
 };
 </script>
 

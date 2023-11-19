@@ -48,6 +48,7 @@ export default {
                 console.log(res, "chapterArr");
                 this.chapterArr = res;
                 this.tabFlag = 2;
+                this.$store.dispatch('setBookId', bookId)
             } catch (e) {
                 console.log(e);
             }

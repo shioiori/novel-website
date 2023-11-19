@@ -2,26 +2,11 @@
     <div class="">
         <div class="edit--main-body">
             <div class="row">
-                <div class="col-md-12">
-                    <h3 class="editor--header">Đăng chương</h3>
+                <div class="col-md-12 thaydoi">
                     <a @click="$emit('tabChange')" class="btn btn-secondary"
                         >Quay lại</a
                     >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <h4 class="editor--title">Chọn truyện:</h4>
-                </div>
-                <div class="col-md-10">
-                    <div class="editor--content">
-                        <select v-model="selectedStatus" class="form-select">
-                            <option disabled value="">Please select one</option>
-                            <option v-for="item in bookArr" :key="item.BookId">
-                                {{ item.BookName }}
-                            </option>
-                        </select>
-                    </div>
+                    <h3 class="editor--header">Đăng chương - {{ bookName }}</h3>
                 </div>
             </div>
             <div class="row">
@@ -36,6 +21,7 @@
                             class="editbook--name form-control"
                             placeholder="Nhập tên chương..."
                             value=""
+                            v-model="tenchuong"
                         />
                         <input
                             type="text"
@@ -47,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-2">
                     <h4 class="editor--title">Chương số:</h4>
                 </div>
@@ -59,10 +45,11 @@
                             name="ChapterNumber"
                             value=""
                             readonly
+                            v-model="chuongso"
                         />
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-md-3">
                     <h4 class="editor--title">Nội dung chương:</h4>
@@ -107,19 +94,21 @@ export default {
     },
     data() {
         return {
-            bookArr: [],
+            bookId: this.$store.getters.getBookId,
+            bookName: null,
+            noidung: "",
+            tenchuong: "",
         };
     },
     created() {
-        this.fetchBookArr();
+        this.fetchBook();
     },
     methods: {
-        async fetchBookArr() {
+        async fetchBook() {
             try {
-                let url = `${apiPath}/book/get-by-user?userId=${this.$route.params.id}`;
-                let res = (await axios.get(url)).data.Data;
-                console.log(res);
-                this.bookArr = res;
+                let url = `${apiPath}/book/get-by-book-id?bookId=${this.bookId}`;
+                let res = (await axios.get(url)).data;
+                this.bookName = res.BookName;
             } catch (e) {
                 console.log(e);
             }
@@ -128,4 +117,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.thaydoi {
+    display: flex;
+}
+.thaydoi a {
+    margin: auto 10px;
+}
+</style>

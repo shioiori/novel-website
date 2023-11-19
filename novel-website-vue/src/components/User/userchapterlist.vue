@@ -51,7 +51,7 @@
                                     <td>
                                         <div class="float-end userchapterlist">
                                             <a
-                                                @click="handleTabChange(3)"
+                                                @click="handleTabChangeFix(3, item)"
                                                 class="btn btn-secondary"
                                                 >Sửa</a
                                             >
@@ -71,7 +71,7 @@
             </div>
         </div>
         <Usercreatechapter v-if="tabIndex == 2" @tabChange="handleTabChange(1)"></Usercreatechapter>
-        <Userfixchapter v-if="tabIndex == 3"></Userfixchapter>
+        <Userfixchapter v-if="tabIndex == 3" :receiveData="itemToSend" @tabChange="handleTabChange(1)"></Userfixchapter>
     </div>
 </template>
 
@@ -83,7 +83,9 @@ export default {
     name: "userchapter-list",
     data() {
         return {
-            tabIndex: 1, 
+            tabIndex: 1,
+            chapterArray: this.chapterArr,
+            itemToSend: null,
         }
     },
     props: {
@@ -93,6 +95,11 @@ export default {
     methods: {
         handleTabChange(index) {
             this.tabIndex = index;
+            window.scrollTo(0, 0)
+        },
+        handleTabChangeFix(index, item) {
+            this.tabIndex = index;
+            this.itemToSend = item;
             window.scrollTo(0, 0)
         },
     }

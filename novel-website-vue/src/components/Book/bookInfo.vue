@@ -43,7 +43,7 @@
                     <div class="book--info-buttons book-info-page">
                         <a
                             class="btn"
-                            @click="$router.push(`/book/${bookContent.Slug}/${bookContent.BookId}/chap-${chapStart}`)"
+                            @click="$router.push(`/book/${bookContent.Slug}/${bookContent.BookId}/${chapStart}/chap-${chapNumb}`)"
                             >Đọc truyện</a
                         >
                         <a
@@ -120,6 +120,7 @@ export default {
                 let res = (await axios.get(url)).data.Data[0];
                 console.log(res, 'res info')
                 this.chapStart = res.ChapterId;
+                this.chapNumb = res.ChapterNumber;
             } catch (e) {
                 console.log(e);
             }

@@ -14,6 +14,7 @@ export default new Vuex.Store({
         bookStore: null,
         chapStore: null,
         bookFixItem: null,
+        bookId: null,
     },
     getters: {
         getPostArr(state) {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
         getBookFixItem(state) {
             return state.bookFixItem;
         },
+        getBookId(state) {
+            return state.bookId;
+        }
     },
     mutations: {
         SET_POST_ARR(state, postArr) {
@@ -60,6 +64,9 @@ export default new Vuex.Store({
         SET_BOOK_FIX_ITEM(state, bookFixItem) {
             state.bookFixItem = bookFixItem
         },
+        SET_BOOK_ID(state, bookId) {
+            state.bookId = bookId
+        }
     },
     actions: {
         setPostArr(context, postArr) {
@@ -89,5 +96,8 @@ export default new Vuex.Store({
         setBookFixItem(context, bookFixItem) {
             context.commit("SET_BOOK_FIX_ITEM", bookFixItem)
         },
+        setBookId(context, bookId) {
+            context.commit("SET_BOOK_ID", bookId)
+        }
     },
 });

@@ -55,9 +55,7 @@ export default {
                         Authorization: "Bearer " + localStorage.getItem("JWT"),
                     },
                 };
-                console.log(header);
                 let res = (await axios.get(url, header)).data;
-                console.log(res, "user thong tin");
                 if (res) {
                     this.loginFlag = true;
                     this.id = res.UserId;
