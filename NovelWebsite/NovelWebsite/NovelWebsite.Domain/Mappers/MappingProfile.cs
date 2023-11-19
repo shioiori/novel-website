@@ -48,7 +48,10 @@ namespace NovelWebsite.NovelWebsite.Domain.Mappers
                     .ForMember(x => x.ChapterIndex, y => y.MapFrom(x => x.ChapterNumber));
 
             CreateMap<Chapter, ChapterModel>()
-                    .ForMember(x => x.ChapterNumber, y => y.MapFrom(x => x.ChapterIndex)); 
+                    .ForMember(x => x.ChapterNumber, y => y.MapFrom(x => x.ChapterIndex));
+
+            CreateMap<Comment, CommentModel>();
+            CreateMap<CommentModel, Comment>();
 
             CreateMap<PostModel, Post>()
                     .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugifyUtil.Slugify(x.Title) : x.Slug));
