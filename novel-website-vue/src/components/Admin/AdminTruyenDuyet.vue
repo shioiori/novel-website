@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row col-md-10">
         <div class="col-md-12">
             <h4>Truyện chưa duyệt</h4>
         </div>
@@ -98,7 +98,7 @@ export default {
     methods: {
         async getBooks(){
             try {
-                let url = `${env.VUE_APP_API_KEY}/book/get-all`;
+                let url = `${env.VUE_APP_API_KEY}/book/get-by-status?status=1`;
                 let res = (await axios.get(url)).data.Data;
                 this.books = res;
             } catch (e) {
@@ -107,8 +107,11 @@ export default {
         },
         async changeStatus(id, status){
             try {
+                let header = {
+                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                }
                 let url = `${env.VUE_APP_API_KEY}/book/set-status?bookId=${id}&status=${status}`;
-                await axios.put(url);
+                await axios.put(url, header);
                 this.getBooks();
             } catch (e) {
                 console.log(e);

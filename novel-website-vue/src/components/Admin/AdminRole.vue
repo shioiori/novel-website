@@ -10,53 +10,30 @@
                         <table class="table border mb-0 table-striped">
                             <thead class="table-dark fw-semibold">
                                 <tr class="align-middle">
-                                    <th>Mã vai trò</th>
+                                    <th>STT</th>
                                     <th>Tên vai trò</th>
-                                    <th>Số người dùng</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="align-middle">
+                                <tr class="align-middle" 
+                                v-for="(item, index) in roles"
+                                :key="index">
                                     <td>
-                                        <div>Mã vai trò 1</div>
+                                        <div>{index + 1}</div>
                                     </td>
                                     <td>
                                         <div>Tên vai trò 1</div>
                                     </td>
                                     <td>
-                                        <div>xxx Users</div>
-                                    </td>
-                                    <td>
                                         <div class="dropstart">
                                             <button
-                                                class="btn btn-primary"
+                                                class="btn btn-danger"
                                                 type="button"
-                                                id="dropdownMenuButton1"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
+                                                @click="deleteRole(item.RoleName)"
                                             >
-                                                Thay đổi
+                                                Delete
                                             </button>
-                                            <ul
-                                                class="dropdown-menu"
-                                                aria-labelledby="dropdownMenuButton1"
-                                            >
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="#"
-                                                        >Sửa</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="#"
-                                                        >Xóa</a
-                                                    >
-                                                </li>
-                                            </ul>
                                         </div>
                                     </td>
                                 </tr>
@@ -64,84 +41,11 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="box-footer">
-                        <div class="box-footer-clearfix">
-                            <ul class="pagination justify-content-end">
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                    >
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                        >1</a
-                                    >
-                                </li>
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                        >2</a
-                                    >
-                                </li>
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                        >3</a
-                                    >
-                                </li>
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                        >4</a
-                                    >
-                                </li>
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                        >5</a
-                                    >
-                                </li>
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                        >571</a
-                                    >
-                                </li>
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                        >572</a
-                                    >
-                                </li>
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="javascript:void(0)"
-                                    >
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="col-md-4 config-box">
                 <div class="col-md-12">
-                    <h4>Chỉnh sửa vai trò</h4>
+                    <h4>Thêm vai trò</h4>
                 </div>
                 <div class="col-12">
                     <label for="inputMaTheLoai" class="form-label"
@@ -151,6 +55,9 @@
                         type="text"
                         class="form-control"
                         id="inputMaTheLoai"
+                        readonly
+                        placeholder="Auto generated"
+                        v-model="role.RoleId"
                     />
                 </div>
                 <div class="col-12">
@@ -161,22 +68,11 @@
                         type="text"
                         class="form-control"
                         id="inputTenTheLoai"
+                        v-model="role.RoleName"
                     />
                 </div>
                 <div class="col-12">
-                    <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="gridCheck"
-                        />
-                        <label class="form-check-label" for="gridCheck">
-                            Xác nhận chỉnh sửa
-                        </label>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" @click="saveChange()">
                         Lưu thay đổi
                     </button>
                 </div>
@@ -185,8 +81,58 @@
 </template>
 
 <script>
+import axios from "axios";
+const env = process.env;
+
 export default {
     name: "adminuser-layout",
+    data(){
+        return{
+            roles: [],
+            role: {
+                "RoleId": null,
+                "RoleName": "",
+            },
+        }
+    },
+    created() {
+        this.getRoles();
+    },
+    methods: {
+        async getRoles() {
+            try {
+                let url = `${env.VUE_APP_API_KEY}/role/get-all`;
+                let res = (await axios.get(url)).data.Data;
+                this.roles = res;
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async deleteRole(name){
+            try {
+                if (name == this.role.RoleName){
+                    this.role_state = "Thêm";
+                }
+                let url = `${env.VUE_APP_API_KEY}/role/delete?role=` + name;
+                await axios.delete(url);
+                this.getRoles();
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async saveChange(){
+            try {
+                let url = `${env.VUE_APP_API_KEY}/role/add`;
+                let header = {
+                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                }
+                axios.post(url, this.role, header);
+                this.getRoles();
+            } catch (e) {
+                console.log(e);
+            }
+        },
+    }
 };
 </script>
 
