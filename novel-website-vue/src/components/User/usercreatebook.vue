@@ -223,11 +223,11 @@ export default {
     methods: {
         async fetchData() {
             try {
-                let url_category = `${apiPath}/category/get-all`;
+                let url_category = `${apiPath}/category/get-all?PageSize=20`;
                 let res1 = (await axios.get(url_category)).data.Data;
                 console.log(res1);
                 this.categoryArr = res1;
-                let url_tag = `${apiPath}/tag/get-all`;
+                let url_tag = `${apiPath}/tag/get-all?PageSize=20`;
                 let res2 = (await axios.get(url_tag)).data.Data;
                 this.tagArr = res2;
             } catch (e) {
@@ -239,40 +239,40 @@ export default {
             let selectedTagObject = [];
             this.selectedTag.forEach((tag) => {
                 selectedTagObject.push({
-                    "TagId": tag,
+                    tag,
                 });
                 console.log(selectedTagObject)
             });
             console.log(index, selectedTagObject, this.selectedStatus, this.noidung)
-            let header = {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("JWT"),
-                },
-            };
-            try {
-                let url = `${apiPath}/book/add`;
-                let res = (
-                    await axios.post(
-                        url,
-                        {
-                            BookName: this.tentruyen,
-                            CategoryId: this.selectedCategory,
-                            Author: {
-                                AuthorName: this.tacgia,
-                            },
-                            BookStatus: this.selectedStatus,
-                            Tags: selectedTagObject,
-                            Introduce: this.noidung,
-                            Avatar: this.file_uploaded,
-                            Status: index
-                        },
-                        header
-                    )
-                ).data;
-                console.log(res, "thanhcong");
-            } catch (e) {
-                console.log(e);
-            }
+            // let header = {
+            //     headers: {
+            //         Authorization: "Bearer " + localStorage.getItem("JWT"),
+            //     },
+            // };
+            // try {
+            //     let url = `${apiPath}/book/add`;
+            //     let res = (
+            //         await axios.post(
+            //             url,
+            //             {
+            //                 BookName: this.tentruyen,
+            //                 CategoryId: this.selectedCategory,
+            //                 Author: {
+            //                     AuthorName: this.tacgia,
+            //                 },
+            //                 BookStatus: this.selectedStatus,
+            //                 Tags: selectedTagObject,
+            //                 Introduce: this.noidung,
+            //                 Avatar: this.file_uploaded,
+            //                 Status: index
+            //             },
+            //             header
+            //         )
+            //     ).data;
+            //     console.log(res, "thanhcong");
+            // } catch (e) {
+            //     console.log(e);
+            // }
         },
         async uploadFile() {
             if (this.upload_file) {

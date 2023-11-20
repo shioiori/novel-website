@@ -55,7 +55,11 @@
                     <div class="editor--content">
                         <select v-model="selectedStatus" class="form-select">
                             <option disabled value="">Please select one</option>
-                            <option v-for="item in statusArr" :key="item[1]" :value="item[1]">
+                            <option
+                                v-for="item in statusArr"
+                                :key="item[1]"
+                                :value="item[1]"
+                            >
                                 {{ item[0] }}
                             </option>
                         </select>
@@ -74,13 +78,12 @@
                         >
                             <img :src="file_uploaded" class="input-img" />
                         </div>
-                        <input type="file" name="fileUpload" @change="handleFileChange($event)" />
                         <input
-                            type="text"
-                            name="Avatar"
-                            value=""
-                            hidden
+                            type="file"
+                            name="fileUpload"
+                            @change="handleFileChange($event)"
                         />
+                        <input type="text" name="Avatar" value="" hidden />
                     </div>
                 </div>
             </div>
@@ -118,7 +121,7 @@
                                     class="form-check-input tag-checkbox"
                                     type="checkbox"
                                     v-model="selectedTag"
-                                    :value="item.TagId"
+                                    :value="item"
                                 />
                                 {{ item.TagName }}
                             </label>
@@ -196,24 +199,30 @@ export default {
             file_uploaded: "",
             upload_file: "",
             bookId: "",
+            loadFlag: false,
         };
     },
     created() {
-        this.fetchData();
+        this.fetchData().then((res) => {
+            console.log('res thanh cong', res)
+            this.$nextTick(() => this.handlerBookFix())
+        });
     },
     mounted() {
-        this.handlerBookFix();
+        // this.handlerBookFix();
     },
     methods: {
         async fetchData() {
             try {
-                let url_category = `${apiPath}/category/get-all`;
+                let url_category = `${apiPath}/category/get-all?PageSize=20`;
                 let res1 = (await axios.get(url_category)).data.Data;
                 console.log(res1);
                 this.categoryArr = res1;
-                let url_tag = `${apiPath}/tag/get-all`;
+                let url_tag = `${apiPath}/tag/get-all?PageSize=20`;
                 let res2 = (await axios.get(url_tag)).data.Data;
                 this.tagArr = res2;
+                console.log(this.tagArr, "fetch");
+                this.loadFlag = true;
             } catch (e) {
                 console.log(e);
             }
@@ -221,11 +230,15 @@ export default {
         async updateBook() {
             this.uploadFile()
             let selectedTagObject = [];
-            this.selectedTag.forEach((tag) => {
-                selectedTagObject.push({
-                    "TagId": tag,
-                });
+            console.log(this.selectedTag, 'update ne')
+            this.selectedTag.forEach((item) => {
+                selectedTagObject.push(item);
             });
+            // console.log(
+            //     selectedTagObject,
+            //     this.selectedStatus,
+            //     this.noidung
+            // );
             let header = {
                     headers: {
                         Authorization : 'Bearer ' + localStorage.getItem("JWT")
@@ -257,20 +270,28 @@ export default {
                 console.log(e);
             }
         },
-        handlerBookFix() {
-            let temp = this.$store.getters.getBookFixItem;
-            if (temp == null) {
-                return;
+        async handlerBookFix() {
+            if (this.loadFlag) {
+                let temp = this.$store.getters.getBookFixItem;
+                if (temp == null) {
+                    return;
+                } else {
+                    console.log(temp, "bookfixitem");
+                    (this.selectedStatus = temp.BookStatus),
+                        (this.selectedCategory = temp.Category.CategoryId),
+                        (this.selectedTag = temp.Tags),
+                        (this.tentruyen = temp.BookName),
+                        (this.tacgia = temp.Author.AuthorName),
+                        (this.noidung = temp.Introduce),
+                        (this.file_uploaded = temp.Avatar),
+                        (this.bookId = temp.BookId),
+                        (this.selectedTag = temp.Tags);
+                    console.log(this.selectedTag);
+                    console.log(this.tagArr)
+                }
             } else {
-                console.log(temp, "bookfixitem");
-                (this.selectedStatus = temp.BookStatus),
-                (this.selectedCategory = temp.Category.CategoryId),
-                (this.selectedTag = temp.Tags),
-                (this.tentruyen = temp.BookName),
-                (this.tacgia = temp.Author.AuthorName),
-                (this.noidung = temp.Introduce);
-                (this.file_uploaded = temp.Avatar),
-                (this.bookId = temp.BookId)
+                console.log('fail')
+                return;
             }
         },
         async uploadFile() {
@@ -299,7 +320,7 @@ export default {
         },
         handleFileChange(event) {
             this.upload_file = event.target.files[0];
-            if(this.upload_file) {
+            if (this.upload_file) {
                 this.file_uploaded = URL.createObjectURL(this.upload_file);
             } else {
                 this.file_uploaded = null;

@@ -36,7 +36,7 @@ namespace NovelWebsite.Application.Controllers
             // ViewBag.categoryId = categoryId;
             // ViewBag.sortBy = sort_by;
             // ViewBag.category = _dbContext.Categories.ToList();
-            // PagedList<ReviewEntity> listReview = new PagedList<ReviewEntity>(reviews, pageNumber, pageSize);
+            // PagedList<ReviewEntity> listReview = new PagedList<ReviewEntity>(reviews, pageNumber, PageSize);
             return View(reviews);
         }
 
