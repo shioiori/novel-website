@@ -49,9 +49,21 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }
 
-        public void AddReview(ReviewModel review)
+        public void Add(ReviewModel review)
         {
             _reviewRepository.Insert(_mapper.Map<ReviewModel, Review>(review));
+            _reviewRepository.Save();
+        }
+
+        public void Update(ReviewModel review)
+        {
+            _reviewRepository.Update(_mapper.Map<ReviewModel, Review>(review));
+            _reviewRepository.Save();
+        }
+
+        public void Delete(string reviewId)
+        {
+            _reviewRepository.Delete(reviewId);
             _reviewRepository.Save();
         }
     }

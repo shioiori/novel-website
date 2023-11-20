@@ -255,8 +255,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                     var author = _authorService.GetAuthorByName(model.Author.AuthorName);
                     if (author == null)
                     {
-                        _authorService.CreateAuthor(model.Author);
-                        model.AuthorId = author.AuthorId;
+                        var add = _authorService.CreateAuthor(model.Author);
+                        model.AuthorId = add.AuthorId;
                     }
                 }
                 var book = _bookService.Add(model);

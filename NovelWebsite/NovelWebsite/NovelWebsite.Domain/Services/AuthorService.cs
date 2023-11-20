@@ -29,10 +29,13 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return _mapper.Map<Author, AuthorModel>(author);
         }
 
-        public void CreateAuthor(AuthorModel author)
+        public AuthorModel CreateAuthor(AuthorModel author)
         {
-            _authorRepository.Insert(_mapper.Map<AuthorModel, Author>(author));
+            var res = _authorRepository.Insert(_mapper.Map<AuthorModel, Author>(author));
             _authorRepository.Save();
+            author.AuthorId = res.AuthorId;
+            author.Slug = res.Slug;
+            return author;
         }
 
         public void UpdateAuthor(AuthorModel author)
@@ -53,7 +56,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             if (author == null)
             {
                 author = _authorRepository.Filter(x => x.AuthorName.ToLower().Trim()
-                                                                            .Contains(name.ToLower().Trim())).FirstOrDefault();
+                                                                            .Equals(name.ToLower().Trim())).FirstOrDefault();
             }
             return _mapper.Map<Author, AuthorModel>(author);
         }

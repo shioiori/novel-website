@@ -16,7 +16,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
         {
-            var book = _bookUserRepository.Filter(x => x.BookId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var book = _bookUserRepository.GetByExpression(x => x.BookId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (book == null)
             {
                 return false;
