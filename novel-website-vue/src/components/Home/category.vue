@@ -45,7 +45,7 @@ export default {
     methods: {
         async getCategoryArray() {
             try {
-                let url = `${apiPath}/category/get-all`
+                let url = `${apiPath}/category/get-all?pagesize=20`
                 let res = (await axios.get(url)).data.Data
                 console.log(res, "cateArray");
                 this.categoryArray = res

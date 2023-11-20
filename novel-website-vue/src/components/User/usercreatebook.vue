@@ -223,11 +223,11 @@ export default {
     methods: {
         async fetchData() {
             try {
-                let url_category = `${apiPath}/category/get-all`;
+                let url_category = `${apiPath}/category/get-all?pagesize=20`;
                 let res1 = (await axios.get(url_category)).data.Data;
                 console.log(res1);
                 this.categoryArr = res1;
-                let url_tag = `${apiPath}/tag/get-all`;
+                let url_tag = `${apiPath}/tag/get-all?pagesize=20`;
                 let res2 = (await axios.get(url_tag)).data.Data;
                 this.tagArr = res2;
             } catch (e) {
