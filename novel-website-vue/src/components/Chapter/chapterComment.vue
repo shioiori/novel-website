@@ -11,7 +11,7 @@
                     <comment
                         v-for="(item, index) in commentArr"
                         :key="index"
-                        :user-name="item.UserId"
+                        :user-name="item.User.Username"
                         :content="item.Content"
                         :created-date="item.CreatedDate"
                         :like="item.Likes"

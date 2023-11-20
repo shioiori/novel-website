@@ -29,7 +29,6 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             var posts = _postService.GetPublishedPosts();
             return PagedList<PostModel>.ToPagedList(posts, request);
         }
-    }
 
         [Route("get-by-id")]
         [HttpGet]

@@ -23,8 +23,14 @@
             ></button>
         </div>
         <div class="carousel-inner" id="banner-carousel">
-            <div :class="index == 1 ? 'carousel-item active' : 'carousel-item'" v-for="(item, index) in bannerArr" :key="index">
-                <img :src=item class="d-block w-100" alt="..." />
+            <div class="carousel-item active">
+                <img src="../../assets/img/test.jpg" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+                <img src="../../assets/img/test2.jpg" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+                <img src="../../assets/img/test3.jpg" class="d-block w-100" alt="..." />
             </div>
         </div>
         <button

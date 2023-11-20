@@ -54,7 +54,7 @@
                 <div class="col-md-10">
                     <div class="editor--content">
                         <select v-model="selectedStatus" class="form-select">
-                            <option disabled value="">Please select one</option>
+                            <!-- <option disabled value="">Please select one</option> -->
                             <option
                                 v-for="item in statusArr"
                                 :key="item[1]"
@@ -185,9 +185,9 @@ export default {
             categoryArr: [],
             tagArr: [],
             statusArr: [
-                ["Đang ra", "CONTIEP"],
-                ["Hoàn thành", "HOANTHANH"],
-                ["Tạm ngưng", "TAMNGUNG"],
+                ["Còn tiếp", "Còn tiếp"],
+                ["Hoàn thành", "Hoàn thành"],
+                ["Tạm ngưng", "Tạm ngưng"],
             ],
             selectedStatus: "",
             selectedCategory: "",
@@ -266,6 +266,8 @@ export default {
                     )
                 ).data;
                 console.log(res);
+                alert('Sửa thành công')
+                window.location.reload();
             } catch (e) {
                 console.log(e);
             }

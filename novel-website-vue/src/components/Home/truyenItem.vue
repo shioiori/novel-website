@@ -6,12 +6,12 @@
             </a>
         </div>
         <div class="book--info">
-            <div class="book-name">
+            <div class="book-name speca">
                 <a @click="$router.push(`/book/${Slug}/${BookId}`)"
                     >{{ BookName }}</a
                 >
             </div>
-            <div class="book-state">
+            <div class="book-state specb">
                 <a @click="$router.push(`/author/${SlugAuthor}/${AuthorId}`)">{{ Author }}</a>
             </div>
             <p>
@@ -27,7 +27,7 @@
             </p>
             <div class="category">
                 <p>Thể loại:</p>
-                <p class="category-wrap">
+                <p class="category-wrap specc">
                     <a href="javascript:void(0)">{{ Category }}</a>
                 </p>
             </div>
@@ -61,5 +61,14 @@ export default {
 <style>
 .book-name a:hover, .book-state a:hover {
     cursor: pointer;
+}
+.speca a {
+    font-size: 1.4rem !important;
+}
+.specb a {
+    font-size: 1.1rem !important;
+}
+.specc a {
+    font-size: 1.1rem !important;
 }
 </style>

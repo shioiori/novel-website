@@ -4,9 +4,9 @@
             <h3>Tin tức</h3>
             <div class="index__notice--list">
                 <ul class="list-group list-group-flush" id="new-posts">
-                    <li :class="getClass(index)" v-for="(item, index) in post" :key="index">
+                    <li class="list-group-item" v-for="(item, index) in post" :key="index">
                         <i class="fa-solid fa-share"></i>
-                        <a href="javascript:void(0)">{{ item }}</a>
+                        <a @click="$router.push(`/post/${item.PostId}`)">{{ item.Title }}</a>
                     </li>
                 </ul>
             </div>
@@ -32,8 +32,9 @@ export default {
         async fetchArticle() {
             try {
                 let url = `${apiPath}/post/get-by-filter`
-                let res = (await axios.get(url)).data
+                let res = (await axios.get(url)).data.Data
                 console.log(res, "doc tin");
+                this.post = res
             } catch (e) {
                 console.log(e)
             }

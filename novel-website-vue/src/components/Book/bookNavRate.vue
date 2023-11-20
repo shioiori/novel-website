@@ -56,20 +56,20 @@
                             <div class="row">
                                 <div class="user--photo col-md-auto">
                                     <a href="javascript:void(0)">
-                                        <img :src="item.avatar" />
+                                        <img :src="item.User.Avatar" />
                                     </a>
                                 </div>
                                 <div class="user--discussion col">
                                     <p class="users">
                                         <a href="javascript:void(0)">{{
-                                            item.userName
+                                            item.User.Username
                                         }}</a>
                                     </p>
-                                    <p class="comments">
-                                        {{ item.review }}
+                                    <p class="comments" v-html="item.Content">
+
                                     </p>
                                     <p class="info--wrap">
-                                        <span>{{ item.createdDate }}</span>
+                                        <span>{{ item.CreatedDate }}</span>
                                         <a
                                             href="javascript:void(0)"
                                             @click="
@@ -161,10 +161,10 @@ export default {
         },
         async fetchReview() {
             try {
-                let url = `${apiPath}/review/get-all`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/review/get-by-book?bookId=${this.bookId}`;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res);
-                this.reviewArr = res.data;
+                this.reviewArr = res;
             } catch (e) {
                 console.log(e);
             }

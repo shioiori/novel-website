@@ -7,7 +7,7 @@
                 <p class="truyen-author">
                     Người đăng:
                     <a href="javascript:void(0)">{{
-                        postItem.User.Username
+                        username.Username
                     }}</a>
                 </p>
                 <p class="truyen-time">Ngày đăng: {{ postItem.CreatedDate }}</p>
@@ -57,17 +57,18 @@
                             id="list-comment-chapter"
                         >
                             <CommentArea
-                                :-post-id="postItem.PostId"
+                                :post-id="postItem.PostId"
                             ></CommentArea>
                             <Comment
                                 v-for="(item, index) in commentArr"
                                 :key="index"
-                                :user-name="item.User"
+                                :user-name="item.User.Username"
                                 :content="item.Content"
                                 :created-date="item.CreatedDate"
                                 :like="item.Likes"
                                 :dislike="item.DisLikes"
                                 :comment-id="item.CommentId"
+                                :Avatar="item.User.Avatar"
                             ></Comment>
                         </ul>
                         <p class="go--discuss">
@@ -102,13 +103,21 @@ export default {
     },
     data() {
         return {
-            postItem: null,
+            postItem: "",
             commentArr: null,
+            username: null,
         };
     },
     created() {
-        this.fetchPost();
-        this.fetchComment();
+        this.fetchPost().then((res) => {
+            console.log('res thanh cong', res)
+            this.$nextTick(() => this.fetchUser().then(()=> {
+                this.fetchComment()
+            }))
+        });
+    },
+    mounted() {
+        // this.fetchComment();
     },
     methods: {
         async fetchPost() {
@@ -117,20 +126,32 @@ export default {
                 let res = (await axios.get(url)).data;
                 console.log(res);
                 this.postItem = res;
+                console.log(this.postItem, "fetch");
             } catch (e) {
                 console.log(e);
             }
         },
         async fetchComment() {
             try {
-                let url = `${apiPath}/comment/get-by-post?id=${this.$route.params.id}`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/comment/get-comments-post?id=${this.$route.params.id}`;
+                let res = (await axios.get(url)).data.Data;
                 console.log(res);
                 this.commentArr = res;
             } catch (e) {
                 console.log(e);
             }
         },
+        async fetchUser() {
+            try {
+                let url = `${apiPath}/user/get-by-id?userId=${this.postItem.UserId}`;
+                console.log(url, 'fetchuser')
+                let res = (await axios.get(url)).data;
+                console.log(res);
+                this.username = res;
+            } catch (e) {
+                console.log(e);
+            }
+        }
     },
 };
 </script>

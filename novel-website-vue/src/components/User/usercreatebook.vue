@@ -59,7 +59,7 @@
                 <div class="col-md-10">
                     <div class="editor--content">
                         <select v-model="selectedStatus" class="form-select">
-                            <option disabled value="">Please select one</option>
+                            <!-- <option disabled value="">Please select one</option> -->
                             <option v-for="item in statusArr" :key="item[1]" :value="item[1]">
                                 {{ item[0] }}
                             </option>

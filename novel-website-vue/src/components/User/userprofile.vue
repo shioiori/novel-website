@@ -5,7 +5,7 @@
                 <div id="profile-d">
                     <img
                         class="rounded-circle"
-                        src="../../assets/logo.png"
+                        :src="userAvatar"
                         id="change-avatar"
                     />
                     <div id="u-name">{{ name }}</div>

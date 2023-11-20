@@ -54,17 +54,17 @@
         <div class="book-item float-wrapper hide-on-med-and-up reviewbook-item">
             <a
                 class="hoverable smallbook"
-                href="/truyen/@item.Book.Slug-@item.Book.BookId"
+                @click="$router.push(`/book/${bookSlug}/${bookId}`)"
             >
                 <img
                     class="cover-wrapper carousel-inner"
-                    src="https://wikidich6.com/photo/63d8b4ed54b80862372b0936?o=1"
+                    :src="bookCover"
                     alt="Card image"
                 />
             </a>
             <div class="midup-body card-body">
                 <h5 class="book-title">
-                    <a href="/truyen/@item.Book.Slug-@item.Book.BookId">{{ bookName}}</a>
+                    <a @click="$router.push(`/book/${bookSlug}/${bookId}`)">{{ bookName}}</a>
                 </h5>
                 <p class="book-author index__truyenmoito--theloai">
                     <a class="truncate" href="">{{ authorName }}</a>
@@ -89,6 +89,8 @@ export default {
         bookName: String,
         authorName: String,
         describe: String,
+        bookId: String,
+        bookSlug: String,
     },
 };
 </script>

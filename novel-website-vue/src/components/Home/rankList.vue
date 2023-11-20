@@ -2,7 +2,7 @@
     <div class="index__ranklist col-md-3">
         <h4 class="index__wrap-title">
             {{ criteria_name }}
-            <a href="/bang-xep-hang?sort_by=recommend">
+            <a @click="$router.push(`/filter`)">
                 Tất cả
                 <i class="fa-solid fa-chevron-right"></i>
             </a>

@@ -20,7 +20,7 @@
                 title="Khóa"
             ></i> -->
             <div class="card-title">
-                <a href="/tin-tuc/@item.Slug-@item.PostId" itemprop="url"
+                <a @click="$router.push(`/post/${postId}`)" itemprop="url"
                     >{{ title }}</a
                 ><br />
             </div>
@@ -40,7 +40,8 @@ export default {
         title: String,
         userName: String,
         createdDate: Date,
-        description: String
+        description: String,
+        postId: String,
     }
 };
 </script>

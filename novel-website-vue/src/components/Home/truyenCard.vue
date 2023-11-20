@@ -4,7 +4,10 @@
             <img class="card-img-top" :src="bookCoverCard" alt="Card image" />
             <div class="card-body">
                 <h4 class="card-title">
-                    <a @click="$router.push(`/book/${bookSlugCard}/${bookId}`)">{{ bookNameCard }}</a>
+                    <a
+                        @click="$router.push(`/book/${bookSlugCard}/${bookId}`)"
+                        >{{ bookNameCard }}</a
+                    >
                 </h4>
                 <p class="card-text index__left-wrap--theloai">
                     {{ bookCategoryCard }}
@@ -16,7 +19,7 @@
                     <i v-html="bookDescribeCard"> </i>
                 </p>
                 <a
-                    href="/html/truyen.html"
+                    @click="$router.push(`/book/${bookSlugCard}/${bookId}`)"
                     class="btn btn-primary index__left-wrap--cardbtn"
                 >
                     Đọc truyện
@@ -62,7 +65,7 @@ export default {
                 this.bookCoverCard = res.Avatar;
                 this.bookNumberChaptersCard = res.TotalChapters;
                 this.bookSlugCard = res.Slug;
-                this.bookId = res.BookId
+                this.bookId = res.BookId;
             } catch (e) {
                 console.log(e);
             }

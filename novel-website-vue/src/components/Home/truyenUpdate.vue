@@ -6,7 +6,7 @@
                 <li class="list-group-item" v-for="(item, index) in bookArray" :key="index">
                     <i class="fa-solid fa-book-open"></i>
                     <a @click="$router.push(`/book/${item.Slug}/${item.BookId}`)">{{ item.BookName }}</a>
-                    <span class="index__truyenmoi--chuong">{{ item.TotalChapters }}</span>
+                    <span class="index__truyenmoi--chuong">{{ item.TotalChapters }} chương</span>
                 </li>
             </ul>
         </div>

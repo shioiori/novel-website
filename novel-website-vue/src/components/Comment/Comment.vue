@@ -3,7 +3,7 @@
         <div class="row user--comment-section">
             <div class="user--photo col-md-auto">
                 <a href="javascript:void(0)">
-                    <img src="/image/test3.jpg" />
+                    <img :src="Avatar" />
                 </a>
             </div>
             <div class="col user--discussion-main">
@@ -70,9 +70,11 @@ export default {
         like: Number,
         dislike: Number,
         commentId: String,
+        Avatar: String,
     },
     mounted() {
-        this.checkStatus();
+        this.checkStatusLike();
+        this.checkStatusDisLike()
     },
     methods: {
         toggleComment() {
