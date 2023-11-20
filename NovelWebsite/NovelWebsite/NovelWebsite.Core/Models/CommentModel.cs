@@ -7,6 +7,7 @@ namespace NovelWebsite.NovelWebsite.Core.Models
     {
         public string CommentId { get; set; }
         public string UserId { get; set; }
+        public UserModel User { get; set; }
         public string BookId { get; set; }
         public string ChapterId { get; set; }
         public string PostId { get; set; }
