@@ -37,6 +37,7 @@ namespace NovelWebsite.Infrastructure.Contexts
                 builder.ToTable("Books");
                 builder.Navigation(e => e.Category).AutoInclude();
                 builder.Navigation(e => e.Author).AutoInclude();
+                builder.Navigation(e => e.User).AutoInclude();
             });   
             modelBuilder.Entity<Tag>().ToTable("Tags");
             modelBuilder.Entity<BookTags>().ToTable("BookTags").HasKey(bt => new { bt.BookId, bt.TagId });

@@ -86,7 +86,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             var prevTags = _bookTagRepository.Filter(x => x.BookId == bookId);
             foreach (var tag in prevTags)
             {
-                _bookTagRepository.Delete(prevTags);
+                _bookTagRepository.Delete(tag);
             }
             foreach (var tag in tags)
             {
