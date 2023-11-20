@@ -1,6 +1,8 @@
 <template>
     <div class="col logo">
-        <a href="#"></a>
+        <a href="#">
+            <img src="../../assets/img/logo1.png" alt="logoweb" class="logoweb">
+        </a>
     </div>
 </template>
 
@@ -10,4 +12,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.logoweb {
+    width: 100%;
+    height: 100%;
+}
+</style>

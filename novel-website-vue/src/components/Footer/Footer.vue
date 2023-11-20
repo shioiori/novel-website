@@ -3,7 +3,7 @@
         <div class="footer--container">
             <div class="row footer--inside-container">
                 <div class="col-md-3">
-                    <img src="../../assets/img/logo1.png" height="60" width="100%" alt="logoweb">
+                    <img src="../../assets/img/logo1.png" alt="logoweb" class="logoweb">
                 </div>
                 <div class="col-md-9 footer--text">
                     <i class="fa-regular fa-copyright"></i>
@@ -26,5 +26,8 @@ export default {
 </script>
 
 <style>
-
+.logoweb {
+    width: 100%;
+    height: 100%;
+}
 </style>

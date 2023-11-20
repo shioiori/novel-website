@@ -195,6 +195,7 @@ export default {
             avatar: "",
             file_uploaded: "",
             upload_file: "",
+            bookId: "",
         };
     },
     created() {
@@ -236,6 +237,7 @@ export default {
                     await axios.post(
                         url,
                         {
+                            BookId: this.bookId,
                             BookName: this.tentruyen,
                             CategoryId: this.selectedCategory,
                             Author: {
@@ -267,7 +269,8 @@ export default {
                 (this.tentruyen = temp.BookName),
                 (this.tacgia = temp.Author.AuthorName),
                 (this.noidung = temp.Introduce);
-                (this.file_uploaded = temp.Avatar)
+                (this.file_uploaded = temp.Avatar),
+                (this.bookId = temp.BookId)
             }
         },
         async uploadFile() {
