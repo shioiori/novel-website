@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Google.Apis.Drive.v3.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,11 +33,11 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         private readonly CategoryService _categoryService;
         private readonly UserService _userService;
 
-        public BookController(BookService bookService, 
-                              StatisticService statisticService, 
+        public BookController(BookService bookService,
+                              StatisticService statisticService,
                               ChapterService chapterService,
                               TagService tagService,
-                              AuthorService authorService, 
+                              AuthorService authorService,
                               CategoryService categoryService,
                               UserService userService)
         {
@@ -51,7 +52,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all")]
-        public PagedList<BookModel> GetAll([FromQuery] PagedListRequest request){
+        public PagedList<BookModel> GetAll([FromQuery] PagedListRequest request)
+        {
             var books = _bookService.GetAll().ToArray();
             int count = books.Length;
             for (int i = 0; i < count; ++i)
@@ -77,7 +79,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-by-book-id")]
-        public BookModel GetByBookId(string bookId){
+        public BookModel GetByBookId(string bookId)
+        {
             var book = _bookService.GetById(bookId);
             BindModelAsync(ref book);
             return book;
@@ -99,8 +102,30 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-by-book-status")]
-        public PagedList<BookModel> GetByBookStatus(string status, [FromQuery] PagedListRequest request){
+        public PagedList<BookModel> GetByBookStatus(string status, [FromQuery] PagedListRequest request)
+        {
             var books = _bookService.GetByBookStatus(status).ToArray();
+            int count = books.Length;
+            for (int i = 0; i < count; ++i)
+            {
+                BindModelAsync(ref books[i]);
+            }
+            return PagedList<BookModel>.ToPagedList(books, request);
+        }
+
+        [HttpGet]
+        [Route("get-by-status")]
+        public PagedList<BookModel> GetByUploadStatus(string status, [FromQuery] PagedListRequest request)
+        {
+            BookModel[] books;
+            if (int.TryParse(status, out var num))
+            {
+                books = _bookService.GetByUploadStatus(num).ToArray();
+            }
+            else
+            {
+                books = _bookService.GetByUploadStatus((int)(UploadStatus)Enum.Parse(typeof(UploadStatus), status, true)).ToArray();
+            }
             int count = books.Length;
             for (int i = 0; i < count; ++i)
             {
@@ -196,8 +221,10 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-by-name")]
-        public PagedList<BookModel> GetByName(string name, [FromQuery] PagedListRequest request){
-            var books = _bookService.GetByFilter(new FilterModel(){
+        public PagedList<BookModel> GetByName(string name, [FromQuery] PagedListRequest request)
+        {
+            var books = _bookService.GetByFilter(new FilterModel()
+            {
                 SearchName = name,
             }).ToArray();
             int count = books.Length;
@@ -224,8 +251,10 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(BookModel model){
-            try { 
+        public IActionResult Add(BookModel model)
+        {
+            try
+            {
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
                 model.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
                 if (model.Author != null && model.AuthorId == 0)
@@ -233,8 +262,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                     var author = _authorService.GetAuthorByName(model.Author.AuthorName);
                     if (author == null)
                     {
-                        var add = _authorService.CreateAuthor(model.Author);
-                        model.AuthorId = add.AuthorId;
+                        _authorService.CreateAuthor(model.Author);
+                        model.AuthorId = author.AuthorId;
                     }
                 }
                 var book = _bookService.Add(model);
@@ -253,7 +282,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
-        public IActionResult Update(BookModel model){
+        public IActionResult Update(BookModel model)
+        {
             try
             {
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -287,7 +317,8 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete]
         [Route("delete")]
-        public IActionResult Delete(string bookId){
+        public IActionResult Delete(string bookId)
+        {
             try
             {
                 _bookService.DeleteTemporary(bookId);
@@ -300,7 +331,6 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [Authorize(Roles = "Editor")]
         [HttpPut]
         [Route("set-status")]
         public IActionResult SetStatusBook(string bookId, string status)
