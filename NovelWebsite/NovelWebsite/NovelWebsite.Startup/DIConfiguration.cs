@@ -52,8 +52,11 @@ namespace NovelWebsite.NovelWebsite.Startup
             services.AddScoped<StatisticService>();
 
             services.AddScoped<BookInteractionService>();
-
-
+            services.AddScoped<ChapterInteractionService>();
+            services.AddScoped<PostInteractionService>();
+            services.AddScoped<ReviewInteractionService>();
+            services.AddScoped<CommentInteractionService>();
+            
             services.AddTransient<MailService>();
             return services;
         }

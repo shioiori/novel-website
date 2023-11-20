@@ -7,6 +7,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using System.Security.Claims;
 
 namespace NovelWebsite.NovelWebsite.Api.Controllers
 {
@@ -70,13 +71,57 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return PagedList<ReviewModel>.ToPagedList(reviews);
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [Route("add")]
-        public IActionResult AddReview(ReviewModel review)
+        public IActionResult Add(ReviewModel review)
         {
-            _reviewService.AddReview(review);
-            return NoContent();
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                review.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                _reviewService.Add(review);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Route("update")]
+        public IActionResult Update(ReviewModel review)
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                review.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                _reviewService.Update(review);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Route("delete")]
+        public IActionResult Delete(string reviewId)
+        {
+            try
+            {
+                _reviewService.Delete(reviewId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

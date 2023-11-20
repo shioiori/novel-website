@@ -65,7 +65,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public void CreateChapter(ChapterModel chapter)
         {
-            if (chapter.ChapterNumber == null)
+            if (chapter.ChapterNumber == 0)
             {
                 var count = _chapterRepository.Filter(x => x.BookId == chapter.BookId).Count();
                 chapter.ChapterNumber = count + 1;

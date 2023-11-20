@@ -64,29 +64,53 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Route("add")]
-        public void Add(PostModel post)
+        public IActionResult Add(PostModel post)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            post.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _postService.CreatePost(post);
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                post.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                _postService.CreatePost(post);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Route("update")]
-        public void Update(PostModel post)
+        public IActionResult Update(PostModel post)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            post.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _postService.UpdatePost(post);
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                post.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                _postService.UpdatePost(post);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Route("delete")]
-        public void Delete(string postId)
+        public IActionResult Delete(string postId)
         {
-            _postService.DeletePost(postId);
+            try
+            {
+                _postService.DeletePost(postId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }

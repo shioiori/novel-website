@@ -10,11 +10,14 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
     public class CommentService 
     {
         private readonly ICommentRepository _commentRepository;
+        private readonly ICommentUserRepository _commentUserRepository;
         private readonly IMapper _mapper;
 
-        public CommentService(ICommentRepository commentRepository, IMapper mapper)
+        public CommentService(ICommentRepository commentRepository, 
+                ICommentUserRepository commentUserRepository ,IMapper mapper)
         {
             _commentRepository = commentRepository;
+            _commentUserRepository = commentUserRepository;
             _mapper = mapper;
         }
 
@@ -51,14 +54,29 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public IEnumerable<CommentModel> GetReplyComments(string commentId)
         {
-            //var comments = _commentUserRepository.Filter(x => x.stringeractType == (string)stringeractionType.Comment);
-            //return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentModel>>(comments);
-            throw new NotImplementedException();
+            var comments = _commentUserRepository.Filter(x => x.ReplyCommentId == commentId && x.InteractionId == (int)InteractionType.Comment).ToList();
+            List<CommentModel> cmts = new List<CommentModel>();
+            foreach (var cmt in comments)
+            {
+                cmts.Add(_mapper.Map<Comment, CommentModel>(_commentRepository.GetById(cmt.CommentId)));
+            }
+            return cmts;
         }
 
         public void CreateComment(CommentModel comment)
         {
-            _commentRepository.Insert(_mapper.Map<CommentModel, Comment>(comment));
+            var cmt = _commentRepository.Insert(_mapper.Map<CommentModel, Comment>(comment));
+            if (comment.ReplyCommentId != null)
+            {
+                _commentUserRepository.Insert(new CommentUsers()
+                {
+                    CommentId = cmt.CommentId,
+                    UserId = cmt.UserId,
+                    InteractionId = (int)InteractionType.Comment,
+                    ReplyCommentId = comment.ReplyCommentId
+                });
+                _commentUserRepository.Save();
+            }
             _commentRepository.Save();
         }
 
