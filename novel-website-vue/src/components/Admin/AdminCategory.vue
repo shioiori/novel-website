@@ -36,7 +36,7 @@
                                     </td>
                                     <td>
                                         <div class="category-img">
-                                            <img :src="item.Avatar" />
+                                            <img :src="item.CategoryImage" width="100px" height="100px"/>
                                         </div>
                                     </td>
                                     <td>
@@ -123,7 +123,7 @@
             <div class="col-auto">
                 <div class="category-select-picture">
                     <div class="category-img-container">
-                        <img :src="category.CategoryImage" class="input-img" />
+                        <img :src="file_show" class="input-img" />
                     </div>
                 </div>
             </div>
@@ -156,6 +156,9 @@ export default {
                 "CategoryImage": null,
             },
             file_upload: null,
+            file_show: "",
+            IMGUR_CLIENT_ID: "bfd7491419a38d7",
+            IMGUR_CLIENT_SECRET: "fd69b8a8bb14b13ef34e31071e379b2eae2ea49e"
         }
     },
     created() {
@@ -164,7 +167,7 @@ export default {
     methods: {
         async getCategories() {
             try {
-                let url = `${env.VUE_APP_API_KEY}/category/get-all`;
+                let url = `${env.VUE_APP_API_KEY}/category/get-all?pagesize=20`;
                 let res = (await axios.get(url)).data.Data;
                 this.categories = res;
             } catch (e) {
@@ -197,36 +200,39 @@ export default {
         },
         async saveChange(){
             await this.uploadFile();
-            try {
-                let url = `${env.VUE_APP_API_KEY}/category/${this.category.CategoryId == null ? "add" : "update"}`;
-                let header = {
-                    headers: {
-                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+            this.uploadFile().then(() => {
+                try {
+                    let url = `${env.VUE_APP_API_KEY}/category/${this.category.CategoryId == null ? "add" : "update"}`;
+                    let header = {
+                        headers: {
+                            Authorization : 'Bearer ' + localStorage.getItem("JWT")
+                        }
                     }
+                    axios.post(url, this.category, header);
+                    console.log("ok maybe");
+                    this.getCategories();
+                } catch (e) {
+                    console.log(e);
                 }
-                axios.post(url, this.category, header);
-                console.log(header)
-                console.log(this.category)
-                this.getCategories();
-            } catch (e) {
-                console.log(e);
-            }
+            })
         },
         async uploadFile(){
             if (this.file_upload) {
                 const formData = new FormData();
                 formData.append('image', this.file_upload);
+                console.log(env)
+                console.log(`Client-ID ${this.IMGUR_CLIENT_ID}`);
                 await axios.post('https://api.imgur.com/3/image', formData, {
                     headers: {
-                        Authorization: `Client-ID ${env.IMGUR_CLIENT_ID}`,
+                        Authorization: `Client-ID ${this.IMGUR_CLIENT_ID}`,
                     },
                 })
                 .then(response => {
-                    this.category.CategoryImage =  response.data.data.link;
-                    console.log('Image uploaded. Link:', this.category.CategoryImage);
+                    this.category.CategoryImage = response.data.data.link;
                 })
                 .catch(error => {
                     console.error('Error uploading image:', error);
+                    this.category.CategoryImage = "";
                 });
             } 
             else 
@@ -236,6 +242,11 @@ export default {
         },
         handleFileChange(event) {
             this.file_upload = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                this.file_show = event.target.result;
+            };
+            reader.readAsDataURL(this.file_upload);
         },
     }
 };
