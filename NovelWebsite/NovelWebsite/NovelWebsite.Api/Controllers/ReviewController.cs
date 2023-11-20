@@ -71,6 +71,13 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return PagedList<ReviewModel>.ToPagedList(reviews);
         }
 
+        [HttpGet]
+        [Route("get-by-book")]
+        public PagedList<ReviewModel> GetByBook(string bookId)
+        {
+            var reviews = _reviewService.GetListReviewsByBookId(bookId);
+            return PagedList<ReviewModel>.ToPagedList(reviews);
+        }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]

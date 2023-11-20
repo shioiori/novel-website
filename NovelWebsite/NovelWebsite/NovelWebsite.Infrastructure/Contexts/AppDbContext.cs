@@ -53,7 +53,10 @@ namespace NovelWebsite.Infrastructure.Contexts
             }); 
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Permission>().ToTable("Permissions");
-            modelBuilder.Entity<Post>().ToTable("Posts");
+            modelBuilder.Entity<Post>(builder => {
+                builder.ToTable("Posts");
+                builder.Navigation(e => e.User).AutoInclude();
+            });
             modelBuilder.Entity<Review>(builder =>
             {
                 builder.ToTable("Reviews");
