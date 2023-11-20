@@ -41,7 +41,7 @@ export default {
     methods: {
         async fetchCategoryArray() {
             try {
-                let url = `${apiPath}/category/get-all?pagesize=20`;
+                let url = `${apiPath}/category/get-all?PageSize=20`;
                 let res = (await axios.get(url)).data.Data;
                 console.log(res, "lấy cate");
                 this.categoryArray = res;
@@ -53,10 +53,10 @@ export default {
             let url;
             try {
                 if (criteria == "" || criteria == null) {
-                    url = `${apiPath}/book/get-all?pagesize=20`;
+                    url = `${apiPath}/book/get-all?PageSize=20`;
                     console.log(url)
                 } else {
-                    url = `${apiPath}/book/get-by-category-id?categoryId=${criteria}`;
+                    url = `${apiPath}/book/get-by-category-id?categoryId=${criteria}&PageSize=20`;
                 }
                 let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay sach theo tieu chi", criteria);

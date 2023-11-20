@@ -88,7 +88,7 @@ export default {
     methods: {
         async getTags() {
             try {
-                let url = `${env.VUE_APP_API_KEY}/tag/get-all?pagesize=20`;
+                let url = `${env.VUE_APP_API_KEY}/tag/get-all?PageSize=20`;
                 let res = (await axios.get(url)).data.Data;
                 this.tags = res;
                 console.log(this.tags)

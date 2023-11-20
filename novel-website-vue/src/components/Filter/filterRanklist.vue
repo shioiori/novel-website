@@ -151,7 +151,7 @@ export default {
     methods: {
         async fetchTagId() {
             try {
-                let url = `${apiPath}/tag/get-all?pagesize=20`;
+                let url = `${apiPath}/tag/get-all?PageSize=20`;
                 let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay tag");
                 this.tagID = res;
@@ -161,7 +161,7 @@ export default {
         },
         async fetchCategoryArray() {
             try {
-                let url = `${apiPath}/category/get-all?pagesize=20`;
+                let url = `${apiPath}/category/get-all?PageSize=20`;
                 let res = (await axios.get(url)).data.Data;
                 console.log(res, "lấy cate");
                 this.categoryID = res;
@@ -171,7 +171,7 @@ export default {
         },
         async getBookByFilter() {
             try {
-                let url = `${apiPath}/book/get-by-filter?`;
+                let url = `${apiPath}/book/get-by-filter?PageSize=20&`;
                 // let requestData = {
                 //     BookStatuses: this.bookStatuses,
                 //     UploadStatuses: this.uploadStatus,

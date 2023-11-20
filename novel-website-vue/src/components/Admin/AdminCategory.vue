@@ -167,7 +167,7 @@ export default {
     methods: {
         async getCategories() {
             try {
-                let url = `${env.VUE_APP_API_KEY}/category/get-all?pagesize=20`;
+                let url = `${env.VUE_APP_API_KEY}/category/get-all?PageSize=20`;
                 let res = (await axios.get(url)).data.Data;
                 this.categories = res;
             } catch (e) {

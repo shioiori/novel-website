@@ -16,23 +16,23 @@ namespace NovelWebsite.NovelWebsite.Core.Models.Response
         public int To { get; set; } = 1;
         public List<T> Data {  get; set; }
 
-        public PagedList(T data, int pageSize = 10, int currentPage = 1)
+        public PagedList(T data, int PageSize = 10, int currentPage = 1)
         {
             Data = new List<T> { data };
-            SplitPage(pageSize);
+            SplitPage(PageSize);
             SetCurrentPage(currentPage);
         }
 
-        public PagedList(IEnumerable<T> data, int pageSize = 10, int currentPage = 1)
+        public PagedList(IEnumerable<T> data, int PageSize = 10, int currentPage = 1)
         {
             Data = data.ToList();
-            SplitPage(pageSize);
+            SplitPage(PageSize);
             SetCurrentPage(currentPage);
         }
 
-        private void SplitPage(int pageSize = 10)
+        private void SplitPage(int PageSize = 10)
         {
-            PerPage = (int)pageSize;
+            PerPage = (int)PageSize;
             Total = Data.Count();
             LastPage = (int)Math.Ceiling(Total * 1.0 / PerPage);
         }
@@ -44,9 +44,9 @@ namespace NovelWebsite.NovelWebsite.Core.Models.Response
             To = From + PerPage;
             Data = Data.Skip(PerPage * CurrentPage - PerPage).Take(PerPage).ToList();
         }
-        public static PagedList<T> ToPagedList(IEnumerable<T> source, int pageSize = 10, int pageNumber = 1)
+        public static PagedList<T> ToPagedList(IEnumerable<T> source, int PageSize = 10, int pageNumber = 1)
         {
-            return new PagedList<T>(source, pageSize, pageNumber);
+            return new PagedList<T>(source, PageSize, pageNumber);
         }
 
         public static PagedList<T> ToPagedList(IEnumerable<T> source, PagedListRequest request)

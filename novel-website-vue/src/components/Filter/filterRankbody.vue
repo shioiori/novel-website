@@ -106,7 +106,7 @@ export default {
     methods: {
         async getBook() {
             try {
-                let url = `${apiPath}/book/get-all`;
+                let url = `${apiPath}/book/get-all?PageSize=20`;
                 let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay sach loc");
                 this.tempBookArr = res;
@@ -120,7 +120,7 @@ export default {
                 return;
             } else {
                 try {
-                    let url = `${apiPath}/book/get-by-category-id?categoryId=${key}`;
+                    let url = `${apiPath}/book/get-by-category-id?categoryId=${key}&PageSize=20`;
                     let res = (await axios.get(url)).data.Data;
                     if (res) {
                         this.$store.dispatch("setBookArr", res);
@@ -139,7 +139,7 @@ export default {
                 return;
             } else {
                 try {
-                    let url = `${apiPath}/book/get-by-filter?SearchName=${key}`;
+                    let url = `${apiPath}/book/get-by-filter?SearchName=${key}&PageSize=20`;
                     let res = (await axios.get(url)).data.Data;
                     if (res) {
                         this.$store.dispatch("setBookArr", res);

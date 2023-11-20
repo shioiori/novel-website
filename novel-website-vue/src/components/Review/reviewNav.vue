@@ -90,7 +90,7 @@ export default {
     methods: {
         async getCategory() {
             try {
-                let url = `${apiPath}/category/get-all?pagesize=20`
+                let url = `${apiPath}/category/get-all?PageSize=20`
                 let res = (await axios.get(url)).data.Data
                 console.log(res, "lay cate");
                 this.categoryArray = res
@@ -120,7 +120,7 @@ export default {
         },
         async getTempReviewArr() {
             try {
-                let url = `${apiPath}/review/get-by-filter?pagesize=20`
+                let url = `${apiPath}/review/get-by-filter?PageSize=20`
                 let res = (await axios.get(url)).data.Data
                 console.log(res, "lay review theo cate all")
                 this.$store.dispatch("setReviewArr", res)
