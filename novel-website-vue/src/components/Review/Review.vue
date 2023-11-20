@@ -14,14 +14,11 @@
                 <div id="commentList">
                     <div class="review-group" id="review-@item.ReviewId">
                         <reviewItem v-for="(item, index) in tempReviewArr" :key="index"
-                        :avatar="item.User.Avatar"
-                        :userName="item.User.Username"
+                        :avatar="item.User"
+                        :userName="item.UserId"
                         :content="item.Content"
                         :likes="item.Likes"
-                        :bookCover="item.Book.Avatar"
-                        :bookName="item.Book.BookName"
-                        :authorName="item.Book.Author.AuthorName"
-                        :describe="item.Book.Introduce"
+                        :bookName="item.BookId"
                         ></reviewItem>
                     </div>
                 </div>

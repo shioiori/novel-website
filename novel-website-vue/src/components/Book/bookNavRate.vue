@@ -136,7 +136,7 @@ export default {
     methods: {
         async addReview() {
             try {
-                let url = `${apiPath}/comment/add`;
+                let url = `${apiPath}/review/add`;
                 let header = {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("JWT"),
@@ -152,7 +152,9 @@ export default {
                         header
                     )
                 ).data;
-                console.log(res, "review thanh cong");
+                console.log(res)
+                alert("review thanh cong");
+                window.location.reload()
             } catch (e) {
                 console.log(e);
             }

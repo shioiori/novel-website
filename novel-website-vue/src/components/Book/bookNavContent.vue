@@ -29,7 +29,7 @@
                                                 item, index
                                             ) in bookContent.Tags"
                                             :key="index"
-                                            >{{ item.Tags.TagName }}</a
+                                            >{{ item.TagName }}</a
                                         >
                                     </p>
                                 </div>
@@ -64,7 +64,7 @@
                                 <comment-area v-if="authenFlag" :BookId="bookContent.BookId" @reload="getComment()"></comment-area>
                                 <comment v-for="(item, index) in commentArr"
                                 :key="index"
-                                :user-name="item.UserId"
+                                :user-name="item.User"
                                 :content="item.Content"
                                 :created-date="item.CreatedDate"
                                 :like="item.Likes"

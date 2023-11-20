@@ -22,8 +22,7 @@
                         <div class="comment-info">
                             <a href="#!" class="comment-interval"></a>
                         </div>
-                        <div class="comment-content-msg word-wrap">
-                            {{ content }}
+                        <div class="comment-content-msg word-wrap" v-html="content">
                         </div>
                         <div class="comment-content-footer float-end">
                             <div

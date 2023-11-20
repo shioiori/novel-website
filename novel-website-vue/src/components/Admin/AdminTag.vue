@@ -1,7 +1,7 @@
 <template>
-    <div class="row col-md-10">
+    <div class="col-md-10">
 
-        <div class="col-md-12 config-box">
+        <div class="col-md-12 config-box" style="margin-bottom: 1rem">
             <div class="col-md-12">
                 <h4>Thêm thẻ</h4>
             </div>

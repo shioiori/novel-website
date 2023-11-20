@@ -60,7 +60,7 @@
                     <div class="editor--content">
                         <select v-model="selectedStatus" class="form-select">
                             <option disabled value="">Please select one</option>
-                            <option v-for="item in statusArr" :key="item[1]">
+                            <option v-for="item in statusArr" :key="item[1]" :value="item[1]">
                                 {{ item[0] }}
                             </option>
                         </select>
@@ -239,9 +239,11 @@ export default {
             let selectedTagObject = [];
             this.selectedTag.forEach((tag) => {
                 selectedTagObject.push({
-                    TagId: tag,
+                    "TagId": tag,
                 });
+                console.log(selectedTagObject)
             });
+            console.log(index, selectedTagObject, this.selectedStatus, this.noidung)
             let header = {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("JWT"),
@@ -254,13 +256,11 @@ export default {
                         url,
                         {
                             BookName: this.tentruyen,
+                            CategoryId: this.selectedCategory,
                             Author: {
                                 AuthorName: this.tacgia,
                             },
                             BookStatus: this.selectedStatus,
-                            Category: {
-                                CategoryId: this.selectedCategory,
-                            },
                             Tags: selectedTagObject,
                             Introduce: this.noidung,
                             Avatar: this.file_uploaded,

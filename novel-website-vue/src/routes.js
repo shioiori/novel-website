@@ -8,6 +8,7 @@ import Error from "./components/Error/Error.vue";
 import Billboard from "./components/Billboard/Billboard.vue";
 import Author from "./components/Author/Author.vue";
 import ListOfPost from "./components/Post/ListOfPost.vue";
+import PostItem from "./components/Post/PostLayout.vue"
 import Review from "./components/Review/Review.vue";
 import User from "./components/User/User.vue";
 
@@ -114,6 +115,11 @@ const router = new VueRouter({
             path: "/list-post",
             component: ListOfPost,
             name: "list-post",
+        },
+        {
+            path: '/post/:id',
+            component: PostItem,
+            name: 'post-layout'
         },
         {
             path: "/review",
