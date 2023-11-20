@@ -22,6 +22,14 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             _postService = postService;
         }
 
+        [Route("get-all")]
+        [HttpGet]
+        public PagedList<PostModel> GetALl([FromQuery] PagedListRequest request)
+        {
+            var posts = _postService.GetPublishedPosts();
+            return PagedList<PostModel>.ToPagedList(posts, request);
+        }
+    }
 
         [Route("get-by-id")]
         [HttpGet]
