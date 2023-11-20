@@ -17,7 +17,7 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
         {
-            var review = _reviewUserRepository.Filter(x => x.ReviewId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var review = _reviewUserRepository.GetByExpression(x => x.ReviewId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (review == null)
             {
                 return false;
