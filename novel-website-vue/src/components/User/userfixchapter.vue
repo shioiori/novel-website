@@ -58,7 +58,7 @@
                     />
                 </div>
             </div>
-            <button class="btn btn-primary submit-btn" type="submit">
+            <button class="btn btn-primary submit-btn" @click="updateChapter()">
                 Đăng
             </button>
         </div>
@@ -68,9 +68,8 @@
 <script>
 import Editor from "@tinymce/tinymce-vue";
 import "../../assets/css/dangtruyen.css";
-// import axios from "axios";
-
-// const apiPath = process.env.VUE_APP_API_KEY;
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
     name: "userfixchapter-layout",
@@ -81,19 +80,46 @@ export default {
         return {
             tenchuong: this.receiveData.ChapterName,
             noidung: this.receiveData.Content,
+            chapterId: this.receiveData.ChapterId,
+            ChapterNumber: this.receiveData.ChapterNumber
         }
     },
     props: {
         receiveData: Object
     },
-    // created() {
-    //     this.fetch();
-    // },
-    // methods: {
-    //     fetch() {
-    //         console.log(this.receiveData, 'fixchapter')
-    //     }
-    // }
+    created() {
+    },
+    methods: {
+        async updateChapter() {
+            try {
+                let url = `${apiPath}/chapter/update`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                let res = (
+                    await axios.post(
+                        url,
+                        {
+                            BookId: this.bookId,
+                            ChapterName: this.tenchuong,
+                            ChapterId: this.chapterId,
+                            Content: this.noidung,
+                            ChapterNumber: this.ChapterNumber,
+                            Status: 2
+                        },
+                        header
+                    )
+                ).data;
+                console.log(res, 'thanhcong khong?')
+                alert("Đăng thành công! Chờ xét duyệt!")
+                window.location.reload()
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
 };
 </script>
 

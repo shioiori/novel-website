@@ -102,7 +102,7 @@
                 <div class="col-md-10">
                     <div class="editor--content">
                         <select v-model="selectedCategory" class="form-select">
-                            <option value="">Please select one</option>
+                            <!-- <option value="">Please select one</option> -->
                             <option
                                 v-for="item in categoryArr"
                                 :key="item.CategoryId"
@@ -300,6 +300,11 @@ export default {
         },
         handleFileChange(event) {
             this.upload_file = event.target.files[0];
+            if(this.upload_file) {
+                this.file_uploaded = URL.createObjectURL(this.upload_file);
+            } else {
+                this.file_uploaded = null;
+            }
         },
     },
 };

@@ -6,7 +6,7 @@
             <div class="rank-box-main col-9">
                 <div class="rank-box-main-header">
                     <h4>Bộ lọc</h4>
-                    <filterRanktoolbar></filterRanktoolbar>
+                    <!-- <filterRanktoolbar></filterRanktoolbar> -->
                 </div>
                 <filterRankbody></filterRankbody>
                 <!-- <div class="rank-box-main-pagination">
@@ -48,7 +48,7 @@ import Header from "../Header/Header.vue";
 import Footer from "../Footer/Footer.vue";
 import filterRanklist from "./filterRanklist.vue";
 import filterRankbody from "./filterRankbody.vue";
-import filterRanktoolbar from "./filterRanktoolbar.vue";
+// import filterRanktoolbar from "./filterRanktoolbar.vue";
 
 export default {
     name: "filter-layout",
@@ -57,7 +57,7 @@ export default {
         Footer,
         filterRanklist,
         filterRankbody,
-        filterRanktoolbar
+        // filterRanktoolbar
     },
 };
 </script>

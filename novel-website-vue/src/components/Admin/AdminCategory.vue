@@ -236,6 +236,11 @@ export default {
         },
         handleFileChange(event) {
             this.file_upload = event.target.files[0];
+            // if(this.file_upload) {
+            //     this.file_uploaded = URL.createObjectURL(this.file_upload);
+            // } else {
+            //     this.file_uploaded = null;
+            // }
         },
     }
 };

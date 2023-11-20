@@ -55,7 +55,7 @@
                     <div class="editor--content">
                         <select v-model="selectedStatus" class="form-select">
                             <option disabled value="">Please select one</option>
-                            <option v-for="item in statusArr" :key="item[1]">
+                            <option v-for="item in statusArr" :key="item[1]" :value="item[1]">
                                 {{ item[0] }}
                             </option>
                         </select>
@@ -91,7 +91,6 @@
                 <div class="col-md-10">
                     <div class="editor--content">
                         <select v-model="selectedCategory" class="form-select">
-                            <option value="">Please select one</option>
                             <option
                                 v-for="item in categoryArr"
                                 :key="item.CategoryId"
@@ -152,7 +151,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" style="margin-top: 1rem">
+                <div class="col-md-6" style="margin-top: 1rem">
                     <button
                         class="btn btn-primary submit-btn user-profile-submit-btn"
                         type="submit"
@@ -219,10 +218,11 @@ export default {
             }
         },
         async updateBook() {
+            this.uploadFile()
             let selectedTagObject = [];
             this.selectedTag.forEach((tag) => {
                 selectedTagObject.push({
-                    TagId: tag,
+                    "TagId": tag,
                 });
             });
             let header = {
@@ -237,16 +237,15 @@ export default {
                         url,
                         {
                             BookName: this.tentruyen,
+                            CategoryId: this.selectedCategory,
                             Author: {
                                 AuthorName: this.tacgia,
                             },
                             BookStatus: this.selectedStatus,
-                            Category: {
-                                CategoryId: this.selectedCategory,
-                            },
                             Tags: selectedTagObject,
                             Introduce: this.noidung,
-                            Avatar: this.avatar,
+                            Avatar: this.file_uploaded,
+                            Status: 1
                         },
                         header
                     )
@@ -297,6 +296,11 @@ export default {
         },
         handleFileChange(event) {
             this.upload_file = event.target.files[0];
+            if(this.upload_file) {
+                this.file_uploaded = URL.createObjectURL(this.upload_file);
+            } else {
+                this.file_uploaded = null;
+            }
         },
     },
 };

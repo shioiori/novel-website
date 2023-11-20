@@ -61,6 +61,21 @@
         </div> -->
 
         <div class="rank-box-item-box">
+            <h4>Thể loại</h4>
+            <ul class="nav nav-pills" id="filter-tags">
+                <li
+                    class="nav-item"
+                    data-temp-value="view"
+                    v-for="(item, index) in categoryID"
+                    :key="index"
+                    :class="{ selected: CategoryIds.includes(item.CategoryId) }"
+                >
+                    <a @click="toggleCategoryIds(item.CategoryId)">{{ item.CategoryName }}</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="rank-box-item-box">
             <h4>Tags</h4>
             <ul class="nav nav-pills" id="filter-tags">
                 <li
@@ -120,6 +135,7 @@ export default {
             tagID: [],
             bookStatuses: [],
             uploadStatus: [],
+            categoryID: [],
             CategoryIds: [],
             ChapterRange: [],
             AuthorIds: [],
@@ -130,6 +146,7 @@ export default {
     },
     created() {
         this.fetchTagId();
+        this.fetchCategoryArray()
     },
     methods: {
         async fetchTagId() {
@@ -138,6 +155,16 @@ export default {
                 let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay tag");
                 this.tagID = res;
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async fetchCategoryArray() {
+            try {
+                let url = `${apiPath}/category/get-all`;
+                let res = (await axios.get(url)).data.Data;
+                console.log(res, "lấy cate");
+                this.categoryID = res;
             } catch (e) {
                 console.log(e);
             }
@@ -176,6 +203,11 @@ export default {
                 if(this.TagIds != null || this.TagIds != "") {
                     this.TagIds.forEach((item) => {
                         requestData += `TagIds=${item}&`
+                    })
+                }
+                if(this.CategoryIds != null || this.CategoryIds != "") {
+                    this.CategoryIds.forEach((item) => {
+                        requestData += `CategoryIds=${item}&`
                     })
                 }
                 console.log(requestData)
@@ -223,6 +255,13 @@ export default {
                 this.TagIds = this.TagIds.filter((i) => i !== tagid);
             } else {
                 this.TagIds.push(tagid);
+            }
+        },
+        toggleCategoryIds(cateId) {
+            if (this.CategoryIds.includes(cateId)) {
+                this.CategoryIds = this.CategoryIds.filter((i) => i !== cateId);
+            } else {
+                this.CategoryIds.push(cateId);
             }
         },
     },

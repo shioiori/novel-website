@@ -42,7 +42,7 @@
                             Đăng truyện
                         </a>
                     </li>
-                    <li
+                    <!-- <li
                         class="col-left"
                         :class="{ 'active-userprofile': flag == 5 }"
                     >
@@ -50,7 +50,7 @@
                             <i class="fa-solid fa-briefcase"></i>
                             Sửa truyện
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- <ul class="row-lef-bottom">
                     <li id="dangtruyen" class="col-left">
