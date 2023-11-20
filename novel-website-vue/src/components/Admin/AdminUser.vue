@@ -288,7 +288,7 @@ export default {
             try {
                 let header = {
                     headers: {
-                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                        Authorization : 'Bearer ' + localStorage.getItem("JWT")
                     }
                 }
                 let url = `${env.VUE_APP_API_KEY}/user/get-all`;
@@ -302,7 +302,7 @@ export default {
         async searchUser(){
             let header = {
                     headers: {
-                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                        Authorization : 'Bearer ' + localStorage.getItem("JWT")
                     }
                 }
             try {
@@ -316,7 +316,7 @@ export default {
         async getRoles(){
             let header = {
                 headers: {
-                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    Authorization : 'Bearer ' + localStorage.getItem("JWT")
                 }
             }
             try {
@@ -331,7 +331,7 @@ export default {
             this.username = username;
             let header = {
                 headers: {
-                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    Authorization : 'Bearer ' + localStorage.getItem("JWT")
                 }
             }
             try {
@@ -346,7 +346,7 @@ export default {
             if (this.username == "" && this.selected_role == "Please select a role") return;
             let header = {
                 headers: {
-                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    Authorization : 'Bearer ' + localStorage.getItem("JWT")
                 }
             }
             try {
@@ -361,7 +361,7 @@ export default {
             if (this.username == "" && this.selected_role == "Please select a role") return;
             let header = {
                 headers: {
-                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    Authorization : 'Bearer ' + localStorage.getItem("JWT")
                 }
             }
             try {
@@ -375,7 +375,7 @@ export default {
         async filterRole(role){
             let header = {
                 headers: {
-                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    Authorization : 'Bearer ' + localStorage.getItem("JWT")
                 }
             }
             try {
@@ -389,7 +389,7 @@ export default {
         async filterStatus(status){
             let header = {
                 headers: {
-                    Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                    Authorization : 'Bearer ' + localStorage.getItem("JWT")
                 }
             }
             try {

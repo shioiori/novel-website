@@ -43,7 +43,7 @@
                     <div class="book--info-buttons book-info-page">
                         <a
                             class="btn"
-                            @click="$router.push(`/book/${bookContent.Slug}/${bookContent.BookId}/${chapStart}/chap-${chapNumb}`)"
+                            @click="$router.push(`/book/${bookContent.Slug}/${bookContent.BookId}/chap-1`)"
                             >Đọc truyện</a
                         >
                         <a
@@ -117,10 +117,9 @@ export default {
         async getChapStart() {
             try {
                 let url = `${apiPath}/chapter/get-all?bookId=${this.$route.params.id}`;
-                let res = (await axios.get(url)).data.Data[0];
+                let res = (await axios.get(url)).data;
                 console.log(res, 'res info')
                 this.chapStart = res.ChapterId;
-                this.chapNumb = res.ChapterNumber;
             } catch (e) {
                 console.log(e);
             }

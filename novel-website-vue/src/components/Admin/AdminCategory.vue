@@ -40,7 +40,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="dropstart">
+                                        <div class="dropstart theloai">
                                             <button
                                                 class="btn btn-primary"
                                                 type="button"
@@ -245,5 +245,9 @@ export default {
 .config-box > .col-12,
 .config-box > .col-auto {
     margin-bottom: 1rem;
+}
+.dropstart.theloai {
+    display: flex;
+    justify-content: space-evenly;
 }
 </style>

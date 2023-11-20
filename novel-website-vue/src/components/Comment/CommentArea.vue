@@ -55,6 +55,12 @@ export default {
             userComment: ""
         }
     },
+    props: {
+        BookId: String,
+        ChapterId: String,
+        PostId: String,
+        ReviewId: String,
+    },
     methods: {
         async addComment() {
             try {
@@ -69,14 +75,17 @@ export default {
                     await axios.post(
                         url,
                         {
-                            BookId: this.$route.params.id,
+                            BookId: this.BookId,
+                            ChapterId: this.ChapterId,
+                            PostId: this.PostId,
+                            ReviewId: this.ReviewId,
                             Content: this.userComment,
                         },
                         header
                     )
                 ).data;
-                console.log(res);
-                alert('thanh cong')
+                console.log(res, 'thanhcong');
+                this.$emit('reload')
             } catch (e) {
                 console.log(e);
             }

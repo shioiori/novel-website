@@ -74,7 +74,10 @@
                     />
                 </div>
             </div>
-            <button class="btn btn-primary submit-btn" type="submit">
+            <button class="btn btn-primary submit-btn" @click="addChapter(0)">
+                Nháp
+            </button>
+            <button class="btn btn-primary submit-btn" @click="addChapter(2)">
                 Đăng
             </button>
         </div>
@@ -98,9 +101,10 @@ export default {
             bookName: null,
             noidung: "",
             tenchuong: "",
+            chapMax: null,
         };
     },
-    created() {
+    mounted() {
         this.fetchBook();
     },
     methods: {
@@ -109,6 +113,38 @@ export default {
                 let url = `${apiPath}/book/get-by-book-id?bookId=${this.bookId}`;
                 let res = (await axios.get(url)).data;
                 this.bookName = res.BookName;
+                this.chapMax = res.TotalChapters
+                url = `${apiPath}/chapter/get-all?bookId=${this.bookId}`;
+                res = (await axios.get(url)).data;
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async addChapter(index) {
+            this.fetchBook()
+            try {
+                let url = `${apiPath}/chapter/add`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                let res = (
+                    await axios.post(
+                        url,
+                        {
+                            BookId: this.bookId,
+                            ChapterName: this.tenchuong,
+                            Content: this.noidung,
+                            ChapterNumber: this.chapMax + 1,
+                            Status: index
+                        },
+                        header
+                    )
+                ).data;
+                console.log(res, 'thanhcong khong?')
+                alert("Đăng thành công! Chờ xét duyệt!")
+                window.location.reload()
             } catch (e) {
                 console.log(e);
             }

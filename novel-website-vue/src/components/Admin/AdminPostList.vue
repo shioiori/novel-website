@@ -29,7 +29,7 @@
                     <h4 class="box-title">Tất cả bài viết</h4>
                 </div>
                 <div class="tab-content" style="margin: 1.5rem">
-                    <div class="post row">
+                    <div class="post row" v-for="(item, index) in postArr" :key="index">
                         <div class="user-block">
                             <img
                                 class="img-circle img-bordered-sm"
@@ -51,16 +51,16 @@
                                 </span>
 
                                 <a href="/Admin/Blog/Post?id=@item.Id"
-                                    >@item.Title</a
+                                    >{{ item.Title }}</a
                                 >
                                 <a href="#" class="pull-right btn-box-tool"></a>
                             </span>
                             <span class="description"
-                                >Written by @item.AuthorName - Shared public -
-                                @item.CreatedDate.ToString("MMM d, yyyy")</span
+                                >Written by {{ item.User.UserName }} - Shared public -
+                                {{ item.CreatedDate }}</span
                             >
                         </div>
-                        <p>@item.Description</p>
+                        <p>{{ item.Description }}</p>
                     </div>
 
                     <!-- <div class="post row">
@@ -116,8 +116,30 @@
 </template>
 
 <script>
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
+
 export default {
     name: "adminpostlist-layout",
+    data() {
+        return {
+            postArr: null,
+        }
+    },
+    created() {
+        this.fetchPost() 
+    },
+    methods: {
+        async fetchPost() {
+            try {
+                let url = `${apiPath}/post/get-by-filter`;
+                let res = (await axios.get(url)).data.Data;
+                this.postArr = res;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
 };
 </script>
 

@@ -90,7 +90,7 @@ export default {
             try {
                 let header = {
                     headers: {
-                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                        Authorization : 'Bearer ' + localStorage.getItem("JWT")
                     }
                 }
                 let url = `${env.VUE_APP_API_KEY}/role/get-all`;
@@ -104,7 +104,7 @@ export default {
             try {
                 let header = {
                     headers: {
-                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                        Authorization : 'Bearer ' + localStorage.getItem("JWT")
                     }
                 }
                 let url = `${env.VUE_APP_API_KEY}/role/delete?role=` + name;
@@ -119,7 +119,7 @@ export default {
                 let url = `${env.VUE_APP_API_KEY}/role/add`;
                 let header = {
                     headers: {
-                        Authorization : 'Bearer ' + localStorage.getItem(env.JWT_API_KEY)
+                        Authorization : 'Bearer ' + localStorage.getItem("JWT")
                     }
                 }
                 axios.post(url, this.role, header);

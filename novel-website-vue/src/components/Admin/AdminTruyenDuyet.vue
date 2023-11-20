@@ -1,5 +1,5 @@
 <template>
-    <div class="row col-md-10">
+    <div class="col-md-10">
         <div class="col-md-12">
             <h4>Truyện chưa duyệt</h4>
         </div>
@@ -52,7 +52,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="dropstart">
+                                <div class="dropstart truyenduyet">
                                     <button
                                         class="btn btn-success"
                                         type="button"
@@ -125,4 +125,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.truyenduyet {
+    display: flex;
+    justify-content: space-around;
+}
+</style>

@@ -51,7 +51,7 @@ export default {
             console.log('eventbus gọi')
             if (value == 0) {
                 this.chapNumb--;
-            } else {
+            } else if(value == 1) {
                 this.chapNumb++;
             }
             this.fetchChapterByIndex();

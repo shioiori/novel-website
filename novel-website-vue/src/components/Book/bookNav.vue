@@ -49,9 +49,7 @@
             </div>
         </div>
         <div class="tab-content">
-            <bookNavContent
-                
-            ></bookNavContent>
+            <bookNavContent></bookNavContent>
             <bookNavChapter></bookNavChapter>
             <bookNavRate></bookNavRate>
         </div>

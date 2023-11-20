@@ -37,7 +37,10 @@
                                     v-for="(item, index) in chapterArr"
                                     :key="index"
                                 >
-                                    <a href="/html/doctruyen.html"
+                                    <a
+                                        @click="
+                                            handleBoxTool(item.ChapterNumber)
+                                        "
                                         >Chương {{ item.ChapterNumber }}:
                                         {{ item.ChapterName }}</a
                                     >
@@ -140,8 +143,7 @@
             </ul>
         </div>
         <div class="box-chapters">
-            <div class="box-chap">
-                {{ chapterContent }}
+            <div class="box-chap" v-html="chapterContent">
             </div>
 
             <div class="box-ads">
@@ -187,7 +189,7 @@
 
 <script>
 import axios from "axios";
-import { EventBus } from '../../main';
+import { EventBus } from "../../main";
 const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
@@ -202,6 +204,7 @@ export default {
             chapterContent: null,
             chapterLike: null,
             chapterArr: null,
+            chapterId: null,
             bookId: this.$route.params.id,
             bookSlug: this.$route.params.slug,
             chapNumb: Number(this.$route.params.number),
@@ -228,10 +231,32 @@ export default {
     //     chapterLikes: Number,
     // },
     methods: {
+        async checkChapterLike() {
+            try {
+                let url = `${apiPath}/chapter/get-by-chapter-index?bookId=${this.bookId}&index=${this.$route.params.number}`;
+                let res = (await axios.get(url)).data;
+                this.chapterId = res.ChapterId;
+                url = `${apiPath}/interact/chapter/is-liked?chapterId=${this.chapterId}`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                res = (await axios.get(url, header)).data;
+                console.log(res);
+            } catch (e) {
+                console.log(e);
+            }
+        },
         async setChapterLike() {
             try {
-                let url = `${apiPath}/interact/chapter/is-liked?chapterId=${this.$route.params.id}`;
-                let res = (await axios.get(url)).data;
+                let url = `${apiPath}/interact/chapter/set-status-like?chapterId=${this.chapterId}`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                let res = (await axios.get(url, header)).data;
                 console.log(res);
             } catch (e) {
                 console.log(e);
@@ -251,12 +276,17 @@ export default {
                 let url = `${apiPath}/chapter/get-by-chapter-index?bookId=${this.bookId}&index=${this.$route.params.number}`;
                 let res = (await axios.get(url)).data;
                 this.chapter = res;
-                this.chapterLike = res.Likes
-                this.chapterContent = res.Content
+                this.chapterLike = res.Likes;
+                this.chapterContent = res.Content;
+                console.log(res, "fetch");
                 url = `${apiPath}/chapter/get-all?bookId=${this.$route.params.id}`;
                 res = (await axios.get(url)).data.Data;
                 this.chapterArr = res;
-                this.chapMax = res[res.length - 1].ChapterNumber;
+                this.chapMax = res.length;
+                console.log(this.chapNumb, "chapnumb");
+                console.log(this.chapMax, "boxchapter");
+
+                this.loadFlag = true;
             } catch (e) {
                 console.log(e);
             }
@@ -269,8 +299,9 @@ export default {
                     }`
                 );
                 window.location.reload();
-                EventBus.$emit('changeChap', 1)
+                EventBus.$emit("changeChap", 1);
             } else {
+                console.log("fail");
                 return;
             }
         },
@@ -282,8 +313,9 @@ export default {
                     }`
                 );
                 window.location.reload();
-                EventBus.$emit('changeChap', 0)
+                EventBus.$emit("changeChap", 0);
             } else {
+                console.log("fail");
                 return;
             }
         },
@@ -366,9 +398,21 @@ export default {
                 element.classList.add("font-" + name);
             });
         },
+        handleBoxTool(chapNumb) {
+            let check = this.$route.params.number;
+            if (chapNumb == check) {
+                return;
+            } else {
+                this.$router.push(
+                    `/book/${this.bookSlug}/${this.bookId}/chap-${chapNumb}`
+                );
+                window.location.reload();
+            }
+        },
     },
     created() {
         this.fetchChapter();
+        this.checkChapterLike();
     },
 };
 </script>

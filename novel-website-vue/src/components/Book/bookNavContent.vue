@@ -61,14 +61,14 @@
                                 class="list-group list-group-flush"
                                 id="list-comment"
                             >
-                                <comment-area v-if="authenFlag"></comment-area>
+                                <comment-area v-if="authenFlag" :BookId="bookContent.BookId" @reload="getComment()"></comment-area>
                                 <comment v-for="(item, index) in commentArr"
                                 :key="index"
-                                :user-name="item.User.Username"
+                                :user-name="item.UserId"
                                 :content="item.Content"
                                 :created-date="item.CreatedDate"
-                                :like="item.Like"
-                                :dislike="item.dislike"
+                                :like="item.Likes"
+                                :dislike="item.DisLikes"
                                 :comment-id="item.CommentId"
                                 ></comment>
                             </ul>

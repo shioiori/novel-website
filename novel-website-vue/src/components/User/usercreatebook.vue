@@ -8,9 +8,7 @@
             </div> -->
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="editor--header">
-                        Đăng truyện
-                    </h3>
+                    <h3 class="editor--header">Đăng truyện</h3>
                 </div>
             </div>
             <div class="row">
@@ -79,16 +77,21 @@
                             class="editor--img-container"
                             style="margin-bottom: 10px"
                         >
-                            <img src="" class="input-img" />
+                            <img :src="file_uploaded" class="input-img" />
                         </div>
-                        <input type="file" name="fileUpload" />
                         <input
+                            type="file"
+                            name="fileUpload"
+                            @change="handleFileChange($event)"
+                        />
+                        <!-- <input
                             type="text"
                             name="Avatar"
                             asp-for="@Model.Avatar"
                             value=""
-                            hidden
-                        />
+                            
+                            
+                        /> -->
                     </div>
                 </div>
             </div>
@@ -160,11 +163,20 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" style="margin-top: 1rem">
+                <div class="col-md-6" style="margin-top: 1rem">
                     <button
                         class="btn btn-primary submit-btn user-profile-submit-btn"
                         type="submit"
-                        @click="addBook()"
+                        @click="addBook(0)"
+                    >
+                        Nháp
+                    </button>
+                </div>
+                <div class="col-md-6" style="margin-top: 1rem">
+                    <button
+                        class="btn btn-primary submit-btn user-profile-submit-btn"
+                        type="submit"
+                        @click="addBook(1)"
                     >
                         Đăng
                     </button>
@@ -201,6 +213,8 @@ export default {
             tentruyen: "",
             tacgia: "",
             noidung: "",
+            file_uploaded: "",
+            upload_file: "",
         };
     },
     created() {
@@ -220,17 +234,18 @@ export default {
                 console.log(e);
             }
         },
-        async addBook() {
+        async addBook(index) {
+            this.uploadFile();
             let selectedTagObject = [];
             this.selectedTag.forEach((tag) => {
                 selectedTagObject.push({
                     TagId: tag,
                 });
             });
-            const headers = {
-                Authorization:
-                    "Bearer " +
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjcyZDAxYTExLTNkYjctNDE3ZS1iYjA2LTgyOGFiOTI0OTMyOSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhZG1pbiIsImp0aSI6IjhkNmQ5ZjUwLTljM2UtNDFiOS04NTM1LTE2NjY1Yzk3ZTlmZiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3MDAxMzA4NTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUyMzQ2LyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUyMzQ2LyJ9.QPN6-K3e3YygR3rW8GKXxGRTsx0dnVXFQqb2xvcG-7w",
+            let header = {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("JWT"),
+                },
             };
             try {
                 let url = `${apiPath}/book/add`;
@@ -248,19 +263,43 @@ export default {
                             },
                             Tags: selectedTagObject,
                             Introduce: this.noidung,
+                            Avatar: this.file_uploaded,
+                            Status: index
                         },
-                        {
-                            headers: headers,
-                        }
+                        header
                     )
                 ).data;
-                console.log(res);
-                // console.log(this.selectedTag);
-                // console.log(this.selectedCategory, 'cate');
-                // console.log(this.selectedStatus, 'status');
+                console.log(res, "thanhcong");
             } catch (e) {
                 console.log(e);
             }
+        },
+        async uploadFile() {
+            if (this.upload_file) {
+                const formData = new FormData();
+                formData.append("image", this.upload_file);
+                await axios
+                    .post("https://api.imgur.com/3/image", formData, {
+                        headers: {
+                            Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+                        },
+                    })
+                    .then((response) => {
+                        this.file_uploaded = response.data.data.link;
+                        console.log(
+                            "Image uploaded. Link:",
+                            this.category.CategoryImage
+                        );
+                    })
+                    .catch((error) => {
+                        console.error("Error uploading image:", error);
+                    });
+            } else {
+                console.warn("No file selected for upload.");
+            }
+        },
+        handleFileChange(event) {
+            this.upload_file = event.target.files[0];
         },
     },
 };

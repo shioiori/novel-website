@@ -10,9 +10,7 @@
                         <a @click="$emit('tabChange')" class="btn btn-secondary"
                             >Quay lại</a
                         >
-                        <a
-                            @click="handleTabChange(2)"
-                            class="btn btn-secondary"
+                        <a @click="handleTabChange(2)" class="btn btn-secondary"
                             >Thêm chương</a
                         >
                     </div>
@@ -37,7 +35,7 @@
                                     :key="index"
                                 >
                                     <td>
-                                        <div>{{ index }}</div>
+                                        <div>{{ item.ChapterNumber }}</div>
                                     </td>
                                     <td>
                                         <div>{{ item.ChapterName }}</div>
@@ -51,13 +49,18 @@
                                     <td>
                                         <div class="float-end userchapterlist">
                                             <a
-                                                @click="handleTabChangeFix(3, item)"
+                                                @click="
+                                                    handleTabChangeFix(3, item)
+                                                "
                                                 class="btn btn-secondary"
                                                 >Sửa</a
                                             >
                                             <a
-                                                href=""
-                                                onclick="DeleteChapter(@item.ChapterId)"
+                                                @click="
+                                                    deleteChapter(
+                                                        item.ChapterId
+                                                    )
+                                                "
                                                 class="btn btn-secondary"
                                                 >Xóa</a
                                             >
@@ -70,14 +73,23 @@
                 </div>
             </div>
         </div>
-        <Usercreatechapter v-if="tabIndex == 2" @tabChange="handleTabChange(1)"></Usercreatechapter>
-        <Userfixchapter v-if="tabIndex == 3" :receiveData="itemToSend" @tabChange="handleTabChange(1)"></Userfixchapter>
+        <Usercreatechapter
+            v-if="tabIndex == 2"
+            @tabChange="handleTabChange(1)"
+        ></Usercreatechapter>
+        <Userfixchapter
+            v-if="tabIndex == 3"
+            :receiveData="itemToSend"
+            @tabChange="handleTabChange(1)"
+        ></Userfixchapter>
     </div>
 </template>
 
 <script>
 import Usercreatechapter from "./usercreatechapter.vue";
 import Userfixchapter from "./userfixchapter.vue";
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
     name: "userchapter-list",
@@ -86,7 +98,7 @@ export default {
             tabIndex: 1,
             chapterArray: this.chapterArr,
             itemToSend: null,
-        }
+        };
     },
     props: {
         chapterArr: Array,
@@ -95,14 +107,31 @@ export default {
     methods: {
         handleTabChange(index) {
             this.tabIndex = index;
-            window.scrollTo(0, 0)
+            window.scrollTo(0, 0);
         },
         handleTabChangeFix(index, item) {
             this.tabIndex = index;
             this.itemToSend = item;
-            window.scrollTo(0, 0)
+            window.scrollTo(0, 0);
         },
-    }
+        async deleteChapter(id) {
+            console.log(id);
+            try {
+                let url = `${apiPath}/chapter/delete?chapterId=${id}`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                console.log(header)
+                let res = (await axios.delete(url, header)).data;
+                console.log(res, "xoa thanh cong");
+                // window.location.reload()
+            } catch (e) {
+                console.log(e);
+            }
+        },
+    },
 };
 </script>
 

@@ -9,19 +9,34 @@
                         :key="index"
                     >
                         <div class="book--img">
-                            <a @click="$router.push(`/book/${item.Slug}/${item.BookId}`)">
+                            <a
+                                @click="
+                                    $router.push(
+                                        `/book/${item.Slug}/${item.BookId}`
+                                    )
+                                "
+                            >
                                 <img :src="item.Avatar" class="book--imgcss" />
                             </a>
                         </div>
                         <div class="book--info book--info-rankbodyfilter">
                             <h3>
-                                <a @click="$router.push(`/book/${item.Slug}/${item.BookId}`)">{{
-                                    item.BookName
-                                }}</a>
+                                <a
+                                    @click="
+                                        $router.push(
+                                            `/book/${item.Slug}/${item.BookId}`
+                                        )
+                                    "
+                                    >{{ item.BookName }}</a
+                                >
                             </h3>
                             <div class="book-state">
                                 <a
-                                    @click="$router.push(`/author/${item.Author.Slug}/${item.Author.AuthorId}`)"
+                                    @click="
+                                        $router.push(
+                                            `/author/${item.Author.Slug}/${item.Author.AuthorId}`
+                                        )
+                                    "
                                     >{{ item.Author.AuthorName }}</a
                                 >
                                 <i>|</i>
@@ -35,7 +50,11 @@
                             <p class="book--info-buttons-filterarea">
                                 <a
                                     class="btn"
-                                    @click="$router.push(`/book/${item.Slug}/${item.BookId}`)"
+                                    @click="
+                                        $router.push(
+                                            `/book/${item.Slug}/${item.BookId}`
+                                        )
+                                    "
                                     >Đọc truyện</a
                                 >
                             </p>
@@ -67,7 +86,12 @@ export default {
     },
     created() {
         this.getBook();
+        this.handleNewCateBookArr();
+        this.handleSearchName();
     },
+    // mounted() {
+        
+    // },
     computed: {
         bookArr() {
             return this.$store.getters.getBookArr;
@@ -88,6 +112,44 @@ export default {
                 this.tempBookArr = res;
             } catch (e) {
                 console.log(e);
+            }
+        },
+        async handleNewCateBookArr() {
+            let key = localStorage.getItem("cateId");
+            if (key == null || key == "") {
+                return;
+            } else {
+                try {
+                    let url = `${apiPath}/book/get-by-category-id?categoryId=${key}`;
+                    let res = (await axios.get(url)).data.Data;
+                    if (res) {
+                        this.$store.dispatch("setBookArr", res);
+                    } else {
+                        this.$store.dispatch("setBookArr", null);
+                    }
+                    localStorage.removeItem("cateId");
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        },
+        async handleSearchName() {
+            let key = localStorage.getItem("searchName");
+            if (key == null || key == "") {
+                return;
+            } else {
+                try {
+                    let url = `${apiPath}/book/get-by-filter?SearchName=${key}`;
+                    let res = (await axios.get(url)).data.Data;
+                    if (res) {
+                        this.$store.dispatch("setBookArr", res);
+                    } else {
+                        this.$store.dispatch("setBookArr", null);
+                    }
+                    localStorage.removeItem("searchName");
+                } catch (e) {
+                    console.log(e);
+                }
             }
         },
     },

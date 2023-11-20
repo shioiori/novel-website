@@ -6,7 +6,7 @@
                     <h3 class="box-title">Quản lý bài viết</h3>
                 </div>
                 <div class="box-body">
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="exampleInputFile">Author</label>
                         <input
                             class="form-control"
@@ -14,8 +14,9 @@
                             value=""
                             name="title"
                             required
+                            v-model="tacgia"
                         />
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="exampleInputFile">Title</label>
                         <input
@@ -24,6 +25,7 @@
                             value=""
                             name="title"
                             required
+                            v-model="tieude"
                         />
                     </div>
                     <div class="form-group">
@@ -33,6 +35,7 @@
                             placeholder="Description:"
                             value=""
                             name="description"
+                            v-model="mota"
                         />
                     </div>
                     <div class="form-group form-content-block">
@@ -52,6 +55,7 @@
                                     alignleft aligncenter alignright alignjustify | \
                                     bullist numlist outdent indent | removeformat | help',
                             }"
+                            v-model="noidung"
                         />
                     </div>
                 </div>
@@ -61,6 +65,7 @@
                             type="submit"
                             class="btn btn-primary btnsubmit float-end"
                             name="submit"
+                            @click="upPost()"
                         >
                             <i class="fa fa-envelope"></i>Gửi đi
                         </button>
@@ -73,11 +78,48 @@
 
 <script>
 import Editor from "@tinymce/tinymce-vue";
+import axios from "axios";
+const apiPath = process.env.VUE_APP_API_KEY;
 
 export default {
     name: "adminpost-layout",
     components: {
         Editor,
+    },
+    data() {
+        return {
+            // tacgia: "",
+            tieude: "",
+            noidung: "",
+            mota: "",
+        };
+    },
+    methods: {
+        async upPost() {
+            try {
+                let url = `${apiPath}/post/add`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
+                let res = (
+                    await axios.post(
+                        url,
+                        {
+                            Title: this.tieude,
+                            Description: this.mota,
+                            Content: this.noidung,
+                            Status: 2
+                        },
+                        header
+                    )
+                ).data;
+                console.log(res, 'dang thanh cong')
+            } catch (e) {
+                console.log(e);
+            }
+        },
     },
 };
 </script>
@@ -88,6 +130,6 @@ export default {
 }
 .pull-right i {
     color: inherit;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
 }
 </style>

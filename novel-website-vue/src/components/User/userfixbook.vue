@@ -72,9 +72,9 @@
                             class="editor--img-container"
                             style="margin-bottom: 10px"
                         >
-                            <img :src="avatar" class="input-img" />
+                            <img :src="file_uploaded" class="input-img" />
                         </div>
-                        <input type="file" name="fileUpload" />
+                        <input type="file" name="fileUpload" @change="handleFileChange($event)" />
                         <input
                             type="text"
                             name="Avatar"
@@ -156,7 +156,7 @@
                     <button
                         class="btn btn-primary submit-btn user-profile-submit-btn"
                         type="submit"
-                        @click="addBook()"
+                        @click="updateBook()"
                     >
                         Đăng
                     </button>
@@ -194,6 +194,8 @@ export default {
             tacgia: "",
             noidung: "",
             avatar: "",
+            file_uploaded: "",
+            upload_file: "",
         };
     },
     created() {
@@ -223,11 +225,11 @@ export default {
                     TagId: tag,
                 });
             });
-            const headers = {
-                Authorization:
-                    "Bearer " +
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjcyZDAxYTExLTNkYjctNDE3ZS1iYjA2LTgyOGFiOTI0OTMyOSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhZG1pbiIsImp0aSI6IjhkNmQ5ZjUwLTljM2UtNDFiOS04NTM1LTE2NjY1Yzk3ZTlmZiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3MDAxMzA4NTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUyMzQ2LyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUyMzQ2LyJ9.QPN6-K3e3YygR3rW8GKXxGRTsx0dnVXFQqb2xvcG-7w",
-            };
+            let header = {
+                    headers: {
+                        Authorization : 'Bearer ' + localStorage.getItem("JWT")
+                    }
+                }
             try {
                 let url = `${apiPath}/book/update`;
                 let res = (
@@ -246,9 +248,7 @@ export default {
                             Introduce: this.noidung,
                             Avatar: this.avatar,
                         },
-                        {
-                            headers: headers,
-                        }
+                        header
                     )
                 ).data;
                 console.log(res);
@@ -268,8 +268,35 @@ export default {
                 (this.tentruyen = temp.BookName),
                 (this.tacgia = temp.Author.AuthorName),
                 (this.noidung = temp.Introduce);
-                (this.avatar = temp.Avatar)
+                (this.file_uploaded = temp.Avatar)
             }
+        },
+        async uploadFile() {
+            if (this.upload_file) {
+                const formData = new FormData();
+                formData.append("image", this.upload_file);
+                await axios
+                    .post("https://api.imgur.com/3/image", formData, {
+                        headers: {
+                            Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+                        },
+                    })
+                    .then((response) => {
+                        this.file_uploaded = response.data.data.link;
+                        console.log(
+                            "Image uploaded. Link:",
+                            this.category.CategoryImage
+                        );
+                    })
+                    .catch((error) => {
+                        console.error("Error uploading image:", error);
+                    });
+            } else {
+                console.warn("No file selected for upload.");
+            }
+        },
+        handleFileChange(event) {
+            this.upload_file = event.target.files[0];
         },
     },
 };

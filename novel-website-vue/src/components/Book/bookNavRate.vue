@@ -16,24 +16,25 @@
                                     </a>
                                 </div>
                                 <div class="col review-col">
-                                <editor
-                                    api-key="4as43w7o9gqeqdobwqmya3u4qnfsc0urrlt94qsrefzqo5s7"
-                                    :init="{
-                                        height: 300,
-                                        menubar: false,
-                                        plugins: [
-                                            'advlist autolink lists link image charmap print preview anchor',
-                                            'searchreplace visualblocks code fullscreen',
-                                            'insertdatetime media table paste code help wordcount',
-                                        ],
-                                        toolbar:
-                                            'undo redo | formatselect | bold italic backcolor | \
+                                    <editor
+                                        api-key="4as43w7o9gqeqdobwqmya3u4qnfsc0urrlt94qsrefzqo5s7"
+                                        :init="{
+                                            height: 300,
+                                            menubar: false,
+                                            plugins: [
+                                                'advlist autolink lists link image charmap print preview anchor',
+                                                'searchreplace visualblocks code fullscreen',
+                                                'insertdatetime media table paste code help wordcount',
+                                            ],
+                                            toolbar:
+                                                'undo redo | formatselect | bold italic backcolor | \
                                                         alignleft aligncenter alignright alignjustify | \
                                                         bullist numlist outdent indent | removeformat | help',
-                                    }"
-                                    v-model="userReview"
-                                /></div>
-                                
+                                        }"
+                                        v-model="userReview"
+                                    />
+                                </div>
+
                                 <div class="submit-btn col-md-12">
                                     <div class="submit-btn-wrap">
                                         <button
@@ -47,7 +48,11 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item" v-for="(item, index) in reviewArr" :key="index">
+                        <li
+                            class="list-group-item"
+                            v-for="(item, index) in reviewArr"
+                            :key="index"
+                        >
                             <div class="row">
                                 <div class="user--photo col-md-auto">
                                     <a href="javascript:void(0)">
@@ -56,22 +61,35 @@
                                 </div>
                                 <div class="user--discussion col">
                                     <p class="users">
-                                        <a href="javascript:void(0)"
-                                            >{{ item.userName }}</a
-                                        >
+                                        <a href="javascript:void(0)">{{
+                                            item.userName
+                                        }}</a>
                                     </p>
                                     <p class="comments">
                                         {{ item.review }}
                                     </p>
                                     <p class="info--wrap">
                                         <span>{{ item.createdDate }}</span>
-                                        <a href="javascript:void(0)" @click="setStatusAction(like, item.id)">
+                                        <a
+                                            href="javascript:void(0)"
+                                            @click="
+                                                setStatusAction(like, item.id)
+                                            "
+                                        >
                                             <i
                                                 class="fa-solid fa-square-caret-up info-icon rate-up"
                                             ></i>
                                             {{ item.like }}
                                         </a>
-                                        <a href="javascript:void(0)" @click="setStatusAction(dislike, item.id)">
+                                        <a
+                                            href="javascript:void(0)"
+                                            @click="
+                                                setStatusAction(
+                                                    dislike,
+                                                    item.id
+                                                )
+                                            "
+                                        >
                                             <i
                                                 class="fa-solid fa-square-caret-down info-icon rate-down"
                                             ></i>
@@ -98,34 +116,43 @@ import Editor from "@tinymce/tinymce-vue";
 
 export default {
     name: "bookNavRate",
-    props: {
-        userId: Number,
-        bookId: String,
-    },
+    // props: {
+    //     userId: Number,
+    //     bookId: String,
+    // },
     data() {
         return {
             userReview: "",
-            reviewArr: []
+            reviewArr: [],
+            bookId: this.$route.params.id,
         };
     },
     components: {
         Editor,
     },
-    created() {
-        this.fetchReview()
+    mounted() {
+        this.fetchReview();
     },
     methods: {
         async addReview() {
             try {
-                let url = `${apiPath}/review/add`;
+                let url = `${apiPath}/comment/add`;
+                let header = {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("JWT"),
+                    },
+                };
                 let res = (
-                    await axios.post(url, {
-                        UserId: 1,
-                        BookId: this.bookId,
-                        Content: this.userReview,
-                    })
+                    await axios.post(
+                        url,
+                        {
+                            BookId: this.bookId,
+                            Content: this.userReview,
+                        },
+                        header
+                    )
                 ).data;
-                console.log(res);
+                console.log(res, "review thanh cong");
             } catch (e) {
                 console.log(e);
             }
@@ -135,7 +162,7 @@ export default {
                 let url = `${apiPath}/review/get-all`;
                 let res = (await axios.get(url)).data;
                 console.log(res);
-                this.reviewArr = res.data
+                this.reviewArr = res.data;
             } catch (e) {
                 console.log(e);
             }
@@ -148,7 +175,7 @@ export default {
             } catch (e) {
                 console.log(e);
             }
-        }
+        },
     },
 };
 </script>

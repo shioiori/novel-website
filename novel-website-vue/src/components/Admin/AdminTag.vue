@@ -6,7 +6,7 @@
                 <h4>Thêm thẻ</h4>
             </div>
             
-            <div class="col-12">
+            <div class="col-md-6">
                 <label for="inputTenTheLoai" class="form-label">Tên thẻ</label>
                 <div class="row col-md-12">
                     <div class="col-md-9">

@@ -55,11 +55,11 @@ export default {
         },
         async getBookByCategory(key) {
             try {
-                let url = `${apiPath}/book/get-by-category?categoryId=${key}`
+                let url = `${apiPath}/book/get-by-category-id?categoryId=${key}`
                 let res = (await axios.get(url)).data
                 console.log(res, "lay sach cate", key)
-                this.$store.dispatch("setBookArr", res)
-                this.$router.push('filter')
+                localStorage.setItem('cateId', key)
+                this.$router.push('/filter')
             } catch (e) {
                 console.log(e)
             }

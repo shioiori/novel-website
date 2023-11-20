@@ -43,26 +43,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="align-middle"
-                        v-for="(item, index) in books"
-                        :key="index">
+                        <tr
+                            class="align-middle"
+                            v-for="(item, index) in books"
+                            :key="index"
+                        >
                             <td>
-                                <div>{{index + 1}}</div>
+                                <div>{{ index + 1 }}</div>
                             </td>
                             <td>
-                                <div>{{item.BookName}}</div>
+                                <div>{{ item.BookName }}</div>
                             </td>
                             <td>
-                                <div>{{item.Author.AuthorName}}</div>
+                                <div>{{ item.Author.AuthorName }}</div>
                             </td>
                             <td>
-                                <div>{{item.Category.CategoryName}}</div>
+                                <div>{{ item.Category.CategoryName }}</div>
                             </td>
                             <td>
-                                <div>{{item.TotalChapters}}</div>
+                                <div>{{ item.TotalChapters }}</div>
                             </td>
                             <td>
-                                <div>{{item.BookStatus}}</div>
+                                <div>{{ item.BookStatus }}</div>
                             </td>
                             <td>
                                 <div>
@@ -75,35 +77,61 @@
                                 </div>
                             </td>
                             <th>
-                               <div>
-                                    <span :class="'badge bg-' + item.StatusLabelColor">{{ item.StatusName }}</span>
-                                </div> 
+                                <div>
+                                    <span
+                                        :class="
+                                            'badge bg-' + item.StatusLabelColor
+                                        "
+                                        >{{ item.StatusName }}</span
+                                    >
+                                </div>
                             </th>
                             <td>
                                 <div class="dropstart">
+                                    <button
+                                        class="btn btn-primary"
+                                        type="button"
+                                        id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        Thêm
+                                    </button>
                                     <ul
                                         class="dropdown-menu"
                                         aria-labelledby="dropdownMenuButton1"
                                     >
                                         <li>
-                                            <a class="dropdown-item" href="#"
+                                            <a
+                                                class="dropdown-item"
+                                                @click="
+                                                    $router.push(
+                                                        `/book/${item.Slug}/${item.BookId}`
+                                                    )
+                                                "
                                                 >Thông tin truyện</a
                                             >
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#" @click="$emit('changeToChapter', item.BookId)"
+                                            <a
+                                                class="dropdown-item"
+                                                @click="
+                                                    $emit(
+                                                        'changeToChapter',
+                                                        item.BookId
+                                                    )
+                                                "
                                                 >Danh sách chương</a
                                             >
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#"
+                                            <a class="dropdown-item"
+                                            @click="$emit('changeToDuyet')"
                                                 >Sửa trạng thái</a
                                             >
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#"
-                                                >Xóa</a
-                                            >
+                                            <a class="dropdown-item">Xóa</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -125,14 +153,14 @@ export default {
     data() {
         return {
             search: "",
-            books: []
-        }
+            books: [],
+        };
     },
-    created(){
+    created() {
         this.getBooks();
     },
     methods: {
-        async getBooks(){
+        async getBooks() {
             try {
                 let url = `${env.VUE_APP_API_KEY}/book/get-all`;
                 let res = (await axios.get(url)).data.Data;
@@ -141,7 +169,7 @@ export default {
                 console.log(e);
             }
         },
-        async searchBook(){
+        async searchBook() {
             if (this.search == "") return;
             try {
                 let url = `${env.VUE_APP_API_KEY}/book/get-by-name?name=${this.search}`;
@@ -154,9 +182,17 @@ export default {
         },
         formatDate(datetime) {
             var date = new Date(datetime);
-            return ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
-        }
-    }
+            return (
+                (date.getMonth() > 8
+                    ? date.getMonth() + 1
+                    : "0" + (date.getMonth() + 1)) +
+                "/" +
+                (date.getDate() > 9 ? date.getDate() : "0" + date.getDate()) +
+                "/" +
+                date.getFullYear()
+            );
+        },
+    },
 };
 </script>
 

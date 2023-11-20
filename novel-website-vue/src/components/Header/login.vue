@@ -1,7 +1,15 @@
 <template>
     <div class="col login">
-        <!-- <management></management>
-        <notification></notification> -->
+        <a
+            class="login-manage"
+            href="#"
+            role="button"
+            aria-expanded="false"
+            @click="$router.push(`/dashboard`)"
+            v-if="loginFlag && status == 1"
+        >
+            <i class="fa-solid fa-gear"></i>
+        </a>
         <a
             href="#"
             data-bs-toggle="modal"
@@ -41,6 +49,7 @@ export default {
             id: null,
             slug: "",
             avatar: "",
+            status: "",
         };
     },
     mounted() {
@@ -61,6 +70,7 @@ export default {
                     this.id = res.UserId;
                     this.avatar = res.Avatar;
                     this.slug = res.Username;
+                    this.status = res.Status;
                     this.$store.dispatch("setAuthenFlag", true);
                 } else {
                     this.loginFlag = false;
@@ -73,4 +83,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.login-manage {
+    width: initial !important;
+    margin-right: 1.5rem;
+}
+</style>
