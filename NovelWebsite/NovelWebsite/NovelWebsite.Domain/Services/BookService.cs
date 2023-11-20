@@ -20,7 +20,7 @@ namespace NovelWebsite.Domain.Services
         private readonly IBookTagRepository _bookTagRepository;
         private readonly IMapper _mapper;
 
-        Expression<Func<Book, bool>> expValidBooks = b => b.IsDeleted == false && b.Status != (int)UploadStatus.Draft;
+        Expression<Func<Book, bool>> expValidBooks = b => b.IsDeleted == false && b.Status == (int)UploadStatus.Publish;
         Expression<Func<Book, bool>> expFilterByAuthor(int authorId)
         {
             return b => b.AuthorId == authorId;
@@ -160,7 +160,7 @@ namespace NovelWebsite.Domain.Services
                 {
                     for (int i = 0; i < size; ++i)
                     {
-                        var bookTags = _bookTagRepository.Filter(x => x.BookId == books[i].BookId).Select(x => x.Tag.TagId);
+                        var bookTags = _bookTagRepository.Filter(x => x.BookId == books[i].BookId);
                         if (bookTags == null || bookTags.Count() == 0)
                         {
                             books.Remove(books[i]);
@@ -170,7 +170,7 @@ namespace NovelWebsite.Domain.Services
                         }
                         foreach (var tag in bookTags)
                         {
-                            if (!tags.Contains(tag))
+                            if (!tags.Contains(tag.TagId))
                             {
                                 books.Remove(books[i]);
                                 size--;
@@ -184,11 +184,11 @@ namespace NovelWebsite.Domain.Services
             return _mapper.Map<List<Book>, List<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetAllBooks()
-        {
-            var books = _bookRepository.GetAll();
-            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
-        }
+        //public IEnumerable<BookModel> GetAllBooks()
+        //{
+        //    var books = _bookRepository.GetAll();
+        //    return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
+        //}
 
         public BookModel GetById(string bookId)
         {

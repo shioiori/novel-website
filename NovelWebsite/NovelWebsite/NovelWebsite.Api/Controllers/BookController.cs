@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Google.Apis.Drive.v3.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -102,27 +101,6 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("get-by-book-status")]
         public PagedList<BookModel> GetByBookStatus(string status, [FromQuery] PagedListRequest request){
             var books = _bookService.GetByBookStatus(status).ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            }
-            return PagedList<BookModel>.ToPagedList(books, request);
-        }
-
-        [HttpGet]
-        [Route("get-by-status")]
-        public PagedList<BookModel> GetByUploadStatus(string status, [FromQuery] PagedListRequest request)
-        {
-            BookModel[] books;
-            if (int.TryParse(status, out var num))
-            {
-                books = _bookService.GetByUploadStatus(num).ToArray();
-            }
-            else
-            {
-                books = _bookService.GetByUploadStatus((int)(UploadStatus)Enum.Parse(typeof(UploadStatus), status, true)).ToArray();
-            }
             int count = books.Length;
             for (int i = 0; i < count; ++i)
             {
@@ -322,6 +300,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = "Editor")]
         [HttpPut]
         [Route("set-status")]
         public IActionResult SetStatusBook(string bookId, string status)

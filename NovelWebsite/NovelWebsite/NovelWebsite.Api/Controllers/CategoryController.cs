@@ -25,7 +25,7 @@ namespace NovelWebsite.Api.Controllers
         [Route("get-all")]
         public PagedList<CategoryModel> GetAll([FromQuery] PagedListRequest request)
         {
-            return PagedList<CategoryModel>.ToPagedList(_categoryService.GetAllCategories());
+            return PagedList<CategoryModel>.ToPagedList(_categoryService.GetAllCategories(), request);
         }
 
         [HttpGet]

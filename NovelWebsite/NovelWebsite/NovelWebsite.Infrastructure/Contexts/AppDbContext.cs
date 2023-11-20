@@ -45,17 +45,26 @@ namespace NovelWebsite.Infrastructure.Contexts
                 builder.ToTable("Chapters");
                 builder.Navigation(e => e.Book).AutoInclude();
             });
-            modelBuilder.Entity<Comment>().ToTable("Comments");
+            modelBuilder.Entity<Comment>(builder =>
+            {
+                builder.ToTable("Comments");
+                builder.Navigation(e => e.User).AutoInclude();
+            }); 
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Permission>().ToTable("Permissions");
             modelBuilder.Entity<Post>().ToTable("Posts");
-            modelBuilder.Entity<Review>().ToTable("Reviews");
+            modelBuilder.Entity<Review>(builder =>
+            {
+                builder.ToTable("Reviews");
+                builder.Navigation(e => e.User).AutoInclude();
+                builder.Navigation(e => e.Book).AutoInclude();
+            });
             modelBuilder.Entity<Banner>().ToTable("Banners");
             modelBuilder.Entity<BookUsers>().ToTable("BookUsers").HasKey(bu => new { bu.BookId, bu.UserId, bu.InteractionId });
             modelBuilder.Entity<ChapterUsers>().ToTable("ChapterUsers").HasKey(bu => new { bu.ChapterId, bu.UserId, bu.InteractionId });
             modelBuilder.Entity<PostUsers>().ToTable("PostUsers").HasKey(bu => new { bu.PostId, bu.UserId, bu.InteractionId });
             modelBuilder.Entity<ReviewUsers>().ToTable("ReviewUsers").HasKey(bu => new { bu.ReviewId, bu.UserId, bu.InteractionId });
-            modelBuilder.Entity<CommentUsers>().ToTable("CommentUsers").HasKey(bu => new { bu.CommentId, bu.UserId, bu.InteractionId, bu.ReplyCommentId });
+            modelBuilder.Entity<CommentUsers>().ToTable("CommentUsers").HasKey(bu => new { bu.CommentId, bu.UserId, bu.InteractionId });
             modelBuilder.Entity<RolePermissions>().ToTable("RolePermissions").HasKey(bu => new { bu.RoleId, bu.PermissionId });
             
             base.OnModelCreating(modelBuilder);
