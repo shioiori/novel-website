@@ -5,13 +5,12 @@
             <lopnav></lopnav>
             <div class="topic-list row">
                 <lopitem
-                    v-for="(item, index) in postArr"
+                    v-for="(item, index) in postArray"
                     :key="index"
-                    :avatar="item.User.Avatar"
                     :title="item.Title"
-                    :userName="item.User.Username"
                     :createdDate="item.CreatedDate"
                     :description="item.Description"
+                    :postId="item.PostId"
                 ></lopitem>
             </div>
             <!-- <div class="rank-box-main-pagination">
@@ -86,7 +85,7 @@ export default {
     methods: {
         async getPostArray() {
             try {
-                let url = `${apiPath}/post/get-by-filter`;
+                let url = `${apiPath}/post/get-all?PageSize=20`;
                 let res = (await axios.get(url)).data.Data;
                 console.log(res, "lay post");
                 this.postArray = res;
@@ -94,6 +93,7 @@ export default {
                 console.log(e);
             }
         },
+        
     },
 };
 </script>

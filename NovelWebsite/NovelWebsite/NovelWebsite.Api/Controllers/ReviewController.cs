@@ -23,8 +23,14 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             _reviewService = reviewService;
             _categoryService = categoryService;
         }
-
-        [HttpGet]
+		[HttpGet]
+		[Route("get-by-book")]
+		public PagedList<ReviewModel> GetByBook(string bookId)
+		{
+			var reviews = _reviewService.GetListReviewsByBookId(bookId);
+			return PagedList<ReviewModel>.ToPagedList(reviews);
+		}
+		[HttpGet]
         [Route("get-by-filter")]
         public PagedList<ReviewModel> GetByFilter(string? category, string? orderDate, [FromQuery] PagedListRequest request)
         {

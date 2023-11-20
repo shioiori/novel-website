@@ -4,7 +4,7 @@
             <boxChapter></boxChapter>
             <div class="quangcaotruyen">
                 <a href="javascript:void(0)"
-                    ><img :src="imgURL" class="banner-sm"
+                    ><img src="../../assets/img/test2.jpg" class="banner-sm"
                 /></a>
             </div>
             <chapterComment></chapterComment>

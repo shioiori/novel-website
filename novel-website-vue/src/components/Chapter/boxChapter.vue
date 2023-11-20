@@ -131,7 +131,7 @@
                     </div>
                 </li>
                 <li class="list-group-item control-title">
-                    <a href="/index.html" id="popover-btn3" class="btn"
+                    <a href="javascript:void(0)" id="popover-btn3" class="btn"
                         ><i class="fa-regular fa-comment-dots"></i
                     ></a>
                 </li>

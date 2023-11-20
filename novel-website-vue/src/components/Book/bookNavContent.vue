@@ -14,7 +14,7 @@
                                 <div class="detail">
                                     <p class="tag-wrap">
                                         <a href="javascript:void(0)">{{
-                                            bookContent.User
+                                            bookContent.User.Username
                                         }}</a>
                                     </p>
                                 </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="quangcao">
                     <a href="javascript:void(0)"
-                        ><img :src="imgURL" class="banner-sm"
+                        ><img src="../../assets/img/test.jpg" class="banner-sm"
                     /></a>
                 </div>
                 <div class="user--comment">
@@ -64,7 +64,7 @@
                                 <comment-area v-if="authenFlag" :BookId="bookContent.BookId" @reload="getComment()"></comment-area>
                                 <comment v-for="(item, index) in commentArr"
                                 :key="index"
-                                :user-name="item.User"
+                                :user-name="item.User.Username"
                                 :content="item.Content"
                                 :created-date="item.CreatedDate"
                                 :like="item.Likes"

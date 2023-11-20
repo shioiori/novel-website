@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="col-md-10">
-                <div class="book--info">
+                <div class="book--info spectr">
                     <h1>{{ bookContent.BookName }}</h1>
                     <p class="book--info-tag">
                         <a @click="$router.push(`/author/${bookContent.Author.Slug}/${bookContent.Author.AuthorId}`)"
@@ -51,6 +51,7 @@
                             id="btn-fav"
                             href="javascript:void(0)"
                             @click="getAction('like')"
+                            :class="{ checked: likeFlag}"
                             >Yêu thích</a
                         >
                         <a
@@ -58,6 +59,7 @@
                             id="btn-follow"
                             href="javascript:void(0)"
                             @click="getAction('follow')"
+                            :class="{ checked: followFlag}"
                             >Theo dõi</a
                         >
                         <a
@@ -65,6 +67,7 @@
                             id="btn-rec"
                             href="javascript:void(0)"
                             @click="getAction('recommend')"
+                            :class="{ checked: recommendFlag}"
                             >Đề cử</a
                         >
                     </div>
@@ -99,17 +102,27 @@ export default {
         return {
             bookContent: this.$store.state.bookStore,
             chapStart: null,
+            likeFlag: false,
+            recommendFlag: false,
+            followFlag: false,
         }
     },
     mounted() {
         this.getChapStart();
+        this.getStatusCheck()
     },
     methods: {
         async getAction(action) {
             try {
                 let url = `${apiPath}/interact/book/set-status-${action}?bookId=${this.$route.params.id}`
-                let res = (await axios.get(url)).data
+                let header = {
+                        headers: {
+                            Authorization : 'Bearer ' + localStorage.getItem("JWT")
+                        }
+                    }
+                let res = (await axios.get(url, header)).data
                 console.log(res);
+                window.location.reload()
             } catch (e) {
                 console.log(e)
             }
@@ -123,6 +136,27 @@ export default {
             } catch (e) {
                 console.log(e);
             }
+        },
+        async getStatusCheck() {
+            try {
+                let url = `${apiPath}/interact/book/is-liked?bookId=${this.$route.params.id}`
+                let header = {
+                        headers: {
+                            Authorization : 'Bearer ' + localStorage.getItem("JWT")
+                        }
+                    }
+                let res = (await axios.get(url, header)).data
+                console.log(res, 'status');
+                this.likeFlag = res
+                url = `${apiPath}/interact/book/is-followed?bookId=${this.$route.params.id}`
+                res = (await axios.get(url, header)).data
+                this.followFlag = res
+                url = `${apiPath}/interact/book/is-recommended?bookId=${this.$route.params.id}`
+                res = (await axios.get(url, header)).data
+                this.recommendFlag = res
+            } catch (e) {
+                console.log(e)
+            }
         }
     }
 };
@@ -132,7 +166,7 @@ export default {
 .book--info-buttons.book-info-page {
     width: initial;
 }
-.book--info a {
+.book--info.spectr a {
     font-size: initial !important;
     font-weight: initial !important;
 }
@@ -150,5 +184,9 @@ export default {
 .book--info-tag a:first-child:hover {
     color: #df1c1c !important;
     cursor: pointer;
+}
+.checked {
+    background: #4949f2;
+    color: white !important;
 }
 </style>

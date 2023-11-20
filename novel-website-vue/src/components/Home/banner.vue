@@ -1,7 +1,7 @@
 <template>
     <div class="index__banner">
         <a href="javascript:void(0)"
-            ><img :src="imgURL" class="banner-sm"
+            ><img src="../../assets/img/test.jpg" class="banner-sm"
         /></a>
     </div>
 </template>
