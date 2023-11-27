@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Google.Apis.Drive.v3.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,6 @@ using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Infrastructure.Entities;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Claims;
 using static System.Reflection.Metadata.BlobBuilder;
 
@@ -25,8 +23,6 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
     public class BookController : ControllerBase
     {
         private readonly BookService _bookService;
-
-        private readonly StatisticService _statisticService;
         private readonly ChapterService _chapterService;
         private readonly TagService _tagService;
         private readonly AuthorService _authorService;
@@ -34,7 +30,6 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         private readonly UserService _userService;
 
         public BookController(BookService bookService,
-                              StatisticService statisticService,
                               ChapterService chapterService,
                               TagService tagService,
                               AuthorService authorService,
@@ -42,7 +37,6 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                               UserService userService)
         {
             _bookService = bookService;
-            _statisticService = statisticService;
             _chapterService = chapterService;
             _tagService = tagService;
             _authorService = authorService;
@@ -54,35 +48,24 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("get-all")]
         public PagedList<BookModel> GetAll([FromQuery] PagedListRequest request)
         {
-            var books = _bookService.GetAll().ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            }
-            return PagedList<BookModel>.ToPagedList(books, request);
+            var books = _bookService.GetAll(request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
         [HttpGet]
         [Route("get-published-book")]
         public PagedList<BookModel> GetPublishedBook([FromQuery] PagedListRequest request)
         {
-            var books = _bookService.GetByBookStatus(UploadStatus.Publish.ToString()).ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            }
-            return PagedList<BookModel>.ToPagedList(books, request);
+            var books = _bookService.GetByBookStatus(UploadStatus.Publish.ToString(), request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
 
         [HttpGet]
         [Route("get-by-book-id")]
-        public BookModel GetByBookId(string bookId)
+        public async Task<BookModel> GetByBookIdAsync(string bookId)
         {
-            var book = _bookService.GetById(bookId);
-            BindModelAsync(ref book);
+            var book = await _bookService.GetByIdAsync(bookId);
             return book;
         }
 
@@ -90,61 +73,41 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("get-top-by-interaction-type")]
         public PagedList<BookModel> GetByInteractionType(InteractionType type, [FromQuery] PagedListRequest request)
         {
-            var books = _bookService.GetAll();
-            var res = _statisticService.StatisticOfEachInteractionType(books, type).ToArray();
-            int count = res.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref res[i]);
-            };
-            return PagedList<BookModel>.ToPagedList(res, request);
+            var init = _bookService.GetAll();
+            var books = _bookService.GetTopEachInteractionType(init, type);
+            return PagedList<BookModel>.ToPagedList(books, request);
         }
 
         [HttpGet]
         [Route("get-by-book-status")]
         public PagedList<BookModel> GetByBookStatus(string status, [FromQuery] PagedListRequest request)
         {
-            var books = _bookService.GetByBookStatus(status).ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            }
-            return PagedList<BookModel>.ToPagedList(books, request);
+            var books = _bookService.GetByBookStatus(status, request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
         [HttpGet]
         [Route("get-by-status")]
         public PagedList<BookModel> GetByUploadStatus(string status, [FromQuery] PagedListRequest request)
         {
-            BookModel[] books;
+            IEnumerable<BookModel> books;
             if (int.TryParse(status, out var num))
             {
-                books = _bookService.GetByUploadStatus(num).ToArray();
+                books = _bookService.GetByUploadStatus((UploadStatus)num, request);
             }
             else
             {
-                books = _bookService.GetByUploadStatus((int)(UploadStatus)Enum.Parse(typeof(UploadStatus), status, true)).ToArray();
+                books = _bookService.GetByUploadStatus((UploadStatus)Enum.Parse(typeof(UploadStatus), status, true), request);
             }
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            }
-            return PagedList<BookModel>.ToPagedList(books, request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
         [HttpGet]
         [Route("get-by-author-id")]
         public PagedList<BookModel> GetByAuthor(int authorId, [FromQuery] PagedListRequest request)
         {
-            var books = _bookService.GetByAuthor(authorId).ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            };
-            return PagedList<BookModel>.ToPagedList(books, request);
+            var books = _bookService.GetByAuthor(authorId, request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
         [HttpGet]
@@ -163,21 +126,16 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                     return null;
                 }
             }
-            BookModel[] books;
+            IEnumerable<BookModel> books;
             if (int.TryParse(type, out var num))
             {
-                books = _bookService.GetByUserInteractive(userId, (InteractionType)num).ToArray();
+                books = _bookService.GetByUserInteractive(userId, (InteractionType)num);
             }
             else
             {
-                books = _bookService.GetByUserInteractive(userId, (InteractionType)Enum.Parse(typeof(InteractionType), type, true)).ToArray();
+                books = _bookService.GetByUserInteractive(userId, (InteractionType)Enum.Parse(typeof(InteractionType), type, true));
             }
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            };
-            return PagedList<BookModel>.ToPagedList(books, request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
 
@@ -197,61 +155,41 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                     return null;
                 }
             }
-            var books = _bookService.GetByUser(userId).ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            };
-            return PagedList<BookModel>.ToPagedList(books, request);
+            var books = _bookService.GetByUser(userId, request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
         [HttpGet]
         [Route("get-by-filter")]
         public async Task<PagedList<BookModel>> GetByFilterAsync([FromQuery] FilterModel filter, [FromQuery] PagedListRequest request)
         {
-            var books = _bookService.GetByFilter(filter).ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            }
-            return PagedList<BookModel>.ToPagedList(books, request);
+            var books = await _bookService.GetByFilterAsync(filter, request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
         [HttpGet]
         [Route("get-by-name")]
-        public PagedList<BookModel> GetByName(string name, [FromQuery] PagedListRequest request)
+        public async Task<PagedList<BookModel>> GetByNameAsync(string name, [FromQuery] PagedListRequest request)
         {
-            var books = _bookService.GetByFilter(new FilterModel()
+            var books = await _bookService.GetByFilterAsync(new FilterModel()
             {
                 SearchName = name,
-            }).ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            };
-            return PagedList<BookModel>.ToPagedList(books, request);
+            }, request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
         [HttpGet]
         [Route("get-by-category-id")]
         public PagedList<BookModel> GetByCategory(int categoryId, [FromQuery] PagedListRequest request)
         {
-            var books = _bookService.GetByCategory(categoryId).ToArray();
-            int count = books.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                BindModelAsync(ref books[i]);
-            };
-            return PagedList<BookModel>.ToPagedList(books, request);
+            var books = _bookService.GetByCategory(categoryId, request);
+            return PagedList<BookModel>.ToPagedList(books);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(BookModel model)
+        public async Task<IActionResult> AddAsync(BookModel model)
         {
             try
             {
@@ -259,17 +197,17 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                 model.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
                 if (model.Author != null && model.AuthorId == 0)
                 {
-                    var author = _authorService.GetAuthorByName(model.Author.AuthorName);
+                    var author = _authorService.GetAuthorByNameAsync(model.Author.AuthorName);
                     if (author == null)
                     {
-                        _authorService.CreateAuthor(model.Author);
-                        model.AuthorId = author.AuthorId;
+                        await _authorService.CreateAuthorAsync(model.Author);
+                        model.AuthorId = (await _authorService.GetAuthorByNameAsync(model.Author.AuthorName)).AuthorId;
                     }
                 }
-                var book = _bookService.Add(model);
+                var book = await _bookService.AddAsync(model);
                 if (model.Tags != null)
                 {
-                    _tagService.AddTagsOfBook(book.BookId, model.Tags);
+                    _tagService.AddTagsOfBookAsync(book.BookId, model.Tags);
                 }
                 return Ok();
             }
@@ -282,7 +220,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         [Route("update")]
-        public IActionResult Update(BookModel model)
+        public async Task<IActionResult> UpdateAsync(BookModel model)
         {
             try
             {
@@ -294,17 +232,17 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                 }
                 if (model.Author != null && model.AuthorId == 0)
                 {
-                    var author = _authorService.GetAuthorByName(model.Author.AuthorName);
+                    var author = _authorService.GetAuthorByNameAsync(model.Author.AuthorName);
                     if (author == null)
                     {
-                        _authorService.CreateAuthor(model.Author);
-                        model.AuthorId = author.AuthorId;
+                        await _authorService.CreateAuthorAsync(model.Author);
+                        model.AuthorId = (await _authorService.GetAuthorByNameAsync(model.Author.AuthorName)).AuthorId;
                     }
                 }
-                var book = _bookService.Update(model);
+                _bookService.UpdateAsync(model);
                 if (model.Tags != null)
                 {
-                    _tagService.AddTagsOfBook(book.BookId, model.Tags);
+                    _tagService.AddTagsOfBookAsync(model.BookId, model.Tags);
                 }
                 return Ok();
             }
@@ -321,7 +259,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         {
             try
             {
-                _bookService.DeleteTemporary(bookId);
+                _bookService.DeleteTemporaryAsync(bookId);
                 return Ok();
             }
             catch (Exception ex)
@@ -346,30 +284,13 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
                 {
                     stt = (int)((UploadStatus)Enum.Parse(typeof(UploadStatus), status, true));
                 }
-                _bookService.SetStatus(bookId, stt);
+                _bookService.SetStatusAsync(bookId, stt);
                 return Ok();
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        [NonAction]
-        public BookModel BindModelAsync(ref BookModel book)
-        {
-            //var author = _authorService.GetAuthorsById(book.AuthorId);
-            //book.Author = author;
-            //var category = _categoryService.GetCategory(book.CategoryId);
-            //book.Category = category;
-            var tags = _tagService.GetTagsOfBook(book.BookId);
-            book.Tags = tags;
-            book.Likes = _bookService.CountInteractive(book.BookId, InteractionType.Like);
-            book.Views = _bookService.CountInteractive(book.BookId, InteractionType.View);
-            book.Recommends = _bookService.CountInteractive(book.BookId, InteractionType.Recommend);
-            book.Follows = _bookService.CountInteractive(book.BookId, InteractionType.Follow);
-            book.TotalChapters = _chapterService.GetChapters(book.BookId).Count();
-            return book;
         }
     }
 }

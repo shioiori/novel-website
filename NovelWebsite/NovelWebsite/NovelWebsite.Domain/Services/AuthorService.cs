@@ -3,6 +3,10 @@ using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
@@ -17,53 +21,53 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public AuthorModel GetAuthorsById(int id)
+        public async Task<AuthorModel> GetAuthorsByIdAsync(int id)
         {
-            var author = _authorRepository.GetById(id);
+            var author = await _authorRepository.GetByIdAsync(id);
             return _mapper.Map<Author, AuthorModel>(author); 
         }
 
-        public AuthorModel GetAuthorBySlug(string slug)
+        public async Task<AuthorModel> GetAuthorBySlugAsync(string slug)
         {
-            var author = _authorRepository.GetByExpression(x => x.Slug == slug);
+            var author = await _authorRepository.GetByExpressionAsync(x => x.Slug == slug);
             return _mapper.Map<Author, AuthorModel>(author);
         }
 
-        public AuthorModel CreateAuthor(AuthorModel author)
+        public async Task CreateAuthorAsync(AuthorModel author)
         {
-            var res = _authorRepository.Insert(_mapper.Map<AuthorModel, Author>(author));
-            _authorRepository.Save();
-            author.AuthorId = res.AuthorId;
-            author.Slug = res.Slug;
-            return author;
+            var res = await _authorRepository.InsertAsync(_mapper.Map<AuthorModel, Author>(author));
+            _authorRepository.SaveAsync();
         }
 
-        public void UpdateAuthor(AuthorModel author)
+        public async Task UpdateAuthorAsync(AuthorModel author)
         {
-            _authorRepository.Update(_mapper.Map<AuthorModel, Author>(author));
-            _authorRepository.Save();
+            _authorRepository.UpdateAsync(_mapper.Map<AuthorModel, Author>(author));
+            _authorRepository.SaveAsync();
         }
 
-        public void DeleteAuthor(int authorId)
+        public async Task DeleteAuthorAsync(int authorId)
         {
-            _authorRepository.Delete(authorId);
-            _authorRepository.Save();
+            _authorRepository.DeleteAsync(authorId);
+            _authorRepository.SaveAsync();
+            return;
         }
 
-        public AuthorModel GetAuthorByName(string name)
+
+        public async Task<AuthorModel> GetAuthorByNameAsync(string name)
         {
-            var author = _authorRepository.GetByExpression(x => x.AuthorName == name);
+            var author = await _authorRepository.GetByExpressionAsync(x => x.AuthorName == name);
             if (author == null)
             {
-                author = _authorRepository.Filter(x => x.AuthorName.ToLower().Trim()
-                                                                            .Equals(name.ToLower().Trim())).FirstOrDefault();
+                author = await _authorRepository.Filter(x => x.AuthorName.ToLower().Trim()
+                                                                            .Equals(name.ToLower().Trim())).FirstOrDefaultAsync();
             }
             return _mapper.Map<Author, AuthorModel>(author);
         }
 
-        public IEnumerable<AuthorModel> GetAllAuthor()
+        public IEnumerable<AuthorModel> GetAllAuthor(PagedListRequest pagedListRequest = null)
         {
-            var authors = _authorRepository.GetAll();
+            var query = _authorRepository.GetAll();
+            var authors = PagedList<Author>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Author>, IEnumerable<AuthorModel>>(authors);
         }
     }

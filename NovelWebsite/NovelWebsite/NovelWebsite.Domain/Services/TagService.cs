@@ -3,6 +3,9 @@ using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
@@ -21,67 +24,66 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<TagModel> GetAll()
+        public IEnumerable<TagModel> GetAll(PagedListRequest pagedListRequest = null)
         {
-            var categories = _tagRepository.GetAll();
-            return _mapper.Map<IEnumerable<Tag>, IEnumerable<TagModel>>(categories);
+            var query = _tagRepository.GetAll();
+            var tags = PagedList<Tag>.AsEnumerable(query, pagedListRequest);
+            return _mapper.Map<IEnumerable<Tag>, IEnumerable<TagModel>>(tags);
         }
 
-        public TagModel Add(TagModel tag)
+        public async Task AddAsync(TagModel tag)
         {
-            var res = _tagRepository.Insert(_mapper.Map<TagModel, Tag>(tag));
-            _tagRepository.Save();
-            return _mapper.Map<Tag, TagModel>(res);
+            await _tagRepository.InsertAsync(_mapper.Map<TagModel, Tag>(tag));
+            _tagRepository.SaveAsync();
         }
 
-        public TagModel Update(TagModel tag)
+        public async Task UpdateAsync(TagModel tag)
         {
-            var res = _tagRepository.Update(_mapper.Map<TagModel, Tag>(tag));
-            _tagRepository.Save();
-            return _mapper.Map<Tag, TagModel>(res);
+            await _tagRepository.UpdateAsync(_mapper.Map<TagModel, Tag>(tag));
+            _tagRepository.SaveAsync();
         }
 
-        public void Delete(string name)
+        public async Task DeleteAsync(string name)
         {
             Tag tag;
             if (int.TryParse(name, out int id))
             {
-                tag = _tagRepository.GetById(id);
+                tag = await _tagRepository.GetByIdAsync(id);
             }
-            tag = _tagRepository.GetByExpression(x => x.TagName == name);
+            tag = await _tagRepository.GetByExpressionAsync(x => x.TagName == name);
             _tagRepository.Delete(tag);
-            _tagRepository.Save();
+            _tagRepository.SaveAsync();
         }
 
-        public TagModel GetById(int tagId){
-            var tag = _tagRepository.GetById(tagId);
+        public async Task<TagModel> GetByIdAsync(int tagId){
+            var tag = await _tagRepository.GetByIdAsync(tagId);
             return _mapper.Map<Tag, TagModel>(tag);
         }
 
-        public TagModel GetTagByName(string name)
+        public async Task<TagModel> GetTagByNameAsync(string name)
         {
-            var tag = _tagRepository.GetByExpression(x => x.TagName == name);
+            var tag = await _tagRepository.GetByExpressionAsync(x => x.TagName == name);
             return _mapper.Map<Tag, TagModel>(tag);
         }
 
-        public TagModel GetTagBySlug(string slug)
+        public async Task<TagModel> GetTagBySlugAsync(string slug)
         {
-            var tag = _tagRepository.GetByExpression(x => x.Slug == slug);
+            var tag = await _tagRepository.GetByExpressionAsync(x => x.Slug == slug);
             return _mapper.Map<Tag, TagModel>(tag);
         }
 
-        public IEnumerable<TagModel> GetTagsOfBook(string bookId)
+        public async Task<IEnumerable<TagModel>> GetTagsOfBookAsync(string bookId, PagedListRequest pagedListRequest = null)
         {
             var bookTags = _bookTagRepository.Filter(x => x.BookId == bookId);
             var tags = new List<Tag>();
             foreach (var bookTag in bookTags)
             {
-                tags.Add(_tagRepository.GetById(bookTag.TagId));
+                tags.Add(await _tagRepository.GetByIdAsync(bookTag.TagId));
             }
             return _mapper.Map<List<Tag>, List<TagModel>>(tags);
         }
 
-        public void AddTagsOfBook(string bookId, IEnumerable<TagModel> tags)
+        public async Task AddTagsOfBookAsync(string bookId, IEnumerable<TagModel> tags)
         {
             var prevTags = _bookTagRepository.Filter(x => x.BookId == bookId);
             foreach (var tag in prevTags)
@@ -90,13 +92,13 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             }
             foreach (var tag in tags)
             {
-                _bookTagRepository.Insert(new BookTags()
+                await _bookTagRepository.InsertAsync(new BookTags()
                 {
                     BookId = bookId,
                     TagId = tag.TagId,
                 });
             }
-            _bookTagRepository.Save();
+            _bookTagRepository.SaveAsync();
         }
     }
 }

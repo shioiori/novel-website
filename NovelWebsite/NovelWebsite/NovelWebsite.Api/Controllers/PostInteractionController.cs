@@ -25,38 +25,38 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("is-liked")]
         [HttpGet]
-        public bool IsPostLiked(string postId)
+        public async Task<bool> IsPostLikedAsync(string postId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _postInteractionService.IsInteractionEnabled(postId, userId, InteractionType.Like);
+            return await _postInteractionService.IsInteractionEnabledAsync(postId, userId, InteractionType.Like);
         }
 
         [Route("is-disliked")]
         [HttpGet]
-        public bool IsPostDisliked(string postId)
+        public async Task<bool> IsPostDislikedAsync(string postId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _postInteractionService.IsInteractionEnabled(postId, userId, InteractionType.Dislike);
+            return await _postInteractionService.IsInteractionEnabledAsync(postId, userId, InteractionType.Dislike);
         }
 
         [Route("set-status-like")]
         [HttpGet]
-        public bool SetPostLike(string postId)
+        public async Task<bool> SetPostLikeAsync(string postId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _postInteractionService.SetStatusOfInteraction(postId, userId, InteractionType.Like);
+            return await _postInteractionService.SetStatusOfInteractionAsync(postId, userId, InteractionType.Like);
         }
 
         [Route("set-status-disliked")]
         [HttpGet]
-        public bool SetPostDislike(string postId)
+        public async Task<bool> SetPostDislikeAsync(string postId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _postInteractionService.SetStatusOfInteraction(postId, userId, InteractionType.Dislike);
+            return await _postInteractionService.SetStatusOfInteractionAsync(postId, userId, InteractionType.Dislike);
         }
 
     }

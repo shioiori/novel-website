@@ -5,6 +5,11 @@ using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
 using System.Linq.Expressions;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using NovelWebsite.NovelWebsite.Domain.Utils;
+using System.Xml.Linq;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
@@ -28,46 +33,50 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _postRepository = postRepository;
         }
 
-        public IEnumerable<PostModel> GetPublishedPosts(string name)
+        public IEnumerable<PostModel> GetPublishedPosts(string name, PagedListRequest pagedListRequest = null)
         {
-            var posts = _postRepository.Filter(expContainString(name)).Where(expPublishedPost.Compile());
+            var exp = ExpressionUtil<Post>.Combine(expContainString(name), expPublishedPost);
+            var query = _postRepository.Filter(exp);
+            var posts = PagedList<Post>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
         }
 
-        public IEnumerable<PostModel> GetPublishedPosts()
+        public IEnumerable<PostModel> GetPublishedPosts(PagedListRequest pagedListRequest = null)
         {
-            var posts = _postRepository.Filter(expPublishedPost);
+            var query = _postRepository.Filter(expPublishedPost);
+            var posts = PagedList<Post>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
         }
 
-        public PostModel GetPublishedPost(string postId)
+        public IEnumerable<PostModel> GetPosts(string name = null, PagedListRequest pagedListRequest = null)
         {
-            var post = _postRepository.Filter(expPublishedPost).FirstOrDefault(x => x.PostId == postId);
+            var query = _postRepository.Filter(expContainString(name));
+            var posts = PagedList<Post>.AsEnumerable(query, pagedListRequest);
+            return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
+        }
+
+        public async Task<PostModel> GetPostAsync(string postId)
+        {
+            var post = await _postRepository.GetByExpressionAsync(x => x.PostId == postId);
             return _mapper.Map<Post, PostModel>(post);
         }
 
-        public IEnumerable<PostModel> GetPosts(string name)
+        public async Task CreatePostAsync(PostModel post)
         {
-            var posts = _postRepository.Filter(expContainString(name));
-            return _mapper.Map<IEnumerable<Post>, IEnumerable<PostModel>>(posts);
+            await _postRepository.InsertAsync(_mapper.Map<PostModel, Post>(post));
+            _postRepository.SaveAsync();
         }
 
-        public void CreatePost(PostModel post)
+        public async Task UpdatePostAsync(PostModel post)
         {
-            _postRepository.Insert(_mapper.Map<PostModel, Post>(post));
-            _postRepository.Save();
+            await _postRepository.UpdateAsync(_mapper.Map<PostModel, Post>(post));
+            _postRepository.SaveAsync();
         }
 
-        public void UpdatePost(PostModel post)
+        public async Task DeletePostAsync(string postId)
         {
-            _postRepository.Update(_mapper.Map<PostModel, Post>(post));
-            _postRepository.Save();
-        }
-
-        public void DeletePost(string postId)
-        {
-            _postRepository.Delete(postId);
-            _postRepository.Save();
+            await _postRepository.DeleteAsync(postId);
+            _postRepository.SaveAsync();
         }
     }
 }

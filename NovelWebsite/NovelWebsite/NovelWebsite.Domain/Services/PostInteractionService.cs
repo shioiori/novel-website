@@ -1,11 +1,11 @@
 ﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
-using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class PostInteractionService : InteractionService
+    public class PostInteractionService : IInteractionService
     {
         private readonly IPostUserRepository _postUserRepository;
 
@@ -14,9 +14,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _postUserRepository = postUserRepository;
         }
 
-        public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
+        public async Task<bool> IsInteractionEnabledAsync(string tId, string uId, InteractionType type)
         {
-            var post = _postUserRepository.GetByExpression(x => x.PostId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var post = await _postUserRepository.GetByExpressionAsync(x => x.PostId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (post == null)
             {
                 return false;
@@ -24,9 +24,9 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             return true;
         }
 
-        public override bool SetStatusOfInteraction(string tId, string uId, InteractionType type)
+        public async Task<bool> SetStatusOfInteractionAsync(string tId, string uId, InteractionType type)
         {
-            var post = _postUserRepository.GetByExpression(x => x.PostId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var post = await _postUserRepository.GetByExpressionAsync(x => x.PostId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (post == null)
             {
                 post = new PostUsers()
@@ -35,12 +35,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                     UserId = uId,
                     InteractionId = (int)type,
                 };
-                _postUserRepository.Insert(post);
-                _postUserRepository.Save();
+                await _postUserRepository.InsertAsync(post);
+                _postUserRepository.SaveAsync();
                 return true;
             }
             _postUserRepository.Delete(post);
-            _postUserRepository.Save();
+            _postUserRepository.SaveAsync();
             return false;
         }
 

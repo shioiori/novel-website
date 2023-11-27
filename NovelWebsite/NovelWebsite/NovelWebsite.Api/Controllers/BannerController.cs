@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 
@@ -21,16 +23,17 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-home-banner")]
-        public IEnumerable<BannerModel> GetHomeBanner(int number = 3)
+        public PagedList<BannerModel> GetHomeBanner([FromQuery] PagedListRequest request)
         {
-            return _bannerService.GetBannersByType(BannerType.Home).Take(number);
+            var banners = _bannerService.GetBannersByTypeAsync(BannerType.Home);
+            return PagedList<BannerModel>.ToPagedList(banners);
         }
 
         [HttpGet]
         [Route("get-random-advertise-banner")]
-        public BannerModel GetRandomAdvertiseBanner()
+        public BannerModel GetRandomAdvertiseBanner([FromQuery] PagedListRequest request)
         {
-            var banners = _bannerService.GetBannersByType(BannerType.Advertise);
+            var banners = _bannerService.GetBannersByTypeAsync(BannerType.Advertise);
             if (banners == null || banners.Count() == 0)
             {
                 return null;
@@ -43,7 +46,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("add")]
         public void AddBanner(BannerModel banner)
         {
-            _bannerService.CreateBanner(banner);
+            _bannerService.CreateBannerAsync(banner);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -51,7 +54,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("update")]
         public void UpdateBanner(BannerModel banner)
         {
-            _bannerService.UpdateBanner(banner);
+            _bannerService.UpdateBannerAsync(banner);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -59,7 +62,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("delete")]
         public void DeleteBanner(int id)
         {
-            _bannerService.DeleteBanner(id);
+            _bannerService.DeleteBannerAsync(id);
         }
     }
 }

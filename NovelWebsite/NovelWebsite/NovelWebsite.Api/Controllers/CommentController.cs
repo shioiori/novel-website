@@ -30,7 +30,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             comment.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _commentService.CreateComment(comment);
+            _commentService.CreateCommentAsync(comment);
         }
         
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -39,7 +39,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             comment.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _commentService.UpdateComment(comment);
+            _commentService.UpdateCommentAsync(comment);
         }
         
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -47,47 +47,49 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [Route("delete")]
         public void DeleteComment(string commentId)
         {
-            _commentService.DeleteComment(commentId);
+            _commentService.DeleteCommentAsync(commentId);
         }
 
         [HttpGet]
         [Route("get-reply-comment")]
-        public PagedList<CommentModel> GetReplyComment(string id, [FromQuery] PagedListRequest request)
+        public async Task<PagedList<CommentModel>> GetReplyCommentAsync(string id, [FromQuery] PagedListRequest request)
         {
-            var comments = _commentService.GetReplyComments(id);
-            return PagedList<CommentModel>.ToPagedList(comments, request);
+            var comments = await _commentService.GetReplyCommentsAsync(id, request);
+            return PagedList<CommentModel>.ToPagedList(comments);
         }
 
         [HttpGet]
         [Route("get-comments-book")]
         public PagedList<CommentModel> GetCommentsBook(string id, [FromQuery] PagedListRequest request)
         {
-            var comments = _commentService.GetCommentsOfBook(id); 
-            return PagedList<CommentModel>.ToPagedList(comments, request);
+            var comments = _commentService.GetCommentsOfBook(id, request);
+            return PagedList<CommentModel>.ToPagedList(comments);
+
         }
 
         [HttpGet]
         [Route("get-comments-post")]
         public PagedList<CommentModel> GetCommentsPost(string id, [FromQuery] PagedListRequest request)
         {
-            var comments = _commentService.GetCommentsOfPost(id);
-            return PagedList<CommentModel>.ToPagedList(comments, request);
+            var comments = _commentService.GetCommentsOfPost(id, request);
+            return PagedList<CommentModel>.ToPagedList(comments);
         }
 
         [HttpGet]
         [Route("get-comments-chapter")]
         public PagedList<CommentModel> GetCommentsChapter(string id, [FromQuery] PagedListRequest request)
         {
-            var comments = _commentService.GetCommentsOfChapter(id);
-            return PagedList<CommentModel>.ToPagedList(comments, request);
+            var comments = _commentService.GetCommentsOfChapter(id, request);
+            return PagedList<CommentModel>.ToPagedList(comments);
+
         }
 
         [HttpGet]
         [Route("get-comments-review")]
         public PagedList<CommentModel> GetCommentsReview(string id, [FromQuery] PagedListRequest request)
         {
-            var comments = _commentService.GetCommentsOfReview(id);
-            return PagedList<CommentModel>.ToPagedList(comments, request);
+            var comments = _commentService.GetCommentsOfReview(id, request);
+            return PagedList<CommentModel>.ToPagedList(comments);
         }
     }
 }

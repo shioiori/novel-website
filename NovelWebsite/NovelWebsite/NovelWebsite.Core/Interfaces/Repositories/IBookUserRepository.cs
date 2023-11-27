@@ -5,6 +5,6 @@ namespace NovelWebsite.NovelWebsite.Core.Interfaces.Repositories
 {
     public interface IBookUserRepository : IGenericRepository<BookUsers>
     {
-        IEnumerable<BookUsers> GetByInteractionType(InteractionType type);
+        IQueryable<BookUsers> GetByInteractionType(InteractionType type);
     }
 }

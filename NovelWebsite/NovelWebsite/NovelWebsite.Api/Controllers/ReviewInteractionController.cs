@@ -26,38 +26,38 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("is-liked")]
         [HttpGet]
-        public bool IsReviewLiked(string reviewId)
+        public async Task<bool> IsReviewLikedAsync(string reviewId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _reviewInteractionService.IsInteractionEnabled(reviewId, userId, InteractionType.Like);
+            return await _reviewInteractionService.IsInteractionEnabledAsync(reviewId, userId, InteractionType.Like);
         }
 
         [Route("is-disliked")]
         [HttpGet]
-        public bool IsReviewDisliked(string reviewId)
+        public async Task<bool> IsReviewDislikedAsync(string reviewId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _reviewInteractionService.IsInteractionEnabled(reviewId, userId, InteractionType.Dislike);
+            return await _reviewInteractionService.IsInteractionEnabledAsync(reviewId, userId, InteractionType.Dislike);
         }
 
         [Route("set-status-like")]
         [HttpGet]
-        public bool SetReviewLike(string reviewId)
+        public async Task<bool> SetReviewLikeAsync(string reviewId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _reviewInteractionService.SetStatusOfInteraction(reviewId, userId, InteractionType.Like);
+            return await _reviewInteractionService.SetStatusOfInteractionAsync(reviewId, userId, InteractionType.Like);
         }
 
         [Route("set-status-dislike")]
         [HttpGet]
-        public bool SetReviewDislike(string reviewId)
+        public async Task<bool> SetReviewDislikeAsync(string reviewId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _reviewInteractionService.SetStatusOfInteraction(reviewId, userId, InteractionType.Dislike);
+            return await _reviewInteractionService.SetStatusOfInteractionAsync(reviewId, userId, InteractionType.Dislike);
         }
 
     }

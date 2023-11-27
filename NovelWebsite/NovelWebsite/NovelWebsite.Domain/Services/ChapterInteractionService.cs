@@ -1,11 +1,11 @@
 ﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
-using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class ChapterInteractionService : InteractionService
+    public class ChapterInteractionService : IInteractionService
     {
         private readonly IChapterUserRepository _chapterUserRepository;
 
@@ -14,18 +14,18 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _chapterUserRepository = chapterUserRepository;
         }
 
-        public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
+        public async Task<bool> IsInteractionEnabledAsync(string tId, string uId, InteractionType type)
         {
-            var chapter = _chapterUserRepository.GetByExpression(x => x.ChapterId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var chapter = await _chapterUserRepository.GetByExpressionAsync(x => x.ChapterId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (chapter == null)
             {
                 return false;
             }
             return true;
         }
-        public override bool SetStatusOfInteraction(string tId, string uId, InteractionType type)
+        public async Task<bool> SetStatusOfInteractionAsync(string tId, string uId, InteractionType type)
         {
-            var chapter = _chapterUserRepository.GetByExpression(x => x.ChapterId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var chapter = await _chapterUserRepository.GetByExpressionAsync(x => x.ChapterId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (chapter == null)
             {
                 chapter = new ChapterUsers()
@@ -34,12 +34,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                     UserId = uId,
                     InteractionId = (int)type,
                 };
-                _chapterUserRepository.Insert(chapter);
-                _chapterUserRepository.Save();
+                await _chapterUserRepository.InsertAsync(chapter);
+                _chapterUserRepository.SaveAsync();
                 return true;
             }
             _chapterUserRepository.Delete(chapter);
-            _chapterUserRepository.Save();
+            _chapterUserRepository.SaveAsync();
             return false;
         }
 

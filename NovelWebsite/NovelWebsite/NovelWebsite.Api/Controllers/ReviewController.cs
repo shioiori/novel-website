@@ -25,27 +25,19 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         }
 		[HttpGet]
 		[Route("get-by-book")]
-		public PagedList<ReviewModel> GetByBook(string bookId)
+		public PagedList<ReviewModel> GetByBook(string bookId, [FromQuery] PagedListRequest request)
 		{
-			var reviews = _reviewService.GetListReviewsByBookId(bookId);
-			return PagedList<ReviewModel>.ToPagedList(reviews);
-		}
+			var reviews = _reviewService.GetListReviewsByBookId(bookId, request);
+		    return PagedList<ReviewModel>.ToPagedList(reviews);
+        }
 		[HttpGet]
         [Route("get-by-filter")]
-        public PagedList<ReviewModel> GetByFilter(string? category, string? orderDate, [FromQuery] PagedListRequest request)
+        public PagedList<ReviewModel> GetByFilter(string orderDate, int category = 0, [FromQuery] PagedListRequest request = null)
         {
-            int categoryId = 0;
-            if (!string.IsNullOrEmpty(category))
-            {
-                if (!int.TryParse(category, out categoryId))
-                {
-                    categoryId = (int)_categoryService.GetCategory(category)?.CategoryId;
-                }
-            }
             IEnumerable<ReviewModel> reviews;
-            if (categoryId != 0)
+            if (category != 0)
             {
-                reviews = _reviewService.GetListReviewsByCategoryId(categoryId);
+                reviews = _reviewService.GetListReviewsByCategoryId(category, request);
             }
             else
             {
@@ -77,14 +69,6 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             return PagedList<ReviewModel>.ToPagedList(reviews);
         }
 
-        [HttpGet]
-        [Route("get-by-book")]
-        public PagedList<ReviewModel> GetByBook(string bookId)
-        {
-            var reviews = _reviewService.GetListReviewsByBookId(bookId);
-            return PagedList<ReviewModel>.ToPagedList(reviews);
-        }
-
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Route("add")]
@@ -94,7 +78,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             {
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
                 review.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-                _reviewService.Add(review);
+                _reviewService.AddAsync(review);
                 return Ok();
             }
             catch (Exception ex)
@@ -112,7 +96,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             {
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
                 review.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-                _reviewService.Update(review);
+                _reviewService.UpdateAsync(review);
                 return Ok();
             }
             catch (Exception ex)
@@ -128,7 +112,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         {
             try
             {
-                _reviewService.Delete(reviewId);
+                _reviewService.DeleteAsync(reviewId);
                 return Ok();
             }
             catch (Exception ex)

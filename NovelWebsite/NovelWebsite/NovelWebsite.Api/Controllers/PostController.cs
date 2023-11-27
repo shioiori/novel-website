@@ -26,15 +26,15 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         [HttpGet]
         public PagedList<PostModel> GetAll([FromQuery] PagedListRequest request)
         {
-            var posts = _postService.GetPublishedPosts();
-            return PagedList<PostModel>.ToPagedList(posts, request);
+            var posts = _postService.GetPublishedPosts(request);
+            return PagedList<PostModel>.ToPagedList(posts);
         }
 
         [Route("get-by-id")]
         [HttpGet]
-        public PostModel GetById(string id)
+        public async Task<PostModel> GetByIdAsync(string id)
         {
-            return _postService.GetPublishedPost(id);
+            return await _postService.GetPostAsync(id);
         }
 
         [Route("get-by-filter")]
@@ -85,7 +85,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             {
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
                 post.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-                _postService.CreatePost(post);
+                _postService.CreatePostAsync(post);
                 return Ok();
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
             {
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
                 post.UserId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-                _postService.UpdatePost(post);
+                _postService.UpdatePostAsync(post);
                 return Ok();
             }
             catch (Exception ex)
@@ -119,7 +119,7 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
         {
             try
             {
-                _postService.DeletePost(postId);
+                _postService.DeletePostAsync(postId);
                 return Ok();
             }
             catch (Exception ex)

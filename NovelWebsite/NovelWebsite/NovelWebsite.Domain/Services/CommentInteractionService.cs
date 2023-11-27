@@ -1,11 +1,11 @@
 ﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
-using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
+using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
-    public class CommentInteractionService : InteractionService
+    public class CommentInteractionService : IInteractionService
     {
         private readonly ICommentUserRepository _commentUserRepository;
 
@@ -14,18 +14,18 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _commentUserRepository = commentUserRepository;
         }
 
-        public override bool IsInteractionEnabled(string tId, string uId, InteractionType type)
+        public async Task<bool> IsInteractionEnabledAsync(string tId, string uId, InteractionType type)
         {
-            var comment = _commentUserRepository.GetByExpression(x => x.CommentId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var comment = await _commentUserRepository.GetByExpressionAsync(x => x.CommentId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (comment == null)
             {
                 return false;
             }
             return true;
         }
-        public override bool SetStatusOfInteraction(string tId, string uId, InteractionType type)
+        public async Task<bool> SetStatusOfInteractionAsync(string tId, string uId, InteractionType type)
         {
-            var comment = _commentUserRepository.GetByExpression(x => x.CommentId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var comment = await _commentUserRepository.GetByExpressionAsync(x => x.CommentId == tId && x.UserId == uId && x.InteractionId == (int)type);
             if (comment == null)
             {
                 comment = new CommentUsers()
@@ -34,12 +34,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
                     UserId = uId,
                     InteractionId = (int)type,
                 };
-                _commentUserRepository.Insert(comment);
-                _commentUserRepository.Save();
+                await _commentUserRepository.InsertAsync(comment);
+                _commentUserRepository.SaveAsync();
                 return true;
             }
             _commentUserRepository.Delete(comment);
-            _commentUserRepository.Save();
+            _commentUserRepository.SaveAsync();
             return false;
         }
 

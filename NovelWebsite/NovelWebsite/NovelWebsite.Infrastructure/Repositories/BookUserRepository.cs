@@ -13,7 +13,7 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
         {
         }
 
-        public IEnumerable<BookUsers> GetByInteractionType(InteractionType type)
+        public IQueryable<BookUsers> GetByInteractionType(InteractionType type)
         {
             return _table.Where(x => x.InteractionId == (int)type);
         } 

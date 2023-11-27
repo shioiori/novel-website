@@ -4,6 +4,9 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Services;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
@@ -21,75 +24,80 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public CommentModel GetComment(string commentId)
+        public async Task<CommentModel> GetCommentAsync(string commentId)
         {
-            var comment = _commentRepository.GetById(commentId);
+            var comment = await _commentRepository.GetByIdAsync(commentId);
             return _mapper.Map<Comment, CommentModel>(comment);
         }
 
-        public IEnumerable<CommentModel> GetCommentsOfBook(string bookId)
+        public IEnumerable<CommentModel> GetCommentsOfBook(string bookId, PagedListRequest pagedListRequest = null)
         {
-            var comments = _commentRepository.Filter(x => x.BookId == bookId);
+            var query = _commentRepository.Filter(x => x.BookId == bookId);
+            var comments = PagedList<Comment>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentModel>>(comments);
         }
 
-        public IEnumerable<CommentModel> GetCommentsOfPost(string postId)
+        public IEnumerable<CommentModel> GetCommentsOfPost(string postId, PagedListRequest pagedListRequest = null)
         {
-            var comments = _commentRepository.Filter(x => x.PostId == postId);
+            var query = _commentRepository.Filter(x => x.PostId == postId);
+            var comments = PagedList<Comment>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentModel>>(comments);
         }
 
-        public IEnumerable<CommentModel> GetCommentsOfChapter(string chapterId)
+        public IEnumerable<CommentModel> GetCommentsOfChapter(string chapterId, PagedListRequest pagedListRequest = null)
         {
 
-            var comments = _commentRepository.Filter(x => x.ChapterId == chapterId);
+            var query = _commentRepository.Filter(x => x.ChapterId == chapterId);
+            var comments = PagedList<Comment>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentModel>>(comments);
         }
 
-        public IEnumerable<CommentModel> GetCommentsOfReview(string reviewId)
+        public IEnumerable<CommentModel> GetCommentsOfReview(string reviewId, PagedListRequest pagedListRequest = null)
         {
-            var comments = _commentRepository.Filter(x => x.ReviewId == reviewId);
+            var query = _commentRepository.Filter(x => x.ReviewId == reviewId);
+            var comments = PagedList<Comment>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentModel>>(comments);
         }
 
-        public IEnumerable<CommentModel> GetReplyComments(string commentId)
+        public async Task<IEnumerable<CommentModel>> GetReplyCommentsAsync(string commentId, PagedListRequest pagedListRequest = null)
         {
-            var comments = _commentUserRepository.Filter(x => x.ReplyCommentId == commentId && x.InteractionId == (int)InteractionType.Comment).ToList();
-            List<CommentModel> cmts = new List<CommentModel>();
-            foreach (var cmt in comments)
+            var commentUsers = _commentUserRepository.Filter(x => x.ReplyCommentId == commentId && x.InteractionId == (int)InteractionType.Comment).AsEnumerable();
+            List<Comment> comments = new List<Comment>();
+            foreach (var cmt in commentUsers)
             {
-                cmts.Add(_mapper.Map<Comment, CommentModel>(_commentRepository.GetById(cmt.CommentId)));
+                comments.Add(await _commentRepository.GetByIdAsync(cmt.CommentId));
             }
-            return cmts;
+            var res = PagedList<Comment>.AsEnumerable(comments, pagedListRequest);
+            return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentModel>>(res);
         }
 
-        public void CreateComment(CommentModel comment)
+        public async Task CreateCommentAsync(CommentModel comment)
         {
-            var cmt = _commentRepository.Insert(_mapper.Map<CommentModel, Comment>(comment));
+            var cmt = await _commentRepository.InsertAsync(_mapper.Map<CommentModel, Comment>(comment));
             if (comment.ReplyCommentId != null)
             {
-                _commentUserRepository.Insert(new CommentUsers()
+                await _commentUserRepository.InsertAsync(new CommentUsers()
                 {
                     CommentId = cmt.CommentId,
                     UserId = cmt.UserId,
                     InteractionId = (int)InteractionType.Comment,
                     ReplyCommentId = comment.ReplyCommentId
                 });
-                _commentUserRepository.Save();
+                _commentUserRepository.SaveAsync();
             }
-            _commentRepository.Save();
+            _commentRepository.SaveAsync();
         }
 
-        public void UpdateComment(CommentModel comment)
+        public async Task UpdateCommentAsync(CommentModel comment)
         {
-            _commentRepository.Update(_mapper.Map<CommentModel, Comment>(comment));
-            _commentRepository.Save();
+            await _commentRepository.UpdateAsync(_mapper.Map<CommentModel, Comment>(comment));
+            _commentRepository.SaveAsync();
         }
 
-        public void DeleteComment(string commentId)
+        public async Task DeleteCommentAsync(string commentId)
         {
-            _commentRepository.Delete(commentId);
-            _commentRepository.Save();
+            await _commentRepository.DeleteAsync(commentId);
+            _commentRepository.SaveAsync();
         }
     }
 }

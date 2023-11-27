@@ -3,6 +3,8 @@ using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
 using System.Collections.Generic;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
@@ -19,47 +21,48 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<CategoryModel> GetAllCategories()
+        public async Task<IEnumerable<CategoryModel>> GetAllCategoriesAsync(PagedListRequest pagedListRequest = null)
         {
-            var categories = _categoryRepository.GetAll();
+            var query = _categoryRepository.GetAll();
+            var categories = PagedList<Category>.AsEnumerable(query, pagedListRequest);
             var list = _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryModel>>(categories);
             foreach (var item in list)
             {
-                item.Quantity = _bookRepository.Filter(x => x.CategoryId == item.CategoryId).Count();
+                item.Quantity = await _bookRepository.CountAsync(x => x.CategoryId == item.CategoryId);
             }
             return list;
         }
 
-        public void AddCategory(CategoryModel category)
+        public async Task AddCategoryAsync(CategoryModel category)
         {
-            _categoryRepository.Insert(_mapper.Map<CategoryModel, Category>(category));
-            _categoryRepository.Save();
+            await _categoryRepository.InsertAsync(_mapper.Map<CategoryModel, Category>(category));
+            _categoryRepository.SaveAsync();
         }
 
-        public void UpdateCategory(CategoryModel category)
+        public async Task UpdateCategoryAsync(CategoryModel category)
         {
-            _categoryRepository.Update(_mapper.Map<CategoryModel, Category>(category));
-            _categoryRepository.Save();
+            await _categoryRepository.UpdateAsync(_mapper.Map<CategoryModel, Category>(category));
+            _categoryRepository.SaveAsync();
         }
 
-        public void RemoveCategory(int categoryId)
+        public async Task RemoveCategoryAsync(int categoryId)
         {
-            _categoryRepository.Delete(categoryId);
-            _categoryRepository.Save();
+            await _categoryRepository.DeleteAsync(categoryId);
+            _categoryRepository.SaveAsync();
         }
 
-        public CategoryModel GetCategory(int categoryId){
-            var category = _categoryRepository.GetById(categoryId);
+        public async Task<CategoryModel> GetCategoryAsync(int categoryId){
+            var category = await _categoryRepository.GetByIdAsync(categoryId);
             var model = _mapper.Map<Category, CategoryModel>(category);
-            model.Quantity = _bookRepository.Filter(x => x.CategoryId == model.CategoryId).Count();
+            model.Quantity = await _bookRepository.CountAsync(x => x.CategoryId == model.CategoryId);
             return model;
         }
 
-        public CategoryModel GetCategory(string slug)
+        public async Task<CategoryModel> GetCategoryAsync(string slug)
         {
-            var category = _categoryRepository.GetByExpression(x => x.Slug == slug);
+            var category = await _categoryRepository.GetByExpressionAsync(x => x.Slug == slug);
             var model = _mapper.Map<Category, CategoryModel>(category);
-            model.Quantity = _bookRepository.Filter(x => x.CategoryId == model.CategoryId).Count();
+            model.Quantity = await _bookRepository.CountAsync(x => x.CategoryId == model.CategoryId);
             return model;
         }
     }

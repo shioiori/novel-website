@@ -33,5 +33,6 @@ namespace NovelWebsite.NovelWebsite.Core.Models
         public bool IsDeleted { get; set; } = false;
         public int TotalChapters { get; set; } = 0;
         public IEnumerable<TagModel> Tags { get; set; } = null;
+
     }
 }

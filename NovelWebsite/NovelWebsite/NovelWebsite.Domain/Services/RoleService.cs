@@ -79,12 +79,12 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
 
         public void SetPermissionToRole(string roleId, int perId)
         {
-            _rolePermissionRepository.Insert(new RolePermissions()
+            _rolePermissionRepository.InsertAsync(new RolePermissions()
             {
                 RoleId = roleId,
                 PermissionId = perId
             });
-            _rolePermissionRepository.Save();
+            _rolePermissionRepository.SaveAsync();
         }
 
         public async Task<IEnumerable<RoleModel>> GetUserRole(string username)

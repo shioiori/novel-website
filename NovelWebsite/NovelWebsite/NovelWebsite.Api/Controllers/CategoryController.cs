@@ -23,16 +23,17 @@ namespace NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-all")]
-        public PagedList<CategoryModel> GetAll([FromQuery] PagedListRequest request)
+        public async Task<PagedList<CategoryModel>> GetAllAsync([FromQuery] PagedListRequest request)
         {
-            return PagedList<CategoryModel>.ToPagedList(_categoryService.GetAllCategories(), request);
+            var categories = await _categoryService.GetAllCategoriesAsync(request);
+            return PagedList<CategoryModel>.ToPagedList(categories);
         }
 
         [HttpGet]
         [Route("get-by-id")]
-        public CategoryModel GetById(int id)
+        public async Task<CategoryModel> GetByIdAsync(int id)
         {
-            return _categoryService.GetCategory(id);
+            return await _categoryService.GetCategoryAsync(id);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -40,7 +41,7 @@ namespace NovelWebsite.Api.Controllers
         [Route("add")]
         public void Add(CategoryModel category)
         {
-            _categoryService.AddCategory(category);
+            _categoryService.AddCategoryAsync(category);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -48,16 +49,15 @@ namespace NovelWebsite.Api.Controllers
         [Route("update")]
         public void Update(CategoryModel category)
         {
-            _categoryService.UpdateCategory(category);
+            _categoryService.UpdateCategoryAsync(category);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete]
         [Route("delete")]
-
         public void Delete(int id)
         {
-            _categoryService.RemoveCategory(id);
+            _categoryService.RemoveCategoryAsync(id);
         }
     }
 }

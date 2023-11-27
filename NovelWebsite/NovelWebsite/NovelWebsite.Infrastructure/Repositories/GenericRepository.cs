@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IdentityModel;
+using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
 using System.Linq.Expressions;
 
 namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
@@ -17,34 +19,36 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
             _table = _dbContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return _table.ToList();
+            return _table.AsQueryable<T>();
         }
 
-        public T GetById(object id)
+        public async Task<T> GetByIdAsync(object id)
         {
-            return _table.Find(id);
+            return await _table.FindAsync(id);
         }
 
-        public T GetByExpression(Expression<Func<T, bool>> expression)
+        public async Task<T> GetByExpressionAsync(Expression<Func<T, bool>> expression)
         {
-            return _table.FirstOrDefault(expression);
+            return await _table.FirstOrDefaultAsync(expression);
         }
 
-        public T Insert(T obj)
+        public async Task<T> InsertAsync(T obj)
         {
-            return _table.Add(obj).Entity;
+            return (await _table.AddAsync(obj)).Entity;
         }
 
-        public T Update(T obj)
+        public async Task<T> UpdateAsync(T obj)
         {
-            return _table.Update(obj).Entity;
+            _dbContext.Entry(obj).CurrentValues.SetValues(obj);
+            await _dbContext.SaveChangesAsync();
+            return obj;
         }
 
-        public void Delete(object id)
+        public async Task DeleteAsync(object id)
         {
-            T obj = _table.Find(id);
+            T obj = await _table.FindAsync(id);
             _table.Remove(obj);
         }
 
@@ -53,12 +57,12 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
             _table.Remove(obj);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<T> Order(Expression<Func<T, dynamic>> expression, SortOrder sortOrder)
+        public IQueryable<T> Order(Expression<Func<T, dynamic>> expression, SortOrder sortOrder)
         {
             _table = _dbContext.Set<T>();
             if (sortOrder == SortOrder.Descending)
@@ -68,16 +72,16 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
             return _table.OrderBy(expression);
         }
 
-        public IEnumerable<T> Filter(Expression<Func<T, bool>> expression)
+        public IQueryable<T> Filter(Expression<Func<T, bool>> expression)
         {
             _table = _dbContext.Set<T>();
             return _table.Where(expression);
         }
-
-        public IEnumerable<T> ContainName(Expression<Func<T, bool>> expression)
+        
+        public async Task<int> CountAsync(Expression<Func<T, bool>> expression)
         {
             _table = _dbContext.Set<T>();
-            return _table.Where(expression);
+            return await _table.CountAsync(expression);
         }
     }
 }

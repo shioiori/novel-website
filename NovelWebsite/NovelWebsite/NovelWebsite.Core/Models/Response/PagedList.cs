@@ -1,4 +1,5 @@
 ﻿using NovelWebsite.NovelWebsite.Core.Models.Request;
+using System.Drawing.Printing;
 
 namespace NovelWebsite.NovelWebsite.Core.Models.Response
 {
@@ -14,7 +15,8 @@ namespace NovelWebsite.NovelWebsite.Core.Models.Response
         public int NextPageUrl { get; set; }
         public int From { get; set; } = 1;
         public int To { get; set; } = 1;
-        public List<T> Data {  get; set; }
+        public IEnumerable<T> Data { get; set; } = null;
+        public IQueryable<T> Query { get; set; } = null;
 
         public PagedList(T data, int PageSize = 10, int currentPage = 1)
         {
@@ -23,9 +25,16 @@ namespace NovelWebsite.NovelWebsite.Core.Models.Response
             SetCurrentPage(currentPage);
         }
 
+        public PagedList(IQueryable<T> data, int PageSize = 10, int currentPage = 1)
+        {
+            Query = data;
+            SplitPage(PageSize);
+            SetCurrentPage(currentPage);
+        }
+
         public PagedList(IEnumerable<T> data, int PageSize = 10, int currentPage = 1)
         {
-            Data = data.ToList();
+            Data = data;
             SplitPage(PageSize);
             SetCurrentPage(currentPage);
         }
@@ -33,7 +42,14 @@ namespace NovelWebsite.NovelWebsite.Core.Models.Response
         private void SplitPage(int PageSize = 10)
         {
             PerPage = (int)PageSize;
-            Total = Data.Count();
+            if (this.Query != null)
+            {
+                Total = Query.Count();
+            }
+            else
+            {
+                Total = Data.Count();
+            }
             LastPage = (int)Math.Ceiling(Total * 1.0 / PerPage);
         }
 
@@ -42,16 +58,64 @@ namespace NovelWebsite.NovelWebsite.Core.Models.Response
             CurrentPage = (int)currentPage;
             From = PerPage * CurrentPage - PerPage + 1;
             To = From + PerPage;
-            Data = Data.Skip(PerPage * CurrentPage - PerPage).Take(PerPage).ToList();
+            if (this.Query != null)
+            {
+                Query = Query.Skip(PerPage * CurrentPage - PerPage).Take(PerPage);
+                Data = Query.AsEnumerable();
+                return;
+            }
+            Data = Data.Skip(PerPage * CurrentPage - PerPage).Take(PerPage).AsEnumerable();
         }
-        public static PagedList<T> ToPagedList(IEnumerable<T> source, int PageSize = 10, int pageNumber = 1)
+        public static PagedList<T> ToPagedList(IEnumerable<T> source, int pageSize = 10, int pageNumber = 1)
         {
-            return new PagedList<T>(source, PageSize, pageNumber);
+            return new PagedList<T>(source, pageSize, pageNumber);
         }
 
         public static PagedList<T> ToPagedList(IEnumerable<T> source, PagedListRequest request)
         {
+            if (request == null)
+            {
+                request = new PagedListRequest() { 
+                    PageSize = source.Count(),
+                    CurrentPage = 1,
+                };
+            }
             return new PagedList<T>(source, request.PageSize, request.CurrentPage);
+        }
+
+        public static IEnumerable<T> AsEnumerable(IQueryable<T> source, int pageSize = 10, int pageNumber = 1)
+        {
+            return new PagedList<T>(source, pageSize, pageNumber).Data;
+        }
+
+        public static IEnumerable<T> AsEnumerable(IQueryable<T> source, PagedListRequest request)
+        {
+            if (request == null)
+            {
+                request = new PagedListRequest()
+                {
+                    PageSize = source.Count(),
+                    CurrentPage = 1,
+                };
+            }
+            return new PagedList<T>(source, request.PageSize, request.CurrentPage).Data;
+        }
+
+        public static IEnumerable<T> AsEnumerable(IEnumerable<T> source, int pageSize = 10, int pageNumber = 1)
+        {
+            return new PagedList<T>(source, pageSize, pageNumber).Data;
+        }
+        public static IEnumerable<T> AsEnumerable(IEnumerable<T> source, PagedListRequest request)
+        {
+            if (request == null)
+            {
+                request = new PagedListRequest()
+                {
+                    PageSize = source.Count(),
+                    CurrentPage = 1,
+                };
+            }
+            return new PagedList<T>(source, request.PageSize, request.CurrentPage).Data;
         }
     }
 }

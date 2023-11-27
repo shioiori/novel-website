@@ -25,14 +25,15 @@ namespace NovelWebsite.Api.Controllers
         [Route("get-all")]
         public PagedList<TagModel> GetAll([FromQuery] PagedListRequest request)
         {
-            return PagedList<TagModel>.ToPagedList(_tagService.GetAll(), request);
+            var tags = _tagService.GetAll(request);
+		    return PagedList<TagModel>.ToPagedList(tags);
         }
 
         [HttpGet]
         [Route("get-by-id")]
-        public TagModel GetById(int id)
+        public async Task<TagModel> GetByIdAsync(int id)
         {
-            return _tagService.GetById(id);
+            return await _tagService.GetByIdAsync(id);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -40,7 +41,7 @@ namespace NovelWebsite.Api.Controllers
         [Route("add")]
         public void Add(TagModel tag)
         {
-            _tagService.Add(tag);
+            _tagService.AddAsync(tag);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -48,7 +49,7 @@ namespace NovelWebsite.Api.Controllers
         [Route("update")]
         public void Update(TagModel tag)
         {
-            _tagService.Update(tag);
+            _tagService.UpdateAsync(tag);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -57,7 +58,7 @@ namespace NovelWebsite.Api.Controllers
 
         public void Delete(string tag)
         {
-            _tagService.Delete(tag);
+            _tagService.DeleteAsync(tag);
         }
     }
 }

@@ -9,6 +9,7 @@ using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Core.Models.Request;
 using NovelWebsite.NovelWebsite.Core.Models.Response;
 using NovelWebsite.NovelWebsite.Domain.Services;
+using NovelWebsite.NovelWebsite.Infrastructure.Entities;
 
 namespace NovelWebsite.Api.Controllers
 {
@@ -27,32 +28,32 @@ namespace NovelWebsite.Api.Controllers
 
         [HttpGet]
         [Route("get-by-chapter-id")]
-        public ChapterModel GetByChapter(string chapterId)
+        public async Task<ChapterModel> GetByChapterAsync(string chapterId)
         {
-            return _chapterService.GetChapter(chapterId);
+            return await _chapterService.GetChapterAsync(chapterId);
         }
 
         [HttpGet]
         [Route("get-by-chapter-index")]
-        public ChapterModel GetByChapter(string bookId, int index)
+        public async Task<ChapterModel> GetByChapterAsync(string bookId, int index)
         {
-            return _chapterService.GetChapter(bookId, index);
+            return await _chapterService.GetChapterAsync(bookId, index);
         }
 
         [HttpGet]
         [Route("get-all")]
         public PagedList<ChapterModel> GetListChapters(string bookId, [FromQuery] PagedListRequest request)
         {
-            var chapters = _chapterService.GetChapters(bookId);
-            return PagedList<ChapterModel>.ToPagedList(chapters, request);
+            var chapters = _chapterService.GetChapters(bookId, request);
+            return PagedList<ChapterModel>.ToPagedList(chapters);
         }
 
         [HttpGet]
         [Route("get-all-published")]
         public PagedList<ChapterModel> GetListChaptersPublished(string bookId, [FromQuery] PagedListRequest request)
         {
-            var chapters = _chapterService.GetChaptersByStatus(bookId, UploadStatus.Publish);
-            return PagedList<ChapterModel>.ToPagedList(chapters, request);
+            var chapters = _chapterService.GetChaptersByStatus(bookId, UploadStatus.Publish, request);
+            return PagedList<ChapterModel>.ToPagedList(chapters);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -60,8 +61,8 @@ namespace NovelWebsite.Api.Controllers
         [Route("get-all-draft")]
         public PagedList<ChapterModel> GetListChaptersDraft(string bookId, [FromQuery] PagedListRequest request)
         {
-            var chapters = _chapterService.GetChaptersByStatus(bookId, UploadStatus.Draft);
-            return PagedList<ChapterModel>.ToPagedList(chapters, request);
+            var chapters = _chapterService.GetChaptersByStatus(bookId, UploadStatus.Draft, request);
+            return PagedList<ChapterModel>.ToPagedList(chapters);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -70,7 +71,7 @@ namespace NovelWebsite.Api.Controllers
         public IActionResult AddChapter(ChapterModel model){
             try
             {
-                _chapterService.CreateChapter(model);
+                _chapterService.CreateChapterAsync(model);
                 return Ok();
             }
             catch (Exception ex)
@@ -85,7 +86,7 @@ namespace NovelWebsite.Api.Controllers
         public IActionResult UpdateChapter(ChapterModel model){
             try
             {
-                _chapterService.UpdateChapter(model);
+                _chapterService.UpdateChapterAsync(model);
                 return Ok();
             }
             catch (Exception ex)
@@ -101,7 +102,7 @@ namespace NovelWebsite.Api.Controllers
         {
             try
             {
-                _chapterService.DeleteChapter(chapterId);
+                _chapterService.DeleteChapterAsync(chapterId);
                 return Ok();
             }
             catch (Exception ex)

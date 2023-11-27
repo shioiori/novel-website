@@ -31,39 +31,39 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("is-liked")]
         [HttpGet]
-        public bool IsChapterLiked(string chapterId)
+        public async Task<bool> IsChapterLikedAsync(string chapterId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _chapterInteractionService.IsInteractionEnabled(chapterId, userId, InteractionType.Like);
+            return await _chapterInteractionService.IsInteractionEnabledAsync(chapterId, userId, InteractionType.Like);
         }
 
         [Route("is-disliked")]
         [HttpGet]
-        public bool IsChapterMarked(string chapterId)
+        public async Task<bool> IsChapterMarkedAsync(string chapterId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _chapterInteractionService.IsInteractionEnabled(chapterId, userId, InteractionType.Mark);
+            return await _chapterInteractionService.IsInteractionEnabledAsync(chapterId, userId, InteractionType.Mark);
         }
 
         [Route("set-status-like")]
         [HttpGet]
-        public bool SetChapterLike(string chapterId)
+        public async Task<bool> SetChapterLikeAsync(string chapterId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _chapterInteractionService.SetStatusOfInteraction(chapterId, userId, InteractionType.Like);
+            return await _chapterInteractionService.SetStatusOfInteractionAsync(chapterId, userId, InteractionType.Like);
         }
 
         [Route("set-status-mark")]
         [HttpGet]
 
-        public bool SetChapterMark(string chapterId)
+        public async Task<bool> SetChapterMarkAsync(string chapterId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _chapterInteractionService.SetStatusOfInteraction(chapterId, userId, InteractionType.Mark);
+            return await _chapterInteractionService.SetStatusOfInteractionAsync(chapterId, userId, InteractionType.Mark);
         }
     }
 }

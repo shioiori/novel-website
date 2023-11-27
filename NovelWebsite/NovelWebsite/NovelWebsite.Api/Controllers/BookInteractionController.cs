@@ -26,62 +26,62 @@ namespace NovelWebsite.NovelWebsite.Api.Controllers
 
         [Route("is-liked")]
         [HttpGet]
-        public bool IsBookLiked(string bookId)
+        public async Task<bool> IsBookLikedAsync(string bookId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _bookInteractionService.IsInteractionEnabled(bookId, userId, InteractionType.Like);
+            return await _bookInteractionService.IsInteractionEnabledAsync(bookId, userId, InteractionType.Like);
         }
 
         [Route("is-recommended")]
         [HttpGet]
-        public bool IsBookRecommended(string bookId)
+        public async Task<bool> IsBookRecommendedAsync(string bookId)
         {
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _bookInteractionService.IsInteractionEnabled(bookId, userId, InteractionType.Recommend);
+            return await _bookInteractionService.IsInteractionEnabledAsync(bookId, userId, InteractionType.Recommend);
         }
 
         [Route("is-followed")]
         [HttpGet]
-        public bool IsBookFollowed(string bookId)
+        public async Task<bool> IsBookFollowedAsync(string bookId)
         {
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _bookInteractionService.IsInteractionEnabled(bookId, userId, InteractionType.Follow);
+            return await _bookInteractionService.IsInteractionEnabledAsync(bookId, userId, InteractionType.Follow);
         }
 
         [HttpGet]
         [Route("set-status-like")]
 
-        public bool SetBookLike(string bookId)
+        public async Task<bool> SetBookLikeAsync(string bookId)
         {
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _bookInteractionService.SetStatusOfInteraction(bookId, userId, InteractionType.Like);
+            return await _bookInteractionService.SetStatusOfInteractionAsync(bookId, userId, InteractionType.Like);
         }
 
         [HttpGet]
         [Route("set-status-recommend")]
 
-        public bool SetBookRecommend(string bookId)
+        public async Task<bool> SetBookRecommendAsync(string bookId)
         {
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _bookInteractionService.SetStatusOfInteraction(bookId, userId, InteractionType.Recommend);
+            return await _bookInteractionService.SetStatusOfInteractionAsync(bookId, userId, InteractionType.Recommend);
         }
 
         [HttpGet]
         [Route("set-status-follow")]
-        public bool SetBookFollow(string bookId)
+        public async Task<bool> SetBookFollowAsync(string bookId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _bookInteractionService.SetStatusOfInteraction(bookId, userId, InteractionType.Follow);
+            return await _bookInteractionService.SetStatusOfInteractionAsync(bookId, userId, InteractionType.Follow);
         }
     }
 }

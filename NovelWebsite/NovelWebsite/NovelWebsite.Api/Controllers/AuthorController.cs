@@ -25,7 +25,7 @@ namespace NovelWebsite.Api.Controllers
         [Route("add")]
         public void Add(AuthorModel author)
         {
-            _authorService.CreateAuthor(author);
+            _authorService.CreateAuthorAsync(author);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -33,7 +33,7 @@ namespace NovelWebsite.Api.Controllers
         [Route("update")]
         public void Update(AuthorModel author)
         {
-            _authorService.UpdateAuthor(author);
+            _authorService.UpdateAuthorAsync(author);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -42,7 +42,7 @@ namespace NovelWebsite.Api.Controllers
 
         public void Delete(int authorId)
         {
-            _authorService.DeleteAuthor(authorId);
+            _authorService.DeleteAuthorAsync(authorId);
         }
     }
 }

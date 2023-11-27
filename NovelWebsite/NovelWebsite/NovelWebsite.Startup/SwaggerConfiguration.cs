@@ -20,6 +20,7 @@ namespace NovelWebsite.NovelWebsite.Startup
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v2/swagger.json", "MVCCallWebAPI");
+                c.RoutePrefix = "";
             });
 
             return app;

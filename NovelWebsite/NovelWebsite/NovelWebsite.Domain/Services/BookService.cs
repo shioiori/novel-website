@@ -9,6 +9,9 @@ using NovelWebsite.NovelWebsite.Core.Models;
 using NovelWebsite.NovelWebsite.Domain.Utils;
 using System.Linq.Expressions;
 using Google.Apis.Drive.v3.Data;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NovelWebsite.Domain.Services
 {
@@ -18,6 +21,7 @@ namespace NovelWebsite.Domain.Services
         private readonly IChapterRepository _chapterRepository;
         private readonly IBookUserRepository _bookUserRepository;
         private readonly IBookTagRepository _bookTagRepository;
+        private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
 
         Expression<Func<Book, bool>> expValidBooks = b => b.IsDeleted == false && b.Status == (int)UploadStatus.Publish;
@@ -41,13 +45,22 @@ namespace NovelWebsite.Domain.Services
         {
             return b => b.CreatedDate >= start;
         }
-        Expression<Func<BookUsers, bool>> expFilterByInteractionType(InteractionType type)
+
+        Expression<Func<Book, bool>> expFilterUser(string id)
         {
-            return b => b.InteractionId == (int)type;
+            return x => x.UserId == id;
         }
         Expression<Func<Book, bool>> expSearchName(string name) {
             return x => string.IsNullOrEmpty(name)
                         || x.BookName.ToLower().Trim().Contains(name.ToLower().Trim());
+        }
+        Expression<Func<BookUsers, bool>> expFilterByInteractionType(InteractionType type)
+        {
+            return b => b.InteractionId == (int)type;
+        }
+        Expression<Func<BookUsers, bool>> expFilterBookUser(string id)
+        {
+            return x => x.UserId == id;
         }
 
         public BookService(IBookRepository bookRepository, 
@@ -63,40 +76,45 @@ namespace NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<BookModel> GetAll()
+        public IEnumerable<BookModel> GetAll(PagedListRequest pagedListRequest = null)
         {
-            var books = _bookRepository.Filter(expValidBooks);
+            var query = _bookRepository.Filter(expValidBooks);
+            var books = PagedList<Book>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetByAuthor(int authorId)
+        public IEnumerable<BookModel> GetByAuthor(int authorId, PagedListRequest pagedListRequest = null)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByAuthor(authorId));
-            var books = _bookRepository.Filter(exp);
-            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books); 
+            var query = _bookRepository.Filter(exp);
+            var books = PagedList<Book>.AsEnumerable(query, pagedListRequest);
+            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetByCategory(int categoryId)
+        public IEnumerable<BookModel> GetByCategory(int categoryId, PagedListRequest pagedListRequest = null)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByCategory(categoryId));
-            var books = _bookRepository.Filter(exp);
+            var query = _bookRepository.Filter(exp);
+            var books = PagedList<Book>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetByBookStatus(string status)
+        public IEnumerable<BookModel> GetByBookStatus(string status, PagedListRequest pagedListRequest = null)
         {
             var exp = ExpressionUtil<Book>.Combine(expValidBooks, expFilterByBookStatus(status));
-            var books = _bookRepository.Filter(exp);
+            var query = _bookRepository.Filter(exp);
+            var books = PagedList<Book>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetFromTime(DateTime start)
+        public IEnumerable<BookModel> GetFromTime(DateTime start, PagedListRequest pagedListRequest = null)
         {
-            var books = _bookRepository.Filter(expFromTime(start));
+            var query = _bookRepository.Filter(expFromTime(start));
+            var books = PagedList<Book>.AsEnumerable(query, pagedListRequest);
             return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
         }
 
-        public IEnumerable<BookModel> GetByFilter(FilterModel filter)
+        public async Task<IEnumerable<BookModel>> GetByFilterAsync(FilterModel filter, PagedListRequest pagedListRequest = null)
         {
             var exp = expSearchName(filter.SearchName);
             // lọc theo tình trạng
@@ -139,7 +157,7 @@ namespace NovelWebsite.Domain.Services
                 {
                     for (int i = 0; i < size; ++i) 
                     {
-                        var count = _chapterRepository.Filter(x => x.BookId == books[i].BookId).Count();
+                        var count = await _chapterRepository.CountAsync(x => x.BookId == books[i].BookId);
                         foreach (var range in chapterRanges)
                         {
                             if (count >= range.MinRange && count <= range.MaxRange) continue;
@@ -181,79 +199,103 @@ namespace NovelWebsite.Domain.Services
                     }
                 }
             }
-            return _mapper.Map<List<Book>, List<BookModel>>(books);
+            var res = PagedList<Book>.AsEnumerable(books, pagedListRequest);
+            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(res);
         }
 
-        //public IEnumerable<BookModel> GetAllBooks()
-        //{
-        //    var books = _bookRepository.GetAll();
-        //    return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
-        //}
-
-        public BookModel GetById(string bookId)
+        public async Task<BookModel> GetByIdAsync(string bookId)
         {
-            var book = _bookRepository.GetById(bookId);
+            var book = await _bookRepository.GetByIdAsync(bookId);
             return _mapper.Map<Book, BookModel>(book);
         }
 
-        public BookModel Add(BookModel book)
+        public async Task<BookModel> AddAsync(BookModel book)
         {
-            var res = _bookRepository.Insert(_mapper.Map<BookModel, Book>(book));
-            _bookRepository.Save();
+            var res = await _bookRepository.InsertAsync(_mapper.Map<BookModel, Book>(book));
+            _bookRepository.SaveAsync();
             return _mapper.Map<Book, BookModel>(res);
-        }
-        public BookModel Update(BookModel book)
-        {
-            var res = _bookRepository.Update(_mapper.Map<BookModel, Book>(book));
-            _bookRepository.Save();
-            return _mapper.Map<Book, BookModel>(res);
-        }
-        public void DeleteTemporary(string bookId)
-        {
-            var book = _bookRepository.GetById(bookId);
-            book.IsDeleted = true;
-            _bookRepository.Update(book);
-            _bookRepository.Save();
-        }
-        public void Delete(BookModel book)
-        {
-            _bookRepository.Delete(book);
-            _bookRepository.Save();
         }
 
-        public IEnumerable<BookModel> GetByUserInteractive(string userId, InteractionType type)
+        public async Task<BookModel> UpdateAsync(BookModel book)
         {
-            var list = _bookUserRepository.Filter(x => x.UserId == userId && x.InteractionId == (int)type).Select(x => x.BookId).ToList();
-            var books = GetAll();
-            books = books.Where(x => list.Contains(x.BookId));
+            var res = await _bookRepository.UpdateAsync(_mapper.Map<BookModel, Book>(book));
+            _bookRepository.SaveAsync();
+            return _mapper.Map<Book, BookModel>(res);
+        }
+        public async Task DeleteTemporaryAsync(string bookId)
+        {
+            var book = await _bookRepository.GetByIdAsync(bookId);
+            book.IsDeleted = true;
+            await _bookRepository.UpdateAsync(book);
+            _bookRepository.SaveAsync();
+        }
+        public async Task DeleteAsync(BookModel book)
+        {
+            await _bookRepository.DeleteAsync(book);
+            _bookRepository.SaveAsync();
+        }
+
+        public IEnumerable<BookModel> GetByUserInteractive(string userId, InteractionType type, PagedListRequest pagedListRequest = null)
+        {
+            var expBookUser = ExpressionUtil<BookUsers>.Combine(expFilterBookUser(userId), expFilterByInteractionType(type));
+            var list = _bookUserRepository.Filter(expBookUser).Select(x => x.BookId);
+            var expBook = ExpressionUtil<Book>.Combine(expValidBooks, x => list.Contains(x.BookId));
+            var query = _bookRepository.Filter(expBook);
+            var books = PagedList<Book>.AsEnumerable(query, pagedListRequest);
+            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
+        }
+
+        public IEnumerable<BookModel> GetByUser(string userId, PagedListRequest pagedListRequest = null)
+        {
+            var query = _bookRepository.Filter(expFilterUser(userId));
+            var books = PagedList<Book>.AsEnumerable(query, pagedListRequest);
+            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
+        }
+
+        public IEnumerable<BookModel> GetByUploadStatus(UploadStatus status, PagedListRequest pagedListRequest = null)
+        {
+            var query = _bookRepository.Filter(expFilterByUploadStatus(status)).ToList();
+            var books = PagedList<Book>.AsEnumerable(query, pagedListRequest);
+            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
+        }
+
+        public async Task<int> CountInteractiveAsync(string bookId, InteractionType type)
+        {
+            var book = await _bookRepository.GetByIdAsync(bookId);
+            return await _bookUserRepository.CountAsync(x => x.BookId == bookId && x.InteractionId == (int)type);
+        }
+
+        public async Task SetStatusAsync(string bookId, int status)
+        {
+            var book = await _bookRepository.GetByIdAsync(bookId);
+            book.Status = status;
+            await _bookRepository.UpdateAsync(book);
+            _bookRepository.SaveAsync();
+        }
+
+        public IEnumerable<BookModel> GetTopEachInteractionType(IEnumerable<BookModel> books, InteractionType type)
+        {
+            if (type == InteractionType.View)
+            {
+                books = books.OrderByDescending(x => x.Views);
+                return books;
+            }
+            var list = _bookUserRepository.Filter(expFilterByInteractionType(type))
+                             .GroupBy(b => b.BookId)
+                             .OrderByDescending(g => g.Count())
+                             .Select(g => new
+                             {
+                                 BookId = g.Key,
+                                 InteractionCount = g.Count(),
+                                 InteractionType = type,
+                             }).ToList();
+            books = books.OrderBy(b =>
+            {
+                var index = list.FindIndex(x => x.BookId == b.BookId);
+                return index == -1 ? list.Count : index;
+            });
             return books;
         }
 
-        public IEnumerable<BookModel> GetByUser(string userId)
-        {
-            var books = _bookRepository.Filter(x => x.UserId == userId).ToList();
-            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
-        }
-
-        public IEnumerable<BookModel> GetByUploadStatus(int status)
-        {
-            var books = _bookRepository.Filter(x => x.Status == status).ToList();
-            return _mapper.Map<IEnumerable<Book>, IEnumerable<BookModel>>(books);
-        }
-
-        public int CountInteractive(string bookId, InteractionType type)
-        {
-            var book = _bookRepository.GetById(bookId);
-            var qtt = _bookUserRepository.Filter(x => x.BookId == bookId && x.InteractionId == (int)type).Count();
-            return qtt;
-        }
-
-        public void SetStatus(string bookId, int status)
-        {
-            var book = _bookRepository.GetById(bookId);
-            book.Status = status;
-            _bookRepository.Update(book);
-            _bookRepository.Save();
-        }
     }
 }

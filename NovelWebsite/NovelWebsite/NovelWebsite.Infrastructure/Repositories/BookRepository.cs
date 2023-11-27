@@ -7,8 +7,6 @@ namespace NovelWebsite.NovelWebsite.Infrastructure.Repositories
 {
     public class BookRepository : GenericRepository<Book>, IBookRepository
     {
-        Expression<Func<Book, object>> sortType = x => x.GetType().GetProperty("PropertyName");
-
         public BookRepository(AppDbContext dbContext) : base(dbContext) { }
 
     }

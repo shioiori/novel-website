@@ -5,6 +5,9 @@ using NovelWebsite.NovelWebsite.Core.Enums;
 using NovelWebsite.NovelWebsite.Core.Interfaces;
 using NovelWebsite.NovelWebsite.Core.Interfaces.Repositories;
 using NovelWebsite.NovelWebsite.Core.Models;
+using NovelWebsite.NovelWebsite.Core.Models.Response;
+using NovelWebsite.NovelWebsite.Core.Models.Request;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NovelWebsite.NovelWebsite.Domain.Services
 {
@@ -27,44 +30,47 @@ namespace NovelWebsite.NovelWebsite.Domain.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<ReviewModel> GetListReviews()
+        public IEnumerable<ReviewModel> GetListReviews(PagedListRequest request = null)
         {
-            var reviews = _reviewRepository.GetAll();
+            var query = _reviewRepository.GetAll();
+            var reviews = PagedList<Review>.AsEnumerable(query, request);
             return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }
 
-        public IEnumerable<ReviewModel> GetListReviewsByBookId(string bookId)
+        public IEnumerable<ReviewModel> GetListReviewsByBookId(string bookId, PagedListRequest request = null)
         {
-            var reviews = _reviewRepository.Filter(expSearchByBookId(bookId));
+            var query = _reviewRepository.Filter(expSearchByBookId(bookId));
+            var reviews = PagedList<Review>.AsEnumerable(query, request);
             return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }
 
-        public IEnumerable<ReviewModel> GetListReviewsByCategoryId(int categoryId)
+        public IEnumerable<ReviewModel> GetListReviewsByCategoryId(int categoryId, PagedListRequest request = null)
         {
             if (categoryId == 0)
             {
-                return GetListReviews();
+                return GetListReviews(request);
             }
-            var reviews = _reviewRepository.Filter(expSearchByCategoryId(categoryId));
+            var query = _reviewRepository.Filter(expSearchByCategoryId(categoryId));
+            var reviews = PagedList<Review>.AsEnumerable(query, request);
             return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewModel>>(reviews);
         }
 
-        public void Add(ReviewModel review)
+        public async Task AddAsync(ReviewModel review)
         {
-            _reviewRepository.Insert(_mapper.Map<ReviewModel, Review>(review));
-            _reviewRepository.Save();
+            await _reviewRepository.InsertAsync(_mapper.Map<ReviewModel, Review>(review));
+            _reviewRepository.SaveAsync();
         }
 
-        public void Update(ReviewModel review)
+        public async Task UpdateAsync(ReviewModel review)
         {
-            _reviewRepository.Update(_mapper.Map<ReviewModel, Review>(review));
-            _reviewRepository.Save();
+            await _reviewRepository.UpdateAsync(_mapper.Map<ReviewModel, Review>(review));
+            _reviewRepository.SaveAsync();
         }
 
-        public void Delete(string reviewId)
+        public async Task DeleteAsync(string reviewId)
         {
-            _reviewRepository.Delete(reviewId);
-            _reviewRepository.Save();
+            await _reviewRepository.DeleteAsync(reviewId);
+            _reviewRepository.SaveAsync();
         }
     }
 }
