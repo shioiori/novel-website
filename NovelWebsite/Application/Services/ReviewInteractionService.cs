@@ -1,25 +1,18 @@
-﻿using NovelWebsite.NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Application.Enums;
-using NovelWebsite.Application.Interfaces;
-using NovelWebsite.Application.Interfaces.Repositories;
-using NovelWebsite.NovelWebsite.Infrastructure.Repositories;
-using NovelWebsite.Application.Interfaces.Services;
-using Application.Interfaces;
+﻿using Application.Interfaces;
+using Application.Services.Base;
+using Application.Models.Dtos;
+using NovelWebsite.Domain.Entities;
+using NovelWebsite.Domain.Enums;
 
 namespace NovelWebsite.Application.Services
 {
-    public class ReviewInteractionService : IInteractionService
+    public class ReviewInteractionService : GenericService<ReviewUsers, ReviewUserDto>, IInteractionService
     {
-        private readonly IReviewUserRepository _reviewUserRepository;
-
-        public ReviewInteractionService(IReviewUserRepository reviewUserRepository)
-        {
-            _reviewUserRepository = reviewUserRepository;
-        }
+        public ReviewInteractionService() : base() { }
 
         public async Task<bool> IsInteractionEnabledAsync(string tId, string uId, InteractionType type)
         {
-            var review = await _reviewUserRepository.GetByExpressionAsync(x => x.ReviewId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var review = _repository.Get(x => x.ReviewId == tId && x.UserId == uId && x.InteractionId == (int)type).FirstOrDefault();
             if (review == null)
             {
                 return false;
@@ -29,7 +22,7 @@ namespace NovelWebsite.Application.Services
 
         public async Task<bool> SetStatusOfInteractionAsync(string tId, string uId, InteractionType type)
         {
-            var review = await _reviewUserRepository.GetByExpressionAsync(x => x.ReviewId == tId && x.UserId == uId && x.InteractionId == (int)type);
+            var review = _repository.Get(x => x.ReviewId == tId && x.UserId == uId && x.InteractionId == (int)type).FirstOrDefault();
             if (review == null)
             {
                 review = new ReviewUsers()
@@ -38,12 +31,12 @@ namespace NovelWebsite.Application.Services
                     UserId = uId,
                     InteractionId = (int)type,
                 };
-                await _reviewUserRepository.InsertAsync(review);
-                _reviewUserRepository.SaveAsync();
+                await _repository.InsertAsync(review);
+                _repository.SaveAsync();
                 return true;
             }
-            _reviewUserRepository.Delete(review);
-            _reviewUserRepository.SaveAsync();
+            _repository.Delete(review);
+            _repository.SaveAsync();
             return false;
         }
 

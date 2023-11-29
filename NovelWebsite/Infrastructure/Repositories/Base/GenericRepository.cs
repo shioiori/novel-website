@@ -17,35 +17,35 @@ namespace NovelWebsite.Infrastructure.Repositories.Base
             _table = _dbContext.Set<T>();
         }
 
-        public async Task<T> InsertAsync(T obj)
+        public virtual async Task<T> InsertAsync(T obj)
         {
             return (await _table.AddAsync(obj)).Entity;
         }
 
-        public async Task<T> UpdateAsync(T obj)
+        public virtual async Task<T> UpdateAsync(T obj)
         {
             _dbContext.Entry(obj).CurrentValues.SetValues(obj);
             await _dbContext.SaveChangesAsync();
             return obj;
         }
 
-        public async Task DeleteAsync(object id)
+        public virtual async Task DeleteAsync(object id)
         {
             T obj = await _table.FindAsync(id);
             _table.Remove(obj);
         }
 
-        public void Delete(T obj)
+        public virtual void Delete(T obj)
         {
             _table.Remove(obj);
         }
 
-        public async Task SaveAsync()
+        public virtual async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
         }
 
-        public IQueryable<T> Get(Expression<Func<T, bool>> exp = null)
+        public virtual IQueryable<T> Get(Expression<Func<T, bool>> exp = null)
         {
             if (exp == null)
             {

@@ -1,75 +1,41 @@
-using AutoMapper;
-using NovelWebsite.NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Application.Interfaces.Repositories;
-using NovelWebsite.Application.Interfaces.Services;
 using NovelWebsite.Application.Models.Request;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Application.Utils;
 using Application.Models.Dtos;
+using NovelWebsite.Domain.Entities;
+using Application.Services.Base;
+using NovelWebsite.Domain.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
-    public class TagService
+    public class TagService : GenericService<Tag, TagDto>
     {
-        private readonly ITagRepository _tagRepository;
         private readonly IBookTagRepository _bookTagRepository;
-        private readonly IMapper _mapper;
-
-        public TagService(ITagRepository tagRepository, 
-            IBookTagRepository bookTagRepository,
-            IMapper mapper)
+        public TagService(IBookTagRepository bookTagRepository) : base()
         {
-            _tagRepository = tagRepository;
             _bookTagRepository = bookTagRepository;
-            _mapper = mapper;
         }
-
-        public IEnumerable<TagDto> GetAll(PagedListRequest pagedListRequest = null)
+        public async Task<IEnumerable<TagDto>> GetAllAsync(PagedListRequest pagedListRequest = null)
         {
-            var query = _tagRepository.GetAll();
+            var query = _repository.Get();
             var tags = PagedList<Tag>.AsEnumerable(query, pagedListRequest);
-            return _mapper.Map<IEnumerable<Tag>, IEnumerable<TagDto>>(tags);
-        }
-
-        public async Task AddAsync(TagDto tag)
-        {
-            await _tagRepository.InsertAsync(_mapper.Map<TagDto, Tag>(tag));
-            _tagRepository.SaveAsync();
-        }
-
-        public async Task UpdateAsync(TagDto tag)
-        {
-            await _tagRepository.UpdateAsync(_mapper.Map<TagDto, Tag>(tag));
-            _tagRepository.SaveAsync();
-        }
-
-        public async Task DeleteAsync(string name)
-        {
-            Tag tag;
-            if (int.TryParse(name, out int id))
-            {
-                tag = await _tagRepository.GetByIdAsync(id);
-            }
-            tag = await _tagRepository.GetByExpressionAsync(x => x.TagName == name);
-            _tagRepository.Delete(tag);
-            _tagRepository.SaveAsync();
+            return await MapDtosAsync(tags);
         }
 
         public async Task<TagDto> GetByIdAsync(int tagId){
-            var tag = await _tagRepository.GetByIdAsync(tagId);
-            return _mapper.Map<Tag, TagDto>(tag);
+            var tag = _repository.Get(x => x.TagId == tagId).FirstOrDefault();
+            return await MapDtosAsync(tag);
         }
 
         public async Task<TagDto> GetTagByNameAsync(string name)
         {
-            var tag = await _tagRepository.GetByExpressionAsync(x => x.TagName == name);
-            return _mapper.Map<Tag, TagDto>(tag);
+            var tag = _repository.Get(x => x.TagName == name).FirstOrDefault();
+            return await MapDtosAsync(tag);
         }
 
         public async Task<TagDto> GetTagBySlugAsync(string slug)
         {
-            var tag = await _tagRepository.GetByExpressionAsync(x => x.Slug == slug);
-            return _mapper.Map<Tag, TagDto>(tag);
+            var tag = _repository.Get(x => x.Slug == slug).FirstOrDefault();
+            return await MapDtosAsync(tag);
         }
 
         public async Task<IEnumerable<TagDto>> GetTagsOfBookAsync(string bookId, PagedListRequest pagedListRequest = null)
@@ -78,9 +44,9 @@ namespace NovelWebsite.Application.Services
             var tags = new List<Tag>();
             foreach (var bookTag in bookTags)
             {
-                tags.Add(await _tagRepository.GetByIdAsync(bookTag.TagId));
+                tags.Add(_repository.Get(x => x.TagId == bookTag.TagId).FirstOrDefault());
             }
-            return _mapper.Map<List<Tag>, List<TagDto>>(tags);
+            return await MapDtosAsync(tags);
         }
 
         public async Task AddTagsOfBookAsync(string bookId, IEnumerable<TagDto> tags)

@@ -1,31 +1,25 @@
 ﻿using AutoMapper;
-using NovelWebsite.NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Application.Interfaces.Repositories;
-using NovelWebsite.Application.Interfaces.Services;
-using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
-using System.Data;
 using Microsoft.AspNetCore.Identity;
-using NovelWebsite.Application.Constants;
 using Application.Models.Dtos;
+using Application.Services.Base;
+using NovelWebsite.Domain.Entities;
+using NovelWebsite.Domain.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
-    public class RoleService 
+    public class RoleService : GenericService<Role, RoleDto>
     {
-        private readonly IRoleRepository _roleRepository;
         private readonly IRolePermissionRepository _rolePermissionRepository;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
-        private readonly IMapper _mapper;
 
-        public RoleService(IRoleRepository roleRepository, IRolePermissionRepository rolePermissionRepository,
-                            RoleManager<Role> roleManager,
-                            UserManager<User> userManager,
-                            IMapper mapper) 
+        public RoleService(
+                        IRolePermissionRepository rolePermissionRepository,
+                        RoleManager<Role> roleManager,
+                        UserManager<User> userManager) : base()
         { 
-            _roleRepository = roleRepository;
+            //_roleRepository = roleRepository;
             _rolePermissionRepository = rolePermissionRepository;
-            _mapper = mapper;
             _roleManager = roleManager;
             _userManager = userManager;
         }
@@ -39,46 +33,61 @@ namespace NovelWebsite.Application.Services
             }
             return null;
         }
-        public async Task AddAsync(RoleDto model)
+
+        public override async Task<RoleDto> AddAsync(RoleDto model)
         {
             if (!await _roleManager.RoleExistsAsync(model.RoleName))
             {
-                await _roleManager.CreateAsync(new Role()
+                var res = await _roleManager.CreateAsync(new Role()
                 {
                     Name = model.RoleName,
                 });
+                if (res.Succeeded)
+                {
+                    return await MapDtosAsync(await _roleManager.FindByNameAsync(model.RoleName));
+                }
+                else
+                {
+                    throw new Exception("Add failed");
+                }
+            }
+            else
+            {
+                throw new Exception("Role is existed");
             }
         }
         
-        public async Task UpdateAsync(RoleDto model)
+        public override async Task<RoleDto> UpdateAsync(RoleDto model)
         {
             var role = await _roleManager.FindByIdAsync(model.RoleId);
+            return await MapDtosAsync(role);
         }
 
-        public async Task DeleteAsync(string name)
+        public override async Task DeleteAsync(object name)
         {
-            var role = await _roleManager.FindByNameAsync(name);
+            var role = await _roleManager.FindByNameAsync(name.ToString());
             if (role == null)
             {
-                role = await _roleManager.FindByIdAsync(name);
+                role = await _roleManager.FindByIdAsync(name.ToString());
                 if (role == null) return;
             }
             await _roleManager.DeleteAsync(role);
         }
 
-        public IEnumerable<RoleDto> GetRoles()
+        public async Task<IEnumerable<RoleDto>> GetRolesAsync()
         {
             var roles = _roleManager.Roles.ToList();
-            return _mapper.Map<IEnumerable<Role>, IEnumerable<RoleDto>>(roles);
+            return await MapDtosAsync(roles);
         }
 
-        public void RemovePermissionToRole(string roleId, int perId)
+        public Task RemovePermissionToRole(string roleId, int perId)
         {
             var rolePers = _rolePermissionRepository.GetById(roleId, perId);
             _rolePermissionRepository.Delete(roleId, perId);
+            return Task.CompletedTask;
         }
 
-        public void SetPermissionToRole(string roleId, int perId)
+        public Task SetPermissionToRole(string roleId, int perId)
         {
             _rolePermissionRepository.InsertAsync(new RolePermissions()
             {
@@ -86,6 +95,7 @@ namespace NovelWebsite.Application.Services
                 PermissionId = perId
             });
             _rolePermissionRepository.SaveAsync();
+            return Task.CompletedTask;
         }
 
         public async Task<IEnumerable<RoleDto>> GetUserRole(string username)

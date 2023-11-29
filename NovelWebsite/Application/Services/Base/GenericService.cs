@@ -26,7 +26,7 @@ namespace Application.Services.Base
             return await MapDtosAsync(entity);
         }
 
-        public virtual async Task Delete(TDto obj)
+        public virtual async Task DeleteAsync(TDto obj)
         {
             _repository.Delete(await MapEntityAsync(obj));
             _repository.SaveAsync();
