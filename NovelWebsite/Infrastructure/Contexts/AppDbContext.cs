@@ -36,14 +36,14 @@ namespace NovelWebsite.Infrastructure.Contexts
                 builder.ToTable("Books");
                 builder.Navigation(e => e.Category).AutoInclude();
                 builder.Navigation(e => e.Author).AutoInclude();
-                builder.Navigation(e => e.User).AutoInclude();
+                //builder.Navigation(e => e.User).AutoInclude();
             });   
             modelBuilder.Entity<Tag>().ToTable("Tags");
             modelBuilder.Entity<BookTags>().ToTable("BookTags").HasKey(bt => new { bt.BookId, bt.TagId });
             modelBuilder.Entity<Chapter>(builder =>
             {
                 builder.ToTable("Chapters");
-                builder.Navigation(e => e.Book).AutoInclude();
+                //builder.Navigation(e => e.Book).AutoInclude();
             });
             modelBuilder.Entity<Comment>(builder =>
             {
@@ -54,13 +54,13 @@ namespace NovelWebsite.Infrastructure.Contexts
             modelBuilder.Entity<Permission>().ToTable("Permissions");
             modelBuilder.Entity<Post>(builder => {
                 builder.ToTable("Posts");
-                builder.Navigation(e => e.User).AutoInclude();
+                //builder.Navigation(e => e.User).AutoInclude();
             });
             modelBuilder.Entity<Review>(builder =>
             {
                 builder.ToTable("Reviews");
-                builder.Navigation(e => e.User).AutoInclude();
-                builder.Navigation(e => e.Book).AutoInclude();
+                //builder.Navigation(e => e.User).AutoInclude();
+                //builder.Navigation(e => e.Book).AutoInclude();
             });
             modelBuilder.Entity<Banner>().ToTable("Banners");
             modelBuilder.Entity<BookUsers>().ToTable("BookUsers").HasKey(bu => new { bu.BookId, bu.UserId, bu.InteractionId });

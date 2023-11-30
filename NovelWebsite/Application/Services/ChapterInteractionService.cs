@@ -4,12 +4,18 @@ using Application.Services.Base;
 using NovelWebsite.Domain.Enums;
 using Application.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
+using NovelWebsite.Domain.Interfaces;
+using AutoMapper;
 
 namespace NovelWebsite.Application.Services
 {
-    public class ChapterInteractionService : GenericService<ChapterUsers, ChapterUserDto>, IInteractionService
+    public class ChapterInteractionService : GenericService<ChapterUsers, ChapterUserDto>, IChapterInteractionService
     {
-        public ChapterInteractionService() : base() { }
+
+        public ChapterInteractionService(IChapterUserRepository chapterUserRepository,
+            IMapper mapper) : base(chapterUserRepository, mapper)
+        {
+        }
 
         public async Task<bool> IsInteractionEnabledAsync(string tId, string uId, InteractionType type)
         {

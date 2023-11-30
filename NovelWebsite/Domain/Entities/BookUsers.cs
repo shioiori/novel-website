@@ -13,7 +13,8 @@ namespace NovelWebsite.Domain.Entities
         public string BookId { get; set; }
         [ForeignKey("fk_bu_interaction")]
         public int InteractionId { get; set; }
-
+        [ForeignKey("fk_bu_chapterid")]
+        public string? ChapterId { get; set; }
         public virtual Book Book { get; set; }
         public virtual User User { get; set; }
         //public virtual Interaction Interaction { get; set; }

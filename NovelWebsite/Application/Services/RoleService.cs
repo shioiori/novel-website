@@ -4,27 +4,29 @@ using Application.Models.Dtos;
 using Application.Services.Base;
 using NovelWebsite.Domain.Entities;
 using NovelWebsite.Domain.Interfaces;
+using Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
-    public class RoleService : GenericService<Role, RoleDto>
+    public class RoleService : GenericService<Role, RoleDto>, IRoleService
     {
         private readonly IRolePermissionRepository _rolePermissionRepository;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
 
-        public RoleService(
+        public RoleService(IRoleRepository roleRepository,
                         IRolePermissionRepository rolePermissionRepository,
                         RoleManager<Role> roleManager,
-                        UserManager<User> userManager) : base()
-        { 
+                        UserManager<User> userManager,
+                        IMapper mapper) : base(roleRepository, mapper)
+        {
             //_roleRepository = roleRepository;
             _rolePermissionRepository = rolePermissionRepository;
             _roleManager = roleManager;
             _userManager = userManager;
         }
 
-        public async Task<RoleDto> GetRole(string name)
+        public async Task<RoleDto> GetByNameAsync(string name)
         {
             if (await _roleManager.RoleExistsAsync(name))
             {
@@ -32,6 +34,49 @@ namespace NovelWebsite.Application.Services
                 return _mapper.Map<Role, RoleDto>(role);
             }
             return null;
+        }
+
+        public async Task<IEnumerable<RoleDto>> GetAllAsync()
+        {
+            var roles = _roleManager.Roles.ToList();
+            return await MapDtosAsync(roles);
+        }
+
+        public async Task<IEnumerable<RoleDto>> GetOfUserAsync(string name)
+        {
+            var user = await _userManager.FindByNameAsync(name);
+            if (user == null)
+            {
+                user = await _userManager.FindByEmailAsync(name);
+            }
+            if (user == null)
+            {
+                user = await _userManager.FindByIdAsync(name);
+            }
+            if (user == null)
+            {
+                throw new Exception("No user existed");
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            return _mapper.Map<IEnumerable<string>, IEnumerable<RoleDto>>(roles);
+        }
+
+        public Task RemovePermission(string roleId, int perId)
+        {
+            var rolePers = _rolePermissionRepository.GetById(roleId, perId);
+            _rolePermissionRepository.Delete(roleId, perId);
+            return Task.CompletedTask;
+        }
+
+        public Task SetPermission(string roleId, int perId)
+        {
+            _rolePermissionRepository.InsertAsync(new RolePermissions()
+            {
+                RoleId = roleId,
+                PermissionId = perId
+            });
+            _rolePermissionRepository.SaveAsync();
+            return Task.CompletedTask;
         }
 
         public override async Task<RoleDto> AddAsync(RoleDto model)
@@ -44,7 +89,7 @@ namespace NovelWebsite.Application.Services
                 });
                 if (res.Succeeded)
                 {
-                    return await MapDtosAsync(await _roleManager.FindByNameAsync(model.RoleName));
+                    return await MapDtoAsync(await _roleManager.FindByNameAsync(model.RoleName));
                 }
                 else
                 {
@@ -56,11 +101,11 @@ namespace NovelWebsite.Application.Services
                 throw new Exception("Role is existed");
             }
         }
-        
+
         public override async Task<RoleDto> UpdateAsync(RoleDto model)
         {
             var role = await _roleManager.FindByIdAsync(model.RoleId);
-            return await MapDtosAsync(role);
+            return await MapDtoAsync(role);
         }
 
         public override async Task DeleteAsync(object name)
@@ -74,35 +119,5 @@ namespace NovelWebsite.Application.Services
             await _roleManager.DeleteAsync(role);
         }
 
-        public async Task<IEnumerable<RoleDto>> GetRolesAsync()
-        {
-            var roles = _roleManager.Roles.ToList();
-            return await MapDtosAsync(roles);
-        }
-
-        public Task RemovePermissionToRole(string roleId, int perId)
-        {
-            var rolePers = _rolePermissionRepository.GetById(roleId, perId);
-            _rolePermissionRepository.Delete(roleId, perId);
-            return Task.CompletedTask;
-        }
-
-        public Task SetPermissionToRole(string roleId, int perId)
-        {
-            _rolePermissionRepository.InsertAsync(new RolePermissions()
-            {
-                RoleId = roleId,
-                PermissionId = perId
-            });
-            _rolePermissionRepository.SaveAsync();
-            return Task.CompletedTask;
-        }
-
-        public async Task<IEnumerable<RoleDto>> GetUserRole(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            var roles = await _userManager.GetRolesAsync(user);
-            return _mapper.Map<IEnumerable<string>, IEnumerable<RoleDto>>(roles);
-        }
     }
 }

@@ -2,14 +2,16 @@
 using Application.Interfaces;
 using Application.Models.Dtos;
 using Application.Services.Base;
+using AutoMapper;
 using NovelWebsite.Domain.Entities;
 using NovelWebsite.Domain.Enums;
+using NovelWebsite.Domain.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
-    public class PostInteractionService : GenericService<PostUsers, PostUserDto>, IInteractionService
+    public class PostInteractionService : GenericService<PostUsers, PostUserDto>, IPostInteractionService
     {
-        public PostInteractionService() : base() { }
+        public PostInteractionService(IPostUserRepository postUserRepository, IMapper mapper) : base(postUserRepository, mapper) { }
         public async Task<bool> IsInteractionEnabledAsync(string tId, string uId, InteractionType type)
         {
             var post = _repository.Get(x => x.PostId == tId && x.UserId == uId && x.InteractionId == (int)type).FirstOrDefault();

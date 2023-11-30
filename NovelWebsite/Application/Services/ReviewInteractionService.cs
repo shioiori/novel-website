@@ -3,12 +3,14 @@ using Application.Services.Base;
 using Application.Models.Dtos;
 using NovelWebsite.Domain.Entities;
 using NovelWebsite.Domain.Enums;
+using NovelWebsite.Domain.Interfaces;
+using AutoMapper;
 
 namespace NovelWebsite.Application.Services
 {
-    public class ReviewInteractionService : GenericService<ReviewUsers, ReviewUserDto>, IInteractionService
+    public class ReviewInteractionService : GenericService<ReviewUsers, ReviewUserDto>, IReviewInteractionService
     {
-        public ReviewInteractionService() : base() { }
+        public ReviewInteractionService(IReviewUserRepository reviewUserRepository, IMapper mapper) : base(reviewUserRepository, mapper) { }
 
         public async Task<bool> IsInteractionEnabledAsync(string tId, string uId, InteractionType type)
         {

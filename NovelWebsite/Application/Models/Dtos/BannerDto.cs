@@ -8,6 +8,6 @@
         public DateTime ActiveFrom { get; set; } = DateTime.MinValue;
         public DateTime ActiveTo { get; set; } = DateTime.MinValue;
         public int? BookId { get; set; }
-        public string Url { get; set; }
+        public string RedirectUrl { get; set; }
     }
 }

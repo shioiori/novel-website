@@ -19,11 +19,11 @@ namespace Application.Mappers
                 .ForMember(x => x.BookStatus, y => y.MapFrom(x => x.BookStatus == BookStatus.Complete ? "Hoàn thành"
                                                                 : (x.BookStatus == BookStatus.Ongoing ? "Còn tiếp"
                                                                 : (x.BookStatus == BookStatus.Drop ? "Tạm ngưng" : null))))
-                .ForMember(x => x.StatusLabel.Name, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "Bản nháp"
+                .ForPath(x => x.StatusLabel.Name, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "Bản nháp"
                                                                 : (x.Status == (int)UploadStatus.Moderation ? "Chờ duyệt"
                                                                 : (x.Status == (int)UploadStatus.Denied ? "Từ chối"
                                                                 : (x.Status == (int)UploadStatus.Publish ? "Xuất bản" : null)))))
-                .ForMember(x => x.StatusLabel.Color, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "default"
+                .ForPath(x => x.StatusLabel.Color, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "default"
                                                                 : (x.Status == (int)UploadStatus.Moderation ? "warning"
                                                                 : (x.Status == (int)UploadStatus.Denied ? "danger"
                                                                 : (x.Status == (int)UploadStatus.Publish ? "success" : null)))));

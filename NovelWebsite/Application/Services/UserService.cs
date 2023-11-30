@@ -4,56 +4,69 @@ using Microsoft.EntityFrameworkCore;
 using Application.Models.Dtos;
 using Application.Services.Base;
 using NovelWebsite.Domain.Entities;
+using NovelWebsite.Domain.Interfaces;
+using AutoMapper;
+using NovelWebsite.Domain.Enums;
+using NovelWebsite.Application.Models.Request;
+using Application.Interfaces;
+using Application.Utils;
 
 namespace NovelWebsite.Domain.Services
 {
 
-    public class UserService : GenericService<User, UserDto>
+    public class UserService : GenericService<User, UserDto>, IUserService
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
         public UserService(UserManager<User> userManager,
-            RoleManager<Role> roleManager) : base()
+            RoleManager<Role> roleManager,
+            IUserRepository userRepository,
+            IMapper mapper) : base(userRepository, mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
-        public async Task<UserDto> GetCurrentUserAsync(ClaimsPrincipal principal)
+        public async Task<UserDto> GetCurrentAsync(ClaimsPrincipal principal)
         {
             var user = await _userManager.GetUserAsync(principal);
-            return await MapDtosAsync(user);
+            return await MapDtoAsync(user);
         }
 
-        public async Task<UserDto> GetUserByIdAsync(string id)
+        public async Task<UserDto> GetByIdAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            return await MapDtosAsync(user);
+            return await MapDtoAsync(user);
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersByRoleAsync(string role)
+        public async Task<UserDto> GetByUsernameAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return await MapDtoAsync(user);
+        }
+
+        public async Task<UserDto> GetByEmailAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return await MapDtoAsync(user);
+        }
+
+        public async Task<IEnumerable<UserDto>> GetByRoleAsync(string role, PagedListRequest request)
         {
             var users = await _userManager.GetUsersInRoleAsync(role);
-            return await MapDtosAsync(users);
+            return await MapDtosAsync(PagedList<User>.AsEnumerable(users));
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersByStatusAsync(int status)
+        public async Task<IEnumerable<UserDto>> GetByStatusAsync(int status, PagedListRequest request)
         {
-            var users = await _userManager.Users.Where(x => x.Status == status).ToListAsync();
-            return await MapDtosAsync(users);
+            var users = _userManager.Users.Where(x => x.Status == status);
+            return await MapDtosAsync(PagedList<User>.AsEnumerable(users, request));
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersAsync()
+        public async Task<IEnumerable<UserDto>> GetAllAsync()
         {
             var users = await _userManager.Users.ToListAsync();
-            return await MapDtosAsync(users);
-        }
-
-        public async Task<IEnumerable<UserDto>> SearchUserAsync(string name)
-        {
-            var users = await _userManager.Users.Where(x => string.IsNullOrEmpty(name) || x.UserName.ToLower().Trim().Contains(name.ToLower().Trim())
-                                                        || x.Email.ToLower().Trim().Contains(name.ToLower().Trim())).ToListAsync();
             return await MapDtosAsync(users);
         }
 
@@ -64,7 +77,7 @@ namespace NovelWebsite.Domain.Services
             if (res.Succeeded)
             {
                 var dto = await _userManager.FindByEmailAsync(user.Email);
-                return await MapDtosAsync(dto);
+                return await MapDtoAsync(dto);
             }
             throw (new Exception("Add user failed"));
         }
@@ -76,7 +89,8 @@ namespace NovelWebsite.Domain.Services
             {
                 user = await _userManager.FindByNameAsync(model.Username);
             }
-            else if (model.Email != null){
+            else if (model.Email != null)
+            {
                 user = await _userManager.FindByEmailAsync(model.Email);
             }
             else if (model.UserId != null)
@@ -93,7 +107,7 @@ namespace NovelWebsite.Domain.Services
             var res = await _userManager.UpdateAsync(user);
             if (res.Succeeded)
             {
-                return await MapDtosAsync(user);
+                return await MapDtoAsync(user);
             }
             else
             {
@@ -107,28 +121,16 @@ namespace NovelWebsite.Domain.Services
             _userManager.DeleteAsync(user);
         }
 
-        public async Task SetUserStatusAsync(string userId, int status)
+        public async Task SetStatusAsync(string userId, int status)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await FindAsync(userId);
             user.Status = status;
             _userManager.UpdateAsync(user);
         }
 
-        public async Task<UserDto> GetUserByUsernameAsync(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            return await MapDtosAsync(user);
-        }
-
-        public async Task<UserDto> GetUserByEmailAsync(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            return await MapDtosAsync(user);
-        }
-
         public async Task SetRoleAsync(string username, string role)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await FindAsync(username);
             if (!await _roleManager.RoleExistsAsync(role))
             {
                 await _roleManager.CreateAsync(new Role()
@@ -141,11 +143,29 @@ namespace NovelWebsite.Domain.Services
 
         public async Task RemoveRoleAsync(string username, string role)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await FindAsync(username);
             if (await _roleManager.RoleExistsAsync(role))
             {
                 await _userManager.RemoveFromRoleAsync(user, role);
             }
+        }
+
+        private async Task<User> FindAsync(string id)
+        {
+            User user = await _userManager.FindByNameAsync(id);
+            if (user == null)
+            {
+                user = await _userManager.FindByEmailAsync(id);
+            }
+            if (user == null)
+            {
+                user = await _userManager.FindByIdAsync(id);
+            }
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            return user;
         }
     }
 }

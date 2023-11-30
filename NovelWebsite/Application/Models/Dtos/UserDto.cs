@@ -1,4 +1,5 @@
-﻿using NovelWebsite.Domain.Enums;
+﻿using Application.Models.Objects;
+using NovelWebsite.Domain.Enums;
 
 namespace Application.Models.Dtos
 {
@@ -13,8 +14,7 @@ namespace Application.Models.Dtos
         public string CoverPhoto { get; set; } = "default.jpg";
         public DateTime? CreatedDate { get; set; }
         public int Status { get; set; } = (int)AccountStatus.Verifying;
-        public string StatusName { get; set; }
-        public string StatusLabelColor { get; set; }
+        public Label StatusLabel { get; set; }
         public IEnumerable<RoleDto> Role { get; set; }
     }
 }

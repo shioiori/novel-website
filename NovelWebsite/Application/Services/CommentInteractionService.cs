@@ -4,12 +4,14 @@ using NovelWebsite.Domain.Entities;
 using Application.Models.Dtos;
 using NovelWebsite.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using NovelWebsite.Domain.Interfaces;
+using AutoMapper;
 
 namespace NovelWebsite.Application.Services
 {
-    public class CommentInteractionService : GenericService<CommentUsers, CommentUserDto>, IInteractionService
+    public class CommentInteractionService : GenericService<CommentUsers, CommentUserDto>, ICommentInteractionService
     {
-        public CommentInteractionService() : base() { }
+        public CommentInteractionService(ICommentUserRepository commentUserRepository, IMapper mapper) : base(commentUserRepository, mapper) { }
 
         public async Task<bool> IsInteractionEnabledAsync(string tId, string uId, InteractionType type)
         {

@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
 using Domain.Interfaces.Base;
+using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +15,24 @@ namespace Application.Services.Base
     {
         protected readonly IGenericRepository<T> _repository;
         protected readonly IMapper _mapper;
+
+        public GenericService(IGenericRepository<T> repository, IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
+        }
+
         public virtual async Task<TDto> AddAsync(TDto obj)
         {
             T entity = await _repository.InsertAsync(await MapEntityAsync(obj));
             _repository.SaveAsync();
-            return await MapDtosAsync(entity);
+            return await MapDtoAsync(entity);
         }
         public virtual async Task<TDto> UpdateAsync(TDto obj)
         {
             T entity = await _repository.UpdateAsync(await MapEntityAsync(obj));
             _repository.SaveAsync();
-            return await MapDtosAsync(entity);
+            return await MapDtoAsync(entity);
         }
 
         public virtual async Task DeleteAsync(TDto obj)
@@ -39,7 +48,7 @@ namespace Application.Services.Base
             return Task.CompletedTask;
         }
 
-        protected async Task<TDto> MapDtosAsync(T entity) {
+        protected async Task<TDto> MapDtoAsync(T entity) {
             var dto = _mapper.Map<TDto>(entity);
             return await Task.FromResult(dto);
         }

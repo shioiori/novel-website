@@ -18,11 +18,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Controllers\AccessController.cs" />
+    <Content Include="Controllers\AuthorController.cs" />
+    <Content Include="Controllers\BannerController.cs" />
+    <Content Include="Controllers\BillboardController.cs" />
+    <Content Include="Controllers\BookController.cs" />
+    <Content Include="Controllers\BookInteractionController.cs" />
+    <Content Include="Controllers\CategoryController.cs" />
+    <Content Include="Controllers\ChapterController.cs" />
+    <Content Include="Controllers\ChapterInteractionController.cs" />
+    <Content Include="Controllers\CommentController.cs" />
+    <Content Include="Controllers\CommentInteractionController.cs" />
+    <Content Include="Controllers\PostController.cs" />
+    <Content Include="Controllers\PostInteractionController.cs" />
+    <Content Include="Controllers\ReviewController.cs" />
+    <Content Include="Controllers\ReviewInteractionController.cs" />
+    <Content Include="Controllers\RoleController.cs" />
+    <Content Include="Controllers\TagController.cs" />
+    <Content Include="Controllers\UserController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.62.0.3155" />
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
     <PackageReference Include="LazyCache" Version="2.4.0" />
     <PackageReference Include="MailKit" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.23" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.23" />
@@ -47,13 +69,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
-    <Folder Include="NovelWebsite.Api\DTOs\" />
-    <Folder Include="NovelWebsite.Api\Middleware\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\js\site.js" />
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

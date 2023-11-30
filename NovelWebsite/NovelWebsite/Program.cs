@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
+using Application.Models.Objects.MailKit;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
-using NovelWebsite.NovelWebsite.Core.Models.MailKit;
-using NovelWebsite.NovelWebsite.Startup;
+using NovelWebsite.Startup;
 
 var corsNovelWebsite = "_corsNovelWebsite";
 
@@ -30,8 +28,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddDistributedMemoryCache();           
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDIRepository();
 builder.Services.AddDIService();

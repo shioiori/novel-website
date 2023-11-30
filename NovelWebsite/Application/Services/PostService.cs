@@ -1,60 +1,44 @@
-﻿using AutoMapper;
-using NovelWebsite.NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Application.Enums;
-using NovelWebsite.Application.Interfaces;
-using NovelWebsite.Application.Interfaces.Repositories;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using NovelWebsite.Application.Models.Request;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using NovelWebsite.Application.Utils;
-using System.Xml.Linq;
 using Application.Utils;
 using Application.Models.Dtos;
 using Application.Services.Base;
 using NovelWebsite.Domain.Entities;
-using NovelWebsite.Domain.Enums;
+using NovelWebsite.Domain.Interfaces;
+using AutoMapper;
+using Application.Models.Filter;
+using Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
 
-    public class PostService : GenericService<Post, PostDto>
+    public class PostService : GenericService<Post, PostDto>, IPostService
     {
-        Expression<Func<Post, bool>> expPublishedPost = p => p.Status == (int)UploadStatus.Publish;
-        Expression<Func<Post, bool>> expContainString(string name)
-        {
-            return x => string.IsNullOrEmpty(name)
-                    || x.Title.Trim().ToLower().Contains(name.Trim().ToLower())
-                    || x.Content.Trim().ToLower().Contains(name.Trim().ToLower());
-        }
+        public PostService(IPostRepository postRepository, IMapper mapper) : base(postRepository, mapper) { }
 
-        public PostService() : base() { }
-
-        public async Task<IEnumerable<PostDto>> GetPublishedPostsAsync(string name, PagedListRequest pagedListRequest = null)
+        public async Task<IEnumerable<PostDto>> FilterAsync(PostFilter filter)
         {
-            var exp = ExpressionCombine<Post>.And(expContainString(name), expPublishedPost);
-            var query = _repository.Get(exp);
-            var posts = PagedList<Post>.AsEnumerable(query, pagedListRequest);
+            var query = _repository.Get();
+            if (filter == null)
+            {
+                return await MapDtosAsync(query.AsEnumerable());
+            }
+            if (filter.SearchName != null)
+            {
+                query = query.Where(x => x.Title.Trim().ToLower().Contains(filter.SearchName.Trim().ToLower()));
+            }
+            if (filter.UploadStatus != null)
+            {
+                query = query.Where(x => x.Status == (int)filter.UploadStatus);
+            }
+            var posts = PagedList<Post>.AsEnumerable(query, filter.PagedListRequest);
             return await MapDtosAsync(posts);
         }
-
-        public async Task<IEnumerable<PostDto>> GetPublishedPostsAsync(PagedListRequest pagedListRequest = null)
-        {
-            var query = _repository.Get(expPublishedPost);
-            var posts = PagedList<Post>.AsEnumerable(query, pagedListRequest);
-            return await MapDtosAsync(posts);
-        }
-
-        public async Task<IEnumerable<PostDto>> GetPostsAsync(string name = null, PagedListRequest pagedListRequest = null)
-        {
-            var query = _repository.Get(expContainString(name));
-            var posts = PagedList<Post>.AsEnumerable(query, pagedListRequest);
-            return await MapDtosAsync(posts);
-        }
-
-        public async Task<PostDto> GetPostAsync(string postId)
+        public async Task<PostDto> GetByIdAsync(string postId)
         {
             var post = _repository.Get(x => x.PostId == postId).FirstOrDefault();
-            return await MapDtosAsync(post);
+            return await MapDtoAsync(post);
 
         }
     }

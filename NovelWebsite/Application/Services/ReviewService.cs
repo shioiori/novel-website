@@ -4,45 +4,39 @@ using Application.Utils;
 using Application.Models.Dtos;
 using Application.Services.Base;
 using NovelWebsite.Domain.Entities;
+using NovelWebsite.Domain.Interfaces;
+using AutoMapper;
+using Application.Models.Filter;
+using Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
-    public class ReviewService : GenericService<Review, ReviewDto>
+    public class ReviewService : GenericService<Review, ReviewDto>, IReviewService
     {
-        private Expression<Func<Review, bool>> expSearchByBookId(string bookId)
-        {
-            return x => x.BookId == bookId;
-        }
-        private Expression<Func<Review, bool>> expSearchByCategoryId(int categoryId)
-        {
-            return x => categoryId == 0 || x.Book.CategoryId == categoryId;
-        }
-
-        public ReviewService() : base() { }
-        public async Task<IEnumerable<ReviewDto>> GetListReviewsAsync(PagedListRequest request = null)
+        public ReviewService(IReviewRepository reviewRepository, IMapper mapper) : base(reviewRepository, mapper) { }
+        public async Task<IEnumerable<ReviewDto>> FilterAsync(ReviewFilter filter)
         {
             var query = _repository.Get();
-            var reviews = PagedList<Review>.AsEnumerable(query, request);
-            return await MapDtosAsync(reviews);
-        }
-
-        public async Task<IEnumerable<ReviewDto>> GetListReviewsByBookIdAsync(string bookId, PagedListRequest request = null)
-        {
-            var query = _repository.Get(expSearchByBookId(bookId));
-            var reviews = PagedList<Review>.AsEnumerable(query, request); 
-            return await MapDtosAsync(reviews);
-
-        }
-
-        public async Task<IEnumerable<ReviewDto>> GetListReviewsByCategoryIdAsync(int categoryId, PagedListRequest request = null)
-        {
-            if (categoryId == 0)
+            if (filter == null)
             {
-                return await GetListReviewsAsync(request);
+                return await MapDtosAsync(query.AsEnumerable());
             }
-            var query = _repository.Get(expSearchByCategoryId(categoryId));
-            var reviews = PagedList<Review>.AsEnumerable(query, request); 
+            if (filter.BookId != null)
+            {
+                query = query.Where(x => x.BookId == filter.BookId);
+            }
+            if (filter.CategoryId != null)
+            {
+                query = query.Where(x => x.Book.CategoryId == filter.CategoryId);
+            }
+            var reviews = PagedList<Review>.AsEnumerable(query, filter.PagedListRequest);
             return await MapDtosAsync(reviews);
+        }
+
+        public async Task<ReviewDto> GetByIdAsync(string reviewId)
+        {
+            var review = _repository.Get(x => x.ReviewId == reviewId).FirstOrDefault();
+            return await MapDtoAsync(review);
 
         }
     }

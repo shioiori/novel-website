@@ -4,29 +4,36 @@ using Application.Utils;
 using Application.Models.Dtos;
 using Application.Services.Base;
 using NovelWebsite.Domain.Entities;
+using NovelWebsite.Domain.Interfaces;
+using Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
-    public class CategoryService : GenericService<Category, CategoryDto>
+    public class CategoryService : GenericService<Category, CategoryDto>, ICategoryService
     {
-        public CategoryService() : base() { }
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper) : base(categoryRepository, mapper) { }
 
-        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync(PagedListRequest pagedListRequest = null)
+        public async Task<IEnumerable<CategoryDto>> GetAllAsync(PagedListRequest pagedListRequest = null)
         {
             var query = _repository.Get();
             var categories = PagedList<Category>.AsEnumerable(query, pagedListRequest);
             return await MapDtosAsync(categories);
         }
 
-        public async Task<CategoryDto> GetCategoryAsync(int categoryId){
+        public async Task<CategoryDto> GetByIdAsync(int categoryId)
+        {
             var category = _repository.Get(x => x.CategoryId == categoryId).FirstOrDefault();
-            return await MapDtosAsync(category);
+            return await MapDtoAsync(category);
         }
-
-        public async Task<CategoryDto> GetCategoryAsync(string slug)
+        public async Task<CategoryDto> GetByNameAsync(string name)
+        {
+            var category = _repository.Get(x => x.CategoryName == name).FirstOrDefault();
+            return await MapDtoAsync(category);
+        }
+        public async Task<CategoryDto> GetBySlugAsync(string slug)
         {
             var category = _repository.Get(x => x.Slug == slug).FirstOrDefault();
-            return await MapDtosAsync(category);
+            return await MapDtoAsync(category);
         }
     }
 }

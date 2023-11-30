@@ -12,11 +12,11 @@ namespace Application.Mappers
             CreateMap<PostDto, Post>()
                     .ForMember(x => x.Slug, y => y.MapFrom(x => string.IsNullOrEmpty(x.Slug) ? SlugConverter.Slugify(x.Title) : x.Slug));
             CreateMap<Post, PostDto>()
-                    .ForMember(x => x.StatusLabel.Name, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "Bản nháp"
+                    .ForPath(x => x.StatusLabel.Name, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "Bản nháp"
                                                                     : (x.Status == (int)UploadStatus.Moderation ? "Chờ duyệt"
                                                                     : (x.Status == (int)UploadStatus.Denied ? "Từ chối"
                                                                     : (x.Status == (int)UploadStatus.Publish ? "Xuất bản" : null)))))
-                    .ForMember(x => x.StatusLabel.Color, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "default"
+                    .ForPath(x => x.StatusLabel.Color, y => y.MapFrom(x => x.Status == (int)UploadStatus.Draft ? "default"
                                                                 : (x.Status == (int)UploadStatus.Moderation ? "warning"
                                                                 : (x.Status == (int)UploadStatus.Denied ? "danger"
                                                                 : (x.Status == (int)UploadStatus.Publish ? "success" : null)))));

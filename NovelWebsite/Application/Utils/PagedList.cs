@@ -81,7 +81,7 @@ namespace Application.Utils
             return new PagedList<T>(source, pageSize, pageNumber);
         }
 
-        public static PagedList<T> ToPagedList(IEnumerable<T> source, PagedListRequest request)
+        public static PagedList<T> ToPagedList(IEnumerable<T> source, PagedListRequest? request)
         {
 
             if (request == null || request.CurrentPage == 0)
@@ -100,7 +100,7 @@ namespace Application.Utils
             return new PagedList<T>(source, pageSize, pageNumber).Data;
         }
 
-        public static IEnumerable<T> AsEnumerable(IQueryable<T> source, PagedListRequest request)
+        public static IEnumerable<T> AsEnumerable(IQueryable<T> source, PagedListRequest? request)
         {
             if (request == null || request.CurrentPage == 0)
             {
@@ -122,7 +122,7 @@ namespace Application.Utils
             };
             return new PagedList<T>(source, request.PageSize, request.CurrentPage).Data;
         }
-        public static IEnumerable<T> AsEnumerable(IEnumerable<T> source, PagedListRequest request)
+        public static IEnumerable<T> AsEnumerable(IEnumerable<T> source, PagedListRequest? request)
         {
             if (request == null || request.CurrentPage == 0)
             {

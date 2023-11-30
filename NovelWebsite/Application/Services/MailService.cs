@@ -3,18 +3,36 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Application.Models.Objects.MailKit;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using NovelWebsite.Application.Models.Response;
+using NovelWebsite.Domain.Enums;
+using System.Text;
+using NovelWebsite.Domain.Entities;
+using Microsoft.IdentityModel.Tokens;
+using NovelWebsite.Application.Utils;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Application.Models.Dtos;
 
 namespace NovelWebsite.Application.Services
 {
     public class MailService
     {
         private readonly MailSettings _mailSettings;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public MailService(IOptions<MailSettings> mailSettings, 
+        public MailService(IOptions<MailSettings> mailSettings,
+            UserManager<User> userManager,
+            IHttpContextAccessor contextAccessor,
             IMapper mapper)
         {
+            _userManager = userManager;
             _mailSettings = mailSettings.Value;
+            _contextAccessor = contextAccessor;
             _mapper = mapper;
         }
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
@@ -53,5 +71,49 @@ namespace NovelWebsite.Application.Services
             smtp.Disconnect(true);
         }
 
+        public async Task ConfirmEmailAsync(string email, string token)
+        {
+            try
+            {
+                var decode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+                User user = await _userManager.FindByEmailAsync(email);
+                if (await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    throw new Exception("Your email was confirmed");
+                }
+
+                var result = await _userManager.ConfirmEmailAsync(user, decode);
+                if (result.Succeeded)
+                {
+                    user.Status = (int)AccountStatus.Active;
+                    _userManager.UpdateAsync(user);
+                    return;
+                }
+                throw new Exception("Oops, there is something wrong");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Oops, there is something wrong");
+            }
+        }
+
+        public async Task GenerateEmailConfimationAsync(UserDto model)
+        {
+            var user = _mapper.Map<User>(model);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var url = _contextAccessor.HttpContext.Request.Scheme
+                + "://"
+                + _contextAccessor.HttpContext.Request.Host;
+            var confirmUrl = url + "/email-verify"
+                + "?email=" + user.Email
+                + "&token=" + WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var content = new MailContent()
+            {
+                To = user.Email,
+                Subject = "Xác minh tài khoản Novel Website",
+                Body = EmailTemplate.GenerateEmailTemplate(user.UserName, confirmUrl)
+            };
+            await SendMail(content);
+        }
     }
 }

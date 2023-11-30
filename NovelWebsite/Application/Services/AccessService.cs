@@ -1,45 +1,38 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using NovelWebsite.NovelWebsite.Infrastructure.Entities;
-using NovelWebsite.Application.Constants;
-using NovelWebsite.Application.Enums;
-using NovelWebsite.Application.Interfaces.Services;
-using NovelWebsite.Application.Models.MailKit;
 using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Application.Utils;
-using NovelWebsite.NovelWebsite.NovelWebsite.Infrastructure.Entities;
-using Org.BouncyCastle.Asn1.Ocsp;
-using Application.Models.Response;
 using NovelWebsite.Domain.Entities;
+using NovelWebsite.Application.Models.Response;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using NovelWebsite.Domain.Constants;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Application.Models.Dtos;
+using Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
-    public class AccessService 
+    public class AccessService : IAccessService
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly MailService _mailService;
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
         public AccessService(
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
-            MailService mailService,
             IMapper mapper,
-            IHttpContextAccessor contextAccessor,
             IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _mailService = mailService;
             _mapper = mapper;
-            _contextAccessor = contextAccessor;
             _configuration = configuration;
         }
 
@@ -129,33 +122,14 @@ namespace NovelWebsite.Application.Services
                     StatusCode = StatusCodes.Status500InternalServerError
                 };
             }
-            await GenerateEmailConfimationAsync(user);
             return new AuthenticationResponse()
             {
                 Success = true,
-                Message = "Register success. Please check your email to confirm account.",
+                Message = "Register success",
                 StatusCode = StatusCodes.Status204NoContent,
+                User = _mapper.Map<UserDto>(user)
             };
         }
-
-        private async Task GenerateEmailConfimationAsync(User user)
-        {
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var url = _contextAccessor.HttpContext.Request.Scheme
-                + "://"
-                + _contextAccessor.HttpContext.Request.Host;
-            var confirmUrl = url + "/email-verify"
-                + "?email=" + user.Email
-                + "&token=" + WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var content = new MailContent()
-            {
-                To = user.Email,
-                Subject = "Xác minh tài khoản Novel Website",
-                Body = EmailTemplate.GenerateEmailTemplate(user.UserName, confirmUrl)
-            };
-            await _mailService.SendMail(content);
-        }
-
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
@@ -170,50 +144,5 @@ namespace NovelWebsite.Application.Services
             return token;
         }
 
-        public async Task<AuthenticationResponse> ConfirmEmailAsync(string email, string token)
-        {
-            try
-            {
-                var decode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
-                User user = await _userManager.FindByEmailAsync(email);
-                if (await _userManager.IsEmailConfirmedAsync(user))
-                {
-                    return new AuthenticationResponse()
-                    {
-                        Success = false,
-                        Message = "Your email was confirmed",
-                        StatusCode = StatusCodes.Status400BadRequest,
-                    };
-                }
-
-                var result = await _userManager.ConfirmEmailAsync(user, decode);
-                if (result.Succeeded)
-                {
-                    user.Status = (int)AccountStatus.Active;
-                    _userManager.UpdateAsync(user);
-                    return new AuthenticationResponse()
-                    {
-                        Success = true,
-                        Message = "Email confimation success. Now you can login normally",
-                        StatusCode = StatusCodes.Status202Accepted,
-                    };
-                }
-                return new AuthenticationResponse()
-                {
-                    Success = false,
-                    Message = "Oops, there is something wrong",
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                };
-            }
-            catch (Exception ex)
-            {
-                return new AuthenticationResponse()
-                {
-                    Success = false,
-                    Message = "Oops, there is something wrong",
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                };
-            }
-        }
     }
 }
