@@ -1,4 +1,4 @@
-﻿namespace Application.Models.Objects.MailKit
+﻿namespace NovelWebsite.Application.Models.Objects.MailKit
 {
     public class MailContent
     {

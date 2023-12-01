@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NovelWebsite.Application.Models.Response
+namespace NovelWebsite.Application.Models.Responses
 {
     public class Response
     {

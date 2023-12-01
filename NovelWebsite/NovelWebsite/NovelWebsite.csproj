@@ -41,7 +41,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.62.0.3155" />
-    <PackageReference Include="IdentityServer4" Version="4.1.2" />
     <PackageReference Include="LazyCache" Version="2.4.0" />
     <PackageReference Include="MailKit" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />

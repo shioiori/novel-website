@@ -1,7 +1,7 @@
-﻿using Application.Interfaces;
-using Application.Models.Dtos;
+﻿using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Application.Models.Request;
+using NovelWebsite.Application.Models.Requests;
 using NovelWebsite.Application.Services;
 using NovelWebsite.Controllers.Base;
 

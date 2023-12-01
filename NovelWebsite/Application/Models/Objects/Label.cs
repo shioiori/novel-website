@@ -1,4 +1,4 @@
-﻿namespace Application.Models.Objects
+﻿namespace NovelWebsite.Application.Models.Objects
 {
     public class Label
     {

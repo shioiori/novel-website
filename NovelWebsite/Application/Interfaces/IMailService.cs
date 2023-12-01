@@ -1,6 +1,6 @@
-﻿using Application.Models.Dtos;
+﻿using NovelWebsite.Application.Models.Dtos;
 
-namespace Application.Interfaces
+namespace NovelWebsite.Application.Interfaces
 {
     public interface IMailService
     {

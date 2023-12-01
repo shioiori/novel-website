@@ -1,9 +1,9 @@
 ﻿
 
-using Application.Interfaces;
+using NovelWebsite.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Application.Models.Request;
-using NovelWebsite.Application.Models.Response;
+using NovelWebsite.Application.Models.Requests;
+using NovelWebsite.Application.Models.Responses;
 using NovelWebsite.Application.Services;
 
 namespace NovelWebsite.Controllers

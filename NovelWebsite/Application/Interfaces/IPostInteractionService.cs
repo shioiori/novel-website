@@ -1,4 +1,4 @@
-﻿namespace Application.Interfaces
+﻿namespace NovelWebsite.Application.Interfaces
 {
     public interface IPostInteractionService : IInteractionService
     {

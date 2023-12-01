@@ -1,6 +1,6 @@
-﻿using NovelWebsite.Application.Models.Response;
+﻿using NovelWebsite.Application.Models.Responses;
 
-namespace NovelWebsite.Application.Models.Response
+namespace NovelWebsite.Application.Models.Responses
 {
     public class UploadFileResponse : Response
     {

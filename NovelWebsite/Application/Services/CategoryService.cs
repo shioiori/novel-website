@@ -1,11 +1,11 @@
 using AutoMapper;
-using NovelWebsite.Application.Models.Request;
-using Application.Utils;
-using Application.Models.Dtos;
+using NovelWebsite.Application.Models.Requests;
+using NovelWebsite.Application.Utils;
+using NovelWebsite.Application.Models.Dtos;
 using Application.Services.Base;
 using NovelWebsite.Domain.Entities;
 using NovelWebsite.Domain.Interfaces;
-using Application.Interfaces;
+using NovelWebsite.Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {

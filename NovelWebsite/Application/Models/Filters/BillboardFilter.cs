@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Models.Filter
+namespace NovelWebsite.Application.Models.Filters
 {
     public class BillboardFilter
     {

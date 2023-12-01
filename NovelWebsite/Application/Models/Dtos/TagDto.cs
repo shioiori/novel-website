@@ -1,4 +1,4 @@
-﻿namespace Application.Models.Dtos
+﻿namespace NovelWebsite.Application.Models.Dtos
 {
     public class TagDto
     {

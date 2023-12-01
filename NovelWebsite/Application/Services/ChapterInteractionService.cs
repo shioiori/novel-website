@@ -1,8 +1,8 @@
-﻿using Application.Interfaces;
+﻿using NovelWebsite.Application.Interfaces;
 using NovelWebsite.Domain.Entities;
 using Application.Services.Base;
 using NovelWebsite.Domain.Enums;
-using Application.Models.Dtos;
+using NovelWebsite.Application.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Domain.Interfaces;
 using AutoMapper;

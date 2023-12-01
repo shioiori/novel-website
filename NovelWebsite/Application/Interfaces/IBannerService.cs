@@ -1,9 +1,9 @@
-﻿using Application.Models.Dtos;
-using Application.Models.Filters;
-using NovelWebsite.Application.Interfaces;
-using NovelWebsite.Application.Models.Request;
+﻿using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.Application.Models.Filters;
+using NovelWebsite.NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Requests;
 
-namespace Application.Interfaces
+namespace NovelWebsite.Application.Interfaces
 {
     public interface IBannerService : IService<BannerDto>
     {

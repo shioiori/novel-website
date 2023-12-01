@@ -2,7 +2,7 @@
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using Application.Models.Objects.MailKit;
+using NovelWebsite.Application.Models.Objects.MailKit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -10,8 +10,8 @@ using NovelWebsite.Domain.Enums;
 using System.Text;
 using NovelWebsite.Domain.Entities;
 using NovelWebsite.Application.Utils;
-using Application.Models.Dtos;
-using Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {

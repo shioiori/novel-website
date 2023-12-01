@@ -1,6 +1,6 @@
-﻿using Application.Models.Dtos;
+﻿using NovelWebsite.Application.Models.Dtos;
 using AutoMapper;
-using NovelWebsite.Application.Models.Request;
+using NovelWebsite.Application.Models.Requests;
 
 namespace Application.Mappers.Request
 {

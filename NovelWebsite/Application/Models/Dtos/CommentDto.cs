@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Application.Models.Dtos
+namespace NovelWebsite.Application.Models.Dtos
 {
     public class CommentDto
     {

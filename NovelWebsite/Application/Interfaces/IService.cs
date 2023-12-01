@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NovelWebsite.Application.Interfaces
+namespace NovelWebsite.NovelWebsite.Application.Interfaces
 {
     public interface IService<TDto>
     {

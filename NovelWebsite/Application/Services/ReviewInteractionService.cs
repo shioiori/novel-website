@@ -1,6 +1,6 @@
-﻿using Application.Interfaces;
+﻿using NovelWebsite.Application.Interfaces;
 using Application.Services.Base;
-using Application.Models.Dtos;
+using NovelWebsite.Application.Models.Dtos;
 using NovelWebsite.Domain.Entities;
 using NovelWebsite.Domain.Enums;
 using NovelWebsite.Domain.Interfaces;

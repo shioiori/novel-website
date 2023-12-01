@@ -2,18 +2,18 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
-using NovelWebsite.Application.Models.Request;
+using NovelWebsite.Application.Models.Requests;
 using NovelWebsite.Application.Utils;
 using NovelWebsite.Domain.Entities;
-using NovelWebsite.Application.Models.Response;
+using NovelWebsite.Application.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using NovelWebsite.Domain.Constants;
 using System.Text;
 using Microsoft.Extensions.Configuration;
-using Application.Models.Dtos;
-using Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {

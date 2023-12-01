@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Models.Objects
+namespace NovelWebsite.Application.Models.Objects
 {
     public class Interaction
     {

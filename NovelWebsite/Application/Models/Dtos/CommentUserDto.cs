@@ -1,6 +1,6 @@
-﻿using Application.Models.Objects;
+﻿using NovelWebsite.Application.Models.Objects;
 
-namespace Application.Models.Dtos
+namespace NovelWebsite.Application.Models.Dtos
 {
     public class CommentUserDto
     {

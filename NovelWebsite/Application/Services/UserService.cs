@@ -1,15 +1,15 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Application.Models.Dtos;
+using NovelWebsite.Application.Models.Dtos;
 using Application.Services.Base;
 using NovelWebsite.Domain.Entities;
 using NovelWebsite.Domain.Interfaces;
 using AutoMapper;
 using NovelWebsite.Domain.Enums;
-using NovelWebsite.Application.Models.Request;
-using Application.Interfaces;
-using Application.Utils;
+using NovelWebsite.Application.Models.Requests;
+using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Utils;
 
 namespace NovelWebsite.Domain.Services
 {

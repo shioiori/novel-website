@@ -1,4 +1,4 @@
-using Application.Models.Objects.MailKit;
+using NovelWebsite.Application.Models.Objects.MailKit;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Infrastructure.Contexts;
 using NovelWebsite.Startup;

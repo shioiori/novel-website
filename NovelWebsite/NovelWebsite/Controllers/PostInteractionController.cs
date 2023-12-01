@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.Domain.Services;
 using NovelWebsite.Controllers.Base;
-using Application.Interfaces;
+using NovelWebsite.Application.Interfaces;
 
 namespace NovelWebsite.Controllers
 {

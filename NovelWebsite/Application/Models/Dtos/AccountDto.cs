@@ -1,6 +1,6 @@
 ﻿using NovelWebsite.Domain.Enums;
 
-namespace Application.Models.Dtos
+namespace NovelWebsite.Application.Models.Dtos
 {
     public class AccountDto
     {

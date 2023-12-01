@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Application.Models.Dtos;
+﻿using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Application.Interfaces;
+using NovelWebsite.NovelWebsite.Application.Interfaces;
 using NovelWebsite.Application.Services;
 
 namespace NovelWebsite.Controllers.Base

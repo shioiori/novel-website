@@ -1,4 +1,4 @@
-﻿using Application.Models.Dtos;
+﻿using NovelWebsite.Application.Models.Dtos;
 using AutoMapper;
 using NovelWebsite.Application.Utils;
 using NovelWebsite.Domain.Constants;

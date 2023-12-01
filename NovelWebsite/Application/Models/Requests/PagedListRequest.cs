@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace NovelWebsite.Application.Models.Request
+namespace NovelWebsite.Application.Models.Requests
 {
     public class PagedListRequest
     {

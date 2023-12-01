@@ -1,17 +1,11 @@
-﻿using Application.Interfaces;
-using Application.Models.Dtos;
-using Application.Utils;
+﻿using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.Application.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Application.Models.Request;
-using NovelWebsite.Application.Services;
+using NovelWebsite.Application.Models.Requests;
 using NovelWebsite.Controllers.Base;
-using NovelWebsite.Domain.Entities;
-using NovelWebsite.Domain.Services;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Claims;
-using System.Xml.Linq;
-using static IdentityServer4.Models.IdentityResources;
 
 namespace NovelWebsite.Controllers
 {

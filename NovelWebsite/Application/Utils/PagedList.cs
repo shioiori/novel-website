@@ -1,7 +1,7 @@
-﻿using NovelWebsite.Application.Models.Request;
+﻿using NovelWebsite.Application.Models.Requests;
 using System.Drawing.Printing;
 
-namespace Application.Utils
+namespace NovelWebsite.Application.Utils
 {
     public class PagedList<T>
     {

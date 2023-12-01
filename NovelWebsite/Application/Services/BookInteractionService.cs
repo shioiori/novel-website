@@ -1,7 +1,7 @@
 ﻿
 
-using Application.Interfaces;
-using Application.Models.Dtos;
+using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
 using Application.Services.Base;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
-﻿using Application.Interfaces;
-using Application.Models.Dtos;
-using Application.Utils;
+﻿using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.Application.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.Controllers.Base;

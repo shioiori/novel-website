@@ -1,8 +1,8 @@
-﻿using Application.Models.Dtos;
-using NovelWebsite.Application.Interfaces;
-using NovelWebsite.Application.Models.Request;
+﻿using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Requests;
 
-namespace Application.Interfaces
+namespace NovelWebsite.Application.Interfaces
 {
     public interface ICategoryService : IService<CategoryDto>
     {

@@ -1,15 +1,15 @@
-﻿using Application.Utils;
-using Application.Models.Dtos;
+﻿using NovelWebsite.Application.Utils;
+using NovelWebsite.Application.Models.Dtos;
 using NovelWebsite.Domain.Entities;
 using System.Linq.Expressions;
 using NovelWebsite.Domain.Enums;
 using NovelWebsite.Domain.Interfaces;
 using Application.Services.Base;
-using NovelWebsite.Application.Models.Request;
+using NovelWebsite.Application.Models.Requests;
 using NovelWebsite.Application.Utils;
-using Application.Models.Filter;
+using NovelWebsite.Application.Models.Filters;
 using AutoMapper;
-using Application.Interfaces;
+using NovelWebsite.Application.Interfaces;
 
 namespace NovelWebsite.Domain.Services
 {

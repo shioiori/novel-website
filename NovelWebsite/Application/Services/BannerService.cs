@@ -1,13 +1,13 @@
 ﻿
 
-using Application.Interfaces;
-using Application.Models.Dtos;
-using Application.Models.Filters;
+using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.Application.Models.Filters;
 using Application.Services.Base;
-using Application.Utils;
+using NovelWebsite.Application.Utils;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using NovelWebsite.Application.Models.Request;
+using NovelWebsite.Application.Models.Requests;
 using NovelWebsite.Application.Utils;
 using NovelWebsite.Domain.Entities;
 using NovelWebsite.Domain.Enums;

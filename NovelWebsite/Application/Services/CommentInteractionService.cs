@@ -1,7 +1,7 @@
-﻿using Application.Interfaces;
+﻿using NovelWebsite.Application.Interfaces;
 using Application.Services.Base;
 using NovelWebsite.Domain.Entities;
-using Application.Models.Dtos;
+using NovelWebsite.Application.Models.Dtos;
 using NovelWebsite.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using NovelWebsite.Domain.Interfaces;

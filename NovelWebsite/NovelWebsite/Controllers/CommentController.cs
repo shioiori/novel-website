@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Application.Models.Dtos;
-using Application.Models.Filters;
-using Application.Utils;
+﻿using NovelWebsite.Application.Interfaces;
+using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.Application.Models.Filters;
+using NovelWebsite.Application.Utils;
 using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Application.Models.Request;
+using NovelWebsite.Application.Models.Requests;
 using NovelWebsite.Controllers.Base;
 
 namespace NovelWebsite.Controllers

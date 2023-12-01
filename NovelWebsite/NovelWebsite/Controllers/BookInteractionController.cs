@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Application.Interfaces;
+using NovelWebsite.Application.Interfaces;
 using NovelWebsite.Controllers.Base;
 using HttpClient = System.Web.Http;
 

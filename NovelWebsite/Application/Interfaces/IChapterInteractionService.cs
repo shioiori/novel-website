@@ -1,6 +1,6 @@
 ﻿using NovelWebsite.Domain.Enums;
 
-namespace Application.Interfaces
+namespace NovelWebsite.Application.Interfaces
 {
     public interface IChapterInteractionService : IInteractionService
     {

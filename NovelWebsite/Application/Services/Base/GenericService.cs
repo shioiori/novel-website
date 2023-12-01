@@ -1,7 +1,7 @@
-﻿using Application.Interfaces;
+﻿using NovelWebsite.Application.Interfaces;
 using AutoMapper;
 using Domain.Interfaces.Base;
-using NovelWebsite.Application.Interfaces;
+using NovelWebsite.NovelWebsite.Application.Interfaces;
 using NovelWebsite.Domain.Interfaces;
 using System;
 using System.Collections.Generic;

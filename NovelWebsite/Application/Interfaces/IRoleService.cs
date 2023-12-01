@@ -1,7 +1,7 @@
-﻿using Application.Models.Dtos;
-using NovelWebsite.Application.Interfaces;
+﻿using NovelWebsite.Application.Models.Dtos;
+using NovelWebsite.NovelWebsite.Application.Interfaces;
 
-namespace Application.Interfaces
+namespace NovelWebsite.Application.Interfaces
 {
     public interface IRoleService : IService<RoleDto>
     {

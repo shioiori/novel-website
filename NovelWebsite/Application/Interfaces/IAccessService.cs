@@ -1,7 +1,7 @@
-﻿using NovelWebsite.Application.Models.Request;
-using NovelWebsite.Application.Models.Response;
+﻿using NovelWebsite.Application.Models.Requests;
+using NovelWebsite.Application.Models.Responses;
 
-namespace Application.Interfaces
+namespace NovelWebsite.Application.Interfaces
 {
     public interface IAccessService
     {

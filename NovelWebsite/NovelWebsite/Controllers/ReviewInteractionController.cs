@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using NovelWebsite.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.Controllers.Base;

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Domain.Enums;
 
-namespace Application.Models.Filter
+namespace NovelWebsite.Application.Models.Filters
 {
     public class BookFilter
     {
@@ -46,7 +45,7 @@ namespace Application.Models.Filter
         public int? AuthorId { get; set; } = 0;
 
         [FromQuery(Name = "status")]
-        public UploadStatus UploadStatus { get; set; } = NovelWebsite.Domain.Enums.UploadStatus.Publish;
+        public UploadStatus UploadStatus { get; set; } = UploadStatus.Publish;
 
         [FromQuery(Name = "is_deleted")]
         public bool IsDeleted { get; set; } = false;
