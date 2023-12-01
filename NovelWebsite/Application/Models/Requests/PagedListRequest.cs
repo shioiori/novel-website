@@ -6,7 +6,7 @@ namespace NovelWebsite.Application.Models.Request
     {
         [FromQuery(Name = "size")]
         public int PageSize { get; set; } = 0;
-        [FromQuery(Name = "current")]
+        [FromQuery(Name = "current_page")]
         public int CurrentPage { get; set; } = 0;
     }
 }

@@ -14,6 +14,5 @@ namespace Application.Models.Filter
         public string? BookId { get; set; }
         [FromQuery(Name = "category")]
         public int? CategoryId { get; set; }
-        public PagedListRequest? PagedListRequest { get; set; }
     }
 }

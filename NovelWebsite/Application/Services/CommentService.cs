@@ -28,7 +28,7 @@ namespace NovelWebsite.Application.Services
             return await MapDtoAsync(comment);
         }
 
-        public async Task<IEnumerable<CommentDto>> FilterAsync(CommentFilter filter)
+        public async Task<IEnumerable<CommentDto>> FilterAsync(CommentFilter filter, PagedListRequest request)
         {
             var query = _repository.Get();
             if (filter == null)
@@ -51,7 +51,7 @@ namespace NovelWebsite.Application.Services
             {
                 query = query.Where(x => x.ReviewId == filter.ReviewId);
             }
-            var comments = PagedList<Comment>.AsEnumerable(query, filter.PagedListRequest);
+            var comments = PagedList<Comment>.AsEnumerable(query, request);
             return await MapDtosAsync(comments);
         }
 

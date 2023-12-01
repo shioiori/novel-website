@@ -20,9 +20,7 @@ namespace NovelWebsite.Controllers
         }
 
         [HttpPut("mark")]
-        public async Task<IActionResult> MarkAsync([HttpClient.FromUri(Name = "uid")] string? userId,
-            [HttpClient.FromUri(Name = "bid")] string bookId,
-            [HttpClient.FromUri(Name = "cid")] string chapterId)
+        public async Task<IActionResult> MarkAsync(string? userId, string bookId, string chapterId)
         {
             try
             {

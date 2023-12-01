@@ -7,7 +7,7 @@ namespace Application.Interfaces
     public interface ITagService : IService<TagDto>
     {
         Task AddOfBookAsync(string bookId, IEnumerable<int> tags);
-        Task<IEnumerable<TagDto>> GetAllAsync(PagedListRequest pagedListRequest = null);
+        Task<IEnumerable<TagDto>> GetAllAsync(PagedListRequest pagedListRequest);
         Task<TagDto> GetByIdAsync(int tagId);
         Task<TagDto> GetByNameAsync(string name);
         Task<TagDto> GetBySlugAsync(string slug);

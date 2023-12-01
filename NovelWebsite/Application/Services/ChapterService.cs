@@ -15,7 +15,7 @@ namespace NovelWebsite.Application.Services
     {
         public ChapterService(IChapterRepository chapterRepository, IMapper mapper) : base(chapterRepository, mapper) { }
 
-        public async Task<IEnumerable<ChapterDto>> FilterAsync(ChapterFilter filter)
+        public async Task<IEnumerable<ChapterDto>> FilterAsync(ChapterFilter filter, PagedListRequest request)
         {
             var query = _repository.Get();
             if (filter == null)
@@ -30,7 +30,7 @@ namespace NovelWebsite.Application.Services
             {
                 query = query.Where(x => x.Status == (int)filter.UploadStatus);
             }
-            var chapters = PagedList<Chapter>.AsEnumerable(query, filter.PagedListRequest);
+            var chapters = PagedList<Chapter>.AsEnumerable(query, request);
             return await MapDtosAsync(chapters);
         }
 

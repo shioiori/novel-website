@@ -18,6 +18,5 @@ namespace Application.Models.Filters
         public string? ChapterId { get; set; }
         [FromQuery(Name = "review")]
         public string? ReviewId { get; set; }
-        public PagedListRequest? PagedListRequest { get; set; }   
     }
 }

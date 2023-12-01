@@ -3,6 +3,7 @@ using Application.Models.Dtos;
 using Application.Models.Filter;
 using Application.Utils;
 using Microsoft.AspNetCore.Mvc;
+using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Controllers.Base;
 
 namespace NovelWebsite.Controllers
@@ -18,7 +19,7 @@ namespace NovelWebsite.Controllers
             _reviewService = reviewService;
         }
 
-        [HttpGet("get")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(string id)
         {
             try
@@ -32,12 +33,12 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:all")]
-        public async Task<IActionResult> FilterAsync(ReviewFilter filter)
+        [HttpGet("")]
+        public async Task<IActionResult> FilterAsync([FromQuery] ReviewFilter? filter, [FromQuery] PagedListRequest? request)
         {
             try
             {
-                var reviews = await _reviewService.FilterAsync(filter);
+                var reviews = await _reviewService.FilterAsync(filter, request);
                 return Ok(PagedList<ReviewDto>.ToPagedList(reviews));
             }
             catch (Exception ex)

@@ -3,6 +3,7 @@ using Application.Models.Dtos;
 using Application.Models.Filter;
 using Application.Utils;
 using Microsoft.AspNetCore.Mvc;
+using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Controllers.Base;
 
 namespace NovelWebsite.Controllers
@@ -17,10 +18,10 @@ namespace NovelWebsite.Controllers
         }
 
         [HttpGet]
-        [Route("get:all")]
-        public async Task<PagedList<BookDto>> FilterAsync([FromQuery] BillboardFilter? filter)
+        [Route("")]
+        public async Task<PagedList<BookDto>> FilterAsync([FromQuery] BillboardFilter? filter, [FromQuery] PagedListRequest? request)
         {
-            var books = await _bookService.FilterAsync(filter);
+            var books = await _bookService.FilterAsync(filter, request);
             return PagedList<BookDto>.ToPagedList(books);
         }
     }

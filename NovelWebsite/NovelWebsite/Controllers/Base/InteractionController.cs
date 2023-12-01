@@ -16,9 +16,7 @@ namespace NovelWebsite.Controllers.Base
         }
 
         [HttpGet("get")]
-        public async Task<IActionResult> GetAsync([HttpClient.FromUri(Name = "uid")] string? userId,
-            [HttpClient.FromUri(Name = "tid")] string bookId,
-            [HttpClient.FromUri(Name = "react")] InteractionType type)
+        public async Task<IActionResult> GetAsync(string? userId, string bookId, InteractionType type)
         {
             try
             {
@@ -36,9 +34,7 @@ namespace NovelWebsite.Controllers.Base
         }
 
         [HttpPut("set")]
-        public async Task<IActionResult> SetAsync([HttpClient.FromUri(Name = "uid")] string? userId,
-            [HttpClient.FromUri(Name = "tid")] string bookId,
-            [HttpClient.FromUri(Name = "react")] InteractionType type)
+        public async Task<IActionResult> SetAsync(string? userId, string bookId, InteractionType type)
         {
             try
             {

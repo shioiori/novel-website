@@ -4,6 +4,7 @@ using Application.Models.Filters;
 using Application.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Controllers.Base;
 
 namespace NovelWebsite.Controllers
@@ -20,7 +21,7 @@ namespace NovelWebsite.Controllers
         }
 
 
-        [HttpGet("get:id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(string id)
         {
             try
@@ -33,7 +34,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:index")]
+        [HttpGet("{id}-{index}")]
         public async Task<IActionResult> GetByIndexAsync(string id, int index)
         {
             try
@@ -46,7 +47,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:prev/{id}")]
+        [HttpGet("prev/{id}")]
         public async Task<IActionResult> GetPrevAsync(string id)
         {
             try
@@ -59,7 +60,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:prev/{id}-{index}")]
+        [HttpGet("prev/{id}-{index}")]
         public async Task<IActionResult> GetPrevAsync(string id, int index)
         {
             try
@@ -72,7 +73,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:next/{id}")]
+        [HttpGet("next/{id}")]
         public async Task<IActionResult> GetNextAsync(string id)
         {
             try
@@ -85,7 +86,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:next/{id}-{index}")]
+        [HttpGet("next/{id}-{index}")]
         public async Task<IActionResult> GetNextAsync(string id, int index)
         {
             try
@@ -98,12 +99,12 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:all")]
-        public async Task<IActionResult> GetListChapters([FromQuery] ChapterFilter filter)
+        [HttpGet("")]
+        public async Task<IActionResult> GetListChapters([FromQuery] ChapterFilter? filter, [FromQuery] PagedListRequest? request)
         {
             try
             {
-                var chapters = await _chapterService.FilterAsync(filter);
+                var chapters = await _chapterService.FilterAsync(filter, request);
                 return Ok(PagedList<ChapterDto>.ToPagedList(chapters));
             }
             catch (Exception ex)

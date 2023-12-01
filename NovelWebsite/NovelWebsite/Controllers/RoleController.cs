@@ -19,7 +19,7 @@ namespace NovelWebsite.Controllers
             _roleService = roleService;
         }
 
-        [HttpGet("get:all")]
+        [HttpGet("")]
         public async Task<IActionResult> GetAllAsync()
         {
             try
@@ -33,7 +33,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:user")]
+        [HttpGet("user")]
         public async Task<IActionResult> GetOfUserAsync(string? username)
         {
             try
@@ -52,7 +52,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:name")]
+        [HttpGet("{name}")]
         public async Task<IActionResult> GetByNameAsync(string name)
         {
             try
@@ -66,7 +66,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("set:permission")]
+        [HttpGet("set/permission")]
         public async Task<IActionResult> SetPermissionAsync(string rid, int pid)
         {
             try
@@ -80,7 +80,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("remove:permission")]
+        [HttpGet("remove/permission")]
         public async Task<IActionResult> GetByNameAsync(string rid, int pid)
         {
             try

@@ -4,6 +4,7 @@ using Application.Models.Filter;
 using Application.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Controllers.Base;
 
 namespace NovelWebsite.Controllers
@@ -19,7 +20,7 @@ namespace NovelWebsite.Controllers
             _postService = postService;
         }
 
-        [HttpGet("get")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(string id)
         {
             try
@@ -33,12 +34,12 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:all")]
-        public async Task<IActionResult> FilterAsync(PostFilter filter)
+        [HttpGet("")]
+        public async Task<IActionResult> FilterAsync([FromQuery] PostFilter? filter, [FromQuery] PagedListRequest? request)
         {
             try
             {
-                var posts = await _postService.FilterAsync(filter);
+                var posts = await _postService.FilterAsync(filter, request);
                 return Ok(PagedList<PostDto>.ToPagedList(posts));
             }
             catch (Exception ex)

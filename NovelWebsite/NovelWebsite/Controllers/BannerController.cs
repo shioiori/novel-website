@@ -4,6 +4,7 @@ using Application.Models.Filters;
 using Application.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Controllers.Base;
 
 namespace NovelWebsite.Controllers
@@ -18,11 +19,11 @@ namespace NovelWebsite.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> FilterAsync([FromQuery] BannerFilter? filter)
+        public async Task<IActionResult> FilterAsync([FromQuery] BannerFilter? filter, [FromQuery] PagedListRequest? request)
         {
             try
             {
-                var banners = await _bannerService.FilterAsync(filter);
+                var banners = await _bannerService.FilterAsync(filter, request);
                 return Ok(PagedList<BannerDto>.ToPagedList(banners));
             }
             catch (Exception ex)

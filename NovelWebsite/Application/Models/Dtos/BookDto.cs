@@ -25,7 +25,6 @@ namespace Application.Models.Dtos
         public DateTime UpdatedDate { get; set; }
         public int Status { get; set; } = (int)UploadStatus.Moderation;
         public Label? StatusLabel { get; set; }
-        public bool IsDeleted { get; set; } = false;
         public int TotalChapters { get; set; } = 0;
         public IEnumerable<TagDto>? Tags { get; set; }
 

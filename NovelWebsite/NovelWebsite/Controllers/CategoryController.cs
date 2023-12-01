@@ -18,7 +18,7 @@ namespace NovelWebsite.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("get:all")]
+        [HttpGet("")]
         public async Task<IActionResult> GetAllAsync([FromQuery] PagedListRequest? request)
         {
             try
@@ -33,7 +33,7 @@ namespace NovelWebsite.Controllers
         }
 
         [HttpGet]
-        [Route("get:id")]
+        [Route("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             try
@@ -48,7 +48,7 @@ namespace NovelWebsite.Controllers
         }
 
         [HttpGet]
-        [Route("get:name")]
+        [Route("{name}")]
         public async Task<IActionResult> GetByNameAsync(string name)
         {
             try
@@ -63,7 +63,7 @@ namespace NovelWebsite.Controllers
         }
 
         [HttpGet]
-        [Route("get:slug")]
+        [Route("{slug}")]
         public async Task<IActionResult> GetBySlugAsync(string slug)
         {
             try

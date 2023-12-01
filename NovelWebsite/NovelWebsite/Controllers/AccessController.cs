@@ -1,5 +1,6 @@
 ﻿
 
+using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Application.Models.Response;
@@ -10,11 +11,11 @@ namespace NovelWebsite.Controllers
     [ApiController]
     public class AccessController : ControllerBase
     {
-        private readonly AccessService _accessService;
-        private readonly MailService _mailService;
+        private readonly IAccessService _accessService;
+        private readonly IMailService _mailService;
 
-        public AccessController(AccessService accessService,
-                                MailService mailService)
+        public AccessController(IAccessService accessService,
+                                IMailService mailService)
         {
             _accessService = accessService;
             _mailService = mailService;

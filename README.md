@@ -1,4 +1,4 @@
-Swagger API: https://localhost:52346/swagger/index.html
+API demo: https://nvapi.bsite.net/
 # Nền tảng đọc/đăng tải tiểu thuyết
 Một số hình ảnh phía người dùng
 ![Trang chủ](https://i.imgur.com/KUBMdk4.png)

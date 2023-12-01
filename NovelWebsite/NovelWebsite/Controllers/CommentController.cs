@@ -19,7 +19,7 @@ namespace NovelWebsite.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet("get")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(string id)
         {
             try
@@ -33,12 +33,12 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:all")]
-        public async Task<IActionResult> FilterAsync([FromQuery] CommentFilter? filter)
+        [HttpGet("")]
+        public async Task<IActionResult> FilterAsync([FromQuery] CommentFilter? filter, [FromQuery] PagedListRequest? request)
         {
             try
             {
-                var comments = await _commentService.FilterAsync(filter);
+                var comments = await _commentService.FilterAsync(filter, request);
                 return Ok(PagedList<CommentDto>.ToPagedList(comments));
             }
             catch (Exception ex)
@@ -47,7 +47,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:reply")]
+        [HttpGet("reply")]
         public async Task<IActionResult> GetRepliesAsync(string id, [FromQuery] PagedListRequest? pagedListRequest)
         {
             try

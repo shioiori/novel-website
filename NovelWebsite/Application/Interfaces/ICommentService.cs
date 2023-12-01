@@ -7,7 +7,7 @@ namespace Application.Interfaces
 {
     public interface ICommentService : IService<CommentDto>
     {
-        Task<IEnumerable<CommentDto>> FilterAsync(CommentFilter filter);
+        Task<IEnumerable<CommentDto>> FilterAsync(CommentFilter filter, PagedListRequest pagedListRequest);
         Task<CommentDto> GetByIdAsync(string commentId);
         Task<IEnumerable<CommentDto>> GetRepliesAsync(string commentId, PagedListRequest pagedListRequest);
     }

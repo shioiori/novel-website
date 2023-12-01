@@ -15,7 +15,7 @@ namespace Application.Models.Filter
         public int? CategoryId { get; set; }
 
         [FromQuery(Name = "react")]
-        public InteractionType? InteractionType { get; set; }
+        public InteractionType InteractionType { get; set; } = InteractionType.Like;
 
         [FromQuery(Name = "sort")]
         public int OrderBy { get; set; } = (int)SortOrder.Descending;

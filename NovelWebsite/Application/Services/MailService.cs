@@ -6,19 +6,16 @@ using Application.Models.Objects.MailKit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
-using NovelWebsite.Application.Models.Response;
 using NovelWebsite.Domain.Enums;
 using System.Text;
 using NovelWebsite.Domain.Entities;
-using Microsoft.IdentityModel.Tokens;
 using NovelWebsite.Application.Utils;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Application.Models.Dtos;
+using Application.Interfaces;
 
 namespace NovelWebsite.Application.Services
 {
-    public class MailService
+    public class MailService : IMailService
     {
         private readonly MailSettings _mailSettings;
         private readonly UserManager<User> _userManager;

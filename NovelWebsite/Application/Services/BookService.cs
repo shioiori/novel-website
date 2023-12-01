@@ -7,7 +7,6 @@ using NovelWebsite.Domain.Interfaces;
 using Application.Services.Base;
 using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Application.Utils;
-using Microsoft.EntityFrameworkCore;
 using Application.Models.Filter;
 using AutoMapper;
 using Application.Interfaces;
@@ -26,7 +25,7 @@ namespace NovelWebsite.Domain.Services
         {
             _bookTagRepository = bookTagRepository;
         }
-        public async Task<IEnumerable<BookDto>> FilterAsync(BookFilter filter)
+        public async Task<IEnumerable<BookDto>> FilterAsync(BookFilter filter, PagedListRequest request)
         {
             var query = _repository.Get();
             // no filter apply
@@ -112,20 +111,13 @@ namespace NovelWebsite.Domain.Services
             }
 
             // chapter range
-            if (filter.ChapterRanges != null)
+            if (filter.MinRange != null)
             {
-                var chapterRanges = filter.ChapterRanges.ToArray();
-                if (chapterRanges.Length > 0)
-                {
-                    Expression<Func<Book, bool>> expChapterRange = x => x.TotalChapters >= chapterRanges[0].MinRange
-                                                                        && x.TotalChapters <= chapterRanges[0].MaxRange;
-                    for (int i = 0; i < chapterRanges.Length; ++i)
-                    {
-                        expChapterRange = ExpressionCombine<Book>.Or(exp, x => x.TotalChapters >= chapterRanges[i].MinRange
-                                                                    && x.TotalChapters <= chapterRanges[i].MaxRange);
-                    }
-                    exp = ExpressionCombine<Book>.And(exp, expChapterRange);
-                }
+                exp = ExpressionCombine<Book>.And(exp, x => x.TotalChapters >= filter.MinRange);
+            }
+            if (filter.MaxRange != null)
+            {
+                exp = ExpressionCombine<Book>.And(exp, x => x.TotalChapters <= filter.MaxRange);
             }
 
             // interaction
@@ -152,7 +144,7 @@ namespace NovelWebsite.Domain.Services
             }
 
             // must include all tags, check if book not include all then remove
-            var books = PagedList<Book>.AsEnumerable(query, filter.PagedListRequest).ToList();
+            var books = PagedList<Book>.AsEnumerable(query, request).ToList();
             if (filter.TagIds != null)
             {
                 int size = books.Count();
@@ -184,68 +176,54 @@ namespace NovelWebsite.Domain.Services
             }
             return await MapDtosAsync(books);
         }
-        public async Task<IEnumerable<BookDto>> FilterAsync(BillboardFilter filter)
+        public async Task<IEnumerable<BookDto>> FilterAsync(BillboardFilter filter, PagedListRequest request)
         {
             var bookQuery = _repository.Get();
             if (filter.CategoryId != null)
             {
                 bookQuery = bookQuery.Where(x => x.CategoryId == filter.CategoryId);
             }
-            if (filter.InteractionType != null)
+            if (filter.OrderBy == (int)SortOrder.Ascending)
             {
-                if (filter.OrderBy == (int)SortOrder.Ascending)
+                switch (filter.InteractionType)
                 {
-                    return await MapDtosAsync(bookQuery.OrderByDescending(x => x.Views));
-                }
-                else
-                {
-                    return await MapDtosAsync(bookQuery.OrderBy(x => x.Views));
+                    case InteractionType.Like:
+                        bookQuery = bookQuery.OrderBy(x => x.Likes);
+                        break;
+                    case InteractionType.View:
+                        bookQuery = bookQuery.OrderBy(x => x.Views);
+                        break;
+                    case InteractionType.Follow:
+                        bookQuery = bookQuery.OrderBy(x => x.Follows);
+                        break;
+                    case InteractionType.Recommend:
+                        bookQuery = bookQuery.OrderBy(x => x.Recommend);
+                        break;
+                    default:
+                        break;
                 }
             }
             else
             {
-                if (filter.OrderBy == (int)SortOrder.Ascending)
+                switch (filter.InteractionType)
                 {
-                    switch (filter.InteractionType)
-                    {
-                        case InteractionType.Like:
-                            bookQuery = bookQuery.OrderBy(x => x.Likes);
-                            break;
-                        case InteractionType.View:
-                            bookQuery = bookQuery.OrderBy(x => x.Views);
-                            break;
-                        case InteractionType.Follow:
-                            bookQuery = bookQuery.OrderBy(x => x.Follows);
-                            break;
-                        case InteractionType.Recommend:
-                            bookQuery = bookQuery.OrderBy(x => x.Recommend);
-                            break;
-                        default:
-                            break;
-                    }
+                    case InteractionType.Like:
+                        bookQuery = bookQuery.OrderByDescending(x => x.Likes);
+                        break;
+                    case InteractionType.View:
+                        bookQuery = bookQuery.OrderByDescending(x => x.Views);
+                        break;
+                    case InteractionType.Follow:
+                        bookQuery = bookQuery.OrderByDescending(x => x.Follows);
+                        break;
+                    case InteractionType.Recommend:
+                        bookQuery = bookQuery.OrderByDescending(x => x.Recommend);
+                        break;
+                    default:
+                        break;
                 }
-                else
-                {
-                    switch (filter.InteractionType)
-                    {
-                        case InteractionType.Like:
-                            bookQuery = bookQuery.OrderByDescending(x => x.Likes);
-                            break;
-                        case InteractionType.View:
-                            bookQuery = bookQuery.OrderByDescending(x => x.Views);
-                            break;
-                        case InteractionType.Follow:
-                            bookQuery = bookQuery.OrderByDescending(x => x.Follows);
-                            break;
-                        case InteractionType.Recommend:
-                            bookQuery = bookQuery.OrderByDescending(x => x.Recommend);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                return await MapDtosAsync(bookQuery);
             }
+            return await MapDtosAsync(PagedList<Book>.AsEnumerable(bookQuery, request));
         }
         public async Task<BookDto> GetByIdAsync(string id)
         {

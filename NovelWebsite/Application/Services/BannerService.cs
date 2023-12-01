@@ -20,7 +20,7 @@ namespace NovelWebsite.Application.Services
     {
         public BannerService(IBannerRepository bannerRepository, IMapper mapper) : base(bannerRepository, mapper) { }
 
-        public async Task<IEnumerable<BannerDto>> FilterAsync(BannerFilter filter)
+        public async Task<IEnumerable<BannerDto>> FilterAsync(BannerFilter filter, PagedListRequest request)
         {
             var query = _repository.Get();
             if (filter == null)
@@ -39,7 +39,7 @@ namespace NovelWebsite.Application.Services
             {
                 query = query.Where(x => x.ActiveTo <= filter.ActiveTo);
             }
-            var banners = PagedList<Banner>.AsEnumerable(query, filter.PagedListRequest);
+            var banners = PagedList<Banner>.AsEnumerable(query, request);
             return await MapDtosAsync(banners);
         }
 

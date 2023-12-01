@@ -17,7 +17,7 @@ namespace NovelWebsite.Application.Services
     {
         public PostService(IPostRepository postRepository, IMapper mapper) : base(postRepository, mapper) { }
 
-        public async Task<IEnumerable<PostDto>> FilterAsync(PostFilter filter)
+        public async Task<IEnumerable<PostDto>> FilterAsync(PostFilter filter, PagedListRequest request)
         {
             var query = _repository.Get();
             if (filter == null)
@@ -32,7 +32,7 @@ namespace NovelWebsite.Application.Services
             {
                 query = query.Where(x => x.Status == (int)filter.UploadStatus);
             }
-            var posts = PagedList<Post>.AsEnumerable(query, filter.PagedListRequest);
+            var posts = PagedList<Post>.AsEnumerable(query, request);
             return await MapDtosAsync(posts);
         }
         public async Task<PostDto> GetByIdAsync(string postId)

@@ -4,6 +4,7 @@ using Application.Models.Filter;
 using Application.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Application.Services;
 using NovelWebsite.Controllers.Base;
 
@@ -20,12 +21,12 @@ namespace NovelWebsite.Controllers
             _tagService = tagService;
         }
 
-        [HttpGet("get:all")]
-        public async Task<IActionResult> GetAllAsync()
+        [HttpGet("")]
+        public async Task<IActionResult> GetAllAsync([FromQuery] PagedListRequest? request)
         {
             try
             {
-                var tags = await _tagService.GetAllAsync();
+                var tags = await _tagService.GetAllAsync(request);
                 return Ok(PagedList<TagDto>.ToPagedList(tags));
             }
             catch (Exception ex)
@@ -34,7 +35,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             try
@@ -48,7 +49,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:name")]
+        [HttpGet("{name}")]
         public async Task<IActionResult> GetByNameAsync(string name)
         {
             try
@@ -62,7 +63,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:slug")]
+        [HttpGet("{slug}")]
         public async Task<IActionResult> GetBySlugAsync (string slug)
         {
             try
@@ -76,7 +77,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpPut("set:book")]
+        [HttpPut("set/book")]
         public async Task<IActionResult> AddOfBookAsync(string id, IEnumerable<int> tags)
         {
             try
@@ -94,7 +95,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpPut("get:book")]
+        [HttpPut("get/book")]
         public async Task<IActionResult> GetOfBookAsync(string id)
         {
             try

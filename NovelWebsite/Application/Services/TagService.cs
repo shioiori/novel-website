@@ -18,7 +18,7 @@ namespace NovelWebsite.Application.Services
         {
             _bookTagRepository = bookTagRepository;
         }
-        public async Task<IEnumerable<TagDto>> GetAllAsync(PagedListRequest pagedListRequest = null)
+        public async Task<IEnumerable<TagDto>> GetAllAsync(PagedListRequest pagedListRequest)
         {
             var query = _repository.Get();
             var tags = PagedList<Tag>.AsEnumerable(query, pagedListRequest);

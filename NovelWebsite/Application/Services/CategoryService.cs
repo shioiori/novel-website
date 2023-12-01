@@ -13,7 +13,7 @@ namespace NovelWebsite.Application.Services
     {
         public CategoryService(ICategoryRepository categoryRepository, IMapper mapper) : base(categoryRepository, mapper) { }
 
-        public async Task<IEnumerable<CategoryDto>> GetAllAsync(PagedListRequest pagedListRequest = null)
+        public async Task<IEnumerable<CategoryDto>> GetAllAsync(PagedListRequest pagedListRequest)
         {
             var query = _repository.Get();
             var categories = PagedList<Category>.AsEnumerable(query, pagedListRequest);

@@ -40,7 +40,7 @@ namespace NovelWebsite.Application.Services
         }
 
 
-        public async Task<IEnumerable<AuthorDto>> GetAllAsync(PagedListRequest pagedListRequest = null)
+        public async Task<IEnumerable<AuthorDto>> GetAllAsync(PagedListRequest pagedListRequest)
         {
             var query = _repository.Get();
             var authors = PagedList<Author>.AsEnumerable(query, pagedListRequest);

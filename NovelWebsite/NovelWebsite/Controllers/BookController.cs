@@ -4,6 +4,7 @@ using Application.Models.Dtos;
 using Application.Models.Filter;
 using Application.Utils;
 using Microsoft.AspNetCore.Mvc;
+using NovelWebsite.Application.Models.Request;
 using NovelWebsite.Controllers.Base;
 
 namespace NovelWebsite.Controllers
@@ -19,7 +20,7 @@ namespace NovelWebsite.Controllers
             _bookService = bookService;
         }
 
-        [HttpGet("get")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(string id)
         {
             try
@@ -33,12 +34,12 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:all")]
-        public async Task<IActionResult> FilterAsync([FromQuery] BookFilter? filter)
+        [HttpGet("")]
+        public async Task<IActionResult> FilterAsync([FromQuery] BookFilter? filter, [FromQuery] PagedListRequest? request)
         {
             try
             {
-                var books = await _bookService.FilterAsync(filter);
+                var books = await _bookService.FilterAsync(filter, request);
                 return Ok(PagedList<BookDto>.ToPagedList(books));
             }
             catch (Exception ex)

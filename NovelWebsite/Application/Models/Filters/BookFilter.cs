@@ -28,8 +28,10 @@ namespace Application.Models.Filter
         [FromQuery(Name = "updated_max")]
         public DateTime? UpdatedMax { get; set; } = DateTime.MinValue;
 
-        [FromQuery(Name = "range")]
-        public IEnumerable<ChapterRange>? ChapterRanges { get; set; }
+        [FromQuery(Name = "min_range")]
+        public int? MinRange { get; set; }
+        [FromQuery(Name = "max_range")]
+        public int? MaxRange { get; set; }
 
         [FromQuery(Name = "tag")]
         public IEnumerable<int>? TagIds { get; set; }
@@ -48,16 +50,6 @@ namespace Application.Models.Filter
 
         [FromQuery(Name = "is_deleted")]
         public bool IsDeleted { get; set; } = false;
-        public PagedListRequest? PagedListRequest { get; set; }
 
-    }
-
-    public class ChapterRange
-    {
-        [FromQuery(Name = "min")]
-        public int MinRange { get; set; }
-
-        [FromQuery(Name = "max")]
-        public int MaxRange { get; set; }
     }
 }

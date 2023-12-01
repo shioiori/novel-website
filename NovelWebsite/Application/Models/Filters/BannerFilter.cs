@@ -17,6 +17,5 @@ namespace Application.Models.Filters
         public DateTime? ActiveFrom { get; set; } = DateTime.MinValue;
         [FromQuery(Name = "to")]
         public DateTime? ActiveTo { get; set; } = DateTime.MinValue;
-        public PagedListRequest? PagedListRequest { get; set; }
     }
 }

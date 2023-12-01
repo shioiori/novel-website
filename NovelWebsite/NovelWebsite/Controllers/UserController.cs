@@ -26,7 +26,7 @@ namespace NovelWebsite.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Host")]
-        [HttpGet("get:all")]
+        [HttpGet("")]
         public async Task<IActionResult> GetAllAsync()
         {
             try
@@ -41,7 +41,7 @@ namespace NovelWebsite.Controllers
         }
 
 
-        [HttpGet("get:id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(string id)
         {
             try
@@ -55,12 +55,12 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:name")]
-        public async Task<IActionResult> GetByNameAsync(string name)
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetByNameAsync(string username)
         {
             try
             {
-                var user = await _userService.GetByUsernameAsync(name);
+                var user = await _userService.GetByUsernameAsync(username);
                 return Ok(user);
             }
             catch (Exception ex)
@@ -69,7 +69,7 @@ namespace NovelWebsite.Controllers
             }
         }
 
-        [HttpGet("get:email")]
+        [HttpGet("{email}")]
         public async Task<IActionResult> GetByEmailAsync(string email)
         {
             try
@@ -85,7 +85,7 @@ namespace NovelWebsite.Controllers
 
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Host")]
-        [HttpGet("get:role")]
+        [HttpGet("{role}")]
         public async Task<IActionResult> GetByRoleAsync(string role, [FromQuery] PagedListRequest? request)
         {
             try
@@ -101,7 +101,7 @@ namespace NovelWebsite.Controllers
 
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Host")]
-        [HttpGet("get:status")]
+        [HttpGet("{status}")]
         public async Task<IActionResult> GetByStatusAsync(int status, [FromQuery] PagedListRequest? request)
         {
             try
@@ -117,12 +117,28 @@ namespace NovelWebsite.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, Host")]
         [HttpPut]
-        [Route("set:status")]
-        public async Task<IActionResult> SetStatusAsync(string uid, int status)
+        [Route("set/status")]
+        public async Task<IActionResult> SetStatusAsync(string? username, string? email, string? id, int status)
         {
             try
             {
-                await _userService.SetStatusAsync(uid, status);
+                if (username == null && email == null && id == null)
+                {
+                    var identity = HttpContext.User.Identity as ClaimsIdentity;
+                    username = identity.FindFirst(ClaimTypes.Name).Value;
+                }
+                else
+                {
+                    if (email != null)
+                    {
+                        username = email;
+                    }
+                    if (id != null)
+                    {
+                        username = id;
+                    }
+                }
+                await _userService.SetStatusAsync(username, status);
                 return Ok();
             }
             catch (Exception ex)
@@ -133,17 +149,28 @@ namespace NovelWebsite.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Host")]
         [HttpPut]
-        [Route("set:role")]
-        public async Task<IActionResult> SetRoleAsync(string? name, string role)
+        [Route("set/role")]
+        public async Task<IActionResult> SetRoleAsync(string? username, string? email, string? id, string role)
         {
             try
             {
-                if (name == null)
+                if (username == null && email == null && id == null)
                 {
                     var identity = HttpContext.User.Identity as ClaimsIdentity;
-                    name = identity.FindFirst(ClaimTypes.Name).Value;
+                    username = identity.FindFirst(ClaimTypes.Name).Value;
                 }
-                await _userService.SetRoleAsync(name, role);
+                else
+                {
+                    if (email != null)
+                    {
+                        username = email;
+                    }
+                    if (id != null)
+                    {
+                        username = id;
+                    }
+                }
+                await _userService.SetRoleAsync(username, role);
                 return Ok();
             }
             catch (Exception ex)
@@ -154,17 +181,28 @@ namespace NovelWebsite.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Host")]
         [HttpPut]
-        [Route("remove:role")]
-        public async Task<IActionResult> RemoveRoleAsync(string? name, string role)
+        [Route("remove/role")]
+        public async Task<IActionResult> RemoveRoleAsync(string? username, string? email, string? id, string role)
         {
             try
             {
-                if (name == null)
+                if (username == null && email == null && id == null)
                 {
                     var identity = HttpContext.User.Identity as ClaimsIdentity;
-                    name = identity.FindFirst(ClaimTypes.Name).Value;
+                    username = identity.FindFirst(ClaimTypes.Name).Value;
                 }
-                await _userService.SetRoleAsync(name, role);
+                else
+                {
+                    if (email != null)
+                    {
+                        username = email;
+                    }
+                    if (id != null)
+                    {
+                        username = id;
+                    }
+                }
+                await _userService.SetRoleAsync(username, role);
                 return Ok();
             }
             catch (Exception ex)

@@ -14,7 +14,7 @@ namespace NovelWebsite.Startup
     {
         public static IServiceCollection AddDIService(this IServiceCollection services)
         {
-            //services.AddScoped<IAccessService, AccessService>();
+            services.AddScoped<IAccessService, AccessService>();
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBannerService, BannerService>();
             services.AddScoped<IBookService, BookService>();
@@ -33,7 +33,7 @@ namespace NovelWebsite.Startup
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IUserService, UserService>();
             //services.AddScoped(typeof(IService<>), typeof(GenericService<,>));
-            //services.AddTransient<IMailService, MailService>();
+            services.AddTransient<IMailService, MailService>();
 
             //services.AddScoped<AccessService>();
             //services.AddScoped<AuthorService>();

@@ -15,6 +15,5 @@ namespace Application.Models.Filter
         public string? SearchName {  get; set; }
         [FromQuery(Name = "status")]
         public UploadStatus? UploadStatus { get; set; }
-        public PagedListRequest? PagedListRequest {  get; set; }
     }
 }

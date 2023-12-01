@@ -14,7 +14,7 @@ namespace NovelWebsite.Application.Services
     public class ReviewService : GenericService<Review, ReviewDto>, IReviewService
     {
         public ReviewService(IReviewRepository reviewRepository, IMapper mapper) : base(reviewRepository, mapper) { }
-        public async Task<IEnumerable<ReviewDto>> FilterAsync(ReviewFilter filter)
+        public async Task<IEnumerable<ReviewDto>> FilterAsync(ReviewFilter filter, PagedListRequest request)
         {
             var query = _repository.Get();
             if (filter == null)
@@ -29,7 +29,7 @@ namespace NovelWebsite.Application.Services
             {
                 query = query.Where(x => x.Book.CategoryId == filter.CategoryId);
             }
-            var reviews = PagedList<Review>.AsEnumerable(query, filter.PagedListRequest);
+            var reviews = PagedList<Review>.AsEnumerable(query, request);
             return await MapDtosAsync(reviews);
         }
 
