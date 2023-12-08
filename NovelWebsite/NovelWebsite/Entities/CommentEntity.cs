@@ -24,7 +24,7 @@ namespace NovelWebsite.Models
         [ForeignKey("CommentId")]
         public int? ReplyCommentId { get; set; }
         public CommentEntity ReplyComment { get; set; }
-        public int NumberOfReplyComment { get; set; }
+        public int NumberOfReplyComment { get; set; } = 0;
         public string Content { get; set; }
         public int? Likes { get; set; }
         public DateTime CreatedDate { get; set; }
