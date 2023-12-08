@@ -50,6 +50,11 @@ namespace NovelWebsite.Application.Utils
             {
                 Total = Data.Count();
             }
+            if (Total == 0)
+            {
+                LastPage = 0;
+                return;
+            }
             LastPage = (int)Math.Ceiling(Total * 1.0 / PerPage);
         }
 

@@ -42,7 +42,7 @@ namespace NovelWebsite.Application.Models.Filters
         public string? UserId { get; set; } = null;
 
         [FromQuery(Name = "author")]
-        public int? AuthorId { get; set; } = 0;
+        public int? AuthorId { get; set; }
 
         [FromQuery(Name = "status")]
         public UploadStatus UploadStatus { get; set; } = UploadStatus.Publish;
